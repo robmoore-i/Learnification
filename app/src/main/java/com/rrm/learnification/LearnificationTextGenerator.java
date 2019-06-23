@@ -4,16 +4,23 @@ import java.util.ArrayList;
 
 class LearnificationTextGenerator {
     String notificationText() {
+        return chooseRandomLearningItemSide(chooseRandomLearningItem(learningItems()));
+    }
+
+    private String chooseRandomLearningItemSide(LearningItem learningItem) {
+        return learningItem.left;
+    }
+
+    private LearningItem chooseRandomLearningItem(ArrayList<LearningItem> learningItems) {
+        return learningItems.get(0);
+    }
+
+    private ArrayList<LearningItem> learningItems() {
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
-        LearningItem cities1 = learningItemTemplate.build("Egypt", "Cairo");
-        LearningItem cities2 = learningItemTemplate.build("Great Britain", "London");
-        LearningItem cities3 = learningItemTemplate.build("Georgia", "Tbilisi");
-
         ArrayList<LearningItem> learningItems = new ArrayList<>();
-        learningItems.add(cities1);
-        learningItems.add(cities2);
-        learningItems.add(cities3);
-
-        return learningItems.get(0).left;
+        learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
+        learningItems.add(learningItemTemplate.build("Great Britain", "London"));
+        learningItems.add(learningItemTemplate.build("Georgia", "Tbilisi"));
+        return learningItems;
     }
 }
