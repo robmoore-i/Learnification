@@ -7,6 +7,7 @@ class AndroidLearnificationPublisher {
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final NotificationManagerCompat notificationManager;
     private final NotificationIdGenerator notificationIdGenerator;
+    private LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator();
 
     AndroidLearnificationPublisher(AndroidLearnificationFactory androidLearnificationFactory, NotificationIdGenerator notificationIdGenerator, NotificationManagerCompat notificationManager) {
         this.androidLearnificationFactory = androidLearnificationFactory;
@@ -16,8 +17,8 @@ class AndroidLearnificationPublisher {
 
     void createLearnification() {
         Notification notification = androidLearnificationFactory.create(
-                "This is a learnification",
-                "It's a notification that is designed to help you learn"
+                learnificationTextGenerator.notificationText(),
+                "Learn!"
         );
 
         notificationManager.notify(notificationIdGenerator.nextNotificationId(), notification);
