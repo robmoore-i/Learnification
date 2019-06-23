@@ -22,7 +22,7 @@ public class LearnificationResponseActivity extends AppCompatActivity {
 
             Notification repliedNotification = new Notification.Builder(this, MainActivity.CHANNEL_ID)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setContentText("Answer received: " + inputString)
+                    .setContentText("Response received: " + inputString)
                     .build();
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
