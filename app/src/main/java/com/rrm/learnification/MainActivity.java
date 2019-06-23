@@ -3,6 +3,7 @@ package com.rrm.learnification;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -28,10 +29,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        AndroidPackageContext androidPackageContext = new AndroidPackageContext(this.getApplicationContext());
         AndroidLogger androidLogger = new AndroidLogger();
-        AndroidNotificationManager androidNotificationManager = new AndroidNotificationManager(this, MainActivity.CHANNEL_ID, NotificationIdGenerator.getInstance(), androidLogger);
-        androidNotificationManager.createNotificationChannel();
-        androidNotificationManager.createNotification();
+
+        NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(androidPackageContext, androidLogger);
+        notificationChannelInitialiser.createNotificationChannel(MainActivity.CHANNEL_ID);
+
+        AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(this, MainActivity.CHANNEL_ID, androidLogger);
+        AndroidLearnificationManager androidLearnificationManager = new AndroidLearnificationManager(androidLearnificationFactory, NotificationIdGenerator.getInstance(), NotificationManagerCompat.from(this));
+        androidLearnificationManager.createNotification();
     }
 
     @Override
