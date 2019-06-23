@@ -1,6 +1,7 @@
 package com.rrm.learnification;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -31,5 +32,17 @@ class AndroidPackageContext {
         Intent intent = new Intent(packageContext, AlertDialog.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return PendingIntent.getActivity(packageContext, 0, intent, 0);
+    }
+
+    String getNotificationChannelName() {
+        return packageContext.getString(R.string.channel_name);
+    }
+
+    String getNotificationChannelDescription() {
+        return packageContext.getString(R.string.channel_description);
+    }
+
+    NotificationManager getNotificationManager() {
+        return packageContext.getSystemService(NotificationManager.class);
     }
 }

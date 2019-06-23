@@ -11,36 +11,35 @@ class AndroidNotificationManager {
     private static final String LOG_TAG = "AndroidNotificationManager";
 
     private final String channelId;
-    private final Context packageContext;
     private final AndroidLogger androidLogger;
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final NotificationManagerCompat notificationManager;
     private final NotificationIdGenerator notificationIdGenerator;
+    private final AndroidPackageContext androidPackageContext;
 
     AndroidNotificationManager(Context packageContext, String channelId, NotificationIdGenerator notificationIdGenerator, AndroidLogger androidLogger) {
         this.channelId = channelId;
-        this.packageContext = packageContext;
         this.androidLogger = androidLogger;
         this.androidLearnificationFactory = new AndroidLearnificationFactory(packageContext, channelId, androidLogger);
         this.notificationManager = NotificationManagerCompat.from(packageContext);
         this.notificationIdGenerator = notificationIdGenerator;
+        this.androidPackageContext = new AndroidPackageContext(packageContext.getApplicationContext());
     }
 
     void createNotificationChannel() {
         androidLogger.v(LOG_TAG, "Creating notification channel");
 
-        Context context = packageContext.getApplicationContext();
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = context.getString(R.string.channel_name);
-            String description = context.getString(R.string.channel_description);
+            CharSequence name = androidPackageContext.getNotificationChannelName();
+            String description = androidPackageContext.getNotificationChannelDescription();
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(channelId, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = androidPackageContext.getNotificationManager();
             notificationManager.createNotificationChannel(channel);
         }
 
