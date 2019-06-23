@@ -1,6 +1,7 @@
 package com.rrm.learnification;
 
 import android.app.job.JobScheduler;
+import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 
@@ -11,8 +12,8 @@ class AndroidJobSchedulerContext {
         this.context = context;
     }
 
-    ComponentName schedulerServiceComponent() {
-        return new ComponentName(context, LearnificationSchedulerService.class);
+    ComponentName schedulerServiceComponentName(Class<? extends JobService> schedulerServiceClass) {
+        return new ComponentName(context, schedulerServiceClass);
     }
 
     JobScheduler getJobScheduler() {
