@@ -11,11 +11,13 @@ class AndroidNotificationManager {
     private final String channelId;
     private final MainActivity packageContext;
     private final AndroidLearnificationFactory androidLearnificationFactory;
+    private final NotificationManagerCompat notificationManager;
 
     AndroidNotificationManager(String channelId, MainActivity packageContext) {
         this.channelId = channelId;
         this.packageContext = packageContext;
         this.androidLearnificationFactory = new AndroidLearnificationFactory(channelId, packageContext);
+        this.notificationManager = NotificationManagerCompat.from(packageContext);
     }
 
     void createNotificationChannel() {
@@ -41,7 +43,6 @@ class AndroidNotificationManager {
                 "It's a notification that is designed to help you learn"
         );
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(packageContext);
         notificationManager.notify(0, notification);
     }
 }
