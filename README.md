@@ -14,8 +14,6 @@
 
 - I periodically get notifications based on my active learning items
 
-- I can switch it off if it's on, and switch it on if it's off
-
 - I can download it from the play store
 
 - I can donate to Rob if I want to
