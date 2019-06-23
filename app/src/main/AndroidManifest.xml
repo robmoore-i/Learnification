@@ -19,7 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".LearnificationResponseActivity"></activity>
+
+        <service
+            android:name=".LearnificationSchedulerService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"></service>
     </application>
 
 </manifest>

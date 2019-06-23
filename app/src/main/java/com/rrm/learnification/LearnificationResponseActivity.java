@@ -1,6 +1,10 @@
 package com.rrm.learnification;
 
 import android.app.Notification;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,6 +33,23 @@ public class LearnificationResponseActivity extends AppCompatActivity {
             notificationManager.notify(0, repliedNotification);
         }
 
+        scheduleJob(this);
+
         finish();
+    }
+
+    // schedule the start of the service every 10-20 seconds
+    public void scheduleJob(Context context) {
+        int fiveMinutes = 300000;
+        int sixMinutes = 360000;
+
+        int tenSeconds = 10000;
+        int twentySeconds = 20000;
+
+        JobInfo.Builder builder = new JobInfo.Builder(0, new ComponentName(context, LearnificationSchedulerService.class))
+                .setMinimumLatency(tenSeconds)
+                .setOverrideDeadline(twentySeconds)
+                .setRequiresCharging(false);
+        context.getSystemService(JobScheduler.class).schedule(builder.build());
     }
 }
