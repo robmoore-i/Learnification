@@ -6,10 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 
 class AndroidNotificationsManager {
     private final String channelId;
@@ -38,25 +35,15 @@ class AndroidNotificationsManager {
     }
 
     void createNotification() {
+        AndroidNotificationDispatcher androidNotificationDispatcher = new AndroidNotificationDispatcher(channelId, this.packageContext);
+        androidNotificationDispatcher.sendNotification("This is a Learnification", "It's a notification that is designed to help you learn", 0, notificationContentIntent());
+    }
+
+    private PendingIntent notificationContentIntent() {
         // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(packageContext, AlertDialog.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(packageContext, 0, intent, 0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(packageContext, channelId)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(packageContext.getApplicationContext().getResources(), R.mipmap.ic_launcher))
-                .setContentTitle("This is a Learnification")
-                .setContentText("It's a notification that is designed to help you learn")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(packageContext);
-
-        // notificationId is a unique int for each notification that you must define
-        int notificationId = 0;
-        notificationManager.notify(notificationId, builder.build());
+        return PendingIntent.getActivity(packageContext, 0, intent, 0);
     }
+
 }
