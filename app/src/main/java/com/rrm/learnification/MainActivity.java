@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         AndroidLogger androidLogger = new AndroidLogger();
-        AndroidNotificationManager androidNotificationManager = new AndroidNotificationManager(this, CHANNEL_ID, androidLogger);
+        AndroidNotificationManager androidNotificationManager = new AndroidNotificationManager(this, MainActivity.CHANNEL_ID, NotificationIdGenerator.getInstance(), androidLogger);
         androidNotificationManager.createNotificationChannel();
         androidNotificationManager.createNotification();
     }

@@ -17,13 +17,13 @@ class AndroidNotificationManager {
     private final NotificationManagerCompat notificationManager;
     private final NotificationIdGenerator notificationIdGenerator;
 
-    AndroidNotificationManager(Context packageContext, String channelId, AndroidLogger androidLogger) {
+    AndroidNotificationManager(Context packageContext, String channelId, NotificationIdGenerator notificationIdGenerator, AndroidLogger androidLogger) {
         this.channelId = channelId;
         this.packageContext = packageContext;
         this.androidLogger = androidLogger;
         this.androidLearnificationFactory = new AndroidLearnificationFactory(packageContext, channelId, androidLogger);
         this.notificationManager = NotificationManagerCompat.from(packageContext);
-        this.notificationIdGenerator = new NotificationIdGenerator();
+        this.notificationIdGenerator = notificationIdGenerator;
     }
 
     void createNotificationChannel() {
@@ -53,6 +53,6 @@ class AndroidNotificationManager {
                 "It's a notification that is designed to help you learn"
         );
 
-        notificationManager.notify(notificationIdGenerator.getNotificationId(), notification);
+        notificationManager.notify(notificationIdGenerator.nextNotificationId(), notification);
     }
 }

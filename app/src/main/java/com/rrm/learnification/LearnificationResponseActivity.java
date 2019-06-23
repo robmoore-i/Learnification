@@ -30,7 +30,7 @@ public class LearnificationResponseActivity extends AppCompatActivity {
                     .build();
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.notify(0, repliedNotification);
+            notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), repliedNotification);
         }
 
         scheduleJob(this);

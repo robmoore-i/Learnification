@@ -11,6 +11,10 @@ public class LearnificationSchedulerService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         androidLogger.v(LOG_TAG, "Job started");
+        AndroidNotificationManager androidNotificationManager = new AndroidNotificationManager(this, MainActivity.CHANNEL_ID, NotificationIdGenerator.getInstance(), androidLogger);
+
+        androidNotificationManager.createNotification();
+
         return false;
     }
 
