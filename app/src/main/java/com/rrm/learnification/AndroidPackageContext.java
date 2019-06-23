@@ -11,7 +11,7 @@ import android.graphics.BitmapFactory;
 class AndroidPackageContext {
     private final Context packageContext;
 
-    public AndroidPackageContext(Context packageContext) {
+    AndroidPackageContext(Context packageContext) {
         this.packageContext = packageContext;
     }
 
