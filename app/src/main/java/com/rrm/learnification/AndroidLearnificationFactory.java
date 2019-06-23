@@ -3,6 +3,7 @@ package com.rrm.learnification;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
@@ -16,10 +17,10 @@ class AndroidLearnificationFactory {
 
 
     private final String channelId;
-    private final MainActivity packageContext;
+    private final Context packageContext;
     private final AndroidLogger androidLogger;
 
-    AndroidLearnificationFactory(MainActivity packageContext, String channelId, AndroidLogger androidLogger) {
+    AndroidLearnificationFactory(Context packageContext, String channelId, AndroidLogger androidLogger) {
         this.channelId = channelId;
         this.packageContext = packageContext;
         this.androidLogger = androidLogger;

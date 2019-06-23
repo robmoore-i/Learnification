@@ -11,13 +11,13 @@ class AndroidNotificationManager {
     private static final String LOG_TAG = "AndroidNotificationManager";
 
     private final String channelId;
-    private final MainActivity packageContext;
+    private final Context packageContext;
     private final AndroidLogger androidLogger;
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final NotificationManagerCompat notificationManager;
     private final NotificationIdGenerator notificationIdGenerator;
 
-    AndroidNotificationManager(MainActivity packageContext, String channelId, AndroidLogger androidLogger) {
+    AndroidNotificationManager(Context packageContext, String channelId, AndroidLogger androidLogger) {
         this.channelId = channelId;
         this.packageContext = packageContext;
         this.androidLogger = androidLogger;
