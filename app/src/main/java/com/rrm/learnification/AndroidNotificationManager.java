@@ -8,19 +8,25 @@ import android.os.Build;
 import android.support.v4.app.NotificationManagerCompat;
 
 class AndroidNotificationManager {
+    private static final String LOG_TAG = "AndroidNotificationManager";
+
     private final String channelId;
     private final MainActivity packageContext;
+    private final AndroidLogger androidLogger;
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final NotificationManagerCompat notificationManager;
 
-    AndroidNotificationManager(String channelId, MainActivity packageContext) {
+    AndroidNotificationManager(String channelId, MainActivity packageContext, AndroidLogger androidLogger) {
         this.channelId = channelId;
         this.packageContext = packageContext;
-        this.androidLearnificationFactory = new AndroidLearnificationFactory(channelId, packageContext);
+        this.androidLogger = androidLogger;
+        this.androidLearnificationFactory = new AndroidLearnificationFactory(channelId, packageContext, androidLogger);
         this.notificationManager = NotificationManagerCompat.from(packageContext);
     }
 
     void createNotificationChannel() {
+        androidLogger.v(LOG_TAG, "Creating notification channel");
+
         Context context = packageContext.getApplicationContext();
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -35,6 +41,8 @@ class AndroidNotificationManager {
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+
+        androidLogger.v(LOG_TAG, "Created notification channel");
     }
 
     void createNotification() {

@@ -8,15 +8,21 @@ import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
 class AndroidLearnificationFactory {
+    private static final String LOG_TAG = "AndroidLearnificationFactory";
+
     private final String channelId;
     private final MainActivity packageContext;
+    private final AndroidLogger androidLogger;
 
-    AndroidLearnificationFactory(String channelId, MainActivity packageContext) {
+    AndroidLearnificationFactory(String channelId, MainActivity packageContext, AndroidLogger androidLogger) {
         this.channelId = channelId;
         this.packageContext = packageContext;
+        this.androidLogger = androidLogger;
     }
 
     Notification create(String title, String text) {
+        androidLogger.v(LOG_TAG, "Creating a notification with title '" + title + "' and text '" + text + "'");
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(packageContext, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(packageContext.getApplicationContext().getResources(), R.mipmap.ic_launcher))
