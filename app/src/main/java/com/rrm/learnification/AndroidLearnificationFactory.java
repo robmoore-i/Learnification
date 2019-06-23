@@ -14,7 +14,7 @@ class AndroidLearnificationFactory {
     private final MainActivity packageContext;
     private final AndroidLogger androidLogger;
 
-    AndroidLearnificationFactory(String channelId, MainActivity packageContext, AndroidLogger androidLogger) {
+    AndroidLearnificationFactory(MainActivity packageContext, String channelId, AndroidLogger androidLogger) {
         this.channelId = channelId;
         this.packageContext = packageContext;
         this.androidLogger = androidLogger;

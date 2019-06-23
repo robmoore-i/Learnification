@@ -16,11 +16,11 @@ class AndroidNotificationManager {
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final NotificationManagerCompat notificationManager;
 
-    AndroidNotificationManager(String channelId, MainActivity packageContext, AndroidLogger androidLogger) {
+    AndroidNotificationManager(MainActivity packageContext, String channelId, AndroidLogger androidLogger) {
         this.channelId = channelId;
         this.packageContext = packageContext;
         this.androidLogger = androidLogger;
-        this.androidLearnificationFactory = new AndroidLearnificationFactory(channelId, packageContext, androidLogger);
+        this.androidLearnificationFactory = new AndroidLearnificationFactory(packageContext, channelId, androidLogger);
         this.notificationManager = NotificationManagerCompat.from(packageContext);
     }
 
