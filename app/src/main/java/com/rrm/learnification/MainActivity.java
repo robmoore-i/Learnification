@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    static final String CHANNEL_ID = "learnification";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String CHANNEL_ID = "learnification";
         AndroidLogger androidLogger = new AndroidLogger();
         AndroidNotificationManager androidNotificationManager = new AndroidNotificationManager(this, CHANNEL_ID, androidLogger);
         androidNotificationManager.createNotificationChannel();

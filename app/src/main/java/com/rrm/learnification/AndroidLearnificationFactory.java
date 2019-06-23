@@ -12,7 +12,7 @@ class AndroidLearnificationFactory {
     private static final String LOG_TAG = "AndroidLearnificationFactory";
 
     // Key for the string that's delivered in the reply action's intent.
-    private static final String REPLY_TEXT = "key_text_reply";
+    static final String REPLY_TEXT = "key_text_reply";
 
 
     private final String channelId;
@@ -36,7 +36,7 @@ class AndroidLearnificationFactory {
         PendingIntent replyPendingIntent = PendingIntent.getActivity(
                 packageContext,
                 0,
-                new Intent(packageContext, MainActivity.class),
+                new Intent(packageContext, LearnificationResponseActivity.class),
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
