@@ -3,16 +3,14 @@ package com.rrm.learnification;
 import java.util.ArrayList;
 
 class LearnificationTextGenerator {
+    private Randomiser randomiser;
+
+    LearnificationTextGenerator(Randomiser randomiser) {
+        this.randomiser = randomiser;
+    }
+
     String notificationText() {
-        return chooseRandomLearningItemSide(chooseRandomLearningItem(learningItems()));
-    }
-
-    private String chooseRandomLearningItemSide(LearningItem learningItem) {
-        return learningItem.left;
-    }
-
-    private LearningItem chooseRandomLearningItem(ArrayList<LearningItem> learningItems) {
-        return learningItems.get(0);
+        return randomiser.randomLearnificationQuestion(learningItems());
     }
 
     private ArrayList<LearningItem> learningItems() {

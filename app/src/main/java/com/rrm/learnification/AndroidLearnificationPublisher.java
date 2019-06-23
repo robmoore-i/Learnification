@@ -7,12 +7,13 @@ class AndroidLearnificationPublisher {
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final NotificationManagerCompat notificationManager;
     private final NotificationIdGenerator notificationIdGenerator;
-    private LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator();
+    private LearnificationTextGenerator learnificationTextGenerator;
 
-    AndroidLearnificationPublisher(AndroidLearnificationFactory androidLearnificationFactory, NotificationIdGenerator notificationIdGenerator, NotificationManagerCompat notificationManager) {
+    AndroidLearnificationPublisher(AndroidLearnificationFactory androidLearnificationFactory, NotificationIdGenerator notificationIdGenerator, LearnificationTextGenerator learnificationTextGenerator, NotificationManagerCompat notificationManager) {
         this.androidLearnificationFactory = androidLearnificationFactory;
         this.notificationManager = notificationManager;
         this.notificationIdGenerator = notificationIdGenerator;
+        this.learnificationTextGenerator = learnificationTextGenerator;
     }
 
     void createLearnification() {
