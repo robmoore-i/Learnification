@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         String CHANNEL_ID = "learnification";
-        NotificationsManager notificationsManager = new NotificationsManager(CHANNEL_ID, this);
-        notificationsManager.createNotificationChannel();
-        notificationsManager.createNotification();
+        AndroidNotificationsManager androidNotificationsManager = new AndroidNotificationsManager(CHANNEL_ID, this);
+        androidNotificationsManager.createNotificationChannel();
+        androidNotificationsManager.createNotification();
     }
 
     @Override

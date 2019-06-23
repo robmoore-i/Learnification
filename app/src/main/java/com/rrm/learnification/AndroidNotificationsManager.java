@@ -11,11 +11,11 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-class NotificationsManager {
+class AndroidNotificationsManager {
     private final String channelId;
     private final MainActivity packageContext;
 
-    NotificationsManager(String channelId, MainActivity packageContext) {
+    AndroidNotificationsManager(String channelId, MainActivity packageContext) {
         this.channelId = channelId;
         this.packageContext = packageContext;
     }
