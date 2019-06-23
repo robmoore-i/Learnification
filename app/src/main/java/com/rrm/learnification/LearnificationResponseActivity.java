@@ -36,5 +36,4 @@ public class LearnificationResponseActivity extends AppCompatActivity {
             notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), repliedNotification);
         }
     }
-
 }
