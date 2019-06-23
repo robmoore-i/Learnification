@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(this, MainActivity.CHANNEL_ID, androidLogger);
         AndroidLearnificationManager androidLearnificationManager = new AndroidLearnificationManager(androidLearnificationFactory, NotificationIdGenerator.getInstance(), NotificationManagerCompat.from(this));
-        androidLearnificationManager.createNotification();
+        androidLearnificationManager.createLearnification();
     }
 
     @Override

@@ -14,7 +14,7 @@ class AndroidLearnificationManager {
         this.notificationIdGenerator = notificationIdGenerator;
     }
 
-    void createNotification() {
+    void createLearnification() {
         Notification notification = androidLearnificationFactory.create(
                 "This is a learnification",
                 "It's a notification that is designed to help you learn"
