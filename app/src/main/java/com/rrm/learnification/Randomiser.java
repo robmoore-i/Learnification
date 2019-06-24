@@ -1,7 +1,7 @@
 package com.rrm.learnification;
 
-import java.util.ArrayList;
+import java.util.List;
 
 interface Randomiser {
-    String randomLearnificationQuestion(ArrayList<LearningItem> learningItems);
+    String randomLearnificationQuestion(List<LearningItem> learningItems);
 }

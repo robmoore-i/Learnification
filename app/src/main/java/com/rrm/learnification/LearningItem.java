@@ -8,4 +8,8 @@ class LearningItem {
         this.left = left;
         this.right = right;
     }
+
+    String asSingleString() {
+        return left + " - " + right;
+    }
 }

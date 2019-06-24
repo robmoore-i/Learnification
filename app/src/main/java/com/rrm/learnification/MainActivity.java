@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
     static final String CHANNEL_ID = "learnification";
@@ -35,10 +37,20 @@ public class MainActivity extends AppCompatActivity {
         NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(androidPackageContext, androidLogger);
         notificationChannelInitialiser.createNotificationChannel(MainActivity.CHANNEL_ID);
 
+        LearnificationRepository learnificationRepository = LearnificationRepository.getInstance();
+
+        displayLearningItems(learnificationRepository);
         AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(this, MainActivity.CHANNEL_ID, androidLogger);
-        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser());
+        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(androidLearnificationFactory, NotificationIdGenerator.getInstance(), learnificationTextGenerator, NotificationManagerCompat.from(this));
         androidLearnificationPublisher.createLearnification();
+    }
+
+    private void displayLearningItems(LearnificationRepository learnificationRepository) {
+        ListView listView = findViewById(R.id.learnificationsListView);
+        listView.setEnabled(true);
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, learnificationRepository.learningItemsAsStringList());
+        listView.setAdapter(adapter);
     }
 
     @Override
