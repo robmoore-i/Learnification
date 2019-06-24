@@ -2,6 +2,7 @@ package com.rrm.learnification;
 
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -16,7 +17,20 @@ public class LearnificationTextGeneratorTest {
                 return learningItems.get(0).left;
             }
         };
-        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, LearnificationRepository.getInstance());
+        LearnificationRepository stubLearnificationRepository = new LearnificationRepository() {
+            @Override
+            public List<LearningItem> learningItems() {
+                LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
+                return Collections.singletonList(learningItemTemplate.build("Egypt", "Cairo"));
+            }
+
+            @Override
+            public List<String> learningItemsAsStringList() {
+                return null;
+            }
+        };
+
+        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
 
         assertThat(learnificationTextGenerator.notificationText(), equalTo("What is the capital city of Egypt?"));
     }

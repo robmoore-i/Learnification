@@ -14,7 +14,7 @@ public class LearnificationRepositoryTest {
     public void singleLearnificationIsReturnedAsAHyphenSeparatedString() {
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
         List<LearningItem> learningItems = Collections.singletonList(learningItemTemplate.build("Egypt", "Cairo"));
-        LearnificationRepository learnificationRepository = new LearnificationRepository(learningItems);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(learningItems);
 
         List<String> strings = learnificationRepository.learningItemsAsStringList();
 
@@ -28,7 +28,7 @@ public class LearnificationRepositoryTest {
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
         learningItems.add(learningItemTemplate.build("France", "Paris"));
-        LearnificationRepository learnificationRepository = new LearnificationRepository(learningItems);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(learningItems);
 
         List<String> strings = learnificationRepository.learningItemsAsStringList();
 
