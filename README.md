@@ -2,9 +2,17 @@
 
 ## Technical priorities
 
+### Major
+
 - Integration tests
 
 - Managing the application entry points across different activities
+
+### Minor
+
+- Pull out the start-up logic from MainActivity
+
+- Make PersistentLearnificationRepository actually persistent
 
 ## MVP
 
