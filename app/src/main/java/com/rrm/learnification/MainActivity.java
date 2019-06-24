@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         LearnificationRepository learnificationRepository = PersistentLearnificationRepository.createInstance();
 
         displayLearningItems(learnificationRepository);
+
         AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(this, MainActivity.CHANNEL_ID, androidLogger);
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(androidLearnificationFactory, NotificationIdGenerator.getInstance(), learnificationTextGenerator, NotificationManagerCompat.from(this));
