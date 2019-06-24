@@ -13,7 +13,6 @@ class AndroidLearnificationFactory {
     // Key for the string that's delivered in the reply action's intent.
     static final String REPLY_TEXT = "key_text_reply";
 
-
     private final String channelId;
     private final Context packageContext;
     private final AndroidLogger androidLogger;
@@ -61,5 +60,4 @@ class AndroidLearnificationFactory {
                 .addAction(replyAction)
                 .build();
     }
-
 }
