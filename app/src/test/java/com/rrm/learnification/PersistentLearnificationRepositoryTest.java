@@ -9,7 +9,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-public class LearnificationRepositoryTest {
+public class PersistentLearnificationRepositoryTest {
     @Test
     public void singleLearnificationIsReturnedAsAHyphenSeparatedString() {
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
