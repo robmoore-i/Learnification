@@ -3,14 +3,11 @@ package com.rrm.learnification;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
     static final String CHANNEL_ID = "learnification";
@@ -31,27 +28,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AndroidPackageContext androidPackageContext = new AndroidPackageContext(this.getApplicationContext());
-        AndroidLogger androidLogger = new AndroidLogger();
-
-        NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(androidPackageContext, androidLogger);
-        notificationChannelInitialiser.createNotificationChannel(MainActivity.CHANNEL_ID);
-
-        LearnificationRepository learnificationRepository = PersistentLearnificationRepository.createInstance();
-
-        displayLearningItems(learnificationRepository);
-
-        AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(this, MainActivity.CHANNEL_ID, androidLogger);
-        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
-        AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(androidLearnificationFactory, NotificationIdGenerator.getInstance(), learnificationTextGenerator, NotificationManagerCompat.from(this));
-        androidLearnificationPublisher.createLearnification();
-    }
-
-    private void displayLearningItems(LearnificationRepository learnificationRepository) {
-        ListView listView = findViewById(R.id.learnificationsListView);
-        listView.setEnabled(true);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, learnificationRepository.learningItemsAsStringList());
-        listView.setAdapter(adapter);
+        ActivityEntryPoint activityEntryPoint = new ActivityEntryPoint(this);
+        activityEntryPoint.onActivityEntry();
     }
 
     @Override
