@@ -7,11 +7,11 @@ import android.os.Build;
 class NotificationChannelInitialiser {
     private static final String LOG_TAG = "NotificationChannelInitialiser";
 
-    private final AndroidPackageContext androidPackageContext;
+    private final AndroidNotificationContext context;
     private final AndroidLogger androidLogger;
 
-    NotificationChannelInitialiser(AndroidPackageContext androidPackageContext, AndroidLogger androidLogger) {
-        this.androidPackageContext = androidPackageContext;
+    NotificationChannelInitialiser(AndroidNotificationContext context, AndroidLogger androidLogger) {
+        this.context = context;
         this.androidLogger = androidLogger;
     }
 
@@ -21,14 +21,14 @@ class NotificationChannelInitialiser {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = androidPackageContext.getNotificationChannelName();
-            String description = androidPackageContext.getNotificationChannelDescription();
+            CharSequence name = context.getNotificationChannelName();
+            String description = context.getNotificationChannelDescription();
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(channelId, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-            NotificationManager notificationManager = androidPackageContext.getNotificationManager();
+            NotificationManager notificationManager = context.getNotificationManager();
             notificationManager.createNotificationChannel(channel);
         }
 

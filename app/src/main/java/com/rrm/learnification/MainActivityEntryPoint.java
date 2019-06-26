@@ -1,55 +1,37 @@
 package com.rrm.learnification;
 
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 class MainActivityEntryPoint {
-    private static final String LOG_TAG = "MainActivityEntryPoint";
-
-    private final AppCompatActivity activity;
+    private final MainActivity activity;
     private final AndroidLogger androidLogger;
-    private final AndroidPackageContext androidPackageContext;
     private final LearnificationRepository learnificationRepository;
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final LearnificationTextGenerator learnificationTextGenerator;
     private final NotificationIdGenerator notificationIdGenerator;
     private final NotificationManagerCompat notificationManager;
+    private final LearnificationButton learnificationButton;
 
     MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;
         this.androidLogger = new AndroidLogger();
-        this.androidPackageContext = new AndroidPackageContext(this.activity.getApplicationContext());
         this.learnificationRepository = PersistentLearnificationRepository.createInstance();
         this.androidLearnificationFactory = new AndroidLearnificationFactory(this.activity, MainActivity.CHANNEL_ID, androidLogger);
         this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         this.notificationIdGenerator = NotificationIdGenerator.getInstance();
         this.notificationManager = NotificationManagerCompat.from(activity);
+        this.learnificationButton = new LearnificationButton(activity, androidLogger);
     }
 
     void onMainActivityEntry() {
-        configureAddLearnificationButton();
+        learnificationButton.configure();
         createNotificationChannel();
         populateLearnificationList();
         publishInitialLearnification();
     }
 
-    private void configureAddLearnificationButton() {
-        FloatingActionButton button = activity.findViewById(R.id.addLearnificationButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                androidLogger.v(LOG_TAG, "addLearnificationButton clicked");
-                addLearnification();
-            }
-        });
-    }
-
-    private void addLearnification() {
-    }
 
     private void publishInitialLearnification() {
         AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(
@@ -63,7 +45,8 @@ class MainActivityEntryPoint {
     }
 
     private void createNotificationChannel() {
-        NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(androidPackageContext, androidLogger);
+        AndroidNotificationContext androidNotificationContext = new AndroidNotificationContext(this.activity.getApplicationContext());
+        NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(androidNotificationContext, androidLogger);
         notificationChannelInitialiser.createNotificationChannel(MainActivity.CHANNEL_ID);
     }
 
