@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
     static final String CHANNEL_ID = "learnification";
@@ -14,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar(this.<Toolbar>findViewById(R.id.toolbar));
+
+        // Don't automatically open the keyboard. See: https://stackoverflow.com/questions/9732761/prevent-the-keyboard-from-displaying-on-activity-start
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         MainActivityEntryPoint mainActivityEntryPoint = new MainActivityEntryPoint(this);
         mainActivityEntryPoint.onMainActivityEntry();
