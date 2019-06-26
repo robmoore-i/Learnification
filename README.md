@@ -10,9 +10,10 @@
 
 ### Minor
 
-- Pull out the start-up logic from MainActivity
-
 - Make PersistentLearnificationRepository actually persistent
+
+- Create wrapping interfaces for the various different Android interfaces I'm using so I can create
+  logging based approval tests for them, to substitute for integration tests.
 
 ## MVP
 
