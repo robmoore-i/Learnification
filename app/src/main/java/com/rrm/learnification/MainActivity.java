@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ActivityEntryPoint activityEntryPoint = new ActivityEntryPoint(this);
-        activityEntryPoint.onActivityEntry();
+        MainActivityEntryPoint mainActivityEntryPoint = new MainActivityEntryPoint(this);
+        mainActivityEntryPoint.onMainActivityEntry();
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-class ActivityEntryPoint {
+class MainActivityEntryPoint {
     private final AppCompatActivity activity;
     private final AndroidLogger androidLogger;
     private final AndroidPackageContext androidPackageContext;
@@ -15,7 +15,7 @@ class ActivityEntryPoint {
     private final NotificationIdGenerator notificationIdGenerator;
     private final NotificationManagerCompat notificationManager;
 
-    ActivityEntryPoint(AppCompatActivity activity) {
+    MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;
         this.androidLogger = new AndroidLogger();
         this.androidPackageContext = new AndroidPackageContext(this.activity.getApplicationContext());
@@ -26,7 +26,7 @@ class ActivityEntryPoint {
         this.notificationManager = NotificationManagerCompat.from(activity);
     }
 
-    void onActivityEntry() {
+    void onMainActivityEntry() {
         createNotificationChannel();
         populateLearnificationList();
         publishInitialLearnification();
