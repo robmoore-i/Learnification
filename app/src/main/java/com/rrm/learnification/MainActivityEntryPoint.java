@@ -1,7 +1,6 @@
 package com.rrm.learnification;
 
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 class MainActivityEntryPoint {
+    private static final String LOG_TAG = "MainActivityEntryPoint";
+
     private final AppCompatActivity activity;
     private final AndroidLogger androidLogger;
     private final AndroidPackageContext androidPackageContext;
@@ -41,10 +42,13 @@ class MainActivityEntryPoint {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                androidLogger.v(LOG_TAG, "addLearnificationButton clicked");
+                addLearnification();
             }
         });
+    }
+
+    private void addLearnification() {
     }
 
     private void publishInitialLearnification() {
