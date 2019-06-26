@@ -1,7 +1,6 @@
 package com.rrm.learnification;
 
 import android.app.Notification;
-import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 
@@ -13,12 +12,12 @@ class AndroidLearnificationFactory {
 
     private final String channelId;
     private final AndroidLogger androidLogger;
-    private final AndroidLearnificationCreationContext context;
+    private final AndroidLearnificationFactoryContext context;
 
-    AndroidLearnificationFactory(Context packageContext, String channelId, AndroidLogger androidLogger) {
+    AndroidLearnificationFactory(AndroidLearnificationFactoryContext context, String channelId, AndroidLogger androidLogger) {
         this.channelId = channelId;
         this.androidLogger = androidLogger;
-        this.context = new AndroidLearnificationCreationContext(packageContext);
+        this.context = context;
     }
 
     Notification create(String title, String text) {

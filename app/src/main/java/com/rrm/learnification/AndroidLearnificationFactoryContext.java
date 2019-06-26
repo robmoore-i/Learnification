@@ -9,10 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
-class AndroidLearnificationCreationContext {
+class AndroidLearnificationFactoryContext {
     private final Context packageContext;
 
-    AndroidLearnificationCreationContext(Context packageContext) {
+    AndroidLearnificationFactoryContext(Context packageContext) {
         this.packageContext = packageContext;
     }
 
