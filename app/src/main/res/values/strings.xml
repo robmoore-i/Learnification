@@ -4,4 +4,6 @@
     <string name="channel_name">learnification</string>
     <string name="channel_description">notification_channel_for_learnification</string>
     <string name="reply_label">respond</string>
+    <string name="right_input_hint">Right-side value</string>
+    <string name="left_input_hint">Left-side value</string>
 </resources>
