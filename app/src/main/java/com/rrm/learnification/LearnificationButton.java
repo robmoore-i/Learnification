@@ -20,7 +20,8 @@ class LearnificationButton {
             @Override
             public void onClick(View view) {
                 androidLogger.v(LOG_TAG, "addLearnificationButton clicked");
-                learnificationListViewBinding.addLearnificationToListView(mainActivityView.getTextInput());
+                LearningItem learningItem = mainActivityView.getTextInput();
+                learnificationListViewBinding.addLearnificationToListView(learningItem);
             }
         });
     }

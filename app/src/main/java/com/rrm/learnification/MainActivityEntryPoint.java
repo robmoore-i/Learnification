@@ -1,8 +1,6 @@
 package com.rrm.learnification;
 
 import android.support.v4.app.NotificationManagerCompat;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 class MainActivityEntryPoint {
     private final MainActivity activity;
@@ -14,6 +12,7 @@ class MainActivityEntryPoint {
     private final NotificationManagerCompat notificationManager;
     private final LearnificationButton learnificationButton;
     private final MainActivityView mainActivityView;
+    private LearnificationList learnificationList;
 
     MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;
@@ -25,10 +24,11 @@ class MainActivityEntryPoint {
         this.notificationManager = NotificationManagerCompat.from(activity);
         this.mainActivityView = new AndroidMainActivityView(activity);
         this.learnificationButton = new LearnificationButton(androidLogger, mainActivityView);
+        this.learnificationList = new LearnificationList(activity, mainActivityView);
     }
 
     void onMainActivityEntry() {
-        LearnificationListViewBinding learnificationListViewBinding = populateLearnificationList();
+        LearnificationListViewBinding learnificationListViewBinding = learnificationList.populate(learnificationRepository);
         learnificationButton.createOnClickViewBindingToRepository(learnificationListViewBinding);
         createNotificationChannel();
         publishInitialLearnification();
@@ -49,13 +49,5 @@ class MainActivityEntryPoint {
         AndroidNotificationContext androidNotificationContext = new AndroidNotificationContext(this.activity.getApplicationContext());
         NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(androidNotificationContext, androidLogger);
         notificationChannelInitialiser.createNotificationChannel(MainActivity.CHANNEL_ID);
-    }
-
-    private LearnificationListViewBinding populateLearnificationList() {
-        ListView listView = mainActivityView.getLearnificationListView();
-        listView.setEnabled(true);
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, learnificationRepository.learningItemsAsStringList());
-        listView.setAdapter(listViewAdapter);
-        return new LearnificationListViewBinding(learnificationRepository, listViewAdapter);
     }
 }
