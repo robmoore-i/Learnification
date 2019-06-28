@@ -28,9 +28,13 @@ class MainActivityEntryPoint {
     }
 
     void onMainActivityEntry() {
-        LearnificationListViewBinding learnificationListViewBinding = learnificationList.populate(learnificationRepository);
-        learnificationButton.createOnClickViewBindingToRepository(learnificationListViewBinding);
+        learnificationList.populate(learnificationRepository);
+
+        OnClickCommand onClickCommand = new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationList);
+        learnificationButton.setOnClickHandler(onClickCommand);
+
         createNotificationChannel();
+
         publishInitialLearnification();
     }
 

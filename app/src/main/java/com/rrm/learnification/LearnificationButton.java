@@ -14,14 +14,13 @@ class LearnificationButton {
         this.mainActivityView = mainActivityView;
     }
 
-    void createOnClickViewBindingToRepository(final LearnificationListViewBinding learnificationListViewBinding) {
+    void setOnClickHandler(final OnClickCommand onClickCommand) {
         FloatingActionButton button = mainActivityView.getLearnificationButton();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 androidLogger.v(LOG_TAG, "addLearnificationButton clicked");
-                LearningItem learningItem = mainActivityView.getTextInput();
-                learnificationListViewBinding.addLearnificationToListView(learningItem);
+                onClickCommand.onClick();
             }
         });
     }
