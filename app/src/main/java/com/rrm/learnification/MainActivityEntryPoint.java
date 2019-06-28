@@ -30,8 +30,7 @@ class MainActivityEntryPoint {
     void onMainActivityEntry() {
         learnificationList.populate(learnificationRepository);
 
-        OnClickCommand onClickCommand = new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationList);
-        learnificationButton.setOnClickHandler(onClickCommand);
+        learnificationButton.setOnClickHandler(new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationList));
 
         createNotificationChannel();
 
