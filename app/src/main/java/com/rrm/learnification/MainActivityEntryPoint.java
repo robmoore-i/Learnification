@@ -32,7 +32,6 @@ class MainActivityEntryPoint {
         publishInitialLearnification();
     }
 
-
     private void publishInitialLearnification() {
         AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(
                 androidLearnificationFactory,
