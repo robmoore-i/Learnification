@@ -1,6 +1,7 @@
 package com.rrm.learnification;
 
 import android.support.design.widget.FloatingActionButton;
+import android.widget.EditText;
 import android.widget.ListView;
 
 class AndroidMainActivityView implements MainActivityView {
@@ -22,6 +23,8 @@ class AndroidMainActivityView implements MainActivityView {
 
     @Override
     public LearningItem getTextInput() {
-        return new LearningItem("left", "right");
+        String left = ((EditText) activity.findViewById(R.id.left_input)).getText().toString();
+        String right = ((EditText) activity.findViewById(R.id.right_input)).getText().toString();
+        return new LearningItem(left, right);
     }
 }
