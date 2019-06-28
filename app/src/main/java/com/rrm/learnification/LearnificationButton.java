@@ -2,7 +2,6 @@ package com.rrm.learnification;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.widget.ArrayAdapter;
 
 class LearnificationButton {
     private static final String LOG_TAG = "LearnificationButton";
@@ -14,13 +13,13 @@ class LearnificationButton {
         this.context = androidLearnificationButtonContext;
     }
 
-    void configure(final LearnificationRepository learnificationRepository, final ArrayAdapter<String> listViewAdapter) {
+    void createOnClickViewBindingToRepository(final LearnificationListViewBinding learnificationListViewBinding) {
         FloatingActionButton button = context.getLearnificationButton();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 androidLogger.v(LOG_TAG, "addLearnificationButton clicked");
-                listViewAdapter.add(learnificationRepository.addLearningItem().asSingleString());
+                learnificationListViewBinding.addLearnificationToListView();
             }
         });
     }

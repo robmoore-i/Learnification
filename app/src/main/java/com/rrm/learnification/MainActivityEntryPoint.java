@@ -28,8 +28,8 @@ class MainActivityEntryPoint {
     }
 
     void onMainActivityEntry() {
-        populateLearnificationList();
-        learnificationButton.configure(learnificationRepository, listViewAdapter);
+        LearnificationListViewBinding learnificationListViewBinding = populateLearnificationList();
+        learnificationButton.createOnClickViewBindingToRepository(learnificationListViewBinding);
         createNotificationChannel();
         publishInitialLearnification();
     }
@@ -52,10 +52,11 @@ class MainActivityEntryPoint {
         notificationChannelInitialiser.createNotificationChannel(MainActivity.CHANNEL_ID);
     }
 
-    private void populateLearnificationList() {
+    private LearnificationListViewBinding populateLearnificationList() {
         ListView listView = activity.findViewById(R.id.learnificationsListView);
         listView.setEnabled(true);
         listViewAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, learnificationRepository.learningItemsAsStringList());
         listView.setAdapter(listViewAdapter);
+        return new LearnificationListViewBinding(learnificationRepository, listViewAdapter);
     }
 }
