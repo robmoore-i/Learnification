@@ -5,16 +5,17 @@ import android.view.View;
 
 class LearnificationButton {
     private static final String LOG_TAG = "LearnificationButton";
-    private final AndroidLogger androidLogger;
-    private AndroidLearnificationButtonContext context;
 
-    LearnificationButton(AndroidLogger androidLogger, AndroidLearnificationButtonContext androidLearnificationButtonContext) {
+    private final AndroidLogger androidLogger;
+    private final MainActivityView mainActivityView;
+
+    LearnificationButton(AndroidLogger androidLogger, MainActivityView mainActivityView) {
         this.androidLogger = androidLogger;
-        this.context = androidLearnificationButtonContext;
+        this.mainActivityView = mainActivityView;
     }
 
     void createOnClickViewBindingToRepository(final LearnificationListViewBinding learnificationListViewBinding) {
-        FloatingActionButton button = context.getLearnificationButton();
+        FloatingActionButton button = mainActivityView.getLearnificationButton();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -23,5 +24,4 @@ class LearnificationButton {
             }
         });
     }
-
 }
