@@ -13,6 +13,7 @@ class MainActivityEntryPoint {
     private final NotificationIdGenerator notificationIdGenerator;
     private final NotificationManagerCompat notificationManager;
     private final LearnificationButton learnificationButton;
+    private ArrayAdapter<String> listViewAdapter;
 
     MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;
@@ -26,9 +27,9 @@ class MainActivityEntryPoint {
     }
 
     void onMainActivityEntry() {
-        learnificationButton.configure();
-        createNotificationChannel();
         populateLearnificationList();
+        learnificationButton.configure(learnificationRepository, listViewAdapter);
+        createNotificationChannel();
         publishInitialLearnification();
     }
 
@@ -53,7 +54,7 @@ class MainActivityEntryPoint {
     private void populateLearnificationList() {
         ListView listView = activity.findViewById(R.id.learnificationsListView);
         listView.setEnabled(true);
-        ArrayAdapter adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, learnificationRepository.learningItemsAsStringList());
-        listView.setAdapter(adapter);
+        listViewAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, learnificationRepository.learningItemsAsStringList());
+        listView.setAdapter(listViewAdapter);
     }
 }

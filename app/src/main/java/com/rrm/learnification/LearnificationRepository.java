@@ -6,4 +6,6 @@ interface LearnificationRepository {
     List<LearningItem> learningItems();
 
     List<String> learningItemsAsStringList();
+
+    LearningItem addLearningItem();
 }

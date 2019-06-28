@@ -35,4 +35,11 @@ class PersistentLearnificationRepository implements LearnificationRepository {
 
         return stringifiedItems;
     }
+
+    @Override
+    public LearningItem addLearningItem() {
+        LearningItem e = new LearningItem("left", "right");
+        learningItems.add(e);
+        return e;
+    }
 }

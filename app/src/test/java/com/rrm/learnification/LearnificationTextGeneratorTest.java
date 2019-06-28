@@ -28,6 +28,11 @@ public class LearnificationTextGeneratorTest {
             public List<String> learningItemsAsStringList() {
                 return null;
             }
+
+            @Override
+            public LearningItem addLearningItem() {
+                return null;
+            }
         };
 
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
