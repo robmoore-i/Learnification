@@ -13,6 +13,7 @@ class MainActivityEntryPoint {
     private final NotificationIdGenerator notificationIdGenerator;
     private final NotificationManagerCompat notificationManager;
     private final LearnificationButton learnificationButton;
+
     private ArrayAdapter<String> listViewAdapter;
 
     MainActivityEntryPoint(MainActivity activity) {
@@ -23,7 +24,7 @@ class MainActivityEntryPoint {
         this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         this.notificationIdGenerator = NotificationIdGenerator.getInstance();
         this.notificationManager = NotificationManagerCompat.from(activity);
-        this.learnificationButton = new LearnificationButton(activity, androidLogger);
+        this.learnificationButton = new LearnificationButton(androidLogger, new AndroidLearnificationButtonContext(activity));
     }
 
     void onMainActivityEntry() {

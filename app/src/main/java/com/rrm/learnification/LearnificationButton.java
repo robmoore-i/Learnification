@@ -6,23 +6,23 @@ import android.widget.ArrayAdapter;
 
 class LearnificationButton {
     private static final String LOG_TAG = "LearnificationButton";
-    private final MainActivity activity;
     private final AndroidLogger androidLogger;
+    private AndroidLearnificationButtonContext context;
 
-    LearnificationButton(MainActivity activity, AndroidLogger androidLogger) {
-        this.activity = activity;
+    LearnificationButton(AndroidLogger androidLogger, AndroidLearnificationButtonContext androidLearnificationButtonContext) {
         this.androidLogger = androidLogger;
+        this.context = androidLearnificationButtonContext;
     }
 
     void configure(final LearnificationRepository learnificationRepository, final ArrayAdapter<String> listViewAdapter) {
-        FloatingActionButton button = activity.findViewById(R.id.addLearnificationButton);
+        FloatingActionButton button = context.getLearnificationButton();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 androidLogger.v(LOG_TAG, "addLearnificationButton clicked");
-                LearningItem learningItem = learnificationRepository.addLearningItem();
-                listViewAdapter.add(learningItem.asSingleString());
+                listViewAdapter.add(learnificationRepository.addLearningItem().asSingleString());
             }
         });
     }
+
 }
