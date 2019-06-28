@@ -37,9 +37,7 @@ class PersistentLearnificationRepository implements LearnificationRepository {
     }
 
     @Override
-    public LearningItem addLearningItem() {
-        LearningItem e = new LearningItem("left", "right");
-        learningItems.add(e);
-        return e;
+    public void add(LearningItem learningItem) {
+        learningItems.add(learningItem);
     }
 }

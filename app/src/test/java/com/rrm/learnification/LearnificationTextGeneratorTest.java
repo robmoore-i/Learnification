@@ -30,8 +30,7 @@ public class LearnificationTextGeneratorTest {
             }
 
             @Override
-            public LearningItem addLearningItem() {
-                return null;
+            public void add(LearningItem learningItem) {
             }
         };
 

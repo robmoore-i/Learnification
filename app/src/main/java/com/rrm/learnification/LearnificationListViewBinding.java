@@ -11,7 +11,8 @@ class LearnificationListViewBinding {
         this.listViewAdapter = learnificationListViewAdapter;
     }
 
-    void addLearnificationToListView() {
-        listViewAdapter.add(learnificationRepository.addLearningItem().asSingleString());
+    void addLearnificationToListView(LearningItem learningItem) {
+        learnificationRepository.add(learningItem);
+        listViewAdapter.add(learningItem.asSingleString());
     }
 }

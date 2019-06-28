@@ -36,4 +36,16 @@ public class PersistentLearnificationRepositoryTest {
         assertThat(strings.get(0), equalTo("What is the capital city of Egypt? - Which country has the capital city Cairo?"));
         assertThat(strings.get(1), equalTo("What is the capital city of France? - Which country has the capital city Paris?"));
     }
+
+    @Test
+    public void canAddLearningItems() {
+        PersistentLearnificationRepository persistentLearnificationRepository = new PersistentLearnificationRepository(new ArrayList<LearningItem>());
+
+        persistentLearnificationRepository.add(new LearningItem("L", "R"));
+
+        List<LearningItem> learningItems = persistentLearnificationRepository.learningItems();
+        assertThat(learningItems.size(), equalTo(1));
+        assertThat(learningItems.get(0).left, equalTo("L"));
+        assertThat(learningItems.get(0).right, equalTo("R"));
+    }
 }

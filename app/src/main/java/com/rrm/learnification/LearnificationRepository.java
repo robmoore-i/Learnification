@@ -7,5 +7,5 @@ interface LearnificationRepository {
 
     List<String> learningItemsAsStringList();
 
-    LearningItem addLearningItem();
+    void add(LearningItem learningItem);
 }

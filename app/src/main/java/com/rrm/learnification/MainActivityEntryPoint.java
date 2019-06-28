@@ -23,7 +23,7 @@ class MainActivityEntryPoint {
         this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         this.notificationIdGenerator = NotificationIdGenerator.getInstance();
         this.notificationManager = NotificationManagerCompat.from(activity);
-        this.mainActivityView = new MainActivityView(activity);
+        this.mainActivityView = new AndroidMainActivityView(activity);
         this.learnificationButton = new LearnificationButton(androidLogger, mainActivityView);
     }
 
