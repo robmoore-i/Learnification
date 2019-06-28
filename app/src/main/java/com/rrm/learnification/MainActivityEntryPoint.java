@@ -24,7 +24,7 @@ class MainActivityEntryPoint {
         this.notificationManager = NotificationManagerCompat.from(activity);
         this.mainActivityView = new AndroidMainActivityView(activity);
         this.learnificationButton = new LearnificationButton(androidLogger, mainActivityView);
-        this.learnificationList = new LearnificationList(activity, mainActivityView);
+        this.learnificationList = new LearnificationList(androidLogger, mainActivityView);
     }
 
     void onMainActivityEntry() {

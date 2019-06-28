@@ -19,7 +19,7 @@ class LearnificationButton {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                androidLogger.v(LOG_TAG, "addLearnificationButton clicked");
+                androidLogger.v(LOG_TAG, "add-learnification-button clicked");
                 onClickCommand.onClick();
             }
         });

@@ -4,23 +4,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 class LearnificationList {
-    private MainActivity activity;
+    private static final String LOG_TAG = "LearnificationList";
+
+    private AndroidLogger androidLogger;
     private MainActivityView mainActivityView;
     private ArrayAdapter<String> listViewAdapter;
 
-    LearnificationList(MainActivity activity, MainActivityView mainActivityView) {
-        this.activity = activity;
+    LearnificationList(AndroidLogger androidLogger, MainActivityView mainActivityView) {
+        this.androidLogger = androidLogger;
         this.mainActivityView = mainActivityView;
     }
 
     void populate(LearnificationRepository learnificationRepository) {
+        androidLogger.v(LOG_TAG, "populating learnification list");
+
         ListView listView = mainActivityView.getLearnificationListView();
         listView.setEnabled(true);
-        listViewAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, learnificationRepository.learningItemsAsStringList());
+        listViewAdapter = mainActivityView.getListViewAdapter(learnificationRepository.learningItemsAsStringList());
         listView.setAdapter(listViewAdapter);
     }
 
-    void addTextEntry(String string) {
-        listViewAdapter.add(string);
+    void addTextEntry(String textEntry) {
+        androidLogger.v(LOG_TAG, "adding a text entry to the learnification list '" + textEntry + "'");
+        listViewAdapter.add(textEntry);
     }
 }
