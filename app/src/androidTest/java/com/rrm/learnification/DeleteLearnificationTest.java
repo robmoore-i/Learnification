@@ -8,7 +8,6 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +25,6 @@ public class DeleteLearnificationTest {
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    @Ignore
     public void swipingALearnificationLeftDeletesIt() {
         onView(withText(startsWith("What is the capital city of Egypt?"))).perform(swipeLeft());
 
