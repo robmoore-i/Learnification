@@ -12,7 +12,7 @@ class MainActivityEntryPoint {
     private final NotificationManagerCompat notificationManager;
     private final LearnificationButton learnificationButton;
     private final MainActivityView mainActivityView;
-    private LearnificationList learnificationList;
+    private final LearnificationList learnificationList;
 
     MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;

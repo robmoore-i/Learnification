@@ -1,6 +1,5 @@
 package com.rrm.learnification;
 
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 
 class LearnificationButton {
@@ -8,6 +7,7 @@ class LearnificationButton {
 
     private final AndroidLogger androidLogger;
     private final MainActivityView mainActivityView;
+    private OnClickCommand onClickCommand;
 
     LearnificationButton(AndroidLogger androidLogger, MainActivityView mainActivityView) {
         this.androidLogger = androidLogger;
@@ -15,13 +15,17 @@ class LearnificationButton {
     }
 
     void setOnClickHandler(final OnClickCommand onClickCommand) {
-        FloatingActionButton button = mainActivityView.getLearnificationButton();
-        button.setOnClickListener(new View.OnClickListener() {
+        this.onClickCommand = onClickCommand;
+        mainActivityView.setLearnificationButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 androidLogger.v(LOG_TAG, "add-learnification-button clicked");
-                onClickCommand.onClick();
+                click();
             }
         });
+    }
+
+    void click() {
+        onClickCommand.onClick();
     }
 }

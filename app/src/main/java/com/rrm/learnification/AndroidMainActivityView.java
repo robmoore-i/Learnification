@@ -1,6 +1,7 @@
 package com.rrm.learnification;
 
 import android.support.design.widget.FloatingActionButton;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -34,5 +35,11 @@ class AndroidMainActivityView implements MainActivityView {
     @Override
     public ArrayAdapter<String> getListViewAdapter(List<String> listViewContents) {
         return new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, listViewContents);
+    }
+
+    @Override
+    public void setLearnificationButtonOnClickListener(View.OnClickListener onClickListener) {
+        FloatingActionButton button = getLearnificationButton();
+        button.setOnClickListener(onClickListener);
     }
 }

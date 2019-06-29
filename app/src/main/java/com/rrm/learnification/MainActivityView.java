@@ -1,6 +1,7 @@
 package com.rrm.learnification;
 
 import android.support.design.widget.FloatingActionButton;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -14,4 +15,6 @@ interface MainActivityView {
     LearningItem getTextInput();
 
     ArrayAdapter<String> getListViewAdapter(List<String> listViewContents);
+
+    void setLearnificationButtonOnClickListener(View.OnClickListener onClickListener);
 }
