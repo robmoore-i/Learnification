@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.anything;
 @RunWith(AndroidJUnit4.class)
 public class AddLearnificationTest {
     @Rule
-    public ActivityTestRule<MainActivity> activityActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void typingAAndBIntoTheTextFieldsAndClickingThePlusButtonAddsALearnificationToTheList() {
