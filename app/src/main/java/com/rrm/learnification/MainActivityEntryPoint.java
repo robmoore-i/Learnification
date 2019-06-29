@@ -12,7 +12,7 @@ class MainActivityEntryPoint {
     private final NotificationManagerCompat notificationManager;
     private final LearnificationButton learnificationButton;
     private final MainActivityView mainActivityView;
-    private final LearnificationList learnificationList;
+    private final LearnificationListView learnificationListView;
 
     MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;
@@ -24,13 +24,13 @@ class MainActivityEntryPoint {
         this.notificationManager = NotificationManagerCompat.from(activity);
         this.mainActivityView = new AndroidMainActivityView(activity);
         this.learnificationButton = new LearnificationButton(androidLogger, mainActivityView);
-        this.learnificationList = new LearnificationList(androidLogger, mainActivityView);
+        this.learnificationListView = new LearnificationListView(androidLogger, mainActivityView);
     }
 
     void onMainActivityEntry() {
-        learnificationList.populate(learnificationRepository);
+        learnificationListView.populate(learnificationRepository);
 
-        learnificationButton.setOnClickHandler(new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationList));
+        learnificationButton.setOnClickHandler(new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationListView));
 
         createNotificationChannel();
 

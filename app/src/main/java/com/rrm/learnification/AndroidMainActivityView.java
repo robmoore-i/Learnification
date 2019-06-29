@@ -24,6 +24,7 @@ class AndroidMainActivityView implements MainActivityView {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setEnabled(true);
         return recyclerView;
     }
 
