@@ -7,6 +7,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class LearnificationTextGeneratorTest {
     @Test
@@ -17,23 +19,9 @@ public class LearnificationTextGeneratorTest {
                 return learningItems.get(0).left;
             }
         };
-        LearnificationRepository stubLearnificationRepository = new LearnificationRepository() {
-            @Override
-            public List<LearningItem> learningItems() {
-                LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
-                return Collections.singletonList(learningItemTemplate.build("Egypt", "Cairo"));
-            }
-
-            @Override
-            public List<String> learningItemsAsStringList() {
-                return null;
-            }
-
-            @Override
-            public void add(LearningItem learningItem) {
-            }
-        };
-
+        LearnificationRepository stubLearnificationRepository = mock(LearnificationRepository.class);
+        LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
+        when(stubLearnificationRepository.learningItems()).thenReturn(Collections.singletonList(learningItemTemplate.build("Egypt", "Cairo")));
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
 
         assertThat(learnificationTextGenerator.notificationText(), equalTo("What is the capital city of Egypt?"));
