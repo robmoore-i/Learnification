@@ -4,16 +4,13 @@
 
 ### Major
 
-- Integration tests
-
 - Managing the application entry points across different activities
+
+- Unit testable components
 
 ### Minor
 
 - Make PersistentLearnificationRepository actually persistent
-
-- Create wrapping interfaces for the various different Android interfaces I'm using so I can create
-  logging based approval tests for them, to substitute for integration tests.
 
 ## MVP
 
