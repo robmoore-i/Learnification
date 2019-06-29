@@ -14,7 +14,7 @@ class PersistentLearnificationRepository implements LearnificationRepository {
         this.learningItems = learningItems;
     }
 
-    static LearnificationRepository createInstance(AndroidLogger androidLogger) {
+    static PersistentLearnificationRepository createInstance(AndroidLogger androidLogger) {
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
