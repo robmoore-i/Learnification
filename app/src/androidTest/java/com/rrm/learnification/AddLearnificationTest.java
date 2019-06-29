@@ -7,14 +7,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class AddLearnificationTest {
@@ -27,8 +28,6 @@ public class AddLearnificationTest {
         onView(withId(R.id.right_input)).perform(typeText("R"));
         onView(withId(R.id.addLearnificationButton)).perform(click());
 
-        onView(withId(R.id.learnificationsListView));
-
-        onData(anything()).inAdapterView(withId(R.id.learnificationsListView)).atPosition(3).check(matches(withText("L - R")));
+        onView(allOf(withParent(withId(R.id.learnifications_list)), withText("L - R"))).check(matches(isDisplayed()));
     }
 }

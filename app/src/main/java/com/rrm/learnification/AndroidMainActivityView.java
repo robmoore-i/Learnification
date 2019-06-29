@@ -1,12 +1,10 @@
 package com.rrm.learnification;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-
-import java.util.List;
 
 class AndroidMainActivityView implements MainActivityView {
     private MainActivity activity;
@@ -21,8 +19,12 @@ class AndroidMainActivityView implements MainActivityView {
     }
 
     @Override
-    public ListView getLearnificationListView() {
-        return activity.findViewById(R.id.learnificationsListView);
+    public RecyclerView getLearnificationList() {
+        RecyclerView recyclerView = activity.findViewById(R.id.learnifications_list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        return recyclerView;
     }
 
     @Override
@@ -30,11 +32,6 @@ class AndroidMainActivityView implements MainActivityView {
         String left = ((EditText) activity.findViewById(R.id.left_input)).getText().toString();
         String right = ((EditText) activity.findViewById(R.id.right_input)).getText().toString();
         return new LearningItem(left, right);
-    }
-
-    @Override
-    public ArrayAdapter<String> getListViewAdapter(List<String> listViewContents) {
-        return new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, listViewContents);
     }
 
     @Override

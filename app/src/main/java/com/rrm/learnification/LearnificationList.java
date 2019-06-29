@@ -1,14 +1,13 @@
 package com.rrm.learnification;
 
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.support.v7.widget.RecyclerView;
 
 class LearnificationList {
     private static final String LOG_TAG = "LearnificationList";
 
     private AndroidLogger androidLogger;
     private MainActivityView mainActivityView;
-    private ArrayAdapter<String> listViewAdapter;
+    private LearnificationListViewAdaptor adapter;
 
     LearnificationList(AndroidLogger androidLogger, MainActivityView mainActivityView) {
         this.androidLogger = androidLogger;
@@ -18,14 +17,14 @@ class LearnificationList {
     void populate(LearnificationRepository learnificationRepository) {
         androidLogger.v(LOG_TAG, "populating learnification list");
 
-        ListView listView = mainActivityView.getLearnificationListView();
-        listView.setEnabled(true);
-        listViewAdapter = mainActivityView.getListViewAdapter(learnificationRepository.learningItemsAsStringList());
-        listView.setAdapter(listViewAdapter);
+        RecyclerView recyclerView = mainActivityView.getLearnificationList();
+        recyclerView.setEnabled(true);
+        adapter = new LearnificationListViewAdaptor(learnificationRepository.learningItemsAsStringList());
+        recyclerView.setAdapter(adapter);
     }
 
     void addTextEntry(String textEntry) {
         androidLogger.v(LOG_TAG, "adding a text entry to the learnification list '" + textEntry + "'");
-        listViewAdapter.add(textEntry);
+        adapter.add(textEntry);
     }
 }
