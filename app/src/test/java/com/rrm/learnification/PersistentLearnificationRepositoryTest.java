@@ -8,13 +8,16 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class PersistentLearnificationRepositoryTest {
+    private final AndroidLogger androidLogger = mock(AndroidLogger.class);
+
     @Test
     public void singleLearnificationIsReturnedAsAHyphenSeparatedString() {
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
         List<LearningItem> learningItems = Collections.singletonList(learningItemTemplate.build("Egypt", "Cairo"));
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(learningItems);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, learningItems);
 
         List<String> strings = learnificationRepository.learningItemsAsStringList();
 
@@ -28,7 +31,7 @@ public class PersistentLearnificationRepositoryTest {
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
         learningItems.add(learningItemTemplate.build("France", "Paris"));
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(learningItems);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, learningItems);
 
         List<String> strings = learnificationRepository.learningItemsAsStringList();
 
@@ -39,7 +42,7 @@ public class PersistentLearnificationRepositoryTest {
 
     @Test
     public void canAddLearningItems() {
-        PersistentLearnificationRepository persistentLearnificationRepository = new PersistentLearnificationRepository(new ArrayList<LearningItem>());
+        PersistentLearnificationRepository persistentLearnificationRepository = new PersistentLearnificationRepository(androidLogger, new ArrayList<LearningItem>());
 
         persistentLearnificationRepository.add(new LearningItem("L", "R"));
 
