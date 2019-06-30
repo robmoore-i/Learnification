@@ -4,13 +4,15 @@
 
 ### Major
 
-- Managing the application entry points across different activities
+- Make PersistentLearnificationRepository actually persistent
 
-- Unit testable components
+- Managing the application entry points across different activities
 
 ### Minor
 
-- Make PersistentLearnificationRepository actually persistent
+- Unit testable components
+
+- File storage or efficient CRUD on learning items.
 
 ## MVP
 
@@ -26,6 +28,6 @@
 
 ## Plan
 
-1. Deliver the MVP
+1. Deliver the MVP to the PlayStore.
 
 2. Iterate
