@@ -6,7 +6,7 @@ import java.util.List;
 
 class FromFileLearnificationStorage implements LearnificationStorage {
     private static final String LOG_TAG = "FromFileLearnificationStorage";
-    private static final String FILE_NAME = "learning_items";
+    static final String FILE_NAME = "learning_items";
 
     private final AndroidLogger androidLogger;
     private final AndroidStorage androidStorage;
@@ -19,6 +19,10 @@ class FromFileLearnificationStorage implements LearnificationStorage {
     @Override
     public List<LearningItem> read() {
         androidLogger.v(LOG_TAG, "getting learnifications from file");
+
+        if (!androidStorage.doesFileExist(FILE_NAME)) {
+            androidStorage.createNewEmptyFile(FILE_NAME);
+        }
 
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
         ArrayList<LearningItem> learningItems = new ArrayList<>();

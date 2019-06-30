@@ -21,4 +21,11 @@ class AndroidStorage {
     FileOutputStream openFileOutput(String fileName) throws FileNotFoundException {
         return activity.openFileOutput(fileName, Context.MODE_PRIVATE);
     }
+
+    void createNewEmptyFile(String fileName) {
+    }
+
+    boolean doesFileExist(String fileName) {
+        return false;
+    }
 }
