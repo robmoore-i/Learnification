@@ -18,7 +18,7 @@ class MainActivityEntryPoint {
         this.activity = activity;
         this.androidLogger = new AndroidLogger();
         final AndroidStorage androidStorage = new AndroidStorage(activity, androidLogger);
-        this.learnificationRepository = PersistentLearnificationRepository.loadInstance(androidLogger, new FromFileLearnificationStorage(androidLogger, androidStorage));
+        this.learnificationRepository = new PersistentLearnificationRepository(androidLogger, new FromFileLearnificationStorage(androidLogger, androidStorage));
         this.androidLearnificationFactory = new AndroidLearnificationFactory(new AndroidLearnificationFactoryContext(this.activity), MainActivity.CHANNEL_ID, androidLogger);
         this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         this.notificationIdGenerator = NotificationIdGenerator.getInstance();

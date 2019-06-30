@@ -15,10 +15,6 @@ class PersistentLearnificationRepository implements LearnificationRepository {
         this.learningItems = learnificationStorage.read();
     }
 
-    static PersistentLearnificationRepository loadInstance(AndroidLogger androidLogger, FromFileLearnificationStorage learnificationStorage) {
-        return new PersistentLearnificationRepository(androidLogger, learnificationStorage);
-    }
-
     @Override
     public List<LearningItem> learningItems() {
         return learningItems;
