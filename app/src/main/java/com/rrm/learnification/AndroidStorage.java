@@ -18,7 +18,7 @@ class AndroidStorage {
     private static final String LOG_TAG = "AndroidStorage";
 
     private final ContextWrapper contextWrapper;
-    private AndroidLogger logger;
+    private final AndroidLogger logger;
 
     AndroidStorage(AndroidLogger logger, ContextWrapper contextWrapper) {
         this.contextWrapper = contextWrapper;
@@ -59,9 +59,8 @@ class AndroidStorage {
     List<String> readLines(String fileName) throws FileNotFoundException {
         logger.v(LOG_TAG, "reading lines from '" + fileName + "'");
 
-        FileInputStream fileInputStream = null;
         try {
-            fileInputStream = contextWrapper.openFileInput(fileName);
+            FileInputStream fileInputStream = contextWrapper.openFileInput(fileName);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
             return bufferedReader.lines().collect(Collectors.toList());
         } catch (FileNotFoundException e) {
