@@ -27,12 +27,11 @@ class FromFileLearnificationStorage implements LearnificationStorage {
             androidStorage.appendLines(FILE_NAME, lines);
         }
 
-        return defaultLearningItems();
+        return androidStorage.readLines(FILE_NAME).stream().map(LearningItem::fromLine).collect(Collectors.toList());
     }
 
     @Override
     public void write(LearningItem learningItems) {
-
     }
 
     static ArrayList<LearningItem> defaultLearningItems() {

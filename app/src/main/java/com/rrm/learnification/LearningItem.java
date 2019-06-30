@@ -9,6 +9,11 @@ class LearningItem {
         this.right = right;
     }
 
+    static LearningItem fromLine(String line) {
+        String[] split = line.split(" - ");
+        return new LearningItem(split[0], split[1]);
+    }
+
     String asSingleString() {
         return left + " - " + right;
     }

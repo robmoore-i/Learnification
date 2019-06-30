@@ -3,6 +3,7 @@ package com.rrm.learnification;
 import android.content.ContextWrapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 class AndroidStorage {
     private final ContextWrapper activity;
@@ -19,5 +20,9 @@ class AndroidStorage {
     }
 
     void appendLines(String fileName, List<String> lines) {
+    }
+
+    List<String> readLines(String fileName) {
+        return FromFileLearnificationStorage.defaultLearningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
     }
 }
