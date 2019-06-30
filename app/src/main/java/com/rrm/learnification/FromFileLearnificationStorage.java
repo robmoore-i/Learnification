@@ -17,11 +17,6 @@ class FromFileLearnificationStorage implements LearnificationStorage {
     }
 
     @Override
-    public void write(LearningItem learningItems) {
-
-    }
-
-    @Override
     public List<LearningItem> read() {
         androidLogger.v(LOG_TAG, "reading learnifications from file");
 
@@ -33,6 +28,11 @@ class FromFileLearnificationStorage implements LearnificationStorage {
         }
 
         return defaultLearningItems();
+    }
+
+    @Override
+    public void write(LearningItem learningItems) {
+
     }
 
     static ArrayList<LearningItem> defaultLearningItems() {
