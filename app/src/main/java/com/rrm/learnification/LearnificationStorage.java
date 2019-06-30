@@ -7,5 +7,5 @@ interface LearnificationStorage {
 
     void write(LearningItem learningItem);
 
-    void rewrite(List<LearningItem> learningItems);
+    void remove(List<LearningItem> learningItems, int index);
 }

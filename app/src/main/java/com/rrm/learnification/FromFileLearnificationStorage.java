@@ -47,7 +47,11 @@ class FromFileLearnificationStorage implements LearnificationStorage {
     }
 
     @Override
-    public void rewrite(List<LearningItem> learningItems) {
+    public void remove(List<LearningItem> learningItems, int index) {
+        rewrite(learningItems);
+    }
+
+    void rewrite(List<LearningItem> learningItems) {
         logger.v(LOG_TAG, "rewriting learning items");
 
         androidStorage.deleteFile(FILE_NAME);
