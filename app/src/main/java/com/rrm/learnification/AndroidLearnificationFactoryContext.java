@@ -33,8 +33,8 @@ class AndroidLearnificationFactoryContext {
         );
     }
 
-    Notification buildNotification(String channelId, String title, String text, NotificationCompat.Action replyAction) {
-        return new NotificationCompat.Builder(packageContext, channelId)
+    Notification buildNotification(String title, String text, NotificationCompat.Action replyAction) {
+        return new NotificationCompat.Builder(packageContext, NotificationChannelInitialiser.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(getNotificationLargeIcon())
                 .setContentTitle(title)

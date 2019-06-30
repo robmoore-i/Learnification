@@ -27,7 +27,7 @@ public class LearnificationResponseActivity extends AppCompatActivity {
             @SuppressWarnings("ConstantConditions")
             String inputString = remoteInput.getCharSequence(AndroidLearnificationFactory.REPLY_TEXT).toString();
 
-            Notification repliedNotification = new Notification.Builder(this, MainActivity.CHANNEL_ID)
+            Notification repliedNotification = new Notification.Builder(this, NotificationChannelInitialiser.CHANNEL_ID)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
                     .setContentText("Response received: " + inputString)
                     .build();

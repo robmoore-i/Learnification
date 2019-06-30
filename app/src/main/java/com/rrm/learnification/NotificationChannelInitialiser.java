@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.os.Build;
 
 class NotificationChannelInitialiser {
+    static final String CHANNEL_ID = "learnification";
+
     private static final String LOG_TAG = "NotificationChannelInitialiser";
 
     private final AndroidNotificationContext context;
@@ -15,7 +17,7 @@ class NotificationChannelInitialiser {
         this.logger = logger;
     }
 
-    void createNotificationChannel(String channelId) {
+    void createNotificationChannel() {
         logger.v(LOG_TAG, "Creating notification channel");
 
         // Create the NotificationChannel, but only on API 26+ because
@@ -24,7 +26,7 @@ class NotificationChannelInitialiser {
             CharSequence name = context.getNotificationChannelName();
             String description = context.getNotificationChannelDescription();
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this

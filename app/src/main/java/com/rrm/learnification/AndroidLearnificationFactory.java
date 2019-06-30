@@ -10,12 +10,10 @@ class AndroidLearnificationFactory {
     // Key for the string that's delivered in the reply action's intent.
     static final String REPLY_TEXT = "key_text_reply";
 
-    private final String channelId;
     private final AndroidLogger logger;
     private final AndroidLearnificationFactoryContext context;
 
-    AndroidLearnificationFactory(AndroidLogger logger, AndroidLearnificationFactoryContext context, String channelId) {
-        this.channelId = channelId;
+    AndroidLearnificationFactory(AndroidLogger logger, AndroidLearnificationFactoryContext context) {
         this.logger = logger;
         this.context = context;
     }
@@ -35,6 +33,6 @@ class AndroidLearnificationFactory {
                 .addRemoteInput(remoteInput)
                 .build();
 
-        return context.buildNotification(channelId, title, text, replyAction);
+        return context.buildNotification(title, text, replyAction);
     }
 }

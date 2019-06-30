@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
-    static final String CHANNEL_ID = "learnification";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +46,5 @@ public class MainActivity extends AppCompatActivity {
     public void clearData() {
         AndroidStorage androidStorage = new AndroidStorage(new AndroidLogger(), this);
         androidStorage.deleteFile(FromFileLearnificationStorage.FILE_NAME);
-        assert !androidStorage.doesFileExist(FromFileLearnificationStorage.FILE_NAME);
     }
 }
