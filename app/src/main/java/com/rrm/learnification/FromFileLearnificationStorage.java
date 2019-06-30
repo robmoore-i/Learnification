@@ -16,14 +16,6 @@ class FromFileLearnificationStorage implements LearnificationStorage {
         this.androidStorage = androidStorage;
     }
 
-    static ArrayList<LearningItem> defaultLearningItems() {
-        ArrayList<LearningItem> learningItems = new ArrayList<>();
-        learningItems.add(new LearningItem("What is the capital city of Egypt?", "Cairo"));
-        learningItems.add(new LearningItem("What is the capital city of Great Britain?", "London"));
-        learningItems.add(new LearningItem("What is the capital city of Georgia?", "Tbilisi"));
-        return learningItems;
-    }
-
     @Override
     public void write(LearningItem learningItems) {
 
@@ -41,5 +33,13 @@ class FromFileLearnificationStorage implements LearnificationStorage {
         }
 
         return defaultLearningItems();
+    }
+
+    static ArrayList<LearningItem> defaultLearningItems() {
+        ArrayList<LearningItem> learningItems = new ArrayList<>();
+        learningItems.add(new LearningItem("What is the capital city of Egypt?", "Cairo"));
+        learningItems.add(new LearningItem("What is the capital city of Great Britain?", "London"));
+        learningItems.add(new LearningItem("What is the capital city of Georgia?", "Tbilisi"));
+        return learningItems;
     }
 }
