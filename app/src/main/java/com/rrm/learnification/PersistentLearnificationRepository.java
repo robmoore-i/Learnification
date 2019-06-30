@@ -1,5 +1,6 @@
 package com.rrm.learnification;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,19 +9,21 @@ class PersistentLearnificationRepository implements LearnificationRepository {
 
     private final AndroidLogger logger;
     private final List<LearningItem> learningItems;
+    private final File filesDirectory;
 
-    PersistentLearnificationRepository(AndroidLogger logger, List<LearningItem> learningItems) {
+    PersistentLearnificationRepository(AndroidLogger logger, List<LearningItem> initialLearningItems, File filesDirectory) {
         this.logger = logger;
-        this.learningItems = learningItems;
+        this.learningItems = initialLearningItems;
+        this.filesDirectory = filesDirectory;
     }
 
-    static PersistentLearnificationRepository createInstance(AndroidLogger androidLogger) {
+    static PersistentLearnificationRepository loadInstance(File filesDir, AndroidLogger androidLogger) {
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
         learningItems.add(learningItemTemplate.build("Great Britain", "London"));
         learningItems.add(learningItemTemplate.build("Georgia", "Tbilisi"));
-        return new PersistentLearnificationRepository(androidLogger, learningItems);
+        return new PersistentLearnificationRepository(androidLogger, learningItems, filesDir);
     }
 
     @Override

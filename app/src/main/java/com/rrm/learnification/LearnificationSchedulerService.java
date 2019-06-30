@@ -13,7 +13,7 @@ public class LearnificationSchedulerService extends JobService {
     public boolean onStartJob(JobParameters params) {
         androidLogger.v(LOG_TAG, "Job started");
         AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(new AndroidLearnificationFactoryContext(this), MainActivity.CHANNEL_ID, androidLogger);
-        LearnificationRepository learnificationRepository = PersistentLearnificationRepository.createInstance(androidLogger);
+        LearnificationRepository learnificationRepository = PersistentLearnificationRepository.loadInstance(this.getFilesDir(), androidLogger);
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(androidLearnificationFactory, NotificationIdGenerator.getInstance(), learnificationTextGenerator, NotificationManagerCompat.from(this));
 

@@ -2,6 +2,7 @@ package com.rrm.learnification;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,12 +13,13 @@ import static org.mockito.Mockito.mock;
 
 public class PersistentLearnificationRepositoryTest {
     private final AndroidLogger androidLogger = mock(AndroidLogger.class);
+    private final File dummyFilesDir = mock(File.class);
 
     @Test
     public void singleLearnificationIsReturnedAsAHyphenSeparatedString() {
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
         List<LearningItem> learningItems = Collections.singletonList(learningItemTemplate.build("Egypt", "Cairo"));
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, learningItems);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, learningItems, dummyFilesDir);
 
         List<String> strings = learnificationRepository.learningItemsAsStringList();
 
@@ -31,7 +33,7 @@ public class PersistentLearnificationRepositoryTest {
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
         learningItems.add(learningItemTemplate.build("France", "Paris"));
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, learningItems);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, learningItems, dummyFilesDir);
 
         List<String> strings = learnificationRepository.learningItemsAsStringList();
 
@@ -42,7 +44,7 @@ public class PersistentLearnificationRepositoryTest {
 
     @Test
     public void canAddLearningItems() {
-        PersistentLearnificationRepository persistentLearnificationRepository = new PersistentLearnificationRepository(androidLogger, new ArrayList<LearningItem>());
+        PersistentLearnificationRepository persistentLearnificationRepository = new PersistentLearnificationRepository(androidLogger, new ArrayList<LearningItem>(), dummyFilesDir);
 
         persistentLearnificationRepository.add(new LearningItem("L", "R"));
 
