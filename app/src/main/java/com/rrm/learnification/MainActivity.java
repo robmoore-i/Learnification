@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clearData() {
-        AndroidStorage androidStorage = new AndroidStorage(this, new AndroidLogger());
+        AndroidStorage androidStorage = new AndroidStorage(new AndroidLogger(), this);
         androidStorage.deleteFile(FromFileLearnificationStorage.FILE_NAME);
         assert !androidStorage.doesFileExist(FromFileLearnificationStorage.FILE_NAME);
     }

@@ -8,15 +8,15 @@ class NotificationChannelInitialiser {
     private static final String LOG_TAG = "NotificationChannelInitialiser";
 
     private final AndroidNotificationContext context;
-    private final AndroidLogger androidLogger;
+    private final AndroidLogger logger;
 
-    NotificationChannelInitialiser(AndroidNotificationContext context, AndroidLogger androidLogger) {
+    NotificationChannelInitialiser(AndroidLogger logger, AndroidNotificationContext context) {
         this.context = context;
-        this.androidLogger = androidLogger;
+        this.logger = logger;
     }
 
     void createNotificationChannel(String channelId) {
-        androidLogger.v(LOG_TAG, "Creating notification channel");
+        logger.v(LOG_TAG, "Creating notification channel");
 
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -32,6 +32,6 @@ class NotificationChannelInitialiser {
             notificationManager.createNotificationChannel(channel);
         }
 
-        androidLogger.v(LOG_TAG, "Created notification channel");
+        logger.v(LOG_TAG, "Created notification channel");
     }
 }

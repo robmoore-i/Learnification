@@ -6,7 +6,7 @@ class RemoveItemOnSwipeCommand implements OnSwipeCommand {
     private final LearnificationRepository learnificationRepository;
     private final AndroidLogger logger;
 
-    RemoveItemOnSwipeCommand(LearnificationRepository learnificationRepository, AndroidLogger logger) {
+    RemoveItemOnSwipeCommand(AndroidLogger logger, LearnificationRepository learnificationRepository) {
         this.learnificationRepository = learnificationRepository;
         this.logger = logger;
     }

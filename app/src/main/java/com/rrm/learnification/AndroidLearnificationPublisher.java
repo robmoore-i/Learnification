@@ -7,7 +7,7 @@ class AndroidLearnificationPublisher {
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final NotificationManagerCompat notificationManager;
     private final NotificationIdGenerator notificationIdGenerator;
-    private LearnificationTextGenerator learnificationTextGenerator;
+    private final LearnificationTextGenerator learnificationTextGenerator;
 
     AndroidLearnificationPublisher(AndroidLearnificationFactory androidLearnificationFactory, NotificationIdGenerator notificationIdGenerator, LearnificationTextGenerator learnificationTextGenerator, NotificationManagerCompat notificationManager) {
         this.androidLearnificationFactory = androidLearnificationFactory;

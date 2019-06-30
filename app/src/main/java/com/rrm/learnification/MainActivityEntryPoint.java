@@ -4,7 +4,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 class MainActivityEntryPoint {
     private final MainActivity activity;
-    private final AndroidLogger androidLogger;
+    private final AndroidLogger logger;
     private final LearnificationRepository learnificationRepository;
     private final AndroidLearnificationFactory androidLearnificationFactory;
     private final LearnificationTextGenerator learnificationTextGenerator;
@@ -16,16 +16,16 @@ class MainActivityEntryPoint {
 
     MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;
-        this.androidLogger = new AndroidLogger();
-        final AndroidStorage androidStorage = new AndroidStorage(activity, androidLogger);
-        this.learnificationRepository = new PersistentLearnificationRepository(androidLogger, new FromFileLearnificationStorage(androidLogger, androidStorage));
-        this.androidLearnificationFactory = new AndroidLearnificationFactory(new AndroidLearnificationFactoryContext(this.activity), MainActivity.CHANNEL_ID, androidLogger);
+        this.logger = new AndroidLogger();
+        final AndroidStorage androidStorage = new AndroidStorage(logger, activity);
+        this.learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, androidStorage));
+        this.androidLearnificationFactory = new AndroidLearnificationFactory(logger, new AndroidLearnificationFactoryContext(this.activity), MainActivity.CHANNEL_ID);
         this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         this.notificationIdGenerator = NotificationIdGenerator.getInstance();
         this.notificationManager = NotificationManagerCompat.from(activity);
         this.mainActivityView = new AndroidMainActivityView(activity);
-        this.learnificationButton = new LearnificationButton(androidLogger, mainActivityView);
-        this.learnificationListView = new LearnificationListView(androidLogger, mainActivityView);
+        this.learnificationButton = new LearnificationButton(logger, mainActivityView);
+        this.learnificationListView = new LearnificationListView(logger, mainActivityView);
     }
 
     void onMainActivityEntry() {
@@ -51,7 +51,7 @@ class MainActivityEntryPoint {
 
     private void createNotificationChannel() {
         AndroidNotificationContext androidNotificationContext = new AndroidNotificationContext(this.activity.getApplicationContext());
-        NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(androidNotificationContext, androidLogger);
+        NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(logger, androidNotificationContext);
         notificationChannelInitialiser.createNotificationChannel(MainActivity.CHANNEL_ID);
     }
 }

@@ -15,7 +15,7 @@ class LearnificationListView {
 
     void populate(LearnificationRepository learnificationRepository) {
         logger.v(LOG_TAG, "populating learnification list");
-        onSwipeCommand = new RemoveItemOnSwipeCommand(learnificationRepository, logger);
+        onSwipeCommand = new RemoveItemOnSwipeCommand(logger, learnificationRepository);
         adapter = mainActivityView.getLearnificationList(onSwipeCommand, learnificationRepository);
     }
 

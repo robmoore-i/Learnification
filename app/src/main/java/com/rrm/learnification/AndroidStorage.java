@@ -20,7 +20,7 @@ class AndroidStorage {
     private final ContextWrapper contextWrapper;
     private AndroidLogger logger;
 
-    AndroidStorage(ContextWrapper contextWrapper, AndroidLogger logger) {
+    AndroidStorage(AndroidLogger logger, ContextWrapper contextWrapper) {
         this.contextWrapper = contextWrapper;
         this.logger = logger;
     }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 class JavaRandomiser implements Randomiser {
-    private Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public String randomLearnificationQuestion(List<LearningItem> learningItems) {

@@ -11,17 +11,17 @@ class AndroidLearnificationFactory {
     static final String REPLY_TEXT = "key_text_reply";
 
     private final String channelId;
-    private final AndroidLogger androidLogger;
+    private final AndroidLogger logger;
     private final AndroidLearnificationFactoryContext context;
 
-    AndroidLearnificationFactory(AndroidLearnificationFactoryContext context, String channelId, AndroidLogger androidLogger) {
+    AndroidLearnificationFactory(AndroidLogger logger, AndroidLearnificationFactoryContext context, String channelId) {
         this.channelId = channelId;
-        this.androidLogger = androidLogger;
+        this.logger = logger;
         this.context = context;
     }
 
     Notification create(String title, String text) {
-        androidLogger.v(LOG_TAG, "Creating a notification with title '" + title + "' and text '" + text + "'");
+        logger.v(LOG_TAG, "Creating a notification with title '" + title + "' and text '" + text + "'");
 
         RemoteInput remoteInput = new RemoteInput.Builder(REPLY_TEXT)
                 .setLabel(context.getRemoteInputReplyLabel())
