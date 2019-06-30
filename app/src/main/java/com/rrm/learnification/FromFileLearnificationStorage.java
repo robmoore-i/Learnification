@@ -30,7 +30,7 @@ class FromFileLearnificationStorage implements LearnificationStorage {
                 androidStorage.appendLines(FILE_NAME, lines);
             }
 
-            return androidStorage.readLines(FILE_NAME).stream().map(LearningItem::fromLine).collect(Collectors.toList());
+            return androidStorage.readLines(FILE_NAME).stream().filter(line -> !line.isEmpty()).map(LearningItem::fromLine).collect(Collectors.toList());
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
             return new ArrayList<>();

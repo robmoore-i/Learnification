@@ -2,9 +2,9 @@ package com.rrm.learnification;
 
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,13 +42,11 @@ public class FromFileLearnificationStorageTest {
     }
 
     @Test
-    public void onReadItReturnsLinesReadFromFileEvenIfFileDoesntExistInitially() throws FileNotFoundException {
+    public void onReadItReturnsLinesReadFromFileEvenIfFileDoesntExistInitially() throws IOException {
         AndroidStorage mockAndroidStorage = mock(AndroidStorage.class);
         when(mockAndroidStorage.doesFileExist(FromFileLearnificationStorage.FILE_NAME)).thenReturn(false);
-        ArrayList<String> lines = new ArrayList<>();
         String testLearningItem = "TEST - THING";
-        lines.add(testLearningItem);
-        when(mockAndroidStorage.readLines(FromFileLearnificationStorage.FILE_NAME)).thenReturn(lines);
+        when(mockAndroidStorage.readLines(FromFileLearnificationStorage.FILE_NAME)).thenReturn(Collections.singletonList(testLearningItem));
         FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockAndroidStorage);
 
         List<LearningItem> learningItems = fromFileLearnificationStorage.read();
@@ -77,5 +75,16 @@ public class FromFileLearnificationStorageTest {
 
         List<String> lines = learningItems.stream().map(LearningItem::asSingleString).collect(Collectors.toList());
         verify(mockAndroidStorage, times(1)).appendLines(FromFileLearnificationStorage.FILE_NAME, lines);
+    }
+
+    @Test
+    public void emptyLinesInTheLearnificationsFileAreIgnored() throws IOException {
+        AndroidStorage stubAndroidStorage = mock(AndroidStorage.class);
+        when(stubAndroidStorage.readLines(FromFileLearnificationStorage.FILE_NAME)).thenReturn(Collections.singletonList(""));
+        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, stubAndroidStorage);
+
+        List<LearningItem> learningItems = fromFileLearnificationStorage.read();
+
+        assertThat(learningItems.size(), equalTo(0));
     }
 }
