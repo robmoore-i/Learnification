@@ -3,4 +3,9 @@
     android:id="@+id/learnification_text_entry"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingStart="5dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="5dp"
+    android:paddingBottom="5dp"
+    android:textSize="20sp"
     android:background="@drawable/learnification_text_entry_border" />
