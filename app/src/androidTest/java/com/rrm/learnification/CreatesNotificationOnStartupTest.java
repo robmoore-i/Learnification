@@ -11,6 +11,7 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -24,8 +25,13 @@ public class CreatesNotificationOnStartupTest {
 
     private final TestJanitor testJanitor = new TestJanitor();
 
+    @Before
+    public void beforeEach() {
+        testJanitor.clearAllNotifications();
+    }
+
     @After
-    public void tearDown() {
+    public void afterEach() {
         testJanitor.clearApp();
     }
 

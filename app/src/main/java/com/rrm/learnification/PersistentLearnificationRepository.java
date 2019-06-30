@@ -1,6 +1,5 @@
 package com.rrm.learnification;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class PersistentLearnificationRepository implements LearnificationRepository {
@@ -23,18 +22,6 @@ class PersistentLearnificationRepository implements LearnificationRepository {
     @Override
     public List<LearningItem> learningItems() {
         return learningItems;
-    }
-
-    @Override
-    public List<String> learningItemsAsStringList() {
-        List<LearningItem> learningItems = learningItems();
-
-        ArrayList<String> stringifiedItems = new ArrayList<>();
-        for (LearningItem learningItem : learningItems) {
-            stringifiedItems.add(learningItem.asSingleString());
-        }
-
-        return stringifiedItems;
     }
 
     @Override

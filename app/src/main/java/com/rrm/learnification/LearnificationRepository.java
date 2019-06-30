@@ -5,8 +5,6 @@ import java.util.List;
 interface LearnificationRepository {
     List<LearningItem> learningItems();
 
-    List<String> learningItemsAsStringList();
-
     void add(LearningItem learningItem);
 
     void removeAt(int index);

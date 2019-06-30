@@ -25,13 +25,17 @@ class TestJanitor {
         clearApp();
     }
 
-    private void clearAllNotifications() {
-        int notificationTimeoutMs = 1000;
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        device.openNotification();
-        device.wait(Until.hasObject(By.textStartsWith(PACKAGE_NAME)), notificationTimeoutMs);
-        UiObject2 clearAll = device.findObject(By.text("CLEAR ALL"));
-        clearAll.click();
-        device.pressBack();
+    void clearAllNotifications() {
+        try {
+            int notificationTimeoutMs = 1000;
+            UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+            device.openNotification();
+            device.wait(Until.hasObject(By.textStartsWith(PACKAGE_NAME)), notificationTimeoutMs);
+            UiObject2 clearAll = device.findObject(By.text("CLEAR ALL"));
+            clearAll.click();
+            device.pressBack();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

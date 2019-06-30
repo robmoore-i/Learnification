@@ -31,7 +31,7 @@ public class AddLearnificationTest {
     }
 
     @Test
-    public void typingAAndBIntoTheTextFieldsAndClickingThePlusButtonAddsALearnificationToTheList() {
+    public void typingLAndRIntoTheTextFieldsAndClickingThePlusButtonAddsALearnificationToTheList() {
         onView(withId(R.id.left_input)).perform(typeText("L"));
         onView(withId(R.id.right_input)).perform(typeText("R"));
         onView(withId(R.id.addLearnificationButton)).perform(click());

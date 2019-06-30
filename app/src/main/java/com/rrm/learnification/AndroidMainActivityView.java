@@ -8,6 +8,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.stream.Collectors;
+
 class AndroidMainActivityView implements MainActivityView {
     private MainActivity activity;
 
@@ -27,7 +29,7 @@ class AndroidMainActivityView implements MainActivityView {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setEnabled(true);
-        LearnificationListViewAdaptor adapter = new LearnificationListViewAdaptor(learnificationRepository.learningItemsAsStringList());
+        LearnificationListViewAdaptor adapter = new LearnificationListViewAdaptor(learnificationRepository.learningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList()));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
