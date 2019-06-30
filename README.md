@@ -14,6 +14,8 @@
 
 - File storage or efficient CRUD on learning items.
 
+- Use empty-list UX pattern for creating learning items, rather than having default ones.
+
 ## MVP
 
 - I can define my own learning items

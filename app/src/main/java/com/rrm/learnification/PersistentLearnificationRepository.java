@@ -13,6 +13,11 @@ class PersistentLearnificationRepository implements LearnificationRepository {
         this.logger = logger;
         this.learnificationStorage = learnificationStorage;
         this.learningItems = learnificationStorage.read();
+
+        logger.v(LOG_TAG, "read learning items from storage");
+        for (LearningItem learningItem : learningItems) {
+            logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
+        }
     }
 
     @Override
@@ -22,14 +27,14 @@ class PersistentLearnificationRepository implements LearnificationRepository {
 
     @Override
     public void add(LearningItem learningItem) {
-        logger.v(LOG_TAG, "Adding a learning-item '" + learningItem.asSingleString() + "'");
+        logger.v(LOG_TAG, "adding a learning-item '" + learningItem.asSingleString() + "'");
         learningItems.add(learningItem);
         learnificationStorage.write(learningItem);
     }
 
     @Override
     public void removeAt(int index) {
-        logger.v(LOG_TAG, "Removing a learning-item at index " + index);
+        logger.v(LOG_TAG, "removing a learning-item at index " + index);
         learningItems.remove(index);
         learnificationStorage.rewrite(learningItems);
     }
