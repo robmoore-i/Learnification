@@ -3,6 +3,7 @@ package com.rrm.learnification;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class FromFileLearnificationStorage implements LearnificationStorage {
     private static final String LOG_TAG = "FromFileLearnificationStorage";
@@ -16,19 +17,11 @@ class FromFileLearnificationStorage implements LearnificationStorage {
         this.androidStorage = androidStorage;
     }
 
-    @Override
-    public List<LearningItem> read() {
-        androidLogger.v(LOG_TAG, "getting learnifications from file");
-
-        if (!androidStorage.doesFileExist(FILE_NAME)) {
-            androidStorage.createNewEmptyFile(FILE_NAME);
-        }
-
-        LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
+    static ArrayList<LearningItem> defaultLearningItems() {
         ArrayList<LearningItem> learningItems = new ArrayList<>();
-        learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
-        learningItems.add(learningItemTemplate.build("Great Britain", "London"));
-        learningItems.add(learningItemTemplate.build("Georgia", "Tbilisi"));
+        learningItems.add(new LearningItem("What is the capital city of Egypt?", "Cairo"));
+        learningItems.add(new LearningItem("What is the capital city of Great Britain?", "London"));
+        learningItems.add(new LearningItem("What is the capital city of Georgia?", "Tbilisi"));
         return learningItems;
     }
 
@@ -39,5 +32,19 @@ class FromFileLearnificationStorage implements LearnificationStorage {
 
     private File getFile() {
         return new File(androidStorage.directory(), FILE_NAME);
+    }
+
+    @Override
+    public List<LearningItem> read() {
+        androidLogger.v(LOG_TAG, "reading learnifications from file");
+
+        if (!androidStorage.doesFileExist(FILE_NAME)) {
+            androidStorage.createNewEmptyFile(FILE_NAME);
+
+            List<String> lines = defaultLearningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
+            androidStorage.appendLines(FILE_NAME, lines);
+        }
+
+        return defaultLearningItems();
     }
 }
