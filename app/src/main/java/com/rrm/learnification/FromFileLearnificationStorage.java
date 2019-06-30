@@ -1,6 +1,5 @@
 package com.rrm.learnification;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,10 +27,6 @@ class FromFileLearnificationStorage implements LearnificationStorage {
     @Override
     public void write(LearningItem learningItems) {
 
-    }
-
-    private File getFile() {
-        return new File(androidStorage.directory(), FILE_NAME);
     }
 
     @Override
