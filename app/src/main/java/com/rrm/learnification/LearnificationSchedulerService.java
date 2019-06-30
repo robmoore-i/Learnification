@@ -4,6 +4,8 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.support.v4.app.NotificationManagerCompat;
 
+import java.util.List;
+
 public class LearnificationSchedulerService extends JobService {
     private static final String LOG_TAG = "LearnificationSchedulerService";
 
@@ -16,6 +18,12 @@ public class LearnificationSchedulerService extends JobService {
         AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(logger, androidLearnificationFactoryContext);
         final AndroidStorage androidStorage = new AndroidStorage(logger, this);
         LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, androidStorage));
+
+        List<LearningItem> learningItems = learnificationRepository.learningItems();
+        for (LearningItem learningItem : learningItems) {
+            logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
+        }
+
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(androidLearnificationFactory, NotificationIdGenerator.getInstance(), learnificationTextGenerator, NotificationManagerCompat.from(this));
 
