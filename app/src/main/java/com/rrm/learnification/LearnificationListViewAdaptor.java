@@ -27,7 +27,7 @@ public class LearnificationListViewAdaptor extends RecyclerView.Adapter<Learnifi
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull TextViewHolder holder, int position) {
-        // - get element from your data set at this position
+        // - read element from your data set at this position
         // - replace the contents of the view with that element
         holder.textView.setText(elements.get(position));
     }

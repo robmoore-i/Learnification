@@ -18,9 +18,9 @@ public class PersistentLearnificationRepositoryTest {
     public void singleLearnificationIsReturnedAsAHyphenSeparatedString() {
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
         List<LearningItem> learningItems = Collections.singletonList(learningItemTemplate.build("Egypt", "Cairo"));
-        LearnificationProvider stubLearnificationProvider = mock(LearnificationProvider.class);
-        when(stubLearnificationProvider.get()).thenReturn(learningItems);
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationProvider);
+        LearnificationStorage stubLearnificationStorage = mock(LearnificationStorage.class);
+        when(stubLearnificationStorage.read()).thenReturn(learningItems);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationStorage);
 
         List<String> strings = learnificationRepository.learningItemsAsStringList();
 
@@ -34,9 +34,9 @@ public class PersistentLearnificationRepositoryTest {
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
         learningItems.add(learningItemTemplate.build("France", "Paris"));
-        LearnificationProvider stubLearnificationProvider = mock(LearnificationProvider.class);
-        when(stubLearnificationProvider.get()).thenReturn(learningItems);
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationProvider);
+        LearnificationStorage stubLearnificationStorage = mock(LearnificationStorage.class);
+        when(stubLearnificationStorage.read()).thenReturn(learningItems);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationStorage);
 
         List<String> strings = learnificationRepository.learningItemsAsStringList();
 
@@ -47,10 +47,10 @@ public class PersistentLearnificationRepositoryTest {
 
     @Test
     public void canAddLearningItems() {
-        LearnificationProvider stubLearnificationProvider = mock(LearnificationProvider.class);
-        when(stubLearnificationProvider.get()).thenReturn(new ArrayList<LearningItem>());
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationProvider);
-        PersistentLearnificationRepository persistentLearnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationProvider);
+        LearnificationStorage stubLearnificationStorage = mock(LearnificationStorage.class);
+        when(stubLearnificationStorage.read()).thenReturn(new ArrayList<LearningItem>());
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationStorage);
+        PersistentLearnificationRepository persistentLearnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationStorage);
 
         persistentLearnificationRepository.add(new LearningItem("L", "R"));
 

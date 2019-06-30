@@ -4,19 +4,20 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-class FromFileLearnificationProvider implements LearnificationProvider {
-    private static final String LOG_TAG = "FromFileLearnificationProvider";
+class FromFileLearnificationStorage implements LearnificationStorage {
+    private static final String LOG_TAG = "FromFileLearnificationStorage";
+    private static final String FILE_NAME = "learning_items";
 
     private final AndroidLogger androidLogger;
-    private final File filesDirectory;
+    private final AndroidStorage androidStorage;
 
-    FromFileLearnificationProvider(AndroidLogger androidLogger, File filesDirectory) {
+    FromFileLearnificationStorage(AndroidLogger androidLogger, AndroidStorage androidStorage) {
         this.androidLogger = androidLogger;
-        this.filesDirectory = filesDirectory;
+        this.androidStorage = androidStorage;
     }
 
     @Override
-    public List<LearningItem> get() {
+    public List<LearningItem> read() {
         androidLogger.v(LOG_TAG, "getting learnifications from file");
 
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
@@ -25,5 +26,14 @@ class FromFileLearnificationProvider implements LearnificationProvider {
         learningItems.add(learningItemTemplate.build("Great Britain", "London"));
         learningItems.add(learningItemTemplate.build("Georgia", "Tbilisi"));
         return learningItems;
+    }
+
+    @Override
+    public void write(LearningItem learningItems) {
+
+    }
+
+    private File getFile() {
+        return new File(androidStorage.directory(), FILE_NAME);
     }
 }

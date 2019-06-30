@@ -1,6 +1,5 @@
 package com.rrm.learnification;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,15 +7,17 @@ class PersistentLearnificationRepository implements LearnificationRepository {
     private static final String LOG_TAG = "PersistentLearnificationRepository";
 
     private final AndroidLogger logger;
+    private final LearnificationStorage learnificationStorage;
     private final List<LearningItem> learningItems;
 
-    PersistentLearnificationRepository(AndroidLogger logger, LearnificationProvider learnificationProvider) {
+    PersistentLearnificationRepository(AndroidLogger logger, LearnificationStorage learnificationStorage) {
         this.logger = logger;
-        this.learningItems = learnificationProvider.get();
+        this.learnificationStorage = learnificationStorage;
+        this.learningItems = learnificationStorage.read();
     }
 
-    static PersistentLearnificationRepository loadInstance(File filesDir, AndroidLogger androidLogger) {
-        return new PersistentLearnificationRepository(androidLogger, new FromFileLearnificationProvider(androidLogger, filesDir));
+    static PersistentLearnificationRepository loadInstance(AndroidStorage androidStorage, AndroidLogger androidLogger) {
+        return new PersistentLearnificationRepository(androidLogger, new FromFileLearnificationStorage(androidLogger, androidStorage));
     }
 
     @Override
@@ -40,5 +41,6 @@ class PersistentLearnificationRepository implements LearnificationRepository {
     public void add(LearningItem learningItem) {
         logger.v(LOG_TAG, "Adding a learning-item '" + learningItem.asSingleString() + "'");
         learningItems.add(learningItem);
+        learnificationStorage.write(learningItem);
     }
 }
