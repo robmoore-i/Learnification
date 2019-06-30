@@ -43,4 +43,8 @@ class PersistentLearnificationRepository implements LearnificationRepository {
         learningItems.add(learningItem);
         learnificationStorage.write(learningItem);
     }
+
+    @Override
+    public void removeAt(int index) {
+    }
 }

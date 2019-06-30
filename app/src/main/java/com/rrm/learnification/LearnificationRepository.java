@@ -8,4 +8,6 @@ interface LearnificationRepository {
     List<String> learningItemsAsStringList();
 
     void add(LearningItem learningItem);
+
+    void removeAt(int index);
 }

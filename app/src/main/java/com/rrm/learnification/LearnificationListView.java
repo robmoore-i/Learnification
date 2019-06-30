@@ -1,48 +1,30 @@
 package com.rrm.learnification;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-
 class LearnificationListView {
     private static final String LOG_TAG = "LearnificationListView";
 
-    private AndroidLogger androidLogger;
+    private AndroidLogger logger;
     private MainActivityView mainActivityView;
     private LearnificationListViewAdaptor adapter;
+    private RemoveItemOnSwipeCommand onSwipeCommand;
 
-    LearnificationListView(AndroidLogger androidLogger, MainActivityView mainActivityView) {
-        this.androidLogger = androidLogger;
+    LearnificationListView(AndroidLogger logger, MainActivityView mainActivityView) {
+        this.logger = logger;
         this.mainActivityView = mainActivityView;
     }
 
     void populate(LearnificationRepository learnificationRepository) {
-        androidLogger.v(LOG_TAG, "populating learnification list");
+        logger.v(LOG_TAG, "populating learnification list");
+        onSwipeCommand = new RemoveItemOnSwipeCommand(learnificationRepository, logger);
+        adapter = mainActivityView.getLearnificationList(onSwipeCommand, learnificationRepository);
+    }
 
-        RecyclerView recyclerView = mainActivityView.getLearnificationList();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                removeTextEntryAt(viewHolder.getAdapterPosition());
-            }
-
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView1, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-        });
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-        adapter = new LearnificationListViewAdaptor(learnificationRepository.learningItemsAsStringList());
-        recyclerView.setAdapter(adapter);
+    void swipeOnItem(int index) {
+        onSwipeCommand.onSwipe(adapter, index);
     }
 
     void addTextEntry(String textEntry) {
-        androidLogger.v(LOG_TAG, "adding a text entry to the learnification list '" + textEntry + "'");
+        logger.v(LOG_TAG, "adding a text entry to the learnification list '" + textEntry + "'");
         adapter.add(textEntry);
-    }
-
-    private void removeTextEntryAt(int index) {
-        androidLogger.v(LOG_TAG, "removing a text entry from the learnification list at index " + index);
-        adapter.remove(index);
     }
 }
