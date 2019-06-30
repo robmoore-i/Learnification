@@ -11,28 +11,28 @@ class AndroidLearnificationFactory {
     static final String REPLY_TEXT = "key_text_reply";
 
     private final AndroidLogger logger;
-    private final AndroidLearnificationFactoryContext context;
+    private final AndroidNotificationFactory androidNotificationFactory;
 
-    AndroidLearnificationFactory(AndroidLogger logger, AndroidLearnificationFactoryContext context) {
+    AndroidLearnificationFactory(AndroidLogger logger, AndroidNotificationFactory androidNotificationFactory) {
         this.logger = logger;
-        this.context = context;
+        this.androidNotificationFactory = androidNotificationFactory;
     }
 
     Notification create(String title, String text) {
         logger.v(LOG_TAG, "Creating a notification with title '" + title + "' and text '" + text + "'");
 
         RemoteInput remoteInput = new RemoteInput.Builder(REPLY_TEXT)
-                .setLabel(context.getRemoteInputReplyLabel())
+                .setLabel(androidNotificationFactory.getRemoteInputReplyLabel())
                 .build();
 
         // Create the reply action and add the remote input.
         NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
-                context.getReplyActionLabel(),
-                context.responsePendingIntent())
+                androidNotificationFactory.replyActionLabel(),
+                androidNotificationFactory.responsePendingIntent())
                 .addRemoteInput(remoteInput)
                 .build();
 
-        return context.buildNotification(title, text, replyAction);
+        return androidNotificationFactory.buildNotification(title, text, replyAction);
     }
 }

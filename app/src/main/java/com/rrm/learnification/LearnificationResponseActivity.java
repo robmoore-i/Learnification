@@ -8,6 +8,8 @@ import android.support.v4.app.RemoteInput;
 import android.support.v7.app.AppCompatActivity;
 
 public class LearnificationResponseActivity extends AppCompatActivity {
+    private final AndroidLogger logger = new AndroidLogger();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,18 +24,18 @@ public class LearnificationResponseActivity extends AppCompatActivity {
     }
 
     private void updateLearnificationWithResponse() {
+        LearnificationResponseTextGenerator learnificationResponseTextGenerator = new LearnificationResponseTextGenerator();
+
         Bundle remoteInput = RemoteInput.getResultsFromIntent(this.getIntent());
         if (remoteInput != null) {
             @SuppressWarnings("ConstantConditions")
             String inputString = remoteInput.getCharSequence(AndroidLearnificationFactory.REPLY_TEXT).toString();
-
-            Notification repliedNotification = new Notification.Builder(this, NotificationChannelInitialiser.CHANNEL_ID)
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setContentText("Response received: " + inputString)
-                    .build();
-
+            String replyText = learnificationResponseTextGenerator.getReplyText(inputString);
+            AndroidNotificationFactory androidNotificationFactory = new AndroidNotificationFactory(this);
+            Notification replyNotification = androidNotificationFactory.buildResponseNotification("Result", replyText);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), repliedNotification);
+            notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), replyNotification);
         }
     }
+
 }

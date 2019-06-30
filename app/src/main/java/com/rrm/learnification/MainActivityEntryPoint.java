@@ -19,7 +19,7 @@ class MainActivityEntryPoint {
         this.logger = new AndroidLogger();
         final AndroidStorage androidStorage = new AndroidStorage(logger, activity);
         this.learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, androidStorage));
-        this.androidLearnificationFactory = new AndroidLearnificationFactory(logger, new AndroidLearnificationFactoryContext(this.activity));
+        this.androidLearnificationFactory = new AndroidLearnificationFactory(logger, new AndroidNotificationFactory(this.activity));
         this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         this.notificationIdGenerator = NotificationIdGenerator.getInstance();
         this.notificationManager = NotificationManagerCompat.from(activity);

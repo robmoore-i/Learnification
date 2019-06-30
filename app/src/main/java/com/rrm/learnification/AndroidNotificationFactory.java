@@ -9,10 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
-class AndroidLearnificationFactoryContext {
+class AndroidNotificationFactory {
     private final Context packageContext;
 
-    AndroidLearnificationFactoryContext(Context packageContext) {
+    AndroidNotificationFactory(Context packageContext) {
         this.packageContext = packageContext;
     }
 
@@ -20,7 +20,7 @@ class AndroidLearnificationFactoryContext {
         return packageContext.getResources().getString(R.string.reply_label);
     }
 
-    String getReplyActionLabel() {
+    String replyActionLabel() {
         return packageContext.getString(R.string.reply_label);
     }
 
@@ -34,6 +34,17 @@ class AndroidLearnificationFactoryContext {
     }
 
     Notification buildNotification(String title, String text, NotificationCompat.Action replyAction) {
+        return appNotificationTemplate(title, text)
+                .addAction(replyAction)
+                .build();
+    }
+
+    Notification buildResponseNotification(String title, String text) {
+        return appNotificationTemplate(title, text)
+                .build();
+    }
+
+    private NotificationCompat.Builder appNotificationTemplate(String title, String text) {
         return new NotificationCompat.Builder(packageContext, NotificationChannelInitialiser.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(getNotificationLargeIcon())
@@ -42,9 +53,7 @@ class AndroidLearnificationFactoryContext {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(notificationContentIntent())
-                .setAutoCancel(true)
-                .addAction(replyAction)
-                .build();
+                .setAutoCancel(true);
     }
 
     private Bitmap getNotificationLargeIcon() {

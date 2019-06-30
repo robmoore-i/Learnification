@@ -14,8 +14,8 @@ public class LearnificationSchedulerService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         logger.v(LOG_TAG, "Job started");
-        AndroidLearnificationFactoryContext androidLearnificationFactoryContext = new AndroidLearnificationFactoryContext(this);
-        AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(logger, androidLearnificationFactoryContext);
+        AndroidNotificationFactory androidNotificationFactory = new AndroidNotificationFactory(this);
+        AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(logger, androidNotificationFactory);
         final AndroidStorage androidStorage = new AndroidStorage(logger, this);
         LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, androidStorage));
 
