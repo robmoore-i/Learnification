@@ -8,15 +8,11 @@ import android.support.test.runner.AndroidJUnit4;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.SearchCondition;
 import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -26,17 +22,11 @@ import static org.junit.Assert.assertTrue;
 public class CreatesNotificationOnStartupTest {
     private static final String PACKAGE_NAME = "com.rrm.learnification";
 
-    @Before
-    public void setUp() {
-        clearAllNotifications();
-    }
+    private final TestJanitor testJanitor = new TestJanitor();
 
     @After
-    public void tearDown() throws IOException {
-        // Close the app
-        Runtime.getRuntime().exec(new String[]{"am", "force-stop", PACKAGE_NAME});
-
-        clearAllNotifications();
+    public void tearDown() {
+        testJanitor.clearApp();
     }
 
     @Test
@@ -46,15 +36,6 @@ public class CreatesNotificationOnStartupTest {
         startApp(device);
 
         assertNotificationCreated(device);
-    }
-
-    private void clearAllNotifications() {
-        int notificationTimeoutMs = 1000;
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        device.openNotification();
-        device.wait(Until.hasObject(By.textStartsWith(PACKAGE_NAME)), notificationTimeoutMs);
-        UiObject2 clearAll = device.findObject(By.text("CLEAR ALL"));
-        clearAll.click();
     }
 
     private void assertNotificationCreated(UiDevice device) {

@@ -3,6 +3,7 @@ package com.rrm.learnification;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,13 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class AddLearnificationTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    private final TestJanitor testJanitor = new TestJanitor();
+
+    @After
+    public void afterEach() {
+        testJanitor.clearApp(activityTestRule);
+    }
 
     @Test
     public void typingAAndBIntoTheTextFieldsAndClickingThePlusButtonAddsALearnificationToTheList() {

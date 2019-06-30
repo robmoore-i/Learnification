@@ -46,5 +46,8 @@ class PersistentLearnificationRepository implements LearnificationRepository {
 
     @Override
     public void removeAt(int index) {
+        logger.v(LOG_TAG, "Removing a learning-item at index " + index);
+        learningItems.remove(index);
+        learnificationStorage.rewrite(learningItems);
     }
 }

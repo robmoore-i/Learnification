@@ -44,4 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void clearData() {
+        AndroidStorage androidStorage = new AndroidStorage(this, new AndroidLogger());
+        androidStorage.deleteFile(FromFileLearnificationStorage.FILE_NAME);
+        assert !androidStorage.doesFileExist(FromFileLearnificationStorage.FILE_NAME);
+    }
 }

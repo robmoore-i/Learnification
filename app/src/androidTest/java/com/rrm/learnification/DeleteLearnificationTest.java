@@ -8,6 +8,7 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,13 @@ import static org.hamcrest.CoreMatchers.startsWith;
 public class DeleteLearnificationTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    private final TestJanitor testJanitor = new TestJanitor();
+
+    @After
+    public void afterEach() {
+        testJanitor.clearApp(activityTestRule);
+    }
 
     @Test
     public void swipingALearnificationLeftDeletesIt() {
