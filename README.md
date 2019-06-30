@@ -4,8 +4,6 @@
 
 ### Major
 
-- Make PersistentLearnificationRepository actually persistent
-
 - Managing the application entry points across different activities
 
 ### Minor
