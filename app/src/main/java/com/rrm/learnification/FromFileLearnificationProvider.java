@@ -18,6 +18,7 @@ class FromFileLearnificationProvider implements LearnificationProvider {
     @Override
     public List<LearningItem> get() {
         androidLogger.v(LOG_TAG, "getting learnifications from file");
+
         LearningItemTemplate learningItemTemplate = new LearningItemTemplate("What is the capital city of", "Which country has the capital city");
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         learningItems.add(learningItemTemplate.build("Egypt", "Cairo"));
