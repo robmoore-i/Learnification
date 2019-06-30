@@ -24,8 +24,6 @@ class FromFileLearnificationStorage implements LearnificationStorage {
 
         try {
             if (!androidStorage.doesFileExist(FILE_NAME)) {
-                androidStorage.createNewEmptyFile(FILE_NAME);
-
                 List<String> lines = defaultLearningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
                 androidStorage.appendLines(FILE_NAME, lines);
             }

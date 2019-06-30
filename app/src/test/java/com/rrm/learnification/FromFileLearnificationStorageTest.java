@@ -19,17 +19,6 @@ public class FromFileLearnificationStorageTest {
     private AndroidLogger logger = mock(AndroidLogger.class);
 
     @Test
-    public void onReadIfFileDoesntExistThenItCreatesIt() throws IOException {
-        AndroidStorage mockAndroidStorage = mock(AndroidStorage.class);
-        when(mockAndroidStorage.doesFileExist(FromFileLearnificationStorage.FILE_NAME)).thenReturn(false);
-        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockAndroidStorage);
-
-        fromFileLearnificationStorage.read();
-
-        verify(mockAndroidStorage, times(1)).createNewEmptyFile(FromFileLearnificationStorage.FILE_NAME);
-    }
-
-    @Test
     public void onReadIfFileDoesntExistThenItWritesTheDefaultLearningItemsToFile() throws IOException {
         AndroidStorage mockAndroidStorage = mock(AndroidStorage.class);
         when(mockAndroidStorage.doesFileExist(FromFileLearnificationStorage.FILE_NAME)).thenReturn(false);

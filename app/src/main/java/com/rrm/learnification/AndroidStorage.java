@@ -23,17 +23,6 @@ class AndroidStorage {
         this.logger = logger;
     }
 
-    void createNewEmptyFile(String fileName) throws IOException {
-        logger.v(LOG_TAG, "create a new empty file '" + fileName + "'");
-
-        try {
-            appendLines(fileName, new ArrayList<>());
-        } catch (IOException e) {
-            logger.e(LOG_TAG, e);
-            throw e;
-        }
-    }
-
     boolean doesFileExist(String fileName) {
         logger.v(LOG_TAG, "checking if file exists '" + fileName + "'");
 
