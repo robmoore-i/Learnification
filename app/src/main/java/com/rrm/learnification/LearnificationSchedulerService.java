@@ -16,8 +16,8 @@ public class LearnificationSchedulerService extends JobService {
         logger.v(LOG_TAG, "Job started");
         AndroidNotificationFactory androidNotificationFactory = new AndroidNotificationFactory(this);
         AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(logger, androidNotificationFactory);
-        final AndroidInternalStorageAdaptor androidInternalStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, androidInternalStorageAdaptor));
+        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, fileStorageAdaptor));
 
         List<LearningItem> learningItems = learnificationRepository.learningItems();
         for (LearningItem learningItem : learningItems) {

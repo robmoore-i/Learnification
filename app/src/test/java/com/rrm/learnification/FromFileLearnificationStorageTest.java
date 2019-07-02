@@ -20,23 +20,23 @@ public class FromFileLearnificationStorageTest {
 
     @Test
     public void onReadIfFileDoesntExistThenItWritesTheDefaultLearningItemsToFile() throws IOException {
-        AndroidInternalStorageAdaptor mockAndroidInternalStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
-        when(mockAndroidInternalStorageAdaptor.doesFileExist(FromFileLearnificationStorage.FILE_NAME)).thenReturn(false);
-        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockAndroidInternalStorageAdaptor);
+        FileStorageAdaptor mockFileStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
+        when(mockFileStorageAdaptor.doesFileExist(FromFileLearnificationStorage.FILE_NAME)).thenReturn(false);
+        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockFileStorageAdaptor);
 
         fromFileLearnificationStorage.read();
 
         List<String> lines = FromFileLearnificationStorage.defaultLearningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
-        verify(mockAndroidInternalStorageAdaptor, times(1)).appendLines(FromFileLearnificationStorage.FILE_NAME, lines);
+        verify(mockFileStorageAdaptor, times(1)).appendLines(FromFileLearnificationStorage.FILE_NAME, lines);
     }
 
     @Test
     public void onReadItReturnsLinesReadFromFileEvenIfFileDoesntExistInitially() throws IOException {
-        AndroidInternalStorageAdaptor mockAndroidInternalStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
-        when(mockAndroidInternalStorageAdaptor.doesFileExist(FromFileLearnificationStorage.FILE_NAME)).thenReturn(false);
+        FileStorageAdaptor mockFileStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
+        when(mockFileStorageAdaptor.doesFileExist(FromFileLearnificationStorage.FILE_NAME)).thenReturn(false);
         String testLearningItem = "TEST - THING";
-        when(mockAndroidInternalStorageAdaptor.readLines(FromFileLearnificationStorage.FILE_NAME)).thenReturn(Collections.singletonList(testLearningItem));
-        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockAndroidInternalStorageAdaptor);
+        when(mockFileStorageAdaptor.readLines(FromFileLearnificationStorage.FILE_NAME)).thenReturn(Collections.singletonList(testLearningItem));
+        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockFileStorageAdaptor);
 
         List<LearningItem> learningItems = fromFileLearnificationStorage.read();
         assertThat(learningItems.size(), equalTo(1));
@@ -45,32 +45,32 @@ public class FromFileLearnificationStorageTest {
 
     @Test
     public void onRewriteItDeletesTheFile() {
-        AndroidInternalStorageAdaptor mockAndroidInternalStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
-        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockAndroidInternalStorageAdaptor);
+        FileStorageAdaptor mockFileStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
+        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockFileStorageAdaptor);
 
         fromFileLearnificationStorage.rewrite(new ArrayList<>());
 
-        verify(mockAndroidInternalStorageAdaptor, times(1)).deleteFile(FromFileLearnificationStorage.FILE_NAME);
+        verify(mockFileStorageAdaptor, times(1)).deleteFile(FromFileLearnificationStorage.FILE_NAME);
     }
 
     @Test
     public void onRewriteItAppendsTheLines() throws IOException {
-        AndroidInternalStorageAdaptor mockAndroidInternalStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
-        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockAndroidInternalStorageAdaptor);
+        FileStorageAdaptor mockFileStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
+        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, mockFileStorageAdaptor);
 
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         learningItems.add(new LearningItem("TEST", "THING"));
         fromFileLearnificationStorage.rewrite(learningItems);
 
         List<String> lines = learningItems.stream().map(LearningItem::asSingleString).collect(Collectors.toList());
-        verify(mockAndroidInternalStorageAdaptor, times(1)).appendLines(FromFileLearnificationStorage.FILE_NAME, lines);
+        verify(mockFileStorageAdaptor, times(1)).appendLines(FromFileLearnificationStorage.FILE_NAME, lines);
     }
 
     @Test
     public void emptyLinesInTheLearnificationsFileAreIgnored() throws IOException {
-        AndroidInternalStorageAdaptor stubAndroidInternalStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
-        when(stubAndroidInternalStorageAdaptor.readLines(FromFileLearnificationStorage.FILE_NAME)).thenReturn(Collections.singletonList(""));
-        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, stubAndroidInternalStorageAdaptor);
+        FileStorageAdaptor stubFileStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
+        when(stubFileStorageAdaptor.readLines(FromFileLearnificationStorage.FILE_NAME)).thenReturn(Collections.singletonList(""));
+        FromFileLearnificationStorage fromFileLearnificationStorage = new FromFileLearnificationStorage(logger, stubFileStorageAdaptor);
 
         List<LearningItem> learningItems = fromFileLearnificationStorage.read();
 

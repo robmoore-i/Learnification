@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clearData() {
-        AndroidInternalStorageAdaptor androidInternalStorageAdaptor = new AndroidInternalStorageAdaptor(new AndroidLogger(), this);
-        androidInternalStorageAdaptor.deleteFile(FromFileLearnificationStorage.FILE_NAME);
+        AndroidLogger logger = new AndroidLogger();
+        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
+        fileStorageAdaptor.deleteFile(FromFileLearnificationStorage.FILE_NAME);
     }
 }

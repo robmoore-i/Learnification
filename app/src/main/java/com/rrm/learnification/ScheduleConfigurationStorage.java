@@ -11,26 +11,26 @@ class ScheduleConfigurationStorage {
     static final int defaultEarliestStartTimeDelayMs = 5000;
     static final int defaultLatestStartTimeDelayMs = 10000;
     private final AndroidLogger logger;
-    private final AndroidInternalStorageAdaptor androidInternalStorageAdaptor;
+    private final FileStorageAdaptor fileStorageAdaptor;
     private final ScheduleConfigurationFileParser scheduleConfigurationFileParser;
 
-    ScheduleConfigurationStorage(AndroidLogger logger, AndroidInternalStorageAdaptor androidInternalStorageAdaptor) {
+    ScheduleConfigurationStorage(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor) {
         this.logger = logger;
-        this.androidInternalStorageAdaptor = androidInternalStorageAdaptor;
+        this.fileStorageAdaptor = fileStorageAdaptor;
         this.scheduleConfigurationFileParser = new ScheduleConfigurationFileParser();
     }
 
     PeriodicityRange getPeriodicityRange() {
         try {
-            if (!androidInternalStorageAdaptor.doesFileExist(FILE_NAME)) {
+            if (!fileStorageAdaptor.doesFileExist(FILE_NAME)) {
                 List<String> defaultLines = new ArrayList<>();
                 defaultLines.add("earliestStartTimeDelayMs=" + defaultEarliestStartTimeDelayMs);
                 defaultLines.add("latestStartTimeDelayMs=" + defaultLatestStartTimeDelayMs);
-                androidInternalStorageAdaptor.appendLines(FILE_NAME, defaultLines);
+                fileStorageAdaptor.appendLines(FILE_NAME, defaultLines);
                 return new PeriodicityRange(defaultEarliestStartTimeDelayMs, defaultLatestStartTimeDelayMs);
             }
 
-            List<String> lines = androidInternalStorageAdaptor.readLines(FILE_NAME);
+            List<String> lines = fileStorageAdaptor.readLines(FILE_NAME);
             return scheduleConfigurationFileParser.parseSchedulingConfigurationFile(lines);
         } catch (IOException e) {
             logger.e(LOG_TAG, e);

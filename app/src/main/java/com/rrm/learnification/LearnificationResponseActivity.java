@@ -20,8 +20,8 @@ public class LearnificationResponseActivity extends AppCompatActivity {
 
     private void scheduleNextLearnification() {
         LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobSchedulerContext(this));
-        AndroidInternalStorageAdaptor androidInternalStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        ScheduleConfigurationStorage scheduleConfigurationStorage = new ScheduleConfigurationStorage(logger, androidInternalStorageAdaptor);
+        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
+        ScheduleConfigurationStorage scheduleConfigurationStorage = new ScheduleConfigurationStorage(logger, fileStorageAdaptor);
         learnificationScheduler.scheduleJob(scheduleConfigurationStorage.getPeriodicityRange());
     }
 

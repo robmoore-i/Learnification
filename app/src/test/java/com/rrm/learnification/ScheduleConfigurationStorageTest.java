@@ -18,29 +18,29 @@ public class ScheduleConfigurationStorageTest {
 
     @Test
     public void ifPeriodicityFileDoesntExistThenCreateItWithTheDefaultPeriodicity() throws IOException {
-        AndroidInternalStorageAdaptor mockAndroidInternalStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
-        when(mockAndroidInternalStorageAdaptor.doesFileExist(ScheduleConfigurationStorage.FILE_NAME)).thenReturn(false);
-        ScheduleConfigurationStorage scheduleConfigurationStorage = new ScheduleConfigurationStorage(logger, mockAndroidInternalStorageAdaptor);
+        FileStorageAdaptor mockFileStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
+        when(mockFileStorageAdaptor.doesFileExist(ScheduleConfigurationStorage.FILE_NAME)).thenReturn(false);
+        ScheduleConfigurationStorage scheduleConfigurationStorage = new ScheduleConfigurationStorage(logger, mockFileStorageAdaptor);
 
         scheduleConfigurationStorage.getPeriodicityRange();
 
         List<String> expectedLines = new ArrayList<>();
         expectedLines.add("earliestStartTimeDelayMs=" + ScheduleConfigurationStorage.defaultEarliestStartTimeDelayMs);
         expectedLines.add("latestStartTimeDelayMs=" + ScheduleConfigurationStorage.defaultLatestStartTimeDelayMs);
-        verify(mockAndroidInternalStorageAdaptor, times(1)).appendLines(ScheduleConfigurationStorage.FILE_NAME, expectedLines);
+        verify(mockFileStorageAdaptor, times(1)).appendLines(ScheduleConfigurationStorage.FILE_NAME, expectedLines);
     }
 
     @Test
     public void ifPeriodicityFileExistsThenItReadsTheLinesToReturnThePeriodicity() throws IOException {
         int earliestStartTimeDelayMs = 500000;
         int latestStartTimeDelayMs = 600000;
-        AndroidInternalStorageAdaptor mockAndroidInternalStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
-        when(mockAndroidInternalStorageAdaptor.doesFileExist(ScheduleConfigurationStorage.FILE_NAME)).thenReturn(true);
+        FileStorageAdaptor mockFileStorageAdaptor = mock(AndroidInternalStorageAdaptor.class);
+        when(mockFileStorageAdaptor.doesFileExist(ScheduleConfigurationStorage.FILE_NAME)).thenReturn(true);
         List<String> expectedLines = new ArrayList<>();
         expectedLines.add("earliestStartTimeDelayMs=" + earliestStartTimeDelayMs);
         expectedLines.add("latestStartTimeDelayMs=" + latestStartTimeDelayMs);
-        when(mockAndroidInternalStorageAdaptor.readLines(ScheduleConfigurationStorage.FILE_NAME)).thenReturn(expectedLines);
-        ScheduleConfigurationStorage scheduleConfigurationStorage = new ScheduleConfigurationStorage(logger, mockAndroidInternalStorageAdaptor);
+        when(mockFileStorageAdaptor.readLines(ScheduleConfigurationStorage.FILE_NAME)).thenReturn(expectedLines);
+        ScheduleConfigurationStorage scheduleConfigurationStorage = new ScheduleConfigurationStorage(logger, mockFileStorageAdaptor);
 
         PeriodicityRange periodicityRange = scheduleConfigurationStorage.getPeriodicityRange();
 

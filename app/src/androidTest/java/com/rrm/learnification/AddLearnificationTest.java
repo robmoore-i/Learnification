@@ -30,6 +30,11 @@ public class AddLearnificationTest {
         testJanitor.clearApp(activityTestRule);
     }
 
+    /*
+        NOTICE OF FRAGILITY
+
+        This test only works as long as there are 4 or fewer default learning items.
+    */
     @Test
     public void typingLAndRIntoTheTextFieldsAndClickingThePlusButtonAddsALearnificationToTheList() {
         onView(withId(R.id.left_input)).perform(typeText("L"));

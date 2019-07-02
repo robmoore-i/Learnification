@@ -1,7 +1,5 @@
 package com.rrm.learnification;
 
-import android.view.View;
-
 class LearnificationButton {
     private static final String LOG_TAG = "LearnificationButton";
 
@@ -16,12 +14,9 @@ class LearnificationButton {
 
     void setOnClickHandler(final OnClickCommand onClickCommand) {
         this.onClickCommand = onClickCommand;
-        mainActivityView.setLearnificationButtonOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                androidLogger.v(LOG_TAG, "add-learnification-button clicked");
-                click();
-            }
+        mainActivityView.setLearnificationButtonOnClickListener(view -> {
+            androidLogger.v(LOG_TAG, "add-learnification-button clicked");
+            click();
         });
     }
 

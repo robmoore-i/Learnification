@@ -11,11 +11,11 @@ class FromFileLearnificationStorage implements LearnificationStorage {
     static final String FILE_NAME = "learning_items";
 
     private final AndroidLogger logger;
-    private final AndroidInternalStorageAdaptor androidInternalStorageAdaptor;
+    private final FileStorageAdaptor fileStorageAdaptor;
 
-    FromFileLearnificationStorage(AndroidLogger androidLogger, AndroidInternalStorageAdaptor androidInternalStorageAdaptor) {
+    FromFileLearnificationStorage(AndroidLogger androidLogger, FileStorageAdaptor fileStorageAdaptor) {
         this.logger = androidLogger;
-        this.androidInternalStorageAdaptor = androidInternalStorageAdaptor;
+        this.fileStorageAdaptor = fileStorageAdaptor;
     }
 
     @Override
@@ -23,12 +23,12 @@ class FromFileLearnificationStorage implements LearnificationStorage {
         logger.v(LOG_TAG, "reading learnifications from file");
 
         try {
-            if (!androidInternalStorageAdaptor.doesFileExist(FILE_NAME)) {
+            if (!fileStorageAdaptor.doesFileExist(FILE_NAME)) {
                 List<String> lines = defaultLearningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
-                androidInternalStorageAdaptor.appendLines(FILE_NAME, lines);
+                fileStorageAdaptor.appendLines(FILE_NAME, lines);
             }
 
-            return androidInternalStorageAdaptor.readLines(FILE_NAME).stream().filter(line -> !line.isEmpty()).map(LearningItem::fromLine).collect(Collectors.toList());
+            return fileStorageAdaptor.readLines(FILE_NAME).stream().filter(line -> !line.isEmpty()).map(LearningItem::fromLine).collect(Collectors.toList());
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
             return new ArrayList<>();
@@ -40,7 +40,7 @@ class FromFileLearnificationStorage implements LearnificationStorage {
         logger.v(LOG_TAG, "writing a learning-item '" + learningItem.asSingleString() + "'");
 
         try {
-            androidInternalStorageAdaptor.appendLines(FILE_NAME, Collections.singletonList(learningItem.asSingleString()));
+            fileStorageAdaptor.appendLines(FILE_NAME, Collections.singletonList(learningItem.asSingleString()));
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
         }
@@ -54,9 +54,9 @@ class FromFileLearnificationStorage implements LearnificationStorage {
     void rewrite(List<LearningItem> learningItems) {
         logger.v(LOG_TAG, "rewriting learning items");
 
-        androidInternalStorageAdaptor.deleteFile(FILE_NAME);
+        fileStorageAdaptor.deleteFile(FILE_NAME);
         try {
-            androidInternalStorageAdaptor.appendLines(FILE_NAME, learningItems.stream().map(LearningItem::asSingleString).collect(Collectors.toList()));
+            fileStorageAdaptor.appendLines(FILE_NAME, learningItems.stream().map(LearningItem::asSingleString).collect(Collectors.toList()));
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
         }
@@ -64,12 +64,9 @@ class FromFileLearnificationStorage implements LearnificationStorage {
 
     static ArrayList<LearningItem> defaultLearningItems() {
         ArrayList<LearningItem> learningItems = new ArrayList<>();
-        learningItems.add(new LearningItem("speak", "ლაპარაკობ"));
         learningItems.add(new LearningItem("live", "ცხოვრობ"));
-        learningItems.add(new LearningItem("think", "ფიქრობ"));
         learningItems.add(new LearningItem("travel", "მგზავრობ"));
         learningItems.add(new LearningItem("use", "ხმარობ"));
-        learningItems.add(new LearningItem("work", "მუშაობ"));
         learningItems.add(new LearningItem("exercise", "ვარჯიშობ"));
         return learningItems;
     }

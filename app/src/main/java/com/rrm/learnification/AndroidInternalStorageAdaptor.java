@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-class AndroidInternalStorageAdaptor {
+class AndroidInternalStorageAdaptor implements FileStorageAdaptor {
     private static final String LOG_TAG = "AndroidInternalStorageAdaptor";
 
     private final ContextWrapper contextWrapper;
@@ -23,13 +23,15 @@ class AndroidInternalStorageAdaptor {
         this.logger = logger;
     }
 
-    boolean doesFileExist(String fileName) {
+    @Override
+    public boolean doesFileExist(String fileName) {
         logger.v(LOG_TAG, "checking if file exists '" + fileName + "'");
 
         return new File(contextWrapper.getFilesDir(), fileName).exists();
     }
 
-    void appendLines(String fileName, List<String> lines) throws IOException {
+    @Override
+    public void appendLines(String fileName, List<String> lines) throws IOException {
         logger.v(LOG_TAG, "appending lines to '" + fileName + "'");
 
         try {
@@ -43,7 +45,8 @@ class AndroidInternalStorageAdaptor {
         }
     }
 
-    List<String> readLines(String fileName) throws IOException {
+    @Override
+    public List<String> readLines(String fileName) throws IOException {
         logger.v(LOG_TAG, "reading lines from '" + fileName + "'");
 
         try {
@@ -65,11 +68,16 @@ class AndroidInternalStorageAdaptor {
         }
     }
 
-    void deleteFile(String fileName) {
+    @Override
+    public void deleteFile(String fileName) {
         logger.v(LOG_TAG, "deleting file '" + fileName + "'");
 
         File file = new File(contextWrapper.getFilesDir(), fileName);
-        if (file.exists())
-            file.delete();
+        if (file.exists()) {
+            boolean success = file.delete();
+            if (!success) {
+                logger.v(LOG_TAG, "file.delete() returned false for file '" + fileName + "'");
+            }
+        }
     }
 }
