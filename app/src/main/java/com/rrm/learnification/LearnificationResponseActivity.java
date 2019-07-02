@@ -19,8 +19,9 @@ public class LearnificationResponseActivity extends AppCompatActivity {
     }
 
     private void scheduleNextLearnification() {
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(new AndroidJobSchedulerContext(this));
-        learnificationScheduler.scheduleJob(5000, 10000);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobSchedulerContext(this));
+        ScheduleConfigurationStorage scheduleConfigurationStorage = new ScheduleConfigurationStorage();
+        learnificationScheduler.scheduleJob(scheduleConfigurationStorage.getPeriodicityRange());
     }
 
     private void updateLearnificationWithResponse() {
