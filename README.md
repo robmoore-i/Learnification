@@ -4,15 +4,15 @@
 
 ### Major
 
-- Make PersistentLearnificationRepository actually persistent
+- Change persistence to SQLite, using RxJava for access
 
 - Managing the application entry points across different activities
 
 ### Minor
 
-- Unit testable components
+- Meaningful unit tests
 
-- File storage or efficient CRUD on learning items.
+- Injectable components for use in integration tests
 
 ## MVP
 
