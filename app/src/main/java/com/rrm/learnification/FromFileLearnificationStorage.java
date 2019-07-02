@@ -64,9 +64,13 @@ class FromFileLearnificationStorage implements LearnificationStorage {
 
     static ArrayList<LearningItem> defaultLearningItems() {
         ArrayList<LearningItem> learningItems = new ArrayList<>();
-        learningItems.add(new LearningItem("What is the capital city of Egypt?", "Cairo"));
-        learningItems.add(new LearningItem("What is the capital city of Great Britain?", "London"));
-        learningItems.add(new LearningItem("What is the capital city of Georgia?", "Tbilisi"));
+        learningItems.add(new LearningItem("speak", "ლაპარაკობ"));
+        learningItems.add(new LearningItem("live", "ცხოვრობ"));
+        learningItems.add(new LearningItem("think", "ფიქრობ"));
+        learningItems.add(new LearningItem("travel", "მგზავრობ"));
+        learningItems.add(new LearningItem("use", "ხმარობ"));
+        learningItems.add(new LearningItem("work", "მუშაობ"));
+        learningItems.add(new LearningItem("exercise", "ვარჯიშობ"));
         return learningItems;
     }
 }
