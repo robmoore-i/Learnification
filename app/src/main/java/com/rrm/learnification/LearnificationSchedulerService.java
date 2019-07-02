@@ -25,7 +25,14 @@ public class LearnificationSchedulerService extends JobService {
         }
 
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
-        AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(logger, androidLearnificationFactory, NotificationIdGenerator.getInstance(), learnificationTextGenerator, new AndroidNotificationManager(NotificationManagerCompat.from(this)));
+
+        AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(
+                logger,
+                androidLearnificationFactory,
+                NotificationIdGenerator.getInstance(),
+                learnificationTextGenerator,
+                new AndroidNotificationManager(NotificationManagerCompat.from(this))
+        );
 
         androidLearnificationPublisher.createLearnification();
 
