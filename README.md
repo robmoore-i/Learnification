@@ -4,13 +4,15 @@
 
 ### Major
 
+- Change persistence to SQLite, using RxJava for access
+
 - Managing the application entry points across different activities
 
 ### Minor
 
-- Unit testable components
+- Meaningful unit tests
 
-- File storage or efficient CRUD on learning items.
+- Injectable components for use in integration tests
 
 - Use empty-list UX pattern for creating learning items, rather than having default ones.
 
