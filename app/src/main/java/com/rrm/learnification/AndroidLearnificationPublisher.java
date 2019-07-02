@@ -1,15 +1,18 @@
 package com.rrm.learnification;
 
 import android.app.Notification;
-import android.support.v4.app.NotificationManagerCompat;
 
 class AndroidLearnificationPublisher {
+    private static final String LOG_TAG = "AndroidLearnificationPublisher";
+
+    private final AndroidLogger logger;
     private final AndroidLearnificationFactory androidLearnificationFactory;
-    private final NotificationManagerCompat notificationManager;
+    private final AndroidNotificationManager notificationManager;
     private final NotificationIdGenerator notificationIdGenerator;
     private final LearnificationTextGenerator learnificationTextGenerator;
 
-    AndroidLearnificationPublisher(AndroidLearnificationFactory androidLearnificationFactory, NotificationIdGenerator notificationIdGenerator, LearnificationTextGenerator learnificationTextGenerator, NotificationManagerCompat notificationManager) {
+    AndroidLearnificationPublisher(AndroidLogger logger, AndroidLearnificationFactory androidLearnificationFactory, NotificationIdGenerator notificationIdGenerator, LearnificationTextGenerator learnificationTextGenerator, AndroidNotificationManager notificationManager) {
+        this.logger = logger;
         this.androidLearnificationFactory = androidLearnificationFactory;
         this.notificationManager = notificationManager;
         this.notificationIdGenerator = notificationIdGenerator;
@@ -17,11 +20,16 @@ class AndroidLearnificationPublisher {
     }
 
     void createLearnification() {
-        Notification notification = androidLearnificationFactory.create(
-                learnificationTextGenerator.notificationText(),
-                "Learn!"
-        );
+        try {
+            String notificationText = learnificationTextGenerator.notificationText();
+            Notification notification = androidLearnificationFactory.create(
+                    notificationText,
+                    "Learn!"
+            );
 
-        notificationManager.notify(notificationIdGenerator.nextNotificationId(), notification);
+            notificationManager.notify(notificationIdGenerator.nextNotificationId(), notification);
+        } catch (CantGenerateNotificationTextException e) {
+            logger.e(LOG_TAG, e);
+        }
     }
 }

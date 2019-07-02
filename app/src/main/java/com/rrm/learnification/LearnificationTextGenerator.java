@@ -1,5 +1,7 @@
 package com.rrm.learnification;
 
+import java.util.List;
+
 class LearnificationTextGenerator {
     private final LearnificationRepository learnificationRepository;
     private Randomiser randomiser;
@@ -9,7 +11,11 @@ class LearnificationTextGenerator {
         this.learnificationRepository = learnificationRepository;
     }
 
-    String notificationText() {
-        return randomiser.randomLearnificationQuestion(learnificationRepository.learningItems());
+    String notificationText() throws CantGenerateNotificationTextException {
+        List<LearningItem> learningItems = learnificationRepository.learningItems();
+        if (learningItems.isEmpty()) {
+            throw new CantGenerateNotificationTextException();
+        }
+        return randomiser.randomLearnificationQuestion(learningItems);
     }
 }
