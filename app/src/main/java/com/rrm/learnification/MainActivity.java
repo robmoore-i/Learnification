@@ -2,7 +2,6 @@ package com.rrm.learnification;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -12,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setSupportActionBar(this.<Toolbar>findViewById(R.id.toolbar));
+        setSupportActionBar(this.findViewById(R.id.toolbar));
 
         // Don't automatically open the keyboard. See: https://stackoverflow.com/questions/9732761/prevent-the-keyboard-from-displaying-on-activity-start
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clearData() {
-        AndroidStorage androidStorage = new AndroidStorage(new AndroidLogger(), this);
-        androidStorage.deleteFile(FromFileLearnificationStorage.FILE_NAME);
+        AndroidInternalStorageAdaptor androidInternalStorageAdaptor = new AndroidInternalStorageAdaptor(new AndroidLogger(), this);
+        androidInternalStorageAdaptor.deleteFile(FromFileLearnificationStorage.FILE_NAME);
     }
 }

@@ -12,13 +12,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-class AndroidStorage {
-    private static final String LOG_TAG = "AndroidStorage";
+class AndroidInternalStorageAdaptor {
+    private static final String LOG_TAG = "AndroidInternalStorageAdaptor";
 
     private final ContextWrapper contextWrapper;
     private final AndroidLogger logger;
 
-    AndroidStorage(AndroidLogger logger, ContextWrapper contextWrapper) {
+    AndroidInternalStorageAdaptor(AndroidLogger logger, ContextWrapper contextWrapper) {
         this.contextWrapper = contextWrapper;
         this.logger = logger;
     }
