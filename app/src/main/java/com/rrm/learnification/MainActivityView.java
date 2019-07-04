@@ -2,6 +2,7 @@ package com.rrm.learnification;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.widget.NumberPicker;
 
 interface MainActivityView {
     FloatingActionButton getLearnificationButton();
@@ -11,4 +12,6 @@ interface MainActivityView {
     LearningItem getTextInput();
 
     void setLearnificationButtonOnClickListener(View.OnClickListener onClickListener);
+
+    NumberPicker getPeriodicityPicker();
 }

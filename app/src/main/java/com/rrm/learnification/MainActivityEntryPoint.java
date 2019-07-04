@@ -13,6 +13,7 @@ class MainActivityEntryPoint {
     private final LearnificationButton learnificationButton;
     private final MainActivityView mainActivityView;
     private final LearnificationListView learnificationListView;
+    private final PeriodicityPicker periodicityPicker;
 
     MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;
@@ -25,12 +26,15 @@ class MainActivityEntryPoint {
         this.mainActivityView = new AndroidMainActivityView(activity);
         this.learnificationButton = new LearnificationButton(logger, mainActivityView);
         this.learnificationListView = new LearnificationListView(logger, mainActivityView);
+        this.periodicityPicker = new PeriodicityPicker(logger, mainActivityView);
     }
 
     void onMainActivityEntry() {
         learnificationListView.populate(learnificationRepository);
 
         learnificationButton.setOnClickHandler(new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationListView));
+
+        periodicityPicker.setInputRangeInMinutes(5, 90);
 
         createNotificationChannel();
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import java.util.stream.Collectors;
 
@@ -60,5 +61,10 @@ class AndroidMainActivityView implements MainActivityView {
     public void setLearnificationButtonOnClickListener(View.OnClickListener onClickListener) {
         FloatingActionButton button = getLearnificationButton();
         button.setOnClickListener(onClickListener);
+    }
+
+    @Override
+    public NumberPicker getPeriodicityPicker() {
+        return activity.findViewById(R.id.periodicity_picker);
     }
 }
