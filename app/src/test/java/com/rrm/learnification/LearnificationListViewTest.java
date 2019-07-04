@@ -15,7 +15,7 @@ public class LearnificationListViewTest {
     public void swipingOnAnItemRemovesItFromTheLearnificationRepository() {
         MainActivityView stubMainActivityView = mock(MainActivityView.class);
         LearnificationListViewAdaptor stubLearnificationListViewAdaptor = mock(LearnificationListViewAdaptor.class);
-        when(stubMainActivityView.getLearnificationList(any(), any())).thenReturn(stubLearnificationListViewAdaptor);
+        when(stubMainActivityView.createLearnificationListDataBinding(any(), any())).thenReturn(stubLearnificationListViewAdaptor);
 
         LearnificationListView learnificationListView = new LearnificationListView(logger, stubMainActivityView);
         LearnificationRepository mockLearnificationRepository = mock(LearnificationRepository.class);

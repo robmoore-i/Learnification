@@ -20,12 +20,7 @@ class AndroidMainActivityView implements MainActivityView {
     }
 
     @Override
-    public FloatingActionButton getLearnificationButton() {
-        return activity.findViewById(R.id.addLearnificationButton);
-    }
-
-    @Override
-    public LearnificationListViewAdaptor getLearnificationList(OnSwipeCommand onSwipeCommand, LearnificationRepository learnificationRepository) {
+    public LearnificationListViewAdaptor createLearnificationListDataBinding(OnSwipeCommand onSwipeCommand, LearnificationRepository learnificationRepository) {
         RecyclerView recyclerView = activity.findViewById(R.id.learnifications_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -59,12 +54,15 @@ class AndroidMainActivityView implements MainActivityView {
 
     @Override
     public void setLearnificationButtonOnClickListener(View.OnClickListener onClickListener) {
-        FloatingActionButton button = getLearnificationButton();
+        FloatingActionButton button = activity.findViewById(R.id.addLearnificationButton);
         button.setOnClickListener(onClickListener);
     }
 
+
     @Override
-    public NumberPicker getPeriodicityPicker() {
-        return activity.findViewById(R.id.periodicity_picker);
+    public void setPeriodicityPickerInputRangeInMinutes(int min, int max) {
+        NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
+        periodicityPicker.setMinValue(min);
+        periodicityPicker.setMaxValue(max);
     }
 }
