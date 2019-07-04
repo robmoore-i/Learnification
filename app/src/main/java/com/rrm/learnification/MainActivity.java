@@ -13,8 +13,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar(this.findViewById(R.id.toolbar));
 
-        // Don't automatically open the keyboard. See: https://stackoverflow.com/questions/9732761/prevent-the-keyboard-from-displaying-on-activity-start
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        // Don't automatically open the keyboard.
+        //      See: https://stackoverflow.com/questions/9732761/prevent-the-keyboard-from-displaying-on-activity-start
+        // Also don't automatically shift the view up when the keyboard opens
+        //      See: https://stackoverflow.com/questions/4207880/android-how-do-i-prevent-the-soft-keyboard-from-pushing-my-view-up
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         MainActivityEntryPoint mainActivityEntryPoint = new MainActivityEntryPoint(this);
         mainActivityEntryPoint.onMainActivityEntry();
