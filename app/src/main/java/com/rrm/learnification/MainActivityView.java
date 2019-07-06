@@ -1,13 +1,18 @@
 package com.rrm.learnification;
 
 import android.view.View;
+import android.widget.NumberPicker;
 
 interface MainActivityView {
-    LearnificationListViewAdaptor createLearnificationListDataBinding(OnSwipeCommand onSwipeCommand, LearnificationRepository learnificationRepository);
+    LearnificationListViewAdaptor createLearnificationListViewDataBinding(OnSwipeCommand onSwipeCommand, LearnificationRepository learnificationRepository);
 
-    LearningItem getTextInput();
+    LearningItem getLearningItemTextInput();
 
     void setLearnificationButtonOnClickListener(View.OnClickListener onClickListener);
 
     void setPeriodicityPickerInputRangeInMinutes(int min, int max);
+
+    void setPeriodicityPickerOnChangeListener(OnChangeCommand onChangeCommand);
+
+    void setPeriodicityPickerChoiceFormatter(NumberPicker.Formatter formatter);
 }

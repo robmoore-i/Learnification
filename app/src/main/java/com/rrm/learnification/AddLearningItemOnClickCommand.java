@@ -13,7 +13,7 @@ class AddLearningItemOnClickCommand implements OnClickCommand {
 
     @Override
     public void onClick() {
-        LearningItem learningItem = mainActivityView.getTextInput();
+        LearningItem learningItem = mainActivityView.getLearningItemTextInput();
         learnificationRepository.add(learningItem);
         learnificationListView.addTextEntry(learningItem.asSingleString());
     }

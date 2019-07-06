@@ -13,14 +13,14 @@ import android.widget.NumberPicker;
 import java.util.stream.Collectors;
 
 class AndroidMainActivityView implements MainActivityView {
-    private MainActivity activity;
+    private final MainActivity activity;
 
     AndroidMainActivityView(MainActivity activity) {
         this.activity = activity;
     }
 
     @Override
-    public LearnificationListViewAdaptor createLearnificationListDataBinding(OnSwipeCommand onSwipeCommand, LearnificationRepository learnificationRepository) {
+    public LearnificationListViewAdaptor createLearnificationListViewDataBinding(OnSwipeCommand onSwipeCommand, LearnificationRepository learnificationRepository) {
         RecyclerView recyclerView = activity.findViewById(R.id.learnifications_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -46,7 +46,7 @@ class AndroidMainActivityView implements MainActivityView {
     }
 
     @Override
-    public LearningItem getTextInput() {
+    public LearningItem getLearningItemTextInput() {
         String left = ((EditText) activity.findViewById(R.id.left_input)).getText().toString();
         String right = ((EditText) activity.findViewById(R.id.right_input)).getText().toString();
         return new LearningItem(left, right);
@@ -64,5 +64,19 @@ class AndroidMainActivityView implements MainActivityView {
         NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
         periodicityPicker.setMinValue(min);
         periodicityPicker.setMaxValue(max);
+    }
+
+    @Override
+    public void setPeriodicityPickerOnChangeListener(OnChangeCommand onChangeCommand) {
+        NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
+        NumberPicker.OnValueChangeListener onValueChangeListener = (numberPicker, oldVal, newVal) -> onChangeCommand.onChange(newVal);
+        periodicityPicker.setOnValueChangedListener(onValueChangeListener);
+    }
+
+    @Override
+    public void setPeriodicityPickerChoiceFormatter(NumberPicker.Formatter formatter) {
+        NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
+        periodicityPicker.setFormatter(formatter);
+        periodicityPicker.setWrapSelectorWheel(false);
     }
 }
