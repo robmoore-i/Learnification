@@ -13,6 +13,8 @@ class LearnificationListView {
         this.mainActivityView = mainActivityView;
     }
 
+    // Issue: This does both list population and data binding.
+    // Solution: Split it up.
     void populate(LearnificationRepository learnificationRepository) {
         logger.v(LOG_TAG, "populating learnification list");
         onSwipeCommand = new RemoveItemOnSwipeCommand(logger, learnificationRepository);
