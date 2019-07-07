@@ -7,14 +7,17 @@ class LearnificationScheduler {
 
     private final AndroidLogger logger;
     private final AndroidJobSchedulerContext androidJobSchedulerContext;
+    private final ScheduleConfiguration scheduleConfiguration;
 
-    LearnificationScheduler(AndroidLogger logger, AndroidJobSchedulerContext androidJobSchedulerContext) {
+    LearnificationScheduler(AndroidLogger logger, AndroidJobSchedulerContext androidJobSchedulerContext, ScheduleConfiguration scheduleConfiguration) {
         this.logger = logger;
         this.androidJobSchedulerContext = androidJobSchedulerContext;
+        this.scheduleConfiguration = scheduleConfiguration;
     }
 
     // schedule the start of the service every 10-20 seconds
-    void scheduleJob(PeriodicityRange periodicityRange) {
+    void scheduleJob() {
+        PeriodicityRange periodicityRange = scheduleConfiguration.getPeriodicityRange();
         int earliestStartTimeDelayMs = periodicityRange.earliestStartTimeDelayMs;
         int latestStartTimeDelayMs = periodicityRange.latestStartTimeDelayMs;
 

@@ -14,13 +14,8 @@ public class LearnificationResponseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobSchedulerContext(this));
-        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        SettingsRepository settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
-        ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, settingsRepository);
-        PeriodicityRange periodicityRangeForNextLearnification = scheduleConfiguration.getPeriodicityRange();
-
-        LearnificationResponseTextGenerator learnificationResponseTextGenerator = new LearnificationResponseTextGenerator(periodicityRangeForNextLearnification);
+        ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this)));
+        LearnificationResponseTextGenerator learnificationResponseTextGenerator = new LearnificationResponseTextGenerator(scheduleConfiguration);
 
         Bundle remoteInput = RemoteInput.getResultsFromIntent(this.getIntent());
         if (remoteInput != null) {
@@ -33,7 +28,8 @@ public class LearnificationResponseActivity extends AppCompatActivity {
             notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), replyNotification);
         }
 
-        learnificationScheduler.scheduleJob(periodicityRangeForNextLearnification);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobSchedulerContext(this), scheduleConfiguration);
+        learnificationScheduler.scheduleJob();
 
         finish();
     }

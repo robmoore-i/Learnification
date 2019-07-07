@@ -2,6 +2,7 @@ package com.rrm.learnification;
 
 class ScheduleConfiguration {
     static final int MAXIMUM_ACCEPTABLE_DELAY_SECONDS = 10;
+
     private static final String LOG_TAG = "ScheduleConfiguration";
     private final AndroidLogger logger;
     private final SettingsRepository settingsRepository;

@@ -1,10 +1,10 @@
 package com.rrm.learnification;
 
 class LearnificationResponseTextGenerator {
-    private PeriodicityRange periodicityRangeForNextLearnification;
+    private final ScheduleConfiguration scheduleConfiguration;
 
-    LearnificationResponseTextGenerator(PeriodicityRange periodicityRangeForNextLearnification) {
-        this.periodicityRangeForNextLearnification = periodicityRangeForNextLearnification;
+    LearnificationResponseTextGenerator(ScheduleConfiguration scheduleConfiguration) {
+        this.scheduleConfiguration = scheduleConfiguration;
     }
 
     String getReplyText(String inputString) {
@@ -12,7 +12,7 @@ class LearnificationResponseTextGenerator {
     }
 
     private String timeUntilNextLearnificationText() {
-        int delayInSeconds = periodicityRangeForNextLearnification.earliestStartTimeDelayMs / 1000;
+        int delayInSeconds = scheduleConfiguration.getPeriodicityRange().earliestStartTimeDelayMs / 1000;
 
         if (delayInSeconds < 60) {
             return delayInSeconds + "s";
