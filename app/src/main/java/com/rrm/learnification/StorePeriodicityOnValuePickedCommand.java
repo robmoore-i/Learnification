@@ -11,9 +11,9 @@ class StorePeriodicityOnValuePickedCommand implements OnValuePickedCommand {
     }
 
     @Override
-    public void onChange(int newValue) {
-        logger.v(LOG_TAG, "onChange called with new value " + newValue);
+    public void onValuePicked(int newPeriodicityInSeconds) {
+        logger.v(LOG_TAG, "onValuePicked called with new value " + newPeriodicityInSeconds + " (" + (newPeriodicityInSeconds / 60) + " minutes)");
 
-        settingsRepository.writePeriodicity(newValue);
+        settingsRepository.writePeriodicity(newPeriodicityInSeconds);
     }
 }

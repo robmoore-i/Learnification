@@ -21,8 +21,9 @@ public class LearnificationResponseActivity extends AppCompatActivity {
     private void scheduleNextLearnification() {
         LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobSchedulerContext(this));
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        ScheduleConfigurationStorage scheduleConfigurationStorage = new ScheduleConfigurationStorage(logger, fileStorageAdaptor);
-        learnificationScheduler.scheduleJob(scheduleConfigurationStorage.getPeriodicityRange());
+        SettingsRepository settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
+        ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, settingsRepository);
+        learnificationScheduler.scheduleJob(scheduleConfiguration.getPeriodicityRange());
     }
 
     private void updateLearnificationWithResponse() {

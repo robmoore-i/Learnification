@@ -15,13 +15,17 @@ class SettingsRepository {
         this.fileStorageAdaptor = fileStorageAdaptor;
     }
 
-    void writePeriodicity(int periodicityInMinutes) {
-        logger.v(LOG_TAG, "writing periodicity as " + periodicityInMinutes + " minutes");
+    void writePeriodicity(int periodicityInSeconds) {
+        logger.v(LOG_TAG, "writing periodicity as " + periodicityInSeconds + " seconds");
 
         try {
-            fileStorageAdaptor.appendLines(PERIODICITY_FILE, Collections.singletonList("periodicityInMinutes=" + periodicityInMinutes));
+            fileStorageAdaptor.appendLines(PERIODICITY_FILE, Collections.singletonList("periodicityInSeconds=" + periodicityInSeconds));
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
         }
+    }
+
+    int readPeriodicitySeconds() {
+        return 5;
     }
 }

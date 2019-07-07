@@ -76,7 +76,7 @@ class AndroidMainActivityView implements MainActivityView {
         periodicityPicker.setOnScrollListener((view, scrollState) -> {
             if (scrollState == NumberPicker.OnScrollListener.SCROLL_STATE_IDLE) {
                 final int value = view.getValue();
-                onValuePickedCommand.onChange(value);
+                onValuePickedCommand.onValuePicked(value * 60);
 
                 // Sometimes the picker reports a value that is off-by-one. If this is the case, then this delayed
                 // task will pick up the difference and write that in instead.
@@ -86,7 +86,7 @@ class AndroidMainActivityView implements MainActivityView {
                     public void run() {
                         int delayedValue = periodicityPicker.getValue();
                         if (Math.abs(delayedValue - value) == 1) {
-                            onValuePickedCommand.onChange(delayedValue);
+                            onValuePickedCommand.onValuePicked(delayedValue * 60);
                         }
                     }
                 }, delayMs);
