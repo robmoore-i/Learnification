@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.stream.Collectors;
 
 class AndroidMainActivityView implements MainActivityView {
@@ -78,5 +80,21 @@ class AndroidMainActivityView implements MainActivityView {
         NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
         periodicityPicker.setFormatter(formatter);
         periodicityPicker.setWrapSelectorWheel(false);
+
+        // Use a little hack to ensure that formatter applies correctly on first render.
+        // See: https://stackoverflow.com/questions/17708325/android-numberpicker-with-formatter-doesnt-format-on-first-rendering
+        try {
+            Method method = periodicityPicker.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
+            method.setAccessible(true);
+            method.invoke(periodicityPicker, true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }
