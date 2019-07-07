@@ -14,11 +14,14 @@ class MainActivityEntryPoint {
     private final MainActivityView mainActivityView;
     private final LearnificationListView learnificationListView;
     private final PeriodicityPicker periodicityPicker;
+    private final SettingsRepository settingsRepository;
 
     MainActivityEntryPoint(MainActivity activity) {
         this.activity = activity;
         this.logger = new AndroidLogger();
-        this.learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, new AndroidInternalStorageAdaptor(logger, activity)));
+        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, activity);
+        this.settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
+        this.learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, fileStorageAdaptor));
         this.androidLearnificationFactory = new AndroidLearnificationFactory(logger, new AndroidNotificationFactory(this.activity));
         this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         this.notificationIdGenerator = NotificationIdGenerator.getInstance();
@@ -35,7 +38,7 @@ class MainActivityEntryPoint {
         learnificationButton.setOnClickHandler(new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationListView));
 
         periodicityPicker.setInputRangeInMinutes(5, 90);
-        periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger));
+        periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger, settingsRepository));
         periodicityPicker.setChoiceFormatter();
 
         createNotificationChannel();
