@@ -11,4 +11,6 @@ interface FileStorageAdaptor {
     List<String> readLines(String fileName) throws IOException;
 
     void deleteFile(String fileName);
+
+    void overwriteLines(String fileName, List<String> lines) throws IOException;
 }

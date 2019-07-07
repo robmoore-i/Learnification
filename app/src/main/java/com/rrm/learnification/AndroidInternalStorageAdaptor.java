@@ -80,4 +80,10 @@ class AndroidInternalStorageAdaptor implements FileStorageAdaptor {
             }
         }
     }
+
+    @Override
+    public void overwriteLines(String fileName, List<String> lines) throws IOException {
+        deleteFile(fileName);
+        appendLines(fileName, lines);
+    }
 }

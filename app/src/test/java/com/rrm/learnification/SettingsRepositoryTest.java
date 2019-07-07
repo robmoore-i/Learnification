@@ -24,4 +24,14 @@ public class SettingsRepositoryTest {
 
         assertThat(periodicity, equalTo(30));
     }
+
+    @Test
+    public void ifLineIsEmptyItReturnsTeDefault() throws IOException {
+        when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList(""));
+        SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
+
+        int periodicity = settingsRepository.readPeriodicitySeconds();
+
+        assertThat(periodicity, equalTo(SettingsRepository.DEFAULT_PERIODICITY));
+    }
 }
