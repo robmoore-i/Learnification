@@ -39,7 +39,7 @@ public class AddLearnificationTest {
     public void typingLAndRIntoTheTextFieldsAndClickingThePlusButtonAddsALearnificationToTheList() {
         onView(withId(R.id.left_input)).perform(typeText("L"));
         onView(withId(R.id.right_input)).perform(typeText("R"));
-        onView(withId(R.id.addLearnificationButton)).perform(click());
+        onView(withId(R.id.add_learning_item_button)).perform(click());
 
         onView(allOf(withParent(withId(R.id.learnifications_list)), withText("L - R"))).check(matches(isDisplayed()));
     }

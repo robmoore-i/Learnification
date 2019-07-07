@@ -7,10 +7,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class LearnificationButtonTest {
+    private final AndroidLogger logger = mock(AndroidLogger.class);
+
     @Test
     public void settingOnClickHandlerAndClickingButtonInvokesTheOnClickComand() {
         MainActivityView mockMainActivityView = mock(MainActivityView.class);
-        LearnificationButton learnificationButton = new LearnificationButton(new AndroidLogger(), mockMainActivityView);
+        LearnificationButton learnificationButton = new LearnificationButton(logger, mockMainActivityView);
         OnClickCommand mockOnClickCommand = mock(OnClickCommand.class);
 
         learnificationButton.setOnClickHandler(mockOnClickCommand);
