@@ -32,6 +32,6 @@ public class SettingsRepositoryTest {
 
         int periodicity = settingsRepository.readPeriodicitySeconds();
 
-        assertThat(periodicity, equalTo(SettingsRepository.DEFAULT_PERIODICITY));
+        assertThat(periodicity, equalTo(SettingsRepository.DEFAULT_PERIODICITY_SECONDS));
     }
 }

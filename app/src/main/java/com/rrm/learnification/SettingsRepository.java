@@ -6,7 +6,7 @@ import java.util.List;
 class SettingsRepository {
     private static final String LOG_TAG = "SettingsRepository";
 
-    static final int DEFAULT_PERIODICITY = 5;
+    static final int DEFAULT_PERIODICITY_SECONDS = 5;
 
     private final String PERIODICITY_FILE = "settings_periodicity";
     private final AndroidLogger logger;
@@ -31,11 +31,17 @@ class SettingsRepository {
     int readPeriodicitySeconds() {
         try {
             List<String> lines = fileStorageAdaptor.readLines(PERIODICITY_FILE);
-            return Integer.parseInt(lines.get(0).split("=")[1]);
+            String firstLine = lines.get(0);
+            if (firstLine.isEmpty()) {
+                logger.v(LOG_TAG, "first line of periodicity file (" + PERIODICITY_FILE + ") was empty. Returning default periodicity " + DEFAULT_PERIODICITY_SECONDS + ")");
+                return DEFAULT_PERIODICITY_SECONDS;
+            }
+
+            return Integer.parseInt(firstLine.split("=")[1]);
         } catch (Exception e) {
             logger.e(LOG_TAG, e);
-            logger.v(LOG_TAG, "returning default periodicity in seconds (" + DEFAULT_PERIODICITY + ")");
-            return DEFAULT_PERIODICITY;
+            logger.v(LOG_TAG, "returning default periodicity in seconds (" + DEFAULT_PERIODICITY_SECONDS + ")");
+            return DEFAULT_PERIODICITY_SECONDS;
         }
     }
 }
