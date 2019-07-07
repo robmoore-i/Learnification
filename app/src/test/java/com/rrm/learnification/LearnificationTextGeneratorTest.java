@@ -13,17 +13,17 @@ import static org.mockito.Mockito.when;
 public class LearnificationTextGeneratorTest {
     @Test
     public void generatesEgyptCapitalCityLearnification() throws CantGenerateNotificationTextException {
-        Randomiser stubRandomiser = learningItems -> learningItems.get(0).left;
+        Randomiser stubRandomiser = learningItems -> new LearnificationText(learningItems.get(0).left, learningItems.get(0).right, "Learn");
         LearnificationRepository stubLearnificationRepository = mock(LearnificationRepository.class);
         when(stubLearnificationRepository.learningItems()).thenReturn(Collections.singletonList(new LearningItem("Egypt", "Cairo")));
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
 
-        assertThat(learnificationTextGenerator.learnificationText(), equalTo("Egypt"));
+        assertThat(learnificationTextGenerator.learnificationText().expected, equalTo("Egypt"));
     }
 
     @Test(expected = CantGenerateNotificationTextException.class)
     public void itThrowsCantGenerateNotificationTextExceptionIfThereAreNoLearningItems() throws CantGenerateNotificationTextException {
-        Randomiser stubRandomiser = learningItems -> learningItems.get(0).left;
+        Randomiser stubRandomiser = learningItems -> new LearnificationText(learningItems.get(0).left, learningItems.get(0).right, "Learn");
         LearnificationRepository stubLearnificationRepository = mock(LearnificationRepository.class);
         when(stubLearnificationRepository.learningItems()).thenReturn(new ArrayList<>());
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
