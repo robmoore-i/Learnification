@@ -26,7 +26,7 @@ class MainActivityEntryPoint {
         this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
         this.notificationIdGenerator = NotificationIdGenerator.getInstance();
         this.notificationManager = new AndroidNotificationManager(NotificationManagerCompat.from(activity));
-        this.mainActivityView = new AndroidMainActivityView(activity);
+        this.mainActivityView = new AndroidMainActivityView(logger, activity);
         this.learnificationButton = new LearnificationButton(logger, mainActivityView);
         this.learnificationListView = new LearnificationListView(logger, mainActivityView);
         this.periodicityPicker = new PeriodicityPicker(logger, mainActivityView);

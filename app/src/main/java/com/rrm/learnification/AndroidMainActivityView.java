@@ -1,12 +1,11 @@
 package com.rrm.learnification;
 
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
@@ -17,9 +16,13 @@ import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 class AndroidMainActivityView implements MainActivityView {
-    private final MainActivity activity;
+    private static final String LOG_TAG = "AndroidMainActivityView";
 
-    AndroidMainActivityView(MainActivity activity) {
+    private final MainActivity activity;
+    private final AndroidLogger logger;
+
+    AndroidMainActivityView(AndroidLogger logger, MainActivity activity) {
+        this.logger = logger;
         this.activity = activity;
     }
 
@@ -36,7 +39,19 @@ class AndroidMainActivityView implements MainActivityView {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                onSwipeCommand.onSwipe(adapter, viewHolder.getAdapterPosition());
+                int listViewIndex = viewHolder.getAdapterPosition();
+                logger.v(LOG_TAG, "learning-item swiped at position " + listViewIndex + " to the " + swipeDirectionToString(swipeDir));
+                onSwipeCommand.onSwipe(adapter, listViewIndex);
+            }
+
+            private String swipeDirectionToString(int swipeDir) {
+                if (swipeDir == ItemTouchHelper.LEFT) {
+                    return "left";
+                } else if (swipeDir == ItemTouchHelper.RIGHT) {
+                    return "right";
+                } else {
+                    return "neither left nor right";
+                }
             }
 
             @Override
@@ -57,9 +72,12 @@ class AndroidMainActivityView implements MainActivityView {
     }
 
     @Override
-    public void setLearnificationButtonOnClickListener(View.OnClickListener onClickListener) {
-        FloatingActionButton button = activity.findViewById(R.id.addLearnificationButton);
-        button.setOnClickListener(onClickListener);
+    public void setLearnificationButtonOnClickListener(OnClickCommand onClickListener) {
+        Button button = activity.findViewById(R.id.add_learning_item_button);
+        button.setOnClickListener(view -> {
+            logger.v(LOG_TAG, "add-learning-item-button clicked");
+            onClickListener.onClick();
+        });
     }
 
 
