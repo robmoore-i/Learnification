@@ -35,7 +35,7 @@ class MainActivityEntryPoint {
         learnificationButton.setOnClickHandler(new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationListView));
 
         periodicityPicker.setInputRangeInMinutes(5, 90);
-        periodicityPicker.setOnChangeListener(new StorePeriodicityOnChangeCommand(logger));
+        periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger));
         periodicityPicker.setChoiceFormatter();
 
         createNotificationChannel();

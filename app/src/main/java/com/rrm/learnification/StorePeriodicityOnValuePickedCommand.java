@@ -1,10 +1,10 @@
 package com.rrm.learnification;
 
-class StorePeriodicityOnChangeCommand implements OnChangeCommand {
-    private static final String LOG_TAG = "StorePeriodicityOnChangeCommand";
+class StorePeriodicityOnValuePickedCommand implements OnValuePickedCommand {
+    private static final String LOG_TAG = "StorePeriodicityOnValuePickedCommand";
     private final AndroidLogger logger;
 
-    StorePeriodicityOnChangeCommand(AndroidLogger logger) {
+    StorePeriodicityOnValuePickedCommand(AndroidLogger logger) {
         this.logger = logger;
     }
 

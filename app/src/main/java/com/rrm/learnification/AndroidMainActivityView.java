@@ -12,6 +12,8 @@ import android.widget.NumberPicker;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 class AndroidMainActivityView implements MainActivityView {
@@ -69,10 +71,27 @@ class AndroidMainActivityView implements MainActivityView {
     }
 
     @Override
-    public void setPeriodicityPickerOnChangeListener(OnChangeCommand onChangeCommand) {
+    public void setPeriodicityPickerOnValuePickedListener(OnValuePickedCommand onValuePickedCommand) {
         NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
-        NumberPicker.OnValueChangeListener onValueChangeListener = (numberPicker, oldVal, newVal) -> onChangeCommand.onChange(newVal);
-        periodicityPicker.setOnValueChangedListener(onValueChangeListener);
+        periodicityPicker.setOnScrollListener((view, scrollState) -> {
+            if (scrollState == NumberPicker.OnScrollListener.SCROLL_STATE_IDLE) {
+                final int value = view.getValue();
+                onValuePickedCommand.onChange(value);
+
+                // Sometimes the picker reports a value that is off-by-one. If this is the case, then this delayed
+                // task will pick up the difference and write that in instead.
+                int delayMs = 1000;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        int delayedValue = periodicityPicker.getValue();
+                        if (Math.abs(delayedValue - value) == 1) {
+                            onValuePickedCommand.onChange(delayedValue);
+                        }
+                    }
+                }, delayMs);
+            }
+        });
     }
 
     @Override

@@ -17,10 +17,10 @@ class PeriodicityPicker {
         mainActivityView.setPeriodicityPickerInputRangeInMinutes(min, max);
     }
 
-    void setOnChangeListener(OnChangeCommand onChangeCommand) {
+    void setOnValuePickedListener(OnValuePickedCommand onValuePickedCommand) {
         logger.v(LOG_TAG, "setting periodicity onChangeListener");
 
-        mainActivityView.setPeriodicityPickerOnChangeListener(onChangeCommand);
+        mainActivityView.setPeriodicityPickerOnValuePickedListener(onValuePickedCommand);
     }
 
     void setChoiceFormatter() {

@@ -12,7 +12,7 @@ interface MainActivityView {
 
     void setPeriodicityPickerInputRangeInMinutes(int min, int max);
 
-    void setPeriodicityPickerOnChangeListener(OnChangeCommand onChangeCommand);
+    void setPeriodicityPickerOnValuePickedListener(OnValuePickedCommand onValuePickedCommand);
 
     void setPeriodicityPickerChoiceFormatter(NumberPicker.Formatter formatter);
 }

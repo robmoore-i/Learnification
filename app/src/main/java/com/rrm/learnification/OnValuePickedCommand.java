@@ -1,5 +1,5 @@
 package com.rrm.learnification;
 
-interface OnChangeCommand {
+interface OnValuePickedCommand {
     void onChange(int newValue);
 }
