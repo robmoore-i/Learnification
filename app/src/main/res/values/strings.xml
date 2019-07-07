@@ -7,4 +7,5 @@
     <string name="right_input_hint">Right-side value</string>
     <string name="left_input_hint">Left-side value</string>
     <string name="periodicity_input_text_prompt">How many minutes between each notification?</string>
+    <string name="add_learning_item_button_text">Add Learning Item</string>
 </resources>
