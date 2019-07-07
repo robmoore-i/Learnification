@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 class FromFileLearnificationStorage implements LearnificationStorage {
     private static final String LOG_TAG = "FromFileLearnificationStorage";
-    static final String FILE_NAME = "learning_items";
+    static final String LEARNING_ITEMS_FILE_NAME = "learning_items";
 
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
@@ -23,12 +23,12 @@ class FromFileLearnificationStorage implements LearnificationStorage {
         logger.v(LOG_TAG, "reading learnifications from file");
 
         try {
-            if (!fileStorageAdaptor.doesFileExist(FILE_NAME)) {
+            if (!fileStorageAdaptor.doesFileExist(LEARNING_ITEMS_FILE_NAME)) {
                 List<String> lines = defaultLearningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
-                fileStorageAdaptor.appendLines(FILE_NAME, lines);
+                fileStorageAdaptor.appendLines(LEARNING_ITEMS_FILE_NAME, lines);
             }
 
-            return fileStorageAdaptor.readLines(FILE_NAME).stream().filter(line -> !line.isEmpty()).map(LearningItem::fromLine).collect(Collectors.toList());
+            return fileStorageAdaptor.readLines(LEARNING_ITEMS_FILE_NAME).stream().filter(line -> !line.isEmpty()).map(LearningItem::fromLine).collect(Collectors.toList());
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
             return new ArrayList<>();
@@ -40,7 +40,7 @@ class FromFileLearnificationStorage implements LearnificationStorage {
         logger.v(LOG_TAG, "writing a learning-item '" + learningItem.asSingleString() + "'");
 
         try {
-            fileStorageAdaptor.appendLines(FILE_NAME, Collections.singletonList(learningItem.asSingleString()));
+            fileStorageAdaptor.appendLines(LEARNING_ITEMS_FILE_NAME, Collections.singletonList(learningItem.asSingleString()));
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
         }
@@ -54,9 +54,9 @@ class FromFileLearnificationStorage implements LearnificationStorage {
     void rewrite(List<LearningItem> learningItems) {
         logger.v(LOG_TAG, "rewriting learning items");
 
-        fileStorageAdaptor.deleteFile(FILE_NAME);
+        fileStorageAdaptor.deleteFile(LEARNING_ITEMS_FILE_NAME);
         try {
-            fileStorageAdaptor.appendLines(FILE_NAME, learningItems.stream().map(LearningItem::asSingleString).collect(Collectors.toList()));
+            fileStorageAdaptor.appendLines(LEARNING_ITEMS_FILE_NAME, learningItems.stream().map(LearningItem::asSingleString).collect(Collectors.toList()));
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
         }

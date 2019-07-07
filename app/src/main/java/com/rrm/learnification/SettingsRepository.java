@@ -7,8 +7,8 @@ class SettingsRepository {
     private static final String LOG_TAG = "SettingsRepository";
 
     static final int DEFAULT_PERIODICITY_SECONDS = 5;
+    static final String PERIODICITY_FILE_NAME = "settings_periodicity";
 
-    private final String PERIODICITY_FILE = "settings_periodicity";
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
 
@@ -21,19 +21,19 @@ class SettingsRepository {
         logger.v(LOG_TAG, "writing periodicity as " + periodicityInSeconds + " seconds");
 
         try {
-            fileStorageAdaptor.overwriteLines(PERIODICITY_FILE, Collections.singletonList("periodicityInSeconds=" + periodicityInSeconds));
+            fileStorageAdaptor.overwriteLines(PERIODICITY_FILE_NAME, Collections.singletonList("periodicityInSeconds=" + periodicityInSeconds));
         } catch (Exception e) {
-            logger.v(LOG_TAG, "failed to write periodicity (" + periodicityInSeconds + ") to file (" + PERIODICITY_FILE + ")");
+            logger.v(LOG_TAG, "failed to write periodicity (" + periodicityInSeconds + ") to file (" + PERIODICITY_FILE_NAME + ")");
             logger.e(LOG_TAG, e);
         }
     }
 
     int readPeriodicitySeconds() {
         try {
-            List<String> lines = fileStorageAdaptor.readLines(PERIODICITY_FILE);
+            List<String> lines = fileStorageAdaptor.readLines(PERIODICITY_FILE_NAME);
             String firstLine = lines.get(0);
             if (firstLine.isEmpty()) {
-                logger.v(LOG_TAG, "first line of periodicity file (" + PERIODICITY_FILE + ") was empty. Returning default periodicity " + DEFAULT_PERIODICITY_SECONDS + ")");
+                logger.v(LOG_TAG, "first line of periodicity file (" + PERIODICITY_FILE_NAME + ") was empty. Returning default periodicity " + DEFAULT_PERIODICITY_SECONDS + ")");
                 return DEFAULT_PERIODICITY_SECONDS;
             }
 
