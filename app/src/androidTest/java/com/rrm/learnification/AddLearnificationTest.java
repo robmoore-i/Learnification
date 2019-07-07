@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -40,6 +41,7 @@ public class AddLearnificationTest {
         onView(withId(R.id.left_input)).perform(typeText("L"));
         onView(withId(R.id.right_input)).perform(typeText("R"));
         onView(withId(R.id.add_learning_item_button)).perform(click());
+        closeSoftKeyboard();
 
         onView(allOf(withParent(withId(R.id.learnifications_list)), withText("L - R"))).check(matches(isDisplayed()));
     }
