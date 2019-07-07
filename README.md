@@ -4,27 +4,25 @@
 
 ### Major
 
-- Change persistence to SQLite, using RxJava for access
+- Use empty-list UX pattern for creating learning items, rather than having default ones.
 
-- Managing the application entry points across different activities
+- Integration test coverage across the most important journeys.
 
 ### Minor
 
-- Meaningful unit tests
-
 - Injectable components for use in integration tests
 
-- Use empty-list UX pattern for creating learning items, rather than having default ones.
+- Meaningful unit tests
+
+- Unit test coverage
 
 ## MVP
 
-- I can define my own learning items
+- I can download the app from the play store
 
-- I can choose which learning items are members of the current periodic ballot
+- I can define my own learning items and browse them
 
-- I periodically get notifications based on my active learning items
-
-- I can download it from the play store
+- I periodically get notifications based on my active learning items at a periodicity I define
 
 - I can donate to Rob if I want to
 
