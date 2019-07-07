@@ -7,8 +7,8 @@ class LearnificationResponseTextGenerator {
         this.scheduleConfiguration = scheduleConfiguration;
     }
 
-    String getReplyText(String inputString) {
-        return "Got '" + inputString + "'. Next one in " + timeUntilNextLearnificationText() + ".";
+    String getReplyText(String expected, String actual) {
+        return "Got '" + actual + "', expected '" + expected + "'. Next one in " + timeUntilNextLearnificationText() + ".";
     }
 
     private String timeUntilNextLearnificationText() {

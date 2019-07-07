@@ -11,9 +11,12 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 
 class AndroidNotificationFactory {
+    static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
+
     // Key for the string that's delivered in the reply action's intent.
     static final String REPLY_TEXT = "key_text_reply";
     private static final String LOG_TAG = "AndroidNotificationFactory";
+
     private final AndroidLogger logger;
     private final Context packageContext;
 
@@ -22,8 +25,10 @@ class AndroidNotificationFactory {
         this.packageContext = packageContext;
     }
 
-    Notification createLearnification(String title, String text) {
-        logger.v(LOG_TAG, "Creating a notification with title '" + title + "' and text '" + text + "'");
+    Notification createLearnification(LearnificationText learnificationText) {
+        String learningItemPrompt = learnificationText.expected;
+        String subHeading = learnificationText.subHeading;
+        logger.v(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
         RemoteInput remoteInput = new RemoteInput.Builder(REPLY_TEXT)
                 .setLabel(getRemoteInputReplyLabel())
@@ -33,11 +38,12 @@ class AndroidNotificationFactory {
         NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
                 replyActionLabel(),
-                responsePendingIntent())
+                responsePendingIntent(learnificationText.actual))
                 .addRemoteInput(remoteInput)
                 .build();
 
-        return buildNotification(title, text, replyAction);
+        // Use the title for the learnification main text, so it shows up boldly.
+        return buildNotification(learningItemPrompt, subHeading, replyAction);
     }
 
     String getRemoteInputReplyLabel() {
@@ -48,11 +54,13 @@ class AndroidNotificationFactory {
         return packageContext.getString(R.string.reply_label);
     }
 
-    PendingIntent responsePendingIntent() {
+    PendingIntent responsePendingIntent(String expectedUserResponse) {
+        Intent intent = new Intent(packageContext, LearnificationResponseActivity.class);
+        intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
         return PendingIntent.getActivity(
                 packageContext,
                 0,
-                new Intent(packageContext, LearnificationResponseActivity.class),
+                intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
     }

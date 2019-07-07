@@ -1,6 +1,7 @@
 package com.rrm.learnification;
 
 import android.app.Notification;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
@@ -17,11 +18,13 @@ public class LearnificationResponseActivity extends AppCompatActivity {
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this)));
         LearnificationResponseTextGenerator learnificationResponseTextGenerator = new LearnificationResponseTextGenerator(scheduleConfiguration);
 
-        Bundle remoteInput = RemoteInput.getResultsFromIntent(this.getIntent());
+        Intent intent = this.getIntent();
+        Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
         if (remoteInput != null) {
             @SuppressWarnings("ConstantConditions")
-            String inputString = remoteInput.getCharSequence(AndroidNotificationFactory.REPLY_TEXT).toString();
-            String replyText = learnificationResponseTextGenerator.getReplyText(inputString);
+            String actual = remoteInput.getCharSequence(AndroidNotificationFactory.REPLY_TEXT).toString();
+            String expected = intent.getStringExtra(AndroidNotificationFactory.EXPECTED_USER_RESPONSE_EXTRA);
+            String replyText = learnificationResponseTextGenerator.getReplyText(expected, actual);
             AndroidNotificationFactory androidNotificationFactory = new AndroidNotificationFactory(logger, this);
             Notification replyNotification = androidNotificationFactory.buildResponseNotification("Result", replyText);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);

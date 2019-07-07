@@ -51,8 +51,8 @@ class AndroidNotificationFacade {
         logger.v(LOG_TAG, "Created notification channel");
     }
 
-    Notification createLearnification(String title, String text) {
-        return factory.createLearnification(title, text);
+    Notification createLearnification(LearnificationText learnificationText) {
+        return factory.createLearnification(learnificationText);
     }
 
     void publish(Notification notification) {

@@ -17,13 +17,9 @@ class LearnificationPublisher {
 
     void publishLearnification() {
         try {
-            String notificationText = learnificationTextGenerator.notificationText();
+            LearnificationText learnificationText = learnificationTextGenerator.learnificationText();
 
-            // Use the title for the learnification main text, so it shows up boldly.
-            Notification notification = androidNotificationFacade.createLearnification(
-                    notificationText,
-                    "Learn!"
-            );
+            Notification notification = androidNotificationFacade.createLearnification(learnificationText);
 
             androidNotificationFacade.publish(notification);
         } catch (CantGenerateNotificationTextException e) {

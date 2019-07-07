@@ -11,7 +11,7 @@ class LearnificationTextGenerator {
         this.learnificationRepository = learnificationRepository;
     }
 
-    String notificationText() throws CantGenerateNotificationTextException {
+    LearnificationText learnificationText() throws CantGenerateNotificationTextException {
         List<LearningItem> learningItems = learnificationRepository.learningItems();
         if (learningItems.isEmpty()) {
             throw new CantGenerateNotificationTextException();

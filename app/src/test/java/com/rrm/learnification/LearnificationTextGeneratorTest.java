@@ -18,7 +18,7 @@ public class LearnificationTextGeneratorTest {
         when(stubLearnificationRepository.learningItems()).thenReturn(Collections.singletonList(new LearningItem("Egypt", "Cairo")));
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
 
-        assertThat(learnificationTextGenerator.notificationText(), equalTo("Egypt"));
+        assertThat(learnificationTextGenerator.learnificationText(), equalTo("Egypt"));
     }
 
     @Test(expected = CantGenerateNotificationTextException.class)
@@ -28,6 +28,6 @@ public class LearnificationTextGeneratorTest {
         when(stubLearnificationRepository.learningItems()).thenReturn(new ArrayList<>());
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
 
-        learnificationTextGenerator.notificationText();
+        learnificationTextGenerator.learnificationText();
     }
 }

@@ -16,7 +16,7 @@ public class LearnificationPublisherTest {
         AndroidLogger dummyLogger = mock(AndroidLogger.class);
 
         LearnificationTextGenerator stubLearnificationTextGenerator = mock(LearnificationTextGenerator.class);
-        when(stubLearnificationTextGenerator.notificationText()).thenThrow(CantGenerateNotificationTextException.class);
+        when(stubLearnificationTextGenerator.learnificationText()).thenThrow(CantGenerateNotificationTextException.class);
 
         AndroidNotificationFacade mockAndroidNotificationFacade = mock(AndroidNotificationFacade.class);
 
@@ -38,7 +38,7 @@ public class LearnificationPublisherTest {
         AndroidNotificationFacade mockAndroidNotificationFacade = mock(AndroidNotificationFacade.class);
 
         LearnificationTextGenerator stubLearnificationTextGenerator = mock(LearnificationTextGenerator.class);
-        when(stubLearnificationTextGenerator.notificationText()).thenThrow(CantGenerateNotificationTextException.class);
+        when(stubLearnificationTextGenerator.learnificationText()).thenThrow(CantGenerateNotificationTextException.class);
 
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 mockLogger,

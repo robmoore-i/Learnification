@@ -7,7 +7,7 @@ class JavaRandomiser implements Randomiser {
     private final Random random = new Random();
 
     @Override
-    public String randomLearnificationQuestion(List<LearningItem> learningItems) {
+    public LearnificationText randomLearnificationQuestion(List<LearningItem> learningItems) {
         return chooseRandomLearningItemSide(chooseRandomLearningItem(learningItems));
     }
 
@@ -16,11 +16,11 @@ class JavaRandomiser implements Randomiser {
         return learningItems.get(n);
     }
 
-    private String chooseRandomLearningItemSide(LearningItem learningItem) {
+    private LearnificationText chooseRandomLearningItemSide(LearningItem learningItem) {
         if (random.nextBoolean()) {
-            return learningItem.left;
+            return new LearnificationText(learningItem.left, learningItem.right, "Learn!");
         } else {
-            return learningItem.right;
+            return new LearnificationText(learningItem.right, learningItem.left, "Learn!");
         }
     }
 }
