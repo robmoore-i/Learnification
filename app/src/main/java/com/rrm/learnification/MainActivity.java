@@ -19,7 +19,21 @@ public class MainActivity extends AppCompatActivity {
         //      See: https://stackoverflow.com/questions/4207880/android-how-do-i-prevent-the-soft-keyboard-from-pushing-my-view-up
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        MainActivityEntryPoint mainActivityEntryPoint = new MainActivityEntryPoint(this);
+        // Dependency construction
+        AndroidLogger logger = new AndroidLogger();
+        AndroidMainActivityView mainActivityView = new AndroidMainActivityView(logger, this);
+        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
+        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
+        Randomiser randomiser = new JavaRandomiser();
+
+        // Entry point
+        MainActivityEntryPoint mainActivityEntryPoint = new MainActivityEntryPoint(
+                logger,
+                mainActivityView,
+                androidNotificationFacade,
+                fileStorageAdaptor,
+                randomiser
+        );
         mainActivityEntryPoint.onMainActivityEntry();
     }
 

@@ -20,9 +20,9 @@ public class LearnificationResponseActivity extends AppCompatActivity {
         Bundle remoteInput = RemoteInput.getResultsFromIntent(this.getIntent());
         if (remoteInput != null) {
             @SuppressWarnings("ConstantConditions")
-            String inputString = remoteInput.getCharSequence(AndroidLearnificationFactory.REPLY_TEXT).toString();
+            String inputString = remoteInput.getCharSequence(AndroidNotificationFactory.REPLY_TEXT).toString();
             String replyText = learnificationResponseTextGenerator.getReplyText(inputString);
-            AndroidNotificationFactory androidNotificationFactory = new AndroidNotificationFactory(this);
+            AndroidNotificationFactory androidNotificationFactory = new AndroidNotificationFactory(logger, this);
             Notification replyNotification = androidNotificationFactory.buildResponseNotification("Result", replyText);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), replyNotification);

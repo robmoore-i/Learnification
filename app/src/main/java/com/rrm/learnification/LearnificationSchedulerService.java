@@ -2,7 +2,6 @@ package com.rrm.learnification;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
-import android.support.v4.app.NotificationManagerCompat;
 
 import java.util.List;
 
@@ -14,8 +13,6 @@ public class LearnificationSchedulerService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         logger.v(LOG_TAG, "Job started");
-        AndroidNotificationFactory androidNotificationFactory = new AndroidNotificationFactory(this);
-        AndroidLearnificationFactory androidLearnificationFactory = new AndroidLearnificationFactory(logger, androidNotificationFactory);
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, fileStorageAdaptor));
 
@@ -25,16 +22,14 @@ public class LearnificationSchedulerService extends JobService {
         }
 
         LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
-
-        AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(
+        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
+        LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 logger,
-                androidLearnificationFactory,
-                NotificationIdGenerator.getInstance(),
                 learnificationTextGenerator,
-                new AndroidNotificationManager(NotificationManagerCompat.from(this))
+                androidNotificationFacade
         );
 
-        androidLearnificationPublisher.createLearnification();
+        learnificationPublisher.publishLearnification();
 
         return false;
     }

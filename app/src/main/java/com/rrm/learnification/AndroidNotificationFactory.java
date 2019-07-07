@@ -8,12 +8,36 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.RemoteInput;
 
 class AndroidNotificationFactory {
+    // Key for the string that's delivered in the reply action's intent.
+    static final String REPLY_TEXT = "key_text_reply";
+    private static final String LOG_TAG = "AndroidNotificationFactory";
+    private final AndroidLogger logger;
     private final Context packageContext;
 
-    AndroidNotificationFactory(Context packageContext) {
+    AndroidNotificationFactory(AndroidLogger logger, Context packageContext) {
+        this.logger = logger;
         this.packageContext = packageContext;
+    }
+
+    Notification createLearnification(String title, String text) {
+        logger.v(LOG_TAG, "Creating a notification with title '" + title + "' and text '" + text + "'");
+
+        RemoteInput remoteInput = new RemoteInput.Builder(REPLY_TEXT)
+                .setLabel(getRemoteInputReplyLabel())
+                .build();
+
+        // Create the reply action and add the remote input.
+        NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
+                R.drawable.android_send,
+                replyActionLabel(),
+                responsePendingIntent())
+                .addRemoteInput(remoteInput)
+                .build();
+
+        return buildNotification(title, text, replyAction);
     }
 
     String getRemoteInputReplyLabel() {

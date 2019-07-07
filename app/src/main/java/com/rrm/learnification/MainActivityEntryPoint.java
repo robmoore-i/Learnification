@@ -1,66 +1,43 @@
 package com.rrm.learnification;
 
-import android.support.v4.app.NotificationManagerCompat;
-
 class MainActivityEntryPoint {
-    private final MainActivity activity;
-    private final AndroidLogger logger;
-    private final LearnificationRepository learnificationRepository;
-    private final AndroidLearnificationFactory androidLearnificationFactory;
-    private final LearnificationTextGenerator learnificationTextGenerator;
-    private final NotificationIdGenerator notificationIdGenerator;
-    private final AndroidNotificationManager notificationManager;
-    private final LearnificationButton learnificationButton;
-    private final MainActivityView mainActivityView;
-    private final LearnificationListView learnificationListView;
-    private final PeriodicityPicker periodicityPicker;
-    private final SettingsRepository settingsRepository;
+    private final MainActivityViewInitialiser mainActivityViewInitialiser;
+    private final NotificationChannelInitialiser notificationChannelInitialiser;
+    private final LearnificationPublisher learnificationPublisher;
 
-    MainActivityEntryPoint(MainActivity activity) {
-        this.activity = activity;
-        this.logger = new AndroidLogger();
-        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, activity);
-        this.settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
-        this.learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, fileStorageAdaptor));
-        this.androidLearnificationFactory = new AndroidLearnificationFactory(logger, new AndroidNotificationFactory(this.activity));
-        this.learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
-        this.notificationIdGenerator = NotificationIdGenerator.getInstance();
-        this.notificationManager = new AndroidNotificationManager(NotificationManagerCompat.from(activity));
-        this.mainActivityView = new AndroidMainActivityView(logger, activity);
-        this.learnificationButton = new LearnificationButton(logger, mainActivityView);
-        this.learnificationListView = new LearnificationListView(logger, mainActivityView);
-        this.periodicityPicker = new PeriodicityPicker(logger, mainActivityView);
+    MainActivityEntryPoint(
+            AndroidLogger logger,
+            AndroidMainActivityView mainActivityView,
+            AndroidNotificationFacade androidNotificationFacade,
+            FileStorageAdaptor fileStorageAdaptor,
+            Randomiser randomiser
+    ) {
+
+        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, fileStorageAdaptor));
+
+        this.mainActivityViewInitialiser = new MainActivityViewInitialiser(
+                logger,
+                mainActivityView,
+                learnificationRepository,
+                new SettingsRepository(logger, fileStorageAdaptor)
+        );
+
+        this.notificationChannelInitialiser = new NotificationChannelInitialiser(
+                androidNotificationFacade
+        );
+
+        this.learnificationPublisher = new LearnificationPublisher(
+                logger,
+                new LearnificationTextGenerator(randomiser, learnificationRepository),
+                androidNotificationFacade
+        );
     }
 
     void onMainActivityEntry() {
-        learnificationListView.populate(learnificationRepository);
+        mainActivityViewInitialiser.initialiseView();
 
-        learnificationButton.setOnClickHandler(new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationListView));
-
-        periodicityPicker.setInputRangeInMinutes(5, 90);
-        periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger, settingsRepository));
-        periodicityPicker.setChoiceFormatter();
-
-        createNotificationChannel();
-
-        publishInitialLearnification();
-    }
-
-    private void publishInitialLearnification() {
-        AndroidLearnificationPublisher androidLearnificationPublisher = new AndroidLearnificationPublisher(
-                logger,
-                androidLearnificationFactory,
-                notificationIdGenerator,
-                learnificationTextGenerator,
-                notificationManager
-        );
-
-        androidLearnificationPublisher.createLearnification();
-    }
-
-    private void createNotificationChannel() {
-        AndroidNotificationContext androidNotificationContext = new AndroidNotificationContext(this.activity.getApplicationContext());
-        NotificationChannelInitialiser notificationChannelInitialiser = new NotificationChannelInitialiser(logger, androidNotificationContext);
         notificationChannelInitialiser.createNotificationChannel();
+
+        learnificationPublisher.publishLearnification();
     }
 }
