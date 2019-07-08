@@ -4,6 +4,8 @@
 
 ### Major
 
+- Integration tests for storage layer (AndroidInternalStorageAdaptor)
+
 - Analytics for user behaviour
 
 - Use empty-list UX pattern for creating learning items, rather than having default ones.
