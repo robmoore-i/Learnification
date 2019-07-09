@@ -65,4 +65,13 @@ public class MainActivity extends AppCompatActivity {
         fileStorageAdaptor.deleteFile(FromFileLearnificationStorage.LEARNING_ITEMS_FILE_NAME);
         fileStorageAdaptor.deleteFile(SettingsRepository.PERIODICITY_FILE_NAME);
     }
+
+    public AndroidInternalStorageAdaptor getAndroidInternalStorageAdaptor() {
+        return new AndroidInternalStorageAdaptor(new AndroidLogger(), this);
+    }
+
+    public FromFileLearnificationStorage getFromFileLearnificationStorage() {
+        AndroidLogger logger = new AndroidLogger();
+        return new FromFileLearnificationStorage(logger, new AndroidInternalStorageAdaptor(logger, this));
+    }
 }

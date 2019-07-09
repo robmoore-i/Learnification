@@ -21,8 +21,12 @@ class TestJanitor {
     }
 
     void clearApp(ActivityTestRule<MainActivity> activityTestRule) {
-        activityTestRule.getActivity().clearData();
+        clearAppData(activityTestRule);
         clearApp();
+    }
+
+    void clearAppData(ActivityTestRule<MainActivity> activityTestRule) {
+        activityTestRule.getActivity().clearData();
     }
 
     void clearAllNotifications() {

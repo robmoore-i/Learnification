@@ -36,7 +36,7 @@ class AndroidInternalStorageAdaptor implements FileStorageAdaptor {
 
         try {
             FileOutputStream fileOutputStream = contextWrapper.openFileOutput(fileName, Context.MODE_APPEND | Context.MODE_PRIVATE);
-            String fileContent = "\n" + String.join("\n", lines);
+            String fileContent = String.join("\n", lines) + "\n";
             fileOutputStream.write(fileContent.getBytes());
             fileOutputStream.close();
         } catch (IOException e) {
