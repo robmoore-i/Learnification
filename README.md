@@ -10,13 +10,11 @@
 
 - Use empty-list UX pattern for creating learning items, rather than having default ones.
 
-- Integration test coverage across the most important journeys.
+- UI test coverage across the most important journeys.
 
 ### Minor
 
-- Injectable components for use in integration tests
-
-- Meaningful unit tests
+- Injectable components for use in Android tests
 
 - Unit test coverage
 
@@ -26,9 +24,9 @@
 
 - I can define my own learning items and browse them
 
-- I periodically get notifications based on my active learning items at a periodicity I define
+- I periodically get notifications based on my learning items, at a periodicity I define
 
-- I can donate to Rob if I want to
+- I can pay as little for the app as I want to
 
 ## Plan
 
