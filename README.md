@@ -1,20 +1,16 @@
 # Learnification
 
-## Non-functional priorities
+## Technical priorities
 
 ### Major
 
-- Integration tests for storage layer (AndroidInternalStorageAdaptor)
+- Nail down android internal storage behaviour in integration tests
 
-- Analytics for user behaviour
-
-- Use empty-list UX pattern for creating learning items, rather than having default ones.
-
-- UI test coverage across the most important journeys.
+- Injectable components for use in Android tests
 
 ### Minor
 
-- Injectable components for use in Android tests
+- UI test coverage across the most important journeys.
 
 - Unit test coverage
 
