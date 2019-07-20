@@ -48,7 +48,9 @@ class AndroidMainActivityView implements MainActivityView {
         params.height = 500;
         recyclerView.setLayoutParams(params);
 
+        // Set up data binding between the learnificationRepository and the RecyclerView.
         LearnificationListViewAdaptor adapter = new LearnificationListViewAdaptor(learnificationRepository.learningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList()));
+        recyclerView.setAdapter(adapter);
 
         // Set up onSwipe behaviour using the onSwipeCommand
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -75,7 +77,7 @@ class AndroidMainActivityView implements MainActivityView {
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setAdapter(adapter);
+
         return adapter;
     }
 
