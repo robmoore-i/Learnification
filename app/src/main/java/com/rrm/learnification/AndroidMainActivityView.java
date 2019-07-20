@@ -5,6 +5,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -29,13 +30,27 @@ class AndroidMainActivityView implements MainActivityView {
     @Override
     public LearnificationListViewAdaptor createLearnificationListViewDataBinding(OnSwipeCommand onSwipeCommand, LearnificationRepository learnificationRepository) {
         RecyclerView recyclerView = activity.findViewById(R.id.learnifications_list);
+
+        // RecyclerViews must have a layout manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        // Provide padding between the elements of the recycler list view
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(activity, linearLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(linearLayoutManager);
+
         recyclerView.setEnabled(true);
+
+        // A bit of a hack: Makes sure that the recycler view height doesn't spill over the bottom of the screen,
+        //                  because if it does this, then the items below the bottom become invisible.
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+        params.height = 500;
+        recyclerView.setLayoutParams(params);
+
         LearnificationListViewAdaptor adapter = new LearnificationListViewAdaptor(learnificationRepository.learningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList()));
+
+        // Set up onSwipe behaviour using the onSwipeCommand
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
