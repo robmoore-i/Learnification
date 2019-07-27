@@ -16,4 +16,6 @@ interface MainActivityView {
     void setPeriodicityPickerChoiceFormatter(NumberPicker.Formatter formatter);
 
     void setPeriodicityPickerToValue(int pickerValue);
+
+    void initialiseToolbar(String title);
 }

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -156,5 +157,12 @@ class AndroidMainActivityView implements MainActivityView {
     public void setPeriodicityPickerToValue(int pickerValue) {
         NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
         periodicityPicker.setValue(pickerValue);
+    }
+
+    @Override
+    public void initialiseToolbar(String title) {
+        Toolbar toolbar = activity.findViewById(R.id.toolbar);
+        toolbar.setTitle(title);
+        activity.setSupportActionBar(toolbar);
     }
 }

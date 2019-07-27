@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 public class MainActivityViewInitialiserTest {
     private AndroidLogger dummyLogger = mock(AndroidLogger.class);
     private LearnificationRepository dummyLearnificationRepository = mock(LearnificationRepository.class);
+    private SettingsRepository dummySettingsRepository = mock(SettingsRepository.class);
 
     @Test
     public void itSetsThePeriodicityPickerUsingTheValueStoredInTheSettingsRepositoryDividedBy60() {
@@ -35,5 +36,15 @@ public class MainActivityViewInitialiserTest {
         mainActivityViewInitialiser.initialiseView();
 
         verify(mockMainActivityView, times(1)).setPeriodicityPickerToValue(5);
+    }
+
+    @Test
+    public void initialisesToolbar() {
+        MainActivityView mockMainActivityView = mock(MainActivityView.class);
+        MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, mockMainActivityView, dummyLearnificationRepository, dummySettingsRepository);
+
+        mainActivityViewInitialiser.initialiseView();
+
+        verify(mockMainActivityView, times(1)).initialiseToolbar("Learnification");
     }
 }
