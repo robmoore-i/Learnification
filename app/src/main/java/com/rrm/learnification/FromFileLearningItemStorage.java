@@ -6,14 +6,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class FromFileLearnificationStorage implements LearnificationStorage {
-    private static final String LOG_TAG = "FromFileLearnificationStorage";
+class FromFileLearningItemStorage implements LearningItemStorage {
+    private static final String LOG_TAG = "FromFileLearningItemStorage";
     static final String LEARNING_ITEMS_FILE_NAME = "learning_items";
 
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
 
-    FromFileLearnificationStorage(AndroidLogger androidLogger, FileStorageAdaptor fileStorageAdaptor) {
+    FromFileLearningItemStorage(AndroidLogger androidLogger, FileStorageAdaptor fileStorageAdaptor) {
         this.logger = androidLogger;
         this.fileStorageAdaptor = fileStorageAdaptor;
     }

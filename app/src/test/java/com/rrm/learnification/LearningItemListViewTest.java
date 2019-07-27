@@ -8,18 +8,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class LearnificationListViewTest {
+public class LearningItemListViewTest {
     private AndroidLogger logger = mock(AndroidLogger.class);
 
     @Test
     public void swipingOnAnItemCallsTheOnSwipeCommand() {
         MainActivityView stubMainActivityView = mock(MainActivityView.class);
-        LearnificationListView learnificationListView = new LearnificationListView(logger, stubMainActivityView);
+        LearningItemListView learningItemListView = new LearningItemListView(logger, stubMainActivityView);
 
         OnSwipeCommand mockOnSwipeCommand = mock(OnSwipeCommand.class);
-        learnificationListView.setOnSwipeCommand(mockOnSwipeCommand);
+        learningItemListView.setOnSwipeCommand(mockOnSwipeCommand);
         int index = 0;
-        learnificationListView.swipeOnItem(index);
+        learningItemListView.swipeOnItem(index);
 
         verify(mockOnSwipeCommand, times(1)).onSwipe(any(), eq(index));
     }

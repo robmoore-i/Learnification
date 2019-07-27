@@ -14,14 +14,14 @@ public class LearnificationSchedulerService extends JobService {
     public boolean onStartJob(JobParameters params) {
         logger.v(LOG_TAG, "Job started");
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, fileStorageAdaptor));
+        LearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
 
-        List<LearningItem> learningItems = learnificationRepository.learningItems();
+        List<LearningItem> learningItems = learningItemRepository.learningItems();
         for (LearningItem learningItem : learningItems) {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
         }
 
-        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learnificationRepository);
+        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learningItemRepository);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 logger,

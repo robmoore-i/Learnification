@@ -14,9 +14,9 @@ public class LearnificationTextGeneratorTest {
     @Test
     public void generatesEgyptCapitalCityLearnification() throws CantGenerateNotificationTextException {
         Randomiser stubRandomiser = learningItems -> new LearnificationText(learningItems.get(0).left, learningItems.get(0).right, "Learn");
-        LearnificationRepository stubLearnificationRepository = mock(LearnificationRepository.class);
-        when(stubLearnificationRepository.learningItems()).thenReturn(Collections.singletonList(new LearningItem("Egypt", "Cairo")));
-        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
+        LearningItemRepository stubLearningItemRepository = mock(LearningItemRepository.class);
+        when(stubLearningItemRepository.learningItems()).thenReturn(Collections.singletonList(new LearningItem("Egypt", "Cairo")));
+        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearningItemRepository);
 
         assertThat(learnificationTextGenerator.learnificationText().expected, equalTo("Egypt"));
     }
@@ -24,9 +24,9 @@ public class LearnificationTextGeneratorTest {
     @Test(expected = CantGenerateNotificationTextException.class)
     public void itThrowsCantGenerateNotificationTextExceptionIfThereAreNoLearningItems() throws CantGenerateNotificationTextException {
         Randomiser stubRandomiser = learningItems -> new LearnificationText(learningItems.get(0).left, learningItems.get(0).right, "Learn");
-        LearnificationRepository stubLearnificationRepository = mock(LearnificationRepository.class);
-        when(stubLearnificationRepository.learningItems()).thenReturn(new ArrayList<>());
-        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearnificationRepository);
+        LearningItemRepository stubLearningItemRepository = mock(LearningItemRepository.class);
+        when(stubLearningItemRepository.learningItems()).thenReturn(new ArrayList<>());
+        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(stubRandomiser, stubLearningItemRepository);
 
         learnificationTextGenerator.learnificationText();
     }

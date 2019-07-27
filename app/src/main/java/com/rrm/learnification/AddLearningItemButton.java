@@ -2,14 +2,14 @@ package com.rrm.learnification;
 
 import android.widget.Button;
 
-class LearnificationButton {
-    private static final String LOG_TAG = "LearnificationButton";
+class AddLearningItemButton {
+    private static final String LOG_TAG = "AddLearningItemButton";
 
     private final AndroidLogger logger;
     private final Button button;
     private OnClickCommand onClickCommand;
 
-    LearnificationButton(AndroidLogger logger, MainActivityView mainActivityView) {
+    AddLearningItemButton(AndroidLogger logger, MainActivityView mainActivityView) {
         this.logger = logger;
         this.button = mainActivityView.addLearningItemButton();
     }

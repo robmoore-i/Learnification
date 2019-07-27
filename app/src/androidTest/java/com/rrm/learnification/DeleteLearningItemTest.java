@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class DeleteLearnificationTest {
+public class DeleteLearningItemTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -33,7 +33,7 @@ public class DeleteLearnificationTest {
         RecyclerView recyclerView = activityTestRule.getActivity().findViewById(R.id.learnifications_list);
         int initialSize = recyclerView.getChildCount();
 
-        onView(withText(startsWith(FromFileLearnificationStorage.defaultLearningItems().get(0).left))).perform(swipeLeft());
+        onView(withText(startsWith(FromFileLearningItemStorage.defaultLearningItems().get(0).left))).perform(swipeLeft());
 
         recyclerView = activityTestRule.getActivity().findViewById(R.id.learnifications_list);
         int finalSize = recyclerView.getChildCount();

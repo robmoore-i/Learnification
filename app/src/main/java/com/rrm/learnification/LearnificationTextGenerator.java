@@ -3,16 +3,16 @@ package com.rrm.learnification;
 import java.util.List;
 
 class LearnificationTextGenerator {
-    private final LearnificationRepository learnificationRepository;
-    private Randomiser randomiser;
+    private final LearningItemRepository learningItemRepository;
+    private final Randomiser randomiser;
 
-    LearnificationTextGenerator(Randomiser randomiser, LearnificationRepository learnificationRepository) {
+    LearnificationTextGenerator(Randomiser randomiser, LearningItemRepository learningItemRepository) {
         this.randomiser = randomiser;
-        this.learnificationRepository = learnificationRepository;
+        this.learningItemRepository = learningItemRepository;
     }
 
     LearnificationText learnificationText() throws CantGenerateNotificationTextException {
-        List<LearningItem> learningItems = learnificationRepository.learningItems();
+        List<LearningItem> learningItems = learningItemRepository.learningItems();
         if (learningItems.isEmpty()) {
             throw new CantGenerateNotificationTextException();
         }

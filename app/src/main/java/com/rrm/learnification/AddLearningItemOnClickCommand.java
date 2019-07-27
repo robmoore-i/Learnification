@@ -1,20 +1,20 @@
 package com.rrm.learnification;
 
 class AddLearningItemOnClickCommand implements OnClickCommand {
-    private final LearnificationRepository learnificationRepository;
-    private final LearnificationListView learnificationListView;
+    private final LearningItemRepository learningItemRepository;
+    private final LearningItemListView learningItemListView;
     private MainActivityView mainActivityView;
 
-    AddLearningItemOnClickCommand(MainActivityView mainActivityView, LearnificationRepository learnificationRepository, LearnificationListView learnificationListView) {
+    AddLearningItemOnClickCommand(MainActivityView mainActivityView, LearningItemRepository learningItemRepository, LearningItemListView learningItemListView) {
         this.mainActivityView = mainActivityView;
-        this.learnificationRepository = learnificationRepository;
-        this.learnificationListView = learnificationListView;
+        this.learningItemRepository = learningItemRepository;
+        this.learningItemListView = learningItemListView;
     }
 
     @Override
     public void onClick() {
         LearningItem learningItem = mainActivityView.getLearningItemTextInput();
-        learnificationRepository.add(learningItem);
-        learnificationListView.addTextEntry(learningItem.asSingleString());
+        learningItemRepository.add(learningItem);
+        learningItemListView.addTextEntry(learningItem.asSingleString());
     }
 }

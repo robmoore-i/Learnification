@@ -2,17 +2,17 @@ package com.rrm.learnification;
 
 import java.util.List;
 
-class PersistentLearnificationRepository implements LearnificationRepository {
-    private static final String LOG_TAG = "PersistentLearnificationRepository";
+class PersistentLearningItemRepository implements LearningItemRepository {
+    private static final String LOG_TAG = "PersistentLearningItemRepository";
 
     private final AndroidLogger logger;
-    private final LearnificationStorage learnificationStorage;
+    private final LearningItemStorage learningItemStorage;
     private final List<LearningItem> learningItems;
 
-    PersistentLearnificationRepository(AndroidLogger logger, LearnificationStorage learnificationStorage) {
+    PersistentLearningItemRepository(AndroidLogger logger, LearningItemStorage learningItemStorage) {
         this.logger = logger;
-        this.learnificationStorage = learnificationStorage;
-        this.learningItems = learnificationStorage.read();
+        this.learningItemStorage = learningItemStorage;
+        this.learningItems = learningItemStorage.read();
 
         logger.v(LOG_TAG, "read learning items from storage");
         for (LearningItem learningItem : learningItems) {
@@ -29,13 +29,13 @@ class PersistentLearnificationRepository implements LearnificationRepository {
     public void add(LearningItem learningItem) {
         logger.v(LOG_TAG, "adding a learning-item '" + learningItem.asSingleString() + "'");
         learningItems.add(learningItem);
-        learnificationStorage.write(learningItem);
+        learningItemStorage.write(learningItem);
     }
 
     @Override
     public void removeAt(int index) {
         logger.v(LOG_TAG, "removing a learning-item at index " + index);
         learningItems.remove(index);
-        learnificationStorage.remove(learningItems, index);
+        learningItemStorage.remove(learningItems, index);
     }
 }

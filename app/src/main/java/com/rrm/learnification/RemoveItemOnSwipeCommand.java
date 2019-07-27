@@ -1,20 +1,15 @@
 package com.rrm.learnification;
 
 class RemoveItemOnSwipeCommand implements OnSwipeCommand {
-    private static final String LOG_TAG = "RemoveItemOnSwipeCommand";
+    private final LearningItemRepository learningItemRepository;
 
-    private final LearnificationRepository learnificationRepository;
-    private final AndroidLogger logger;
-
-    RemoveItemOnSwipeCommand(AndroidLogger logger, LearnificationRepository learnificationRepository) {
-        this.learnificationRepository = learnificationRepository;
-        this.logger = logger;
+    RemoveItemOnSwipeCommand(LearningItemRepository learningItemRepository) {
+        this.learningItemRepository = learningItemRepository;
     }
 
     @Override
-    public void onSwipe(LearnificationListViewAdaptor adapter, int index) {
-        logger.v(LOG_TAG, "removing a text entry from the learnification list at index " + index);
+    public void onSwipe(LearningItemListViewAdaptor adapter, int index) {
         adapter.remove(index);
-        learnificationRepository.removeAt(index);
+        learningItemRepository.removeAt(index);
     }
 }

@@ -13,18 +13,18 @@ class MainActivityEntryPoint {
             Randomiser randomiser
     ) {
 
-        LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, fileStorageAdaptor));
-        LearnificationListView learnificationListView = new LearnificationListView(logger, mainActivityView);
+        LearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
+        LearningItemListView learningItemListView = new LearningItemListView(logger, mainActivityView);
 
         this.mainActivityViewInitialiser = new MainActivityViewInitialiser(
                 logger,
-                learnificationRepository,
+                learningItemRepository,
                 new SettingsRepository(logger, fileStorageAdaptor),
                 new PeriodicityPicker(logger, mainActivityView),
                 new AppToolbar(logger, mainActivityView),
-                new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationListView),
-                learnificationListView,
-                new LearnificationButton(logger, mainActivityView)
+                new AddLearningItemOnClickCommand(mainActivityView, learningItemRepository, learningItemListView),
+                learningItemListView,
+                new AddLearningItemButton(logger, mainActivityView)
         );
 
         this.notificationChannelInitialiser = new NotificationChannelInitialiser(
@@ -33,7 +33,7 @@ class MainActivityEntryPoint {
 
         this.learnificationPublisher = new LearnificationPublisher(
                 logger,
-                new LearnificationTextGenerator(randomiser, learnificationRepository),
+                new LearnificationTextGenerator(randomiser, learningItemRepository),
                 androidNotificationFacade
         );
     }

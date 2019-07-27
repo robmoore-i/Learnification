@@ -7,24 +7,24 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class LearnificationListView {
-    private static final String LOG_TAG = "LearnificationListView";
+class LearningItemListView {
+    private static final String LOG_TAG = "LearningItemListView";
 
     private final RecyclerView recyclerView;
     private final AndroidLogger logger;
 
-    private LearnificationListViewAdaptor adapter;
+    private LearningItemListViewAdaptor adapter;
     private OnSwipeCommand onSwipeCommand;
 
-    LearnificationListView(AndroidLogger logger, MainActivityView mainActivityView) {
+    LearningItemListView(AndroidLogger logger, MainActivityView mainActivityView) {
         this.logger = logger;
         recyclerView = mainActivityView.learningItemsList();
     }
 
-    void bindTo(LearnificationRepository learnificationRepository) {
-        logger.v(LOG_TAG, "populating learnification list");
-        List<String> learningItemsAsTextEntries = learnificationRepository.learningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
-        LearnificationListViewAdaptor adapter = new LearnificationListViewAdaptor(learningItemsAsTextEntries);
+    void bindTo(LearningItemRepository learningItemRepository) {
+        logger.v(LOG_TAG, "populating learning-item list");
+        List<String> learningItemsAsTextEntries = learningItemRepository.learningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
+        LearningItemListViewAdaptor adapter = new LearningItemListViewAdaptor(logger, learningItemsAsTextEntries);
         recyclerView.setAdapter(adapter);
         this.adapter = adapter;
     }
@@ -62,7 +62,7 @@ class LearnificationListView {
     }
 
     void addTextEntry(String textEntry) {
-        logger.v(LOG_TAG, "adding a text entry to the learnification list '" + textEntry + "'");
+        logger.v(LOG_TAG, "adding a text entry to the learning-item list '" + textEntry + "'");
         adapter.add(textEntry);
     }
 }

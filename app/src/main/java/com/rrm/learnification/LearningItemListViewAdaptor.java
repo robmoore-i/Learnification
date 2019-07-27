@@ -8,10 +8,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class LearnificationListViewAdaptor extends RecyclerView.Adapter<LearnificationListViewAdaptor.TextViewHolder> {
-    private final List<String> textEntries;
+public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningItemListViewAdaptor.TextViewHolder> {
+    private static final String LOG_TAG = "LearningItemListViewAdaptor";
 
-    LearnificationListViewAdaptor(List<String> textEntries) {
+    private final List<String> textEntries;
+    private final AndroidLogger logger;
+
+    LearningItemListViewAdaptor(AndroidLogger logger, List<String> textEntries) {
+        this.logger = logger;
         this.textEntries = textEntries;
     }
 
@@ -33,11 +37,13 @@ public class LearnificationListViewAdaptor extends RecyclerView.Adapter<Learnifi
     }
 
     void add(String textEntry) {
+        logger.v(LOG_TAG, "adding a text entry to the learning-item list '" + textEntry + "'");
         textEntries.add(textEntry);
         this.notifyDataSetChanged();
     }
 
     void remove(int index) {
+        logger.v(LOG_TAG, "removing a text entry from the learning-item list at index " + index);
         textEntries.remove(index);
         this.notifyDataSetChanged();
     }

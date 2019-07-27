@@ -10,14 +10,14 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PersistentLearnificationRepositoryTest {
+public class PersistentLearningItemRepositoryTest {
     private final AndroidLogger androidLogger = mock(AndroidLogger.class);
 
     @Test
     public void canAddLearningItems() {
-        LearnificationStorage stubLearnificationStorage = mock(LearnificationStorage.class);
-        when(stubLearnificationStorage.read()).thenReturn(new ArrayList<>());
-        PersistentLearnificationRepository persistentLearnificationRepository = new PersistentLearnificationRepository(androidLogger, stubLearnificationStorage);
+        LearningItemStorage stubLearningItemStorage = mock(LearningItemStorage.class);
+        when(stubLearningItemStorage.read()).thenReturn(new ArrayList<>());
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningItemStorage);
 
         persistentLearnificationRepository.add(new LearningItem("L", "R"));
 

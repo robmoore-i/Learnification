@@ -2,29 +2,29 @@ package com.rrm.learnification;
 
 class MainActivityViewInitialiser {
     private final AndroidLogger logger;
-    private final LearnificationRepository learnificationRepository;
+    private final LearningItemRepository learningItemRepository;
     private final SettingsRepository settingsRepository;
-    private final LearnificationButton learnificationButton;
-    private final LearnificationListView learnificationListView;
+    private final AddLearningItemButton addLearningItemButton;
+    private final LearningItemListView learningItemListView;
     private final PeriodicityPicker periodicityPicker;
     private final OnClickCommand learnificationButtonOnClickCommand;
     private final AppToolbar appToolbar;
 
     MainActivityViewInitialiser(
             AndroidLogger logger,
-            LearnificationRepository learnificationRepository,
+            LearningItemRepository learningItemRepository,
             SettingsRepository settingsRepository,
             PeriodicityPicker periodicityPicker,
             AppToolbar appToolbar,
             OnClickCommand learnificationButtonOnClickCommand,
-            LearnificationListView learnificationListView,
-            LearnificationButton learnificationButton
+            LearningItemListView learningItemListView,
+            AddLearningItemButton addLearningItemButton
     ) {
         this.logger = logger;
-        this.learnificationRepository = learnificationRepository;
+        this.learningItemRepository = learningItemRepository;
         this.settingsRepository = settingsRepository;
-        this.learnificationButton = learnificationButton;
-        this.learnificationListView = learnificationListView;
+        this.addLearningItemButton = addLearningItemButton;
+        this.learningItemListView = learningItemListView;
         this.periodicityPicker = periodicityPicker;
         this.learnificationButtonOnClickCommand = learnificationButtonOnClickCommand;
         this.appToolbar = appToolbar;
@@ -33,10 +33,10 @@ class MainActivityViewInitialiser {
     void initialiseView() {
         appToolbar.setTitle("Learnification");
 
-        learnificationListView.setOnSwipeCommand(new RemoveItemOnSwipeCommand(logger, learnificationRepository));
-        learnificationListView.bindTo(learnificationRepository);
+        learningItemListView.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
+        learningItemListView.bindTo(learningItemRepository);
 
-        learnificationButton.setOnClickHandler(learnificationButtonOnClickCommand);
+        addLearningItemButton.setOnClickHandler(learnificationButtonOnClickCommand);
 
         periodicityPicker.setInputRangeInMinutes(5, 90);
         periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger, settingsRepository));

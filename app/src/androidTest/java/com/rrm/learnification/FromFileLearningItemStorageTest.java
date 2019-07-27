@@ -16,12 +16,12 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class FromFileLearnificationStorageTest {
+public class FromFileLearningItemStorageTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     private TestJanitor testJanitor = new TestJanitor();
-    private FromFileLearnificationStorage fromFileLearnificationStorage;
+    private FromFileLearningItemStorage fromFileLearnificationStorage;
 
     @Before
     public void beforeEach() {
