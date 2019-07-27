@@ -44,6 +44,11 @@ class AndroidMainActivityView implements MainActivityView {
     }
 
     @Override
+    public Toolbar toolbar() {
+        return activity.findViewById(R.id.toolbar);
+    }
+
+    @Override
     public LearningItem getLearningItemTextInput() {
         String left = ((EditText) activity.findViewById(R.id.left_input)).getText().toString();
         String right = ((EditText) activity.findViewById(R.id.right_input)).getText().toString();
@@ -52,18 +57,13 @@ class AndroidMainActivityView implements MainActivityView {
 
 
     @Override
-    public NumberPicker periodicityPicker() {
-        return activity.findViewById(R.id.periodicity_picker);
-    }
-
-    @Override
     public Button addLearningItemButton() {
         return activity.findViewById(R.id.add_learning_item_button);
     }
 
     @Override
-    public Toolbar toolbar() {
-        return activity.findViewById(R.id.toolbar);
+    public NumberPicker periodicityPicker() {
+        return activity.findViewById(R.id.periodicity_picker);
     }
 
     @Override

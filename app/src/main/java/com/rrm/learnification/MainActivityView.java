@@ -6,13 +6,13 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 
 interface MainActivityView {
-    LearningItem getLearningItemTextInput();
+    Toolbar toolbar();
 
-    NumberPicker periodicityPicker();
+    LearningItem getLearningItemTextInput();
 
     Button addLearningItemButton();
 
-    Toolbar toolbar();
+    NumberPicker periodicityPicker();
 
     RecyclerView learningItemsList();
 }
