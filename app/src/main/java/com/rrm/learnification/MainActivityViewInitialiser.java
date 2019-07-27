@@ -4,44 +4,41 @@ class MainActivityViewInitialiser {
     private final AndroidLogger logger;
     private final LearningItemRepository learningItemRepository;
     private final SettingsRepository settingsRepository;
-    private final AddLearningItemButton addLearningItemButton;
-    private final LearningItemListView learningItemListView;
-    private final PeriodicityPicker periodicityPicker;
-    private final OnClickCommand learnificationButtonOnClickCommand;
     private final AppToolbar appToolbar;
+    private final LearningItemTextInput learningItemTextInput;
+    private final AddLearningItemButton addLearningItemButton;
+    private final PeriodicityPicker periodicityPicker;
+    private final LearningItemListView learningItemListView;
 
     MainActivityViewInitialiser(
             AndroidLogger logger,
             LearningItemRepository learningItemRepository,
             SettingsRepository settingsRepository,
-            PeriodicityPicker periodicityPicker,
-            AppToolbar appToolbar,
-            OnClickCommand learnificationButtonOnClickCommand,
-            LearningItemListView learningItemListView,
-            AddLearningItemButton addLearningItemButton
+            AppToolbar appToolbar, LearningItemTextInput learningItemTextInput, AddLearningItemButton addLearningItemButton, PeriodicityPicker periodicityPicker,
+            LearningItemListView learningItemListView
     ) {
         this.logger = logger;
         this.learningItemRepository = learningItemRepository;
         this.settingsRepository = settingsRepository;
-        this.addLearningItemButton = addLearningItemButton;
-        this.learningItemListView = learningItemListView;
-        this.periodicityPicker = periodicityPicker;
-        this.learnificationButtonOnClickCommand = learnificationButtonOnClickCommand;
         this.appToolbar = appToolbar;
+        this.learningItemTextInput = learningItemTextInput;
+        this.addLearningItemButton = addLearningItemButton;
+        this.periodicityPicker = periodicityPicker;
+        this.learningItemListView = learningItemListView;
     }
 
     void initialiseView() {
         appToolbar.setTitle("Learnification");
 
-        learningItemListView.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
-        learningItemListView.bindTo(learningItemRepository);
-
-        addLearningItemButton.setOnClickHandler(learnificationButtonOnClickCommand);
+        addLearningItemButton.setOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemListView));
 
         periodicityPicker.setInputRangeInMinutes(5, 90);
         periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger, settingsRepository));
         periodicityPicker.setToValue(getInitialPeriodicityPickerValue());
         periodicityPicker.setChoiceFormatter();
+
+        learningItemListView.bindTo(learningItemRepository);
+        learningItemListView.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
     }
 
     private int getInitialPeriodicityPickerValue() {

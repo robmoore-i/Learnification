@@ -13,9 +13,9 @@ public class MainActivityViewInitialiserTest {
     private final SettingsRepository dummySettingsRepository = mock(SettingsRepository.class);
     private final PeriodicityPicker dummyPeriodicityPicker = mock(PeriodicityPicker.class);
     private final AppToolbar dummyAppToolbar = mock(AppToolbar.class);
-    private final OnClickCommand dummyOnClickCommand = mock(OnClickCommand.class);
     private final LearningItemListView dummyListView = mock(LearningItemListView.class);
     private final AddLearningItemButton dummyButton = mock(AddLearningItemButton.class);
+    private final LearningItemTextInput dummyLearningItemTextInput = mock(LearningItemTextInput.class);
 
     @Test
     public void itSetsThePeriodicityPickerUsingTheValueStoredInTheSettingsRepositoryDividedBy60() {
@@ -24,7 +24,7 @@ public class MainActivityViewInitialiserTest {
         int periodicityInMinutes = 10;
         int storedPeriodicityInSeconds = periodicityInMinutes * 60;
         when(stubSettingsRepository.readPeriodicitySeconds()).thenReturn(storedPeriodicityInSeconds);
-        MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, dummyLearningItemRepository, stubSettingsRepository, mockPeriodicityPicker, dummyAppToolbar, dummyOnClickCommand, dummyListView, dummyButton);
+        MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, dummyLearningItemRepository, stubSettingsRepository, dummyAppToolbar, dummyLearningItemTextInput, dummyButton, mockPeriodicityPicker, dummyListView);
 
         mainActivityViewInitialiser.initialiseView();
 
@@ -36,7 +36,7 @@ public class MainActivityViewInitialiserTest {
         PeriodicityPicker mockPeriodicityPicker = mock(PeriodicityPicker.class);
         SettingsRepository stubSettingsRepository = mock(SettingsRepository.class);
         when(stubSettingsRepository.readPeriodicitySeconds()).thenReturn(0);
-        MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, dummyLearningItemRepository, stubSettingsRepository, mockPeriodicityPicker, dummyAppToolbar, dummyOnClickCommand, dummyListView, dummyButton);
+        MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, dummyLearningItemRepository, stubSettingsRepository, dummyAppToolbar, dummyLearningItemTextInput, dummyButton, mockPeriodicityPicker, dummyListView);
 
         mainActivityViewInitialiser.initialiseView();
 
@@ -46,7 +46,7 @@ public class MainActivityViewInitialiserTest {
     @Test
     public void initialisesToolbar() {
         AppToolbar mockAppToolbar = mock(AppToolbar.class);
-        MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, dummyLearningItemRepository, dummySettingsRepository, dummyPeriodicityPicker, mockAppToolbar, dummyOnClickCommand, dummyListView, dummyButton);
+        MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, dummyLearningItemRepository, dummySettingsRepository, mockAppToolbar, dummyLearningItemTextInput, dummyButton, dummyPeriodicityPicker, dummyListView);
 
         mainActivityViewInitialiser.initialiseView();
 

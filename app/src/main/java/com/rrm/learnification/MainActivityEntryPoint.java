@@ -14,17 +14,16 @@ class MainActivityEntryPoint {
     ) {
 
         LearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
-        LearningItemListView learningItemListView = new LearningItemListView(logger, mainActivityView);
 
         this.mainActivityViewInitialiser = new MainActivityViewInitialiser(
                 logger,
                 learningItemRepository,
                 new SettingsRepository(logger, fileStorageAdaptor),
-                new PeriodicityPicker(logger, mainActivityView),
                 new AppToolbar(logger, mainActivityView),
-                new AddLearningItemOnClickCommand(mainActivityView, learningItemRepository, learningItemListView),
-                learningItemListView,
-                new AddLearningItemButton(logger, mainActivityView)
+                new LearningItemTextInput(mainActivityView),
+                new AddLearningItemButton(logger, mainActivityView),
+                new PeriodicityPicker(logger, mainActivityView),
+                new LearningItemListView(logger, mainActivityView)
         );
 
         this.notificationChannelInitialiser = new NotificationChannelInitialiser(
