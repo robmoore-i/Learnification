@@ -1,20 +1,26 @@
 package com.rrm.learnification;
 
+import android.widget.Button;
+
 class LearnificationButton {
     private static final String LOG_TAG = "LearnificationButton";
 
     private final AndroidLogger logger;
-    private final MainActivityView mainActivityView;
+    private final Button button;
     private OnClickCommand onClickCommand;
 
     LearnificationButton(AndroidLogger logger, MainActivityView mainActivityView) {
         this.logger = logger;
-        this.mainActivityView = mainActivityView;
+        this.button = mainActivityView.addLearningItemButton();
     }
 
     void setOnClickHandler(final OnClickCommand onClickCommand) {
         this.onClickCommand = onClickCommand;
-        mainActivityView.setLearnificationButtonOnClickListener(onClickCommand);
+
+        button.setOnClickListener(view -> {
+            logger.v(LOG_TAG, "add-learning-item-button clicked");
+            onClickCommand.onClick();
+        });
     }
 
     void click() {

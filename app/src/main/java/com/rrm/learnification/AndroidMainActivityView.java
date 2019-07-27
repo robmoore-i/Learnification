@@ -11,10 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 class AndroidMainActivityView implements MainActivityView {
@@ -89,80 +85,25 @@ class AndroidMainActivityView implements MainActivityView {
         return new LearningItem(left, right);
     }
 
-    @Override
-    public void setLearnificationButtonOnClickListener(OnClickCommand onClickListener) {
-        Button button = activity.findViewById(R.id.add_learning_item_button);
-        button.setOnClickListener(view -> {
-            logger.v(LOG_TAG, "add-learning-item-button clicked");
-            onClickListener.onClick();
-        });
-    }
-
 
     @Override
-    public void setPeriodicityPickerInputRangeInMinutes(int min, int max) {
-        NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
-        periodicityPicker.setMinValue(min);
-        periodicityPicker.setMaxValue(max);
+    public NumberPicker periodicityPicker() {
+        return activity.findViewById(R.id.periodicity_picker);
     }
 
     @Override
-    public void setPeriodicityPickerOnValuePickedListener(OnValuePickedCommand onValuePickedCommand) {
-        NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
-        periodicityPicker.setOnScrollListener((view, scrollState) -> {
-            if (scrollState == NumberPicker.OnScrollListener.SCROLL_STATE_IDLE) {
-                final int value = view.getValue();
-                onValuePickedCommand.onValuePicked(value * 60);
-
-                // Sometimes the picker reports a value that is off-by-one. If this is the case, then this delayed
-                // task will pick up the difference and write that in instead.
-                int delayMs = 1000;
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        int delayedValue = periodicityPicker.getValue();
-                        if (Math.abs(delayedValue - value) == 1) {
-                            onValuePickedCommand.onValuePicked(delayedValue * 60);
-                        }
-                    }
-                }, delayMs);
-            }
-        });
+    public Button addLearningItemButton() {
+        return activity.findViewById(R.id.add_learning_item_button);
     }
 
     @Override
-    public void setPeriodicityPickerChoiceFormatter(NumberPicker.Formatter formatter) {
-        NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
-        periodicityPicker.setFormatter(formatter);
-        periodicityPicker.setWrapSelectorWheel(false);
-
-        // Use a little hack to ensure that formatter applies correctly on first render.
-        // See: https://stackoverflow.com/questions/17708325/android-numberpicker-with-formatter-doesnt-format-on-first-rendering
-        try {
-            Method method = periodicityPicker.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
-            method.setAccessible(true);
-            method.invoke(periodicityPicker, true);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+    public Toolbar toolbar() {
+        return activity.findViewById(R.id.toolbar);
     }
 
     @Override
-    public void setPeriodicityPickerToValue(int pickerValue) {
-        NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
-        periodicityPicker.setValue(pickerValue);
-    }
-
-    @Override
-    public void initialiseToolbar(String title) {
-        Toolbar toolbar = activity.findViewById(R.id.toolbar);
-        toolbar.setTitle(title);
+    public void setSupportActionBar(Toolbar toolbar) {
         activity.setSupportActionBar(toolbar);
     }
+
 }

@@ -10,16 +10,15 @@ class MainActivityViewInitialiser {
     private final OnClickCommand learnificationButtonOnClickCommand;
     private final AppToolbar appToolbar;
 
-    MainActivityViewInitialiser(AndroidLogger logger, MainActivityView mainActivityView, LearnificationRepository learnificationRepository, SettingsRepository settingsRepository) {
+    MainActivityViewInitialiser(AndroidLogger logger, LearnificationRepository learnificationRepository, SettingsRepository settingsRepository, PeriodicityPicker periodicityPicker, AppToolbar appToolbar, OnClickCommand learnificationButtonOnClickCommand, LearnificationListView learnificationListView, LearnificationButton learnificationButton) {
         this.logger = logger;
         this.learnificationRepository = learnificationRepository;
         this.settingsRepository = settingsRepository;
-
-        this.learnificationButton = new LearnificationButton(logger, mainActivityView);
-        this.learnificationListView = new LearnificationListView(logger, mainActivityView);
-        this.periodicityPicker = new PeriodicityPicker(logger, mainActivityView);
-        this.learnificationButtonOnClickCommand = new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationListView);
-        this.appToolbar = new AppToolbar(logger, mainActivityView);
+        this.learnificationButton = learnificationButton;
+        this.learnificationListView = learnificationListView;
+        this.periodicityPicker = periodicityPicker;
+        this.learnificationButtonOnClickCommand = learnificationButtonOnClickCommand;
+        this.appToolbar = appToolbar;
     }
 
     void initialiseView() {

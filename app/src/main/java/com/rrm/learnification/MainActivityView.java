@@ -1,5 +1,7 @@
 package com.rrm.learnification;
 
+import android.support.v7.widget.Toolbar;
+import android.widget.Button;
 import android.widget.NumberPicker;
 
 interface MainActivityView {
@@ -7,15 +9,11 @@ interface MainActivityView {
 
     LearningItem getLearningItemTextInput();
 
-    void setLearnificationButtonOnClickListener(OnClickCommand onClickListener);
+    NumberPicker periodicityPicker();
 
-    void setPeriodicityPickerInputRangeInMinutes(int min, int max);
+    Button addLearningItemButton();
 
-    void setPeriodicityPickerOnValuePickedListener(OnValuePickedCommand onValuePickedCommand);
+    Toolbar toolbar();
 
-    void setPeriodicityPickerChoiceFormatter(NumberPicker.Formatter formatter);
-
-    void setPeriodicityPickerToValue(int pickerValue);
-
-    void initialiseToolbar(String title);
+    void setSupportActionBar(Toolbar toolbar);
 }

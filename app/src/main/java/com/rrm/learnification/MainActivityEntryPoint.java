@@ -14,12 +14,17 @@ class MainActivityEntryPoint {
     ) {
 
         LearnificationRepository learnificationRepository = new PersistentLearnificationRepository(logger, new FromFileLearnificationStorage(logger, fileStorageAdaptor));
+        LearnificationListView learnificationListView = new LearnificationListView(logger, mainActivityView);
 
         this.mainActivityViewInitialiser = new MainActivityViewInitialiser(
                 logger,
-                mainActivityView,
                 learnificationRepository,
-                new SettingsRepository(logger, fileStorageAdaptor)
+                new SettingsRepository(logger, fileStorageAdaptor),
+                new PeriodicityPicker(logger, mainActivityView),
+                new AppToolbar(logger, mainActivityView),
+                new AddLearningItemOnClickCommand(mainActivityView, learnificationRepository, learnificationListView),
+                learnificationListView,
+                new LearnificationButton(logger, mainActivityView)
         );
 
         this.notificationChannelInitialiser = new NotificationChannelInitialiser(
