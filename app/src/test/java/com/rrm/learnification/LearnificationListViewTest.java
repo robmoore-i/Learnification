@@ -3,26 +3,24 @@ package com.rrm.learnification;
 import org.junit.Test;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class LearnificationListViewTest {
     private AndroidLogger logger = mock(AndroidLogger.class);
 
     @Test
-    public void swipingOnAnItemRemovesItFromTheLearnificationRepository() {
+    public void swipingOnAnItemCallsTheOnSwipeCommand() {
         MainActivityView stubMainActivityView = mock(MainActivityView.class);
-        LearnificationListViewAdaptor stubLearnificationListViewAdaptor = mock(LearnificationListViewAdaptor.class);
-        when(stubMainActivityView.createLearnificationListViewDataBinding(any(), any())).thenReturn(stubLearnificationListViewAdaptor);
-
         LearnificationListView learnificationListView = new LearnificationListView(logger, stubMainActivityView);
-        LearnificationRepository mockLearnificationRepository = mock(LearnificationRepository.class);
-        learnificationListView.populate(mockLearnificationRepository);
 
-        learnificationListView.swipeOnItem(0);
+        OnSwipeCommand mockOnSwipeCommand = mock(OnSwipeCommand.class);
+        learnificationListView.setOnSwipeCommand(mockOnSwipeCommand);
+        int index = 0;
+        learnificationListView.swipeOnItem(index);
 
-        verify(mockLearnificationRepository, times(1)).removeAt(0);
+        verify(mockOnSwipeCommand, times(1)).onSwipe(any(), eq(index));
     }
 }

@@ -9,10 +9,10 @@ import android.widget.TextView;
 import java.util.List;
 
 public class LearnificationListViewAdaptor extends RecyclerView.Adapter<LearnificationListViewAdaptor.TextViewHolder> {
-    private final List<String> elements;
+    private final List<String> textEntries;
 
-    LearnificationListViewAdaptor(List<String> elements) {
-        this.elements = elements;
+    LearnificationListViewAdaptor(List<String> textEntries) {
+        this.textEntries = textEntries;
     }
 
     @NonNull
@@ -24,21 +24,21 @@ public class LearnificationListViewAdaptor extends RecyclerView.Adapter<Learnifi
 
     @Override
     public void onBindViewHolder(@NonNull TextViewHolder holder, int position) {
-        holder.textView.setText(elements.get(position));
+        holder.textView.setText(textEntries.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return elements.size();
+        return textEntries.size();
     }
 
     void add(String textEntry) {
-        elements.add(textEntry);
+        textEntries.add(textEntry);
         this.notifyDataSetChanged();
     }
 
     void remove(int index) {
-        elements.remove(index);
+        textEntries.remove(index);
         this.notifyDataSetChanged();
     }
 

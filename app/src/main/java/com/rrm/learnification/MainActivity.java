@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Dependency construction
         AndroidLogger logger = new AndroidLogger();
-        AndroidMainActivityView mainActivityView = new AndroidMainActivityView(logger, this);
+        AndroidMainActivityView mainActivityView = new AndroidMainActivityView(this);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         Randomiser randomiser = new JavaRandomiser();

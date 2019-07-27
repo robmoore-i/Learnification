@@ -33,7 +33,8 @@ class MainActivityViewInitialiser {
     void initialiseView() {
         appToolbar.setTitle("Learnification");
 
-        learnificationListView.populate(learnificationRepository);
+        learnificationListView.setOnSwipeCommand(new RemoveItemOnSwipeCommand(logger, learnificationRepository));
+        learnificationListView.bindTo(learnificationRepository);
 
         learnificationButton.setOnClickHandler(learnificationButtonOnClickCommand);
 
