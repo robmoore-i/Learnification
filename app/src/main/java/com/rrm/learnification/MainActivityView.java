@@ -14,6 +14,4 @@ interface MainActivityView {
     Button addLearningItemButton();
 
     Toolbar toolbar();
-
-    void setSupportActionBar(Toolbar toolbar);
 }

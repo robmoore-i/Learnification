@@ -22,6 +22,8 @@ class AndroidMainActivityView implements MainActivityView {
     AndroidMainActivityView(AndroidLogger logger, MainActivity activity) {
         this.logger = logger;
         this.activity = activity;
+
+        activity.setSupportActionBar(toolbar());
     }
 
     @Override
@@ -100,10 +102,4 @@ class AndroidMainActivityView implements MainActivityView {
     public Toolbar toolbar() {
         return activity.findViewById(R.id.toolbar);
     }
-
-    @Override
-    public void setSupportActionBar(Toolbar toolbar) {
-        activity.setSupportActionBar(toolbar);
-    }
-
 }

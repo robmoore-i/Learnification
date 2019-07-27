@@ -50,6 +50,6 @@ public class MainActivityViewInitialiserTest {
 
         mainActivityViewInitialiser.initialiseView();
 
-        verify(mockAppToolbar, times(1)).initialiseToolbar("Learnification");
+        verify(mockAppToolbar, times(1)).setTitle("Learnification");
     }
 }
