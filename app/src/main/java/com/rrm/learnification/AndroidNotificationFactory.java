@@ -46,15 +46,15 @@ class AndroidNotificationFactory {
         return buildNotification(learningItemPrompt, subHeading, replyAction);
     }
 
-    String getRemoteInputReplyLabel() {
+    private String getRemoteInputReplyLabel() {
         return packageContext.getResources().getString(R.string.reply_label);
     }
 
-    String replyActionLabel() {
+    private String replyActionLabel() {
         return packageContext.getString(R.string.reply_label);
     }
 
-    PendingIntent responsePendingIntent(String expectedUserResponse) {
+    private PendingIntent responsePendingIntent(String expectedUserResponse) {
         Intent intent = new Intent(packageContext, LearnificationResponseActivity.class);
         intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
         return PendingIntent.getActivity(
@@ -65,14 +65,14 @@ class AndroidNotificationFactory {
         );
     }
 
-    Notification buildNotification(String title, String text, NotificationCompat.Action replyAction) {
+    private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction) {
         return appNotificationTemplate(title, text)
                 .addAction(replyAction)
                 .build();
     }
 
-    Notification buildResponseNotification(String title, String text) {
-        return appNotificationTemplate(title, text)
+    Notification buildResponseNotification(ResponseNotificationContent responseNotificationContent) {
+        return appNotificationTemplate(responseNotificationContent.title(), responseNotificationContent.text())
                 .build();
     }
 
