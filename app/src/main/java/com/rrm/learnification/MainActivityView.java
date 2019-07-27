@@ -14,4 +14,6 @@ interface MainActivityView {
     void setPeriodicityPickerOnValuePickedListener(OnValuePickedCommand onValuePickedCommand);
 
     void setPeriodicityPickerChoiceFormatter(NumberPicker.Formatter formatter);
+
+    void setPeriodicityPickerToValue(int pickerValue);
 }

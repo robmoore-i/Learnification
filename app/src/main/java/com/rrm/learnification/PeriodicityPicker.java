@@ -28,4 +28,10 @@ class PeriodicityPicker {
 
         mainActivityView.setPeriodicityPickerChoiceFormatter(i -> i + " minutes");
     }
+
+    void setToValue(int pickerValue) {
+        logger.v(LOG_TAG, "setting the picker to value " + pickerValue);
+
+        mainActivityView.setPeriodicityPickerToValue(pickerValue);
+    }
 }

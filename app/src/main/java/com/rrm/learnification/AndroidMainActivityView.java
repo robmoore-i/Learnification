@@ -151,4 +151,10 @@ class AndroidMainActivityView implements MainActivityView {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void setPeriodicityPickerToValue(int pickerValue) {
+        NumberPicker periodicityPicker = activity.findViewById(R.id.periodicity_picker);
+        periodicityPicker.setValue(pickerValue);
+    }
 }
