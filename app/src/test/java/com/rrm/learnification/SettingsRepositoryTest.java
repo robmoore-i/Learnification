@@ -34,4 +34,26 @@ public class SettingsRepositoryTest {
 
         assertThat(periodicity, equalTo(SettingsRepository.DEFAULT_PERIODICITY_SECONDS));
     }
+
+    @Test
+    public void pickerValueIsGivenAsMinutesFromTheStoredSeconds() throws IOException {
+        int periodicityInMinutes = 10;
+        int storedPeriodicityInSeconds = periodicityInMinutes * 60;
+        when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList("periodicityInSeconds=" + storedPeriodicityInSeconds));
+        SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
+
+        int initialPeriodicityPickerValue = settingsRepository.getInitialPeriodicityPickerValue();
+
+        assertThat(initialPeriodicityPickerValue, equalTo(periodicityInMinutes));
+    }
+
+    @Test
+    public void pickerValueIs5MinsIfThereIsNoStoredPeriodicity() throws IOException {
+        when(mockFileStorageAdaptor.readLines(anyString())).thenThrow(new IOException("Can't get the periodicity from file!"));
+        SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
+
+        int initialPeriodicityPickerValue = settingsRepository.getInitialPeriodicityPickerValue();
+
+        assertThat(initialPeriodicityPickerValue, equalTo(5));
+    }
 }

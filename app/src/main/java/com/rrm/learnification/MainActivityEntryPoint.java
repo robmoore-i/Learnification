@@ -7,7 +7,7 @@ class MainActivityEntryPoint {
 
     MainActivityEntryPoint(
             AndroidLogger logger,
-            AndroidMainActivityView mainActivityView,
+            MainActivityView mainActivityView,
             AndroidNotificationFacade androidNotificationFacade,
             FileStorageAdaptor fileStorageAdaptor,
             Randomiser randomiser
@@ -23,7 +23,7 @@ class MainActivityEntryPoint {
                 new LearningItemTextInput(mainActivityView),
                 new AddLearningItemButton(logger, mainActivityView),
                 new PeriodicityPicker(logger, mainActivityView),
-                new LearningItemListView(logger, mainActivityView)
+                new LearningItemList(logger, mainActivityView)
         );
 
         this.notificationChannelInitialiser = new NotificationChannelInitialiser(

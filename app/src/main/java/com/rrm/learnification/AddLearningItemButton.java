@@ -9,9 +9,9 @@ class AddLearningItemButton {
     private final Button button;
     private OnClickCommand onClickCommand;
 
-    AddLearningItemButton(AndroidLogger logger, MainActivityView mainActivityView) {
+    AddLearningItemButton(AndroidLogger logger, AddLearningItemView addLearningItemView) {
         this.logger = logger;
-        this.button = mainActivityView.addLearningItemButton();
+        this.button = addLearningItemView.addLearningItemButton();
     }
 
     void setOnClickHandler(final OnClickCommand onClickCommand) {

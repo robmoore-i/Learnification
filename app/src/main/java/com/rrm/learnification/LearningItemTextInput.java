@@ -1,13 +1,13 @@
 package com.rrm.learnification;
 
 class LearningItemTextInput {
-    private final AndroidMainActivityView mainActivityView;
+    private final AddLearningItemView addLearningItemView;
 
-    LearningItemTextInput(AndroidMainActivityView mainActivityView) {
-        this.mainActivityView = mainActivityView;
+    LearningItemTextInput(AddLearningItemView addLearningItemView) {
+        this.addLearningItemView = addLearningItemView;
     }
 
     LearningItem getLearningItem() {
-        return mainActivityView.getLearningItemTextInput();
+        return addLearningItemView.getLearningItemTextInput();
     }
 }

@@ -13,34 +13,20 @@ public class MainActivityViewInitialiserTest {
     private final SettingsRepository dummySettingsRepository = mock(SettingsRepository.class);
     private final PeriodicityPicker dummyPeriodicityPicker = mock(PeriodicityPicker.class);
     private final AppToolbar dummyAppToolbar = mock(AppToolbar.class);
-    private final LearningItemListView dummyListView = mock(LearningItemListView.class);
+    private final LearningItemList dummyListView = mock(LearningItemList.class);
     private final AddLearningItemButton dummyButton = mock(AddLearningItemButton.class);
     private final LearningItemTextInput dummyLearningItemTextInput = mock(LearningItemTextInput.class);
 
     @Test
-    public void itSetsThePeriodicityPickerUsingTheValueStoredInTheSettingsRepositoryDividedBy60() {
+    public void setsThePeriodicityPickerUsingTheInitialPeriodicityPickerValueGivenByTheSettingsRepository() {
         PeriodicityPicker mockPeriodicityPicker = mock(PeriodicityPicker.class);
         SettingsRepository stubSettingsRepository = mock(SettingsRepository.class);
-        int periodicityInMinutes = 10;
-        int storedPeriodicityInSeconds = periodicityInMinutes * 60;
-        when(stubSettingsRepository.readPeriodicitySeconds()).thenReturn(storedPeriodicityInSeconds);
+        when(stubSettingsRepository.getInitialPeriodicityPickerValue()).thenReturn(12);
         MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, dummyLearningItemRepository, stubSettingsRepository, dummyAppToolbar, dummyLearningItemTextInput, dummyButton, mockPeriodicityPicker, dummyListView);
 
         mainActivityViewInitialiser.initialiseView();
 
-        verify(mockPeriodicityPicker, times(1)).setToValue(periodicityInMinutes);
-    }
-
-    @Test
-    public void itSetsThePeriodicityPickerTo5MinsIfThereIsNoValueStoredInTheSettingsRepository() {
-        PeriodicityPicker mockPeriodicityPicker = mock(PeriodicityPicker.class);
-        SettingsRepository stubSettingsRepository = mock(SettingsRepository.class);
-        when(stubSettingsRepository.readPeriodicitySeconds()).thenReturn(0);
-        MainActivityViewInitialiser mainActivityViewInitialiser = new MainActivityViewInitialiser(dummyLogger, dummyLearningItemRepository, stubSettingsRepository, dummyAppToolbar, dummyLearningItemTextInput, dummyButton, mockPeriodicityPicker, dummyListView);
-
-        mainActivityViewInitialiser.initialiseView();
-
-        verify(mockPeriodicityPicker, times(1)).setToValue(5);
+        verify(mockPeriodicityPicker, times(1)).setToValue(12);
     }
 
     @Test
