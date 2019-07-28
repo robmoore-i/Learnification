@@ -1,9 +1,13 @@
 package com.rrm.learnification;
 
 class MainActivityEntryPoint {
-    private final MainActivityViewInitialiser mainActivityViewInitialiser;
-    private final NotificationChannelInitialiser notificationChannelInitialiser;
+    private final AndroidNotificationFacade notificationFacade;
     private final LearnificationPublisher learnificationPublisher;
+    private final LearningItemRepository learningItemRepository;
+    private final AppToolbar appToolbar;
+    private final LearningItemTextInput learningItemTextInput;
+    private final AddLearningItemButton addLearningItemButton;
+    private final LearningItemList learningItemList;
 
     MainActivityEntryPoint(
             AndroidLogger logger,
@@ -13,35 +17,40 @@ class MainActivityEntryPoint {
             Randomiser randomiser
     ) {
 
-        LearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
+        learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
 
-        this.mainActivityViewInitialiser = new MainActivityViewInitialiser(
-                logger,
-                learningItemRepository,
-                new SettingsRepository(logger, fileStorageAdaptor),
-                new AppToolbar(logger, mainActivityView),
-                new LearningItemTextInput(mainActivityView),
-                new AddLearningItemButton(logger, mainActivityView),
-                new PeriodicityPicker(logger, mainActivityView),
-                new LearningItemList(logger, mainActivityView)
-        );
+        appToolbar = new AppToolbar(logger, mainActivityView);
+        learningItemTextInput = new LearningItemTextInput(mainActivityView);
+        addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
+        learningItemList = new LearningItemList(logger, mainActivityView);
 
-        this.notificationChannelInitialiser = new NotificationChannelInitialiser(
-                androidNotificationFacade
-        );
+        notificationFacade = androidNotificationFacade;
 
         this.learnificationPublisher = new LearnificationPublisher(
                 logger,
                 new LearnificationTextGenerator(randomiser, learningItemRepository),
-                androidNotificationFacade
+                notificationFacade
         );
     }
 
     void onMainActivityEntry() {
-        mainActivityViewInitialiser.initialiseView();
+        initialiseView();
 
-        notificationChannelInitialiser.createNotificationChannel();
+        createNotificationChannel();
 
         learnificationPublisher.publishLearnification();
+    }
+
+    private void initialiseView() {
+        appToolbar.setTitle("Learnification");
+
+        addLearningItemButton.setOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
+
+        learningItemList.bindTo(learningItemRepository);
+        learningItemList.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
+    }
+
+    private void createNotificationChannel() {
+        notificationFacade.createNotificationChannel(AndroidNotificationFacade.CHANNEL_ID);
     }
 }

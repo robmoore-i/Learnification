@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 class AndroidNotificationFacade {
     private static final String LOG_TAG = "AndroidNotificationFacade";
+    static final String CHANNEL_ID = "learnification";
 
     private final AndroidLogger logger;
     private final AndroidNotificationContext context;

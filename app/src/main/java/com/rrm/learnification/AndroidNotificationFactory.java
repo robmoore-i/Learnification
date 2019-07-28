@@ -77,7 +77,7 @@ class AndroidNotificationFactory {
     }
 
     private NotificationCompat.Builder appNotificationTemplate(String title, String text) {
-        return new NotificationCompat.Builder(packageContext, NotificationChannelInitialiser.CHANNEL_ID)
+        return new NotificationCompat.Builder(packageContext, AndroidNotificationFacade.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(getNotificationLargeIcon())
                 .setContentTitle(title)
