@@ -12,19 +12,17 @@ class MainActivityEntryPoint {
     MainActivityEntryPoint(
             AndroidLogger logger,
             MainActivityView mainActivityView,
-            AndroidNotificationFacade androidNotificationFacade,
-            FileStorageAdaptor fileStorageAdaptor,
-            Randomiser randomiser
+            AndroidNotificationFacade notificationFacade,
+            Randomiser randomiser,
+            LearningItemRepository learningItemRepository
     ) {
-
-        learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
+        this.learningItemRepository = learningItemRepository;
+        this.notificationFacade = notificationFacade;
 
         appToolbar = new AppToolbar(logger, mainActivityView);
         learningItemTextInput = new LearningItemTextInput(mainActivityView);
         addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
         learningItemList = new LearningItemList(logger, mainActivityView);
-
-        notificationFacade = androidNotificationFacade;
 
         this.learnificationPublisher = new LearnificationPublisher(
                 logger,

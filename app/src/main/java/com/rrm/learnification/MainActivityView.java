@@ -4,15 +4,20 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
 class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityPickerView, LearningItemListView {
+    private static final String LOG_TAG = "MainActivityView";
+
+    private final AndroidLogger logger;
     private final MainActivity activity;
 
-    MainActivityView(MainActivity activity) {
+    MainActivityView(AndroidLogger logger, MainActivity activity) {
+        this.logger = logger;
         this.activity = activity;
 
         activity.setSupportActionBar(toolbar());
@@ -26,8 +31,17 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
         RecyclerView recyclerView = this.learningItemsList();
         // A bit of a hack: Makes sure that the recycler view height doesn't spill over the bottom of the screen,
         //                  because if it does this, then the items below the bottom become invisible.
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int maxHeight = displayMetrics.heightPixels;
+        logger.v(LOG_TAG, "window height is " + maxHeight);
+
+        int halfTheScreenVertically = maxHeight / 2;
+        logger.v(LOG_TAG, "setting learning item list view height to " + halfTheScreenVertically);
+
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
-        params.height = 1000;
+        params.height = halfTheScreenVertically;
         recyclerView.setLayoutParams(params);
     }
 
