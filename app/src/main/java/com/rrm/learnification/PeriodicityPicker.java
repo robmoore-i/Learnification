@@ -14,9 +14,9 @@ class PeriodicityPicker {
     private final AndroidLogger logger;
     private final NumberPicker periodicityPicker;
 
-    PeriodicityPicker(AndroidLogger logger, MainActivityView mainActivityView) {
+    PeriodicityPicker(AndroidLogger logger, PeriodicityPickerView periodicityPickerView) {
         this.logger = logger;
-        this.periodicityPicker = mainActivityView.periodicityPicker();
+        this.periodicityPicker = periodicityPickerView.periodicityPicker();
     }
 
     void setInputRangeInMinutes(int min, int max) {

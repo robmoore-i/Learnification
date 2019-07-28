@@ -34,19 +34,10 @@ class MainActivityViewInitialiser {
 
         periodicityPicker.setInputRangeInMinutes(5, 90);
         periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger, settingsRepository));
-        periodicityPicker.setToValue(getInitialPeriodicityPickerValue());
+        periodicityPicker.setToValue(settingsRepository.getInitialPeriodicityPickerValue());
         periodicityPicker.setChoiceFormatter();
 
         learningItemListView.bindTo(learningItemRepository);
         learningItemListView.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
-    }
-
-    private int getInitialPeriodicityPickerValue() {
-        int valueReadFromSettings = settingsRepository.readPeriodicitySeconds() / 60;
-        if (valueReadFromSettings == 0) {
-            return 5;
-        } else {
-            return valueReadFromSettings;
-        }
     }
 }

@@ -8,9 +8,9 @@ class AppToolbar {
     private final AndroidLogger logger;
     private final Toolbar toolbar;
 
-    AppToolbar(AndroidLogger logger, MainActivityView mainActivityView) {
+    AppToolbar(AndroidLogger logger, ToolbarView toolbarView) {
         this.logger = logger;
-        this.toolbar = mainActivityView.toolbar();
+        this.toolbar = toolbarView.toolbar();
     }
 
     void setTitle(String title) {

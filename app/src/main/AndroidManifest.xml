@@ -22,6 +22,8 @@
 
         <activity android:name=".LearnificationResponseActivity"></activity>
 
+        <activity android:name=".SettingsActivity"></activity>
+
         <service
             android:name=".LearnificationSchedulerService"
             android:exported="true"

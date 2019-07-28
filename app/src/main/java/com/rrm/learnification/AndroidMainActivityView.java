@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
-class AndroidMainActivityView implements MainActivityView {
+class AndroidMainActivityView implements MainActivityView, ToolbarView, PeriodicityPickerView {
     private final MainActivity activity;
 
     AndroidMainActivityView(MainActivity activity) {

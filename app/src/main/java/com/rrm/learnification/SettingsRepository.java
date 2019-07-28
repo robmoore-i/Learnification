@@ -39,4 +39,13 @@ class SettingsRepository {
             return DEFAULT_PERIODICITY_SECONDS;
         }
     }
+
+    int getInitialPeriodicityPickerValue() {
+        int valueReadFromSettings = readPeriodicitySeconds() / 60;
+        if (valueReadFromSettings == 0) {
+            return 5;
+        } else {
+            return valueReadFromSettings;
+        }
+    }
 }
