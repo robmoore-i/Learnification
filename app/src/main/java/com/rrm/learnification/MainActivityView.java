@@ -27,7 +27,7 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
         // A bit of a hack: Makes sure that the recycler view height doesn't spill over the bottom of the screen,
         //                  because if it does this, then the items below the bottom become invisible.
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
-        params.height = 500;
+        params.height = 1000;
         recyclerView.setLayoutParams(params);
     }
 
