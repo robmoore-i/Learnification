@@ -6,4 +6,6 @@ interface AddLearningItemView {
     LearningItem getLearningItemTextInput();
 
     Button addLearningItemButton();
+
+    void setOnTextChangeListener(OnTextChangeListener onTextChangeListener);
 }

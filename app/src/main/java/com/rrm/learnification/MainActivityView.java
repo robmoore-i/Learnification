@@ -75,6 +75,14 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
     }
 
     @Override
+    public void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
+        EditText left = activity.findViewById(R.id.left_input);
+        EditText right = activity.findViewById(R.id.right_input);
+        onTextChangeListener.addTextSource(new AndroidTextWatcher("left", left));
+        onTextChangeListener.addTextSource(new AndroidTextWatcher("right", right));
+    }
+
+    @Override
     public NumberPicker periodicityPicker() {
         return activity.findViewById(R.id.periodicity_picker);
     }

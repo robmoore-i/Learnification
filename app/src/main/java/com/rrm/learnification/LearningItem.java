@@ -10,11 +10,32 @@ class LearningItem {
     }
 
     static LearningItem fromLine(String line) {
+        if ("".equals(line)) {
+            return new EmptyLearningItem();
+        }
         String[] split = line.split(" - ");
+        if (split.length != 2) {
+            return new EmptyLearningItem();
+        }
         return new LearningItem(split[0], split[1]);
     }
 
     String asSingleString() {
         return left + " - " + right;
+    }
+
+    boolean isEmpty() {
+        return false;
+    }
+
+    private static class EmptyLearningItem extends LearningItem {
+        EmptyLearningItem() {
+            super("/", "/");
+        }
+
+        @Override
+        boolean isEmpty() {
+            return true;
+        }
     }
 }

@@ -42,6 +42,7 @@ class MainActivityEntryPoint {
     private void initialiseView() {
         appToolbar.setTitle("Learnification");
 
+        learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(addLearningItemButton));
         addLearningItemButton.setOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
 
         learningItemList.bindTo(learningItemRepository);

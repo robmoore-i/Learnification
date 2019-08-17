@@ -10,4 +10,8 @@ class LearningItemTextInput {
     LearningItem getLearningItem() {
         return addLearningItemView.getLearningItemTextInput();
     }
+
+    void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
+        addLearningItemView.setOnTextChangeListener(onTextChangeListener);
+    }
 }

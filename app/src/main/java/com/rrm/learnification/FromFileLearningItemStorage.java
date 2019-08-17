@@ -28,7 +28,7 @@ class FromFileLearningItemStorage implements LearningItemStorage {
                 fileStorageAdaptor.appendLines(LEARNING_ITEMS_FILE_NAME, lines);
             }
 
-            return fileStorageAdaptor.readLines(LEARNING_ITEMS_FILE_NAME).stream().filter(line -> !line.isEmpty()).map(LearningItem::fromLine).collect(Collectors.toList());
+            return fileStorageAdaptor.readLines(LEARNING_ITEMS_FILE_NAME).stream().map(LearningItem::fromLine).filter(learningItem -> !learningItem.isEmpty()).collect(Collectors.toList());
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
             return new ArrayList<>();
