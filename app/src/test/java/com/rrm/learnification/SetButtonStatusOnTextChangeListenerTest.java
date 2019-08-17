@@ -65,7 +65,7 @@ public class SetButtonStatusOnTextChangeListenerTest {
         private Boolean active;
 
         @Override
-        public void setOnClickHandler(OnClickCommand onClickCommand) {
+        public void addOnClickHandler(OnClickCommand onClickCommand) {
         }
 
         @Override

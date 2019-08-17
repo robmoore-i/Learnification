@@ -43,7 +43,8 @@ class MainActivityEntryPoint {
         appToolbar.setTitle("Learnification");
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(addLearningItemButton));
-        addLearningItemButton.setOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
+        addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
+        addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
         learningItemList.bindTo(learningItemRepository);
         learningItemList.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));

@@ -1,7 +1,7 @@
 package com.rrm.learnification;
 
 interface AndroidButton {
-    void setOnClickHandler(OnClickCommand onClickCommand);
+    void addOnClickHandler(OnClickCommand onClickCommand);
 
     void enable();
 

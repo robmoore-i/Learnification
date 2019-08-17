@@ -4,12 +4,16 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 class AddLearningItemButton implements AndroidButton {
     private static final String LOG_TAG = "AddLearningItemButton";
 
     private final AndroidLogger logger;
     private final Button button;
-    private OnClickCommand onClickCommand;
+    private final List<OnClickCommand> onClickCommands = new ArrayList<>();
     private boolean activated;
 
     AddLearningItemButton(AndroidLogger logger, AddLearningItemView addLearningItemView) {
@@ -19,10 +23,10 @@ class AddLearningItemButton implements AndroidButton {
     }
 
     @Override
-    public void setOnClickHandler(final OnClickCommand onClickCommand) {
-        this.onClickCommand = onClickCommand;
+    public void addOnClickHandler(final OnClickCommand onClickCommand) {
+        this.onClickCommands.add(onClickCommand);
         if (activated) {
-            bindClickListenerToButton(onClickCommand);
+            bindClickListenersToButton(onClickCommands);
         }
     }
 
@@ -31,7 +35,7 @@ class AddLearningItemButton implements AndroidButton {
         activated = true;
         button.getBackground().setColorFilter(Color.parseColor("#32CD32"), PorterDuff.Mode.MULTIPLY);
         button.setClickable(true);
-        bindClickListenerToButton(onClickCommand);
+        bindClickListenersToButton(onClickCommands);
     }
 
     @Override
@@ -39,13 +43,13 @@ class AddLearningItemButton implements AndroidButton {
         activated = false;
         button.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
         button.setClickable(false);
-        bindClickListenerToButton(OnClickCommand.doNothingOnClickCommand());
+        bindClickListenersToButton(Collections.singletonList(OnClickCommand.doNothingOnClickCommand()));
     }
 
-    private void bindClickListenerToButton(OnClickCommand onClickCommand) {
+    private void bindClickListenersToButton(List<OnClickCommand> onClickCommands) {
         button.setOnClickListener(view -> {
             logger.v(LOG_TAG, "add-learning-item-button clicked");
-            onClickCommand.onClick();
+            onClickCommands.forEach(OnClickCommand::onClick);
         });
     }
 }

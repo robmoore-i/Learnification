@@ -64,9 +64,9 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
 
     @Override
     public LearningItem getLearningItemTextInput() {
-        String left = ((EditText) activity.findViewById(R.id.left_input)).getText().toString();
-        String right = ((EditText) activity.findViewById(R.id.right_input)).getText().toString();
-        return new LearningItem(left, right);
+        return new LearningItem(
+                ((EditText) activity.findViewById(R.id.left_input)).getText().toString(),
+                ((EditText) activity.findViewById(R.id.right_input)).getText().toString());
     }
 
     @Override
@@ -76,10 +76,14 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
 
     @Override
     public void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
-        EditText left = activity.findViewById(R.id.left_input);
-        EditText right = activity.findViewById(R.id.right_input);
-        onTextChangeListener.addTextSource(new AndroidTextWatcher("left", left));
-        onTextChangeListener.addTextSource(new AndroidTextWatcher("right", right));
+        onTextChangeListener.addTextSource(new AndroidTextWatcher("left", activity.findViewById(R.id.left_input)));
+        onTextChangeListener.addTextSource(new AndroidTextWatcher("right", activity.findViewById(R.id.right_input)));
+    }
+
+    @Override
+    public void clearTextInput() {
+        activity.<EditText>findViewById(R.id.left_input).setText("");
+        activity.<EditText>findViewById(R.id.right_input).setText("");
     }
 
     @Override

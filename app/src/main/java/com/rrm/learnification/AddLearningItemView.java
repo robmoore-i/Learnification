@@ -8,4 +8,6 @@ interface AddLearningItemView {
     Button addLearningItemButton();
 
     void setOnTextChangeListener(OnTextChangeListener onTextChangeListener);
+
+    void clearTextInput();
 }

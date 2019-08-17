@@ -14,4 +14,8 @@ class LearningItemTextInput {
     void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
         addLearningItemView.setOnTextChangeListener(onTextChangeListener);
     }
+
+    void clear() {
+        addLearningItemView.clearTextInput();
+    }
 }
