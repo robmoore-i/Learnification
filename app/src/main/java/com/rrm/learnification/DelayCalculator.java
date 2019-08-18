@@ -9,12 +9,13 @@ class DelayCalculator {
         int hoursLeftToday = 24 - hour;
 
         int minute = now.getMinute();
-        int minutesLeftInHour = (minute - 60) % 60;
+        int minutesLeftInHour = 60 - minute;
 
-        int millisUntilMidnight = (hoursLeftToday * 60 * 60 * 1000) - (minutesLeftInHour * 60 * 1000);
+        int millisUntilMidnight = ((hoursLeftToday - 1) * 60 * 60 * 1000) + (minutesLeftInHour * 60 * 1000);
 
         int hourOfNextDay = Integer.parseInt(time.toString().split(":")[0]);
+        int millisFromMidnightUntilTime = hourOfNextDay * 60 * 60 * 1000;
 
-        return millisUntilMidnight + (hourOfNextDay * 60 * 60 * 1000);
+        return millisUntilMidnight + millisFromMidnightUntilTime;
     }
 }

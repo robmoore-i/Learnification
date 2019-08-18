@@ -22,14 +22,21 @@ public class DelayCalculatorTest {
     public void timeBetween1830AndMidnightIs5AndAHalfHours() {
         int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 18, 30), Time.valueOf("00:00:00"));
 
-        assertThat(millisBetween, equalTo((6 * 60 * 60 * 1000) + (30 * 60 * 1000)));
+        assertThat(millisBetween, equalTo((5 * 60 * 60 * 1000) + (30 * 60 * 1000)));
     }
 
     @Test
     public void timeBetween1815AndMidnightIs5And3QuarterHours() {
         int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 18, 15), Time.valueOf("00:00:00"));
 
-        assertThat(millisBetween, equalTo((6 * 60 * 60 * 1000) + (45 * 60 * 1000)));
+        assertThat(millisBetween, equalTo((5 * 60 * 60 * 1000) + (45 * 60 * 1000)));
+    }
+
+    @Test
+    public void timeBetween1845AndMidnightIs5AndAQuarterHours() {
+        int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 18, 45), Time.valueOf("00:00:00"));
+
+        assertThat(millisBetween, equalTo((5 * 60 * 60 * 1000) + (15 * 60 * 1000)));
     }
 
     @Test
