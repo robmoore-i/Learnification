@@ -20,5 +20,4 @@ class AndroidScheduler implements Scheduler {
                 .setRequiresCharging(false);
         context.getSystemService(JobScheduler.class).schedule(builder.build());
     }
-
 }
