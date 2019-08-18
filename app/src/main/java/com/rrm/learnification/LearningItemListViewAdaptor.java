@@ -38,7 +38,7 @@ public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningIt
 
     void add(String textEntry) {
         logger.v(LOG_TAG, "adding a text entry to the learning-item list '" + textEntry + "'");
-        textEntries.add(textEntry);
+        textEntries.add(0, textEntry);
         this.notifyDataSetChanged();
     }
 
