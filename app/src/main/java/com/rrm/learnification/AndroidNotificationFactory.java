@@ -55,9 +55,9 @@ class AndroidNotificationFactory {
     }
 
     private PendingIntent responsePendingIntent(String expectedUserResponse) {
-        Intent intent = new Intent(packageContext, LearnificationResponseActivity.class);
+        Intent intent = new Intent(packageContext, LearnificationResponseService.class);
         intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
-        return PendingIntent.getActivity(
+        return PendingIntent.getService(
                 packageContext,
                 0,
                 intent,

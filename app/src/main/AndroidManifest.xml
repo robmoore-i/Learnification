@@ -25,14 +25,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LearnificationResponseActivity" />
-
         <activity android:name=".SettingsActivity" />
 
         <service
             android:name=".LearnificationSchedulerService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service android:name=".LearnificationResponseService" />
+
     </application>
 
 </manifest>

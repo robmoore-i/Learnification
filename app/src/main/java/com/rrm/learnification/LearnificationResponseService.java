@@ -1,24 +1,27 @@
 package com.rrm.learnification;
 
+import android.app.IntentService;
 import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
-import android.support.v7.app.AppCompatActivity;
 
-public class LearnificationResponseActivity extends AppCompatActivity {
+public class LearnificationResponseService extends IntentService {
+    private static final String LOG_TAG = "LearnificationResponseService";
+
     private final AndroidLogger logger = new AndroidLogger();
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public LearnificationResponseService() {
+        super(LOG_TAG);
+    }
 
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        logger.v(LOG_TAG, "entered learnification response handler");
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this)));
         LearnificationResponseContentGenerator responseContentGenerator = new LearnificationResponseContentGenerator(scheduleConfiguration);
 
-        Intent intent = this.getIntent();
         Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
         if (remoteInput != null) {
             @SuppressWarnings("ConstantConditions")
@@ -29,11 +32,11 @@ public class LearnificationResponseActivity extends AppCompatActivity {
             Notification replyNotification = androidNotificationFactory.buildResponseNotification(responseNotificationContent);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), replyNotification);
+            LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobSchedulerContext(this), scheduleConfiguration);
+            learnificationScheduler.scheduleJob();
+            logger.v(LOG_TAG, "scheduled next learnification");
+        } else {
+            logger.e(LOG_TAG, new IllegalArgumentException("remoteInput was null"));
         }
-
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobSchedulerContext(this), scheduleConfiguration);
-        learnificationScheduler.scheduleJob();
-
-        finish();
     }
 }

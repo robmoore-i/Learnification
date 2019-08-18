@@ -33,39 +33,27 @@ class AndroidInternalStorageAdaptor implements FileStorageAdaptor {
     @Override
     public void appendLines(String fileName, List<String> lines) throws IOException {
         logger.v(LOG_TAG, "appending lines to '" + fileName + "'");
-
-        try {
-            FileOutputStream fileOutputStream = contextWrapper.openFileOutput(fileName, Context.MODE_APPEND | Context.MODE_PRIVATE);
-            String fileContent = String.join("\n", lines) + "\n";
-            fileOutputStream.write(fileContent.getBytes());
-            fileOutputStream.close();
-        } catch (IOException e) {
-            logger.e(LOG_TAG, e);
-            throw e;
-        }
+        FileOutputStream fileOutputStream = contextWrapper.openFileOutput(fileName, Context.MODE_APPEND | Context.MODE_PRIVATE);
+        String fileContent = String.join("\n", lines) + "\n";
+        fileOutputStream.write(fileContent.getBytes());
+        fileOutputStream.close();
     }
 
     @Override
     public List<String> readLines(String fileName) throws IOException {
         logger.v(LOG_TAG, "reading lines from '" + fileName + "'");
+        FileInputStream fileInputStream = contextWrapper.openFileInput(fileName);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
 
-        try {
-            FileInputStream fileInputStream = contextWrapper.openFileInput(fileName);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-
-            ArrayList<String> lines = new ArrayList<>();
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                logger.v(LOG_TAG, "read line from file '" + line + "'");
-                lines.add(line);
-                line = bufferedReader.readLine();
-            }
-
-            return lines;
-        } catch (IOException e) {
-            logger.e(LOG_TAG, e);
-            throw e;
+        ArrayList<String> lines = new ArrayList<>();
+        String line = bufferedReader.readLine();
+        while (line != null) {
+            logger.v(LOG_TAG, "read line from file '" + line + "'");
+            lines.add(line);
+            line = bufferedReader.readLine();
         }
+
+        return lines;
     }
 
     @Override
