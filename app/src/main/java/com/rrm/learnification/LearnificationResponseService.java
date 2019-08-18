@@ -32,7 +32,7 @@ public class LearnificationResponseService extends IntentService {
             Notification replyNotification = androidNotificationFactory.buildResponseNotification(responseNotificationContent);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), replyNotification);
-            LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobSchedulerContext(this), scheduleConfiguration);
+            LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(this), scheduleConfiguration);
             learnificationScheduler.scheduleJob();
             logger.v(LOG_TAG, "scheduled next learnification");
         } else {

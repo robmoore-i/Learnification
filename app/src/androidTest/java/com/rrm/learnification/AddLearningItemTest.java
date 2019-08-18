@@ -1,6 +1,5 @@
 package com.rrm.learnification;
 
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -38,7 +37,6 @@ public class AddLearningItemTest {
         onView(withId(R.id.right_input)).perform(typeText("R"));
         onView(withId(R.id.add_learning_item_button)).perform(click());
         closeSoftKeyboard();
-        onView(withId(R.id.learnifications_list)).perform(ViewActions.swipeUp());
 
         onView(allOf(withParent(withId(R.id.learnifications_list)), withText("L - R"))).check(matches(isDisplayed()));
     }
