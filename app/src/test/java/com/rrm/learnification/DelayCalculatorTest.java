@@ -31,4 +31,11 @@ public class DelayCalculatorTest {
 
         assertThat(millisBetween, equalTo((6 * 60 * 60 * 1000) + (45 * 60 * 1000)));
     }
+
+    @Test
+    public void timeBetween2300And9amNextDayIs10Hours() {
+        int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 23, 0), Time.valueOf("09:00:00"));
+
+        assertThat(millisBetween, equalTo((10 * 60 * 60 * 1000)));
+    }
 }

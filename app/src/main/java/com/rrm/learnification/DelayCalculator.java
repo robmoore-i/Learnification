@@ -11,8 +11,10 @@ class DelayCalculator {
         int minute = now.getMinute();
         int minutesLeftInHour = (minute - 60) % 60;
 
-        int timeUntilMidnight = (hoursLeftToday * 60 * 60 * 1000) - (minutesLeftInHour * 60 * 1000);
+        int millisUntilMidnight = (hoursLeftToday * 60 * 60 * 1000) - (minutesLeftInHour * 60 * 1000);
 
-        return timeUntilMidnight;
+        int hourOfNextDay = Integer.parseInt(time.toString().split(":")[0]);
+
+        return millisUntilMidnight + (hourOfNextDay * 60 * 60 * 1000);
     }
 }
