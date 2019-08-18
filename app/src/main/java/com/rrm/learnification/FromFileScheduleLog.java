@@ -33,4 +33,8 @@ class FromFileScheduleLog implements ScheduleLog {
             return false;
         }
     }
+
+    @Override
+    public void mark() {
+    }
 }

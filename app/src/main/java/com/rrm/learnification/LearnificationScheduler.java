@@ -27,5 +27,7 @@ class LearnificationScheduler {
         if (!scheduleLog.isAnythingScheduledForTomorrow()) {
             scheduler.scheduleTomorrow(serviceClass, scheduleConfiguration.getFirstLearnificationTime());
         }
+
+        scheduleLog.mark();
     }
 }
