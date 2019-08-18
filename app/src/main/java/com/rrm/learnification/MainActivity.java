@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         fileStorageAdaptor.deleteFile(FromFileLearningItemStorage.LEARNING_ITEMS_FILE_NAME);
         fileStorageAdaptor.deleteFile(SettingsRepository.PERIODICITY_FILE_NAME);
+        fileStorageAdaptor.deleteFile(FromFileScheduleLog.LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME);
     }
 
     public AndroidInternalStorageAdaptor getAndroidInternalStorageAdaptor() {

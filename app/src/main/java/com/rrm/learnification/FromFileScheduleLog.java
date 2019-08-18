@@ -24,6 +24,7 @@ class FromFileScheduleLog implements ScheduleLog {
     public boolean isAnythingScheduledForTomorrow() {
         try {
             LocalDateTime currentlyStoredLatestScheduledTime = currentlyStoredLatestScheduledTime();
+            logger.v(LOG_TAG, "latest scheduled learnification is at " + currentlyStoredLatestScheduledTime.toString());
             int latestScheduledDayOfMonth = currentlyStoredLatestScheduledTime.getDayOfMonth();
             int clockDayOfMonth = now().getDayOfMonth();
             return latestScheduledDayOfMonth - clockDayOfMonth == 1;
