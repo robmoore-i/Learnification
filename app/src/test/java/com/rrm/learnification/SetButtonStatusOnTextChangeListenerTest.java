@@ -57,7 +57,6 @@ public class SetButtonStatusOnTextChangeListenerTest {
         textB.sendTextUpdate(setButtonStatusOnTextChangeListener, "b");
         textA.sendTextUpdate(setButtonStatusOnTextChangeListener, "");
 
-
         assertFalse(mockButton.active);
     }
 

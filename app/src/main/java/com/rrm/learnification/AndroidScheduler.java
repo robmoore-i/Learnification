@@ -5,11 +5,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 
-import java.sql.Time;
-import java.time.LocalDateTime;
-
 class AndroidScheduler implements Scheduler {
-    private final DelayCalculator delayCalculator = new DelayCalculator();
     private final Context context;
 
     AndroidScheduler(Context context) {
@@ -25,10 +21,4 @@ class AndroidScheduler implements Scheduler {
         context.getSystemService(JobScheduler.class).schedule(builder.build());
     }
 
-    @Override
-    public void scheduleTomorrow(Class<?> serviceClass, Time time) {
-        int earliestStartTimeDelayMs = delayCalculator.millisBetween(LocalDateTime.now(), time);
-        int latestStartTimeDelayMs = earliestStartTimeDelayMs + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS);
-        schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
-    }
 }

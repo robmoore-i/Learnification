@@ -1,7 +1,9 @@
 package com.rrm.learnification;
 
+import java.time.LocalDateTime;
+
 interface ScheduleLog {
     boolean isAnythingScheduledForTomorrow();
 
-    void mark();
+    void mark(LocalDateTime localDateTime);
 }

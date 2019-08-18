@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 class FromFileScheduleLog implements ScheduleLog {
@@ -22,11 +23,9 @@ class FromFileScheduleLog implements ScheduleLog {
     @Override
     public boolean isAnythingScheduledForTomorrow() {
         try {
-            List<String> lines = fileStorageAdaptor.readLines(LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME);
-            String line = lines.get(0);
-            LocalDateTime localDateTime = LocalDateTime.parse(line);
-            int latestScheduledDayOfMonth = localDateTime.getDayOfMonth();
-            int clockDayOfMonth = LocalDateTime.ofInstant(clock.instant(), ZoneId.systemDefault()).getDayOfMonth();
+            LocalDateTime currentlyStoredLatestScheduledTime = currentlyStoredLatestScheduledTime();
+            int latestScheduledDayOfMonth = currentlyStoredLatestScheduledTime.getDayOfMonth();
+            int clockDayOfMonth = now().getDayOfMonth();
             return latestScheduledDayOfMonth - clockDayOfMonth == 1;
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
@@ -35,6 +34,28 @@ class FromFileScheduleLog implements ScheduleLog {
     }
 
     @Override
-    public void mark() {
+    public void mark(LocalDateTime scheduledTime) {
+        try {
+            try {
+                LocalDateTime currentlyStoredLatestScheduledTime = currentlyStoredLatestScheduledTime();
+                if (scheduledTime.isAfter(currentlyStoredLatestScheduledTime)) {
+                    fileStorageAdaptor.overwriteLines(LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME, Collections.singletonList(scheduledTime.toString()));
+                }
+            } catch (IOException e) {
+                fileStorageAdaptor.overwriteLines(LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME, Collections.singletonList(scheduledTime.toString()));
+            }
+        } catch (IOException e) {
+            logger.e(LOG_TAG, e);
+        }
+    }
+
+    private LocalDateTime now() {
+        return LocalDateTime.ofInstant(clock.instant(), ZoneId.systemDefault());
+    }
+
+    private LocalDateTime currentlyStoredLatestScheduledTime() throws IOException {
+        List<String> lines = fileStorageAdaptor.readLines(LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME);
+        String line = lines.get(0);
+        return LocalDateTime.parse(line);
     }
 }
