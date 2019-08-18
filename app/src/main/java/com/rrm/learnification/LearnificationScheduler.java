@@ -25,7 +25,7 @@ class LearnificationScheduler {
         scheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
 
         if (!scheduleLog.isAnythingScheduledForTomorrow()) {
-            scheduler.scheduleTomorrowMorning(serviceClass, scheduleConfiguration.getFirstLearnificationTime());
+            scheduler.scheduleTomorrow(serviceClass, scheduleConfiguration.getFirstLearnificationTime());
         }
     }
 }

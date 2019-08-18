@@ -46,6 +46,6 @@ public class LearnificationSchedulerTest {
 
         learnificationScheduler.scheduleJob(serviceClass);
 
-        verify(mockScheduler, times(1)).scheduleTomorrowMorning(serviceClass, nineAm);
+        verify(mockScheduler, times(1)).scheduleTomorrow(serviceClass, nineAm);
     }
 }

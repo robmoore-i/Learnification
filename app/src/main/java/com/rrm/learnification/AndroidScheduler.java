@@ -26,7 +26,7 @@ class AndroidScheduler implements Scheduler {
     }
 
     @Override
-    public void scheduleTomorrowMorning(Class<?> serviceClass, Time time) {
+    public void scheduleTomorrow(Class<?> serviceClass, Time time) {
         int earliestStartTimeDelayMs = delayCalculator.millisBetween(LocalDateTime.now(), time);
         int latestStartTimeDelayMs = earliestStartTimeDelayMs + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS);
         schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
