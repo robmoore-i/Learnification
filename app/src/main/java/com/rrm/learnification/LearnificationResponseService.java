@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 
+import java.time.Clock;
+
 public class LearnificationResponseService extends IntentService {
     private static final String LOG_TAG = "LearnificationResponseService";
 
@@ -36,7 +38,7 @@ public class LearnificationResponseService extends IntentService {
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), replyNotification);
 
-            ScheduleLog scheduleLog = new FromFileScheduleLog(fileStorageAdaptor);
+            ScheduleLog scheduleLog = new FromFileScheduleLog(logger, fileStorageAdaptor, Clock.systemDefaultZone());
             LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidScheduler(this), scheduleConfiguration, scheduleLog);
             learnificationScheduler.scheduleJob(LearnificationSchedulerService.class);
             logger.v(LOG_TAG, "scheduled next learnification");
