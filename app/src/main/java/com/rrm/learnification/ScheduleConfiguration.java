@@ -1,5 +1,7 @@
 package com.rrm.learnification;
 
+import java.sql.Time;
+
 class ScheduleConfiguration {
     static final int MAXIMUM_ACCEPTABLE_DELAY_SECONDS = 10;
 
@@ -19,5 +21,9 @@ class ScheduleConfiguration {
         int periodicityMs = periodicityInSeconds * 1000;
         return new PeriodicityRange(periodicityMs, periodicityMs + (MAXIMUM_ACCEPTABLE_DELAY_SECONDS * 1000));
 
+    }
+
+    Time getFirstLearnificationTime() {
+        return Time.valueOf("09:00:00");
     }
 }

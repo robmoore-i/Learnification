@@ -19,7 +19,8 @@ public class LearnificationResponseService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         logger.v(LOG_TAG, "entered learnification response handler");
-        ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this)));
+        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
+        ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
         LearnificationResponseContentGenerator responseContentGenerator = new LearnificationResponseContentGenerator(scheduleConfiguration);
 
         Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
@@ -27,13 +28,17 @@ public class LearnificationResponseService extends IntentService {
             @SuppressWarnings("ConstantConditions")
             String actual = remoteInput.getCharSequence(AndroidNotificationFactory.REPLY_TEXT).toString();
             String expected = intent.getStringExtra(AndroidNotificationFactory.EXPECTED_USER_RESPONSE_EXTRA);
+
             ResponseNotificationContent responseNotificationContent = responseContentGenerator.getResponseNotificationContent(expected, actual);
             AndroidNotificationFactory androidNotificationFactory = new AndroidNotificationFactory(logger, this);
             Notification replyNotification = androidNotificationFactory.buildResponseNotification(responseNotificationContent);
+
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), replyNotification);
-            LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(this), scheduleConfiguration);
-            learnificationScheduler.scheduleJob();
+
+            ScheduleLog scheduleLog = new FromFileScheduleLog(fileStorageAdaptor);
+            LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidScheduler(this), scheduleConfiguration, scheduleLog);
+            learnificationScheduler.scheduleJob(LearnificationSchedulerService.class);
             logger.v(LOG_TAG, "scheduled next learnification");
         } else {
             logger.e(LOG_TAG, new IllegalArgumentException("remoteInput was null"));
