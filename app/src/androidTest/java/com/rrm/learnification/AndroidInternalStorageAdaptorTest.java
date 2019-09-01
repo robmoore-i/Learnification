@@ -4,6 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class AndroidInternalStorageAdaptorTest {
     private static final String TEST_FILE_NAME = "test_file";
+    private static final TestJanitor testJanitor = new TestJanitor();
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -34,6 +36,11 @@ public class AndroidInternalStorageAdaptorTest {
     @After
     public void afterEach() {
         androidInternalStorageAdaptor.deleteFile(TEST_FILE_NAME);
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        testJanitor.clearApp();
     }
 
     @Test

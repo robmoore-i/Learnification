@@ -2,8 +2,9 @@ package com.rrm.learnification;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SaveSettingsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,5 +24,12 @@ public class SettingsActivity extends AppCompatActivity {
         periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger, settingsRepository));
         periodicityPicker.setToValue(settingsRepository.getInitialPeriodicityPickerValue());
         periodicityPicker.setChoiceFormatter();
+        SaveSettingsButton saveSettingsButton = new SaveSettingsButton(logger, this);
+        saveSettingsButton.addOnClickHandler(new FinishActivityOnClickCommand(this));
+    }
+
+    @Override
+    public Button saveSettingsButton() {
+        return findViewById(R.id.save_settings_button);
     }
 }

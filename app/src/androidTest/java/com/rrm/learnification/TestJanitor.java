@@ -15,6 +15,7 @@ class TestJanitor {
         try {
             Runtime.getRuntime().exec(new String[]{"am", "force-stop", PACKAGE_NAME});
             clearAllNotifications();
+            escapeNotificationsBar();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,7 +27,7 @@ class TestJanitor {
         escapeNotificationsBar();
     }
 
-    void clearAppData(ActivityTestRule<MainActivity> activityTestRule) {
+    private void clearAppData(ActivityTestRule<MainActivity> activityTestRule) {
         activityTestRule.getActivity().clearData();
     }
 

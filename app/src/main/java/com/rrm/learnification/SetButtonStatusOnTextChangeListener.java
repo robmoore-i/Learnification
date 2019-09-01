@@ -3,12 +3,12 @@ package com.rrm.learnification;
 import java.util.HashMap;
 
 class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
-    private final AndroidButton androidButton;
+    private final ConfigurableButton configurableButton;
 
     private final HashMap<String, String> texts;
 
-    SetButtonStatusOnTextChangeListener(AndroidButton androidButton) {
-        this.androidButton = androidButton;
+    SetButtonStatusOnTextChangeListener(ConfigurableButton configurableButton) {
+        this.configurableButton = configurableButton;
         this.texts = new HashMap<>();
     }
 
@@ -30,9 +30,9 @@ class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
 
     private void setButtonStatus(boolean shouldBeEnabled) {
         if (shouldBeEnabled) {
-            androidButton.enable();
+            configurableButton.enable();
         } else {
-            androidButton.disable();
+            configurableButton.disable();
         }
     }
 }

@@ -60,7 +60,7 @@ public class SetButtonStatusOnTextChangeListenerTest {
         assertFalse(mockButton.active);
     }
 
-    private static class MockAndroidButton implements AndroidButton {
+    private static class MockAndroidButton implements ConfigurableButton {
         private Boolean active;
 
         @Override

@@ -31,7 +31,7 @@ public class FromFileLearningItemStorageTest {
 
     @After
     public void afterEach() {
-        testJanitor.clearAppData(activityTestRule);
+        testJanitor.clearApp(activityTestRule);
     }
 
     @Test
