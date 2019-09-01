@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -23,6 +24,8 @@ public class LearnificationSchedulerTest {
     private Scheduler mockScheduler;
     private ScheduleConfiguration stubScheduleConfiguration;
     private ScheduleLog stubScheduleLog;
+    private AndroidClock stubAndroidClock;
+    private LocalDateTime fivePmSeptFirst = LocalDateTime.of(2019, 9, 1, 17, 0, 0);
 
     @Before
     public void beforeEach() {
@@ -30,13 +33,15 @@ public class LearnificationSchedulerTest {
         mockScheduler = mock(Scheduler.class);
         stubScheduleConfiguration = mock(ScheduleConfiguration.class);
         stubScheduleLog = mock(ScheduleLog.class);
+        stubAndroidClock = mock(AndroidClock.class);
+        when(stubAndroidClock.now()).thenReturn(fivePmSeptFirst);
     }
 
     @Test
     public void itPassesTheScheduleThroughToTheScheduler() {
         when(stubScheduleConfiguration.getPeriodicityRange()).thenReturn(periodicityRange);
         when(stubScheduleLog.isAnythingScheduledForTomorrow()).thenReturn(true);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockScheduler, stubScheduleConfiguration, stubScheduleLog);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockScheduler, stubScheduleConfiguration, stubScheduleLog, stubAndroidClock);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
@@ -48,7 +53,7 @@ public class LearnificationSchedulerTest {
         when(stubScheduleConfiguration.getPeriodicityRange()).thenReturn(periodicityRange);
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(stubScheduleLog.isAnythingScheduledForTomorrow()).thenReturn(false);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockScheduler, stubScheduleConfiguration, stubScheduleLog);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockScheduler, stubScheduleConfiguration, stubScheduleLog, stubAndroidClock);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
@@ -60,10 +65,23 @@ public class LearnificationSchedulerTest {
         when(stubScheduleConfiguration.getPeriodicityRange()).thenReturn(periodicityRange);
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(stubScheduleLog.isAnythingScheduledForTomorrow()).thenReturn(false);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockScheduler, stubScheduleConfiguration, stubScheduleLog);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockScheduler, stubScheduleConfiguration, stubScheduleLog, stubAndroidClock);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
         verify(mockLogger, times(1)).v(LearnificationScheduler.LOG_TAG, "scheduling learnification for tomorrow at around 09:00:00");
+    }
+
+    @Test
+    public void whenSchedulingTomorrowItCalculatesTheDelayUsingTheClockAndTheScheduleConfiguration() {
+        when(stubScheduleConfiguration.getPeriodicityRange()).thenReturn(periodicityRange);
+        when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
+        when(stubScheduleLog.isAnythingScheduledForTomorrow()).thenReturn(false);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockScheduler, stubScheduleConfiguration, stubScheduleLog, stubAndroidClock);
+
+        learnificationScheduler.scheduleJob(serviceClass);
+
+        int sixteenHoursInMillis = 16 * 60 * 60 * 1000;
+        verify(mockScheduler, times(1)).schedule(eq(sixteenHoursInMillis), eq(sixteenHoursInMillis + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS)), eq(serviceClass));
     }
 }

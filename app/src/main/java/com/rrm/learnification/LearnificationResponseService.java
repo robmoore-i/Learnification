@@ -39,7 +39,7 @@ public class LearnificationResponseService extends IntentService {
             notificationManager.notify(NotificationIdGenerator.getInstance().lastNotificationId(), replyNotification);
 
             ScheduleLog scheduleLog = new FromFileScheduleLog(logger, fileStorageAdaptor, Clock.systemDefaultZone());
-            LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidScheduler(this), scheduleConfiguration, scheduleLog);
+            LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidScheduler(this, JobIdGenerator.getInstance()), scheduleConfiguration, scheduleLog, new AndroidClock());
             learnificationScheduler.scheduleJob(LearnificationSchedulerService.class);
             logger.v(LOG_TAG, "scheduled next learnification");
         } else {

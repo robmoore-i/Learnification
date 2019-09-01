@@ -23,6 +23,7 @@ class TestJanitor {
     void clearApp(ActivityTestRule<MainActivity> activityTestRule) {
         clearAppData(activityTestRule);
         clearApp();
+        escapeNotificationsBar();
     }
 
     void clearAppData(ActivityTestRule<MainActivity> activityTestRule) {
@@ -38,6 +39,15 @@ class TestJanitor {
             UiObject2 clearAll = device.findObject(By.text("CLEAR ALL"));
             clearAll.click();
             device.pressBack();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void escapeNotificationsBar() {
+        try {
+            UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+            device.pressHome();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -3,8 +3,7 @@ package com.rrm.learnification;
 class NotificationIdGenerator {
     private static NotificationIdGenerator instance = new NotificationIdGenerator();
 
-    private int nextId = 0;
-    private int lastId = 0;
+    private final JavaInMemoryIdGenerator javaInMemoryIdGenerator = new JavaInMemoryIdGenerator();
 
     private NotificationIdGenerator() {
     }
@@ -14,15 +13,10 @@ class NotificationIdGenerator {
     }
 
     int nextNotificationId() {
-        lastId = nextId;
-        return nextId++;
-    }
-
-    void reset() {
-        nextId = 0;
+        return javaInMemoryIdGenerator.nextId();
     }
 
     int lastNotificationId() {
-        return lastId;
+        return javaInMemoryIdGenerator.lastId();
     }
 }
