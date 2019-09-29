@@ -14,7 +14,6 @@ class LearningItemList {
     private final AndroidLogger logger;
 
     private LearningItemListViewAdaptor adapter;
-    private OnSwipeCommand onSwipeCommand;
 
     LearningItemList(AndroidLogger logger, LearningItemListView learningItemListView) {
         this.logger = logger;
@@ -30,7 +29,6 @@ class LearningItemList {
     }
 
     void setOnSwipeCommand(OnSwipeCommand onSwipeCommand) {
-        this.onSwipeCommand = onSwipeCommand;
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
@@ -55,10 +53,6 @@ class LearningItemList {
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    void swipeOnItem(int index) {
-        onSwipeCommand.onSwipe(adapter, index);
     }
 
     void addTextEntry(String textEntry) {
