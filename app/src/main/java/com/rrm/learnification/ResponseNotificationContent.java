@@ -1,5 +1,7 @@
 package com.rrm.learnification;
 
+import android.support.annotation.NonNull;
+
 class ResponseNotificationContent {
     private final String title;
     private final String text;
@@ -15,5 +17,11 @@ class ResponseNotificationContent {
 
     String text() {
         return text;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "ResponseNotificationContent{title='" + title + "'," + "text='" + text + "'}";
     }
 }

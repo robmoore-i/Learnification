@@ -1,15 +1,14 @@
 package com.rrm.learnification;
 
 import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 
-class AndroidScheduler implements Scheduler {
+class AndroidJobScheduler implements JobScheduler {
     private final Context context;
     private final JobIdGenerator jobIdGenerator;
 
-    AndroidScheduler(Context context, JobIdGenerator jobIdGenerator) {
+    AndroidJobScheduler(Context context, JobIdGenerator jobIdGenerator) {
         this.context = context;
         this.jobIdGenerator = jobIdGenerator;
     }
@@ -20,6 +19,6 @@ class AndroidScheduler implements Scheduler {
                 .setMinimumLatency(earliestStartTimeDelayMs)
                 .setOverrideDeadline(latestStartTimeDelayMs)
                 .setRequiresCharging(false);
-        context.getSystemService(JobScheduler.class).schedule(builder.build());
+        context.getSystemService(android.app.job.JobScheduler.class).schedule(builder.build());
     }
 }

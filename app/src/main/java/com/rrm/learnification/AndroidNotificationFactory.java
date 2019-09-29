@@ -35,33 +35,31 @@ class AndroidNotificationFactory {
                 .setLabel(getRemoteInputReplyLabel())
                 .build();
 
-        int requestCode = PendingIntentRequestCodeGenerator.getInstance().nextRequestCode();
-
         // Create the reply action and add the remote input.
         NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
                 replyActionLabel(),
-                responsePendingIntent(requestCode, learnificationText.expected))
+                responsePendingIntent(learnificationText.expected))
                 .addRemoteInput(remoteInput)
                 .build();
 
         // Create the skip action
         NotificationCompat.Action skipAction = new NotificationCompat.Action.Builder(
-                R.drawable.skip_icon,
+                R.drawable.android_send,
                 "Skip",
-                skipIntent(requestCode))
+                skipIntent())
                 .build();
 
         // Use the title for the learnification main text, so it shows up boldly.
         return buildNotification(learningItemPrompt, subHeading, replyAction, skipAction);
     }
 
-    private PendingIntent skipIntent(int requestCode) {
+    private PendingIntent skipIntent() {
         Intent intent = new Intent(packageContext, LearnificationResponseService.class);
         intent.putExtra(SKIPPED_FLAG_EXTRA, true);
         return PendingIntent.getService(
                 packageContext,
-                requestCode,
+                PendingIntentRequestCodeGenerator.getInstance().nextRequestCode(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
@@ -75,12 +73,13 @@ class AndroidNotificationFactory {
         return packageContext.getString(R.string.reply_label);
     }
 
-    private PendingIntent responsePendingIntent(int requestCode, String expectedUserResponse) {
+    private PendingIntent responsePendingIntent(String expectedUserResponse) {
         Intent intent = new Intent(packageContext, LearnificationResponseService.class);
         intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
+        intent.putExtra(SKIPPED_FLAG_EXTRA, false);
         return PendingIntent.getService(
                 packageContext,
-                requestCode,
+                PendingIntentRequestCodeGenerator.getInstance().nextRequestCode(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
