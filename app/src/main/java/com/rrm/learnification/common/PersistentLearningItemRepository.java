@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-class PersistentLearningItemRepository implements LearningItemRepository {
+public class PersistentLearningItemRepository implements LearningItemRepository {
     private static final String LOG_TAG = "PersistentLearningItemRepository";
 
     private final AndroidLogger logger;
     private final LearningItemStorage learningItemStorage;
     private final List<LearningItem> learningItems;
 
-    PersistentLearningItemRepository(AndroidLogger logger, LearningItemStorage learningItemStorage) {
+    public PersistentLearningItemRepository(AndroidLogger logger, LearningItemStorage learningItemStorage) {
         this.logger = logger;
         this.learningItemStorage = learningItemStorage;
         this.learningItems = learningItemStorage.read();

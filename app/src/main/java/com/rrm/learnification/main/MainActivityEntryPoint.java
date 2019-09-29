@@ -1,4 +1,12 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.main;
+
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.AndroidNotificationFacade;
+import com.rrm.learnification.common.AppToolbar;
+import com.rrm.learnification.common.LearnificationPublisher;
+import com.rrm.learnification.common.LearnificationTextGenerator;
+import com.rrm.learnification.common.LearningItemRepository;
+import com.rrm.learnification.common.Randomiser;
 
 class MainActivityEntryPoint {
     private final AndroidNotificationFacade notificationFacade;

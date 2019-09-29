@@ -1,6 +1,6 @@
 package com.rrm.learnification.common;
 
-interface OnClickCommand {
+public interface OnClickCommand {
     static OnClickCommand doNothingOnClickCommand() {
         return () -> {
         };

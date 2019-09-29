@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.main;
 
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.ToolbarView;
 import com.rrm.learnification.settings.PeriodicityPickerView;
 
 class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityPickerView, LearningItemListView {

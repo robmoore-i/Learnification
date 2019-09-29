@@ -7,8 +7,8 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
-class FromFileScheduleLog implements ScheduleLog {
-    static final String LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME = "latest_scheduled_learnification";
+public class FromFileScheduleLog implements ScheduleLog {
+    public static final String LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME = "latest_scheduled_learnification";
     private static final String LOG_TAG = "FromFileScheduleLog";
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;

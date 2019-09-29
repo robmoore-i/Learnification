@@ -8,6 +8,8 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
 
+import com.rrm.learnification.main.MainActivity;
+
 class TestJanitor {
     private static final String PACKAGE_NAME = "com.rrm.learnification";
 

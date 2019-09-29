@@ -7,9 +7,10 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.NotificationManagerCompat;
 
-class AndroidNotificationFacade {
+public class AndroidNotificationFacade {
+    public static final String CHANNEL_ID = "learnification";
+
     private static final String LOG_TAG = "AndroidNotificationFacade";
-    static final String CHANNEL_ID = "learnification";
 
     private final AndroidLogger logger;
     private final AndroidNotificationContext context;
@@ -23,7 +24,7 @@ class AndroidNotificationFacade {
         this.publisher = publisher;
     }
 
-    static AndroidNotificationFacade fromContext(AndroidLogger logger, Context context) {
+    public static AndroidNotificationFacade fromContext(AndroidLogger logger, Context context) {
         return new AndroidNotificationFacade(
                 logger,
                 new AndroidNotificationContext(context.getApplicationContext()),
@@ -32,7 +33,7 @@ class AndroidNotificationFacade {
         );
     }
 
-    void createNotificationChannel(String channelId) {
+    public void createNotificationChannel(String channelId) {
         logger.v(LOG_TAG, "Creating notification channel");
 
         // Create the NotificationChannel, but only on API 26+ because

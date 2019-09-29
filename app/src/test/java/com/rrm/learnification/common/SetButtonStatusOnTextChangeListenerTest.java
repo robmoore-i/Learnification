@@ -1,5 +1,9 @@
 package com.rrm.learnification.common;
 
+import com.rrm.learnification.main.IdentifiedTextSource;
+import com.rrm.learnification.main.OnTextChangeListener;
+import com.rrm.learnification.main.SetButtonStatusOnTextChangeListener;
+
 import org.junit.Before;
 import org.junit.Test;
 

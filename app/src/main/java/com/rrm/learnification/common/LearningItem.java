@@ -1,10 +1,10 @@
 package com.rrm.learnification.common;
 
-class LearningItem {
+public class LearningItem {
     final String left;
     final String right;
 
-    LearningItem(String left, String right) {
+    public LearningItem(String left, String right) {
         this.left = left;
         this.right = right;
     }
@@ -20,11 +20,11 @@ class LearningItem {
         return new LearningItem(split[0], split[1]);
     }
 
-    String asSingleString() {
+    public String asSingleString() {
         return left + " - " + right;
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return false;
     }
 
@@ -34,7 +34,7 @@ class LearningItem {
         }
 
         @Override
-        boolean isEmpty() {
+        public boolean isEmpty() {
             return true;
         }
     }

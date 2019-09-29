@@ -2,7 +2,7 @@ package com.rrm.learnification.common;
 
 import java.util.List;
 
-interface LearningItemRepository {
+public interface LearningItemRepository {
     List<LearningItem> learningItems();
 
     void add(LearningItem learningItem);

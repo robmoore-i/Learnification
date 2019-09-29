@@ -3,7 +3,7 @@ package com.rrm.learnification.common;
 import java.util.List;
 import java.util.Random;
 
-class JavaRandomiser implements Randomiser {
+public class JavaRandomiser implements Randomiser {
     private final Random random = new Random();
 
     @Override

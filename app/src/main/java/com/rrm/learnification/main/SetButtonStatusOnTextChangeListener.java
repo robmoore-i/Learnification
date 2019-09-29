@@ -1,13 +1,15 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.main;
+
+import com.rrm.learnification.common.ConfigurableButton;
 
 import java.util.HashMap;
 
-class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
+public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
     private final ConfigurableButton configurableButton;
 
     private final HashMap<String, String> texts;
 
-    SetButtonStatusOnTextChangeListener(ConfigurableButton configurableButton) {
+    public SetButtonStatusOnTextChangeListener(ConfigurableButton configurableButton) {
         this.configurableButton = configurableButton;
         this.texts = new HashMap<>();
     }

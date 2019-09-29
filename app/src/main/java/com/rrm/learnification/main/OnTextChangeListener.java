@@ -1,6 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.main;
 
-interface OnTextChangeListener {
+public interface OnTextChangeListener {
     void onTextChange(IdentifiedTextSource identifiedTextSource);
 
     void addTextSource(IdentifiedTextSource identifiedTextSource);

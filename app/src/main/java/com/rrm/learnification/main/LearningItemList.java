@@ -1,8 +1,12 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.main;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

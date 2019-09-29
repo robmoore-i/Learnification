@@ -1,6 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.main;
 
-interface IdentifiedTextSource {
+public interface IdentifiedTextSource {
     String identity();
 
     String latestText();

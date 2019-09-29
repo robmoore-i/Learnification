@@ -1,4 +1,8 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.main;
+
+import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemRepository;
+import com.rrm.learnification.common.OnClickCommand;
 
 class AddLearningItemOnClickCommand implements OnClickCommand {
     private final LearningItemTextInput learningItemTextInput;

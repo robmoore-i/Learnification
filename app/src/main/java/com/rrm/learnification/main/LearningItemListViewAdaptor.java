@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.main;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.common.AndroidLogger;
 
 import java.util.List;
 

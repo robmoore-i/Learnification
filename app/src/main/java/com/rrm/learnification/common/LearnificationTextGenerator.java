@@ -2,11 +2,11 @@ package com.rrm.learnification.common;
 
 import java.util.List;
 
-class LearnificationTextGenerator {
+public class LearnificationTextGenerator {
     private final LearningItemRepository learningItemRepository;
     private final Randomiser randomiser;
 
-    LearnificationTextGenerator(Randomiser randomiser, LearningItemRepository learningItemRepository) {
+    public LearnificationTextGenerator(Randomiser randomiser, LearningItemRepository learningItemRepository) {
         this.randomiser = randomiser;
         this.learningItemRepository = learningItemRepository;
     }
