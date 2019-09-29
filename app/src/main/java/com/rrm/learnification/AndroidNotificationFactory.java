@@ -12,6 +12,7 @@ import android.support.v4.app.RemoteInput;
 
 class AndroidNotificationFactory {
     static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
+    static final String SKIPPED_FLAG_EXTRA = "skippedFlag";
 
     // Key for the string that's delivered in the reply action's intent.
     static final String REPLY_TEXT = "key_text_reply";
@@ -26,7 +27,7 @@ class AndroidNotificationFactory {
     }
 
     Notification createLearnification(LearnificationText learnificationText) {
-        String learningItemPrompt = learnificationText.expected;
+        String learningItemPrompt = learnificationText.given;
         String subHeading = learnificationText.subHeading;
         logger.v(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
@@ -34,16 +35,36 @@ class AndroidNotificationFactory {
                 .setLabel(getRemoteInputReplyLabel())
                 .build();
 
+        int requestCode = PendingIntentRequestCodeGenerator.getInstance().nextRequestCode();
+
         // Create the reply action and add the remote input.
         NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
                 replyActionLabel(),
-                responsePendingIntent(learnificationText.actual))
+                responsePendingIntent(requestCode, learnificationText.expected))
                 .addRemoteInput(remoteInput)
                 .build();
 
+        // Create the skip action
+        NotificationCompat.Action skipAction = new NotificationCompat.Action.Builder(
+                R.drawable.skip_icon,
+                "Skip",
+                skipIntent(requestCode))
+                .build();
+
         // Use the title for the learnification main text, so it shows up boldly.
-        return buildNotification(learningItemPrompt, subHeading, replyAction);
+        return buildNotification(learningItemPrompt, subHeading, replyAction, skipAction);
+    }
+
+    private PendingIntent skipIntent(int requestCode) {
+        Intent intent = new Intent(packageContext, LearnificationResponseService.class);
+        intent.putExtra(SKIPPED_FLAG_EXTRA, true);
+        return PendingIntent.getService(
+                packageContext,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
     }
 
     private String getRemoteInputReplyLabel() {
@@ -54,20 +75,21 @@ class AndroidNotificationFactory {
         return packageContext.getString(R.string.reply_label);
     }
 
-    private PendingIntent responsePendingIntent(String expectedUserResponse) {
+    private PendingIntent responsePendingIntent(int requestCode, String expectedUserResponse) {
         Intent intent = new Intent(packageContext, LearnificationResponseService.class);
         intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
         return PendingIntent.getService(
                 packageContext,
-                0,
+                requestCode,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
     }
 
-    private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction) {
+    private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction, NotificationCompat.Action skipAction) {
         return appNotificationTemplate(title, text)
                 .addAction(replyAction)
+                .addAction(skipAction)
                 .build();
     }
 
