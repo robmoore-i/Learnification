@@ -1,6 +1,8 @@
 package com.rrm.learnification;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 class PersistentLearningItemRepository implements LearningItemRepository {
     private static final String LOG_TAG = "PersistentLearningItemRepository";
@@ -22,7 +24,12 @@ class PersistentLearningItemRepository implements LearningItemRepository {
 
     @Override
     public List<LearningItem> learningItems() {
-        return learningItems;
+        ListIterator<LearningItem> li = learningItems.listIterator(learningItems.size());
+        ArrayList<LearningItem> reversed = new ArrayList<>();
+        while (li.hasPrevious()) {
+            reversed.add(li.previous());
+        }
+        return reversed;
     }
 
     @Override
