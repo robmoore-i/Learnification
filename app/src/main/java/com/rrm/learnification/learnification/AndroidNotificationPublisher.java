@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
 import android.app.Notification;
 import android.support.v4.app.NotificationManagerCompat;

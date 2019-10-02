@@ -1,12 +1,12 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
 import android.support.annotation.NonNull;
 
-class ResponseNotificationContent {
+public class ResponseNotificationContent {
     private final String title;
     private final String text;
 
-    ResponseNotificationContent(String title, String text) {
+    public ResponseNotificationContent(String title, String text) {
         this.title = title;
         this.text = text;
     }

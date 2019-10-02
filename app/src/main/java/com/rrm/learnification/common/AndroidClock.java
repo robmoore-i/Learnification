@@ -2,8 +2,8 @@ package com.rrm.learnification.common;
 
 import java.time.LocalDateTime;
 
-class AndroidClock {
-    LocalDateTime now() {
+public class AndroidClock {
+    public LocalDateTime now() {
         return LocalDateTime.now();
     }
 }

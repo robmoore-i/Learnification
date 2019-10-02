@@ -1,5 +1,7 @@
 package com.rrm.learnification.common;
 
+import com.rrm.learnification.learnification.DelayCalculator;
+
 import org.junit.Test;
 
 import java.sql.Time;

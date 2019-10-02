@@ -1,5 +1,5 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
-interface JobScheduler {
+public interface JobScheduler {
     void schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass);
 }

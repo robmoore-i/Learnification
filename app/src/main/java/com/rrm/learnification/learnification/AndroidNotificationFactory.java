@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -11,6 +11,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.LearnificationText;
 
 class AndroidNotificationFactory {
     static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";

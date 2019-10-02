@@ -1,5 +1,8 @@
 package com.rrm.learnification.common;
 
+import com.rrm.learnification.learnification.CantGenerateNotificationTextException;
+import com.rrm.learnification.learnification.LearnificationTextGenerator;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

@@ -1,4 +1,7 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
+
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.FileStorageAdaptor;
 
 import java.io.IOException;
 import java.time.Clock;
@@ -14,7 +17,7 @@ public class FromFileScheduleLog implements ScheduleLog {
     private final FileStorageAdaptor fileStorageAdaptor;
     private final Clock clock;
 
-    FromFileScheduleLog(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor, Clock clock) {
+    public FromFileScheduleLog(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor, Clock clock) {
         this.logger = logger;
         this.fileStorageAdaptor = fileStorageAdaptor;
         this.clock = clock;

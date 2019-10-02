@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
 import android.app.job.JobInfo;
 import android.content.ComponentName;

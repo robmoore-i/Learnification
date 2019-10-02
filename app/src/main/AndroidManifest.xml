@@ -28,11 +28,11 @@
         <activity android:name=".settings.SettingsActivity" />
 
         <service
-            android:name=".common.LearnificationSchedulerService"
+            android:name=".learnification.LearnificationSchedulerService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".common.LearnificationResponseService" />
+        <service android:name=".learnification.LearnificationResponseService" />
 
     </application>
 

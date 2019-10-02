@@ -1,6 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
-interface NotificationManager {
+public interface NotificationManager {
     void cancelLatest();
 
     void updateLatestWithReply(ResponseNotificationContent replyContent);

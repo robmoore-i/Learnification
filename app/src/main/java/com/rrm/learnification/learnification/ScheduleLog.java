@@ -1,8 +1,8 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
 import java.time.LocalDateTime;
 
-interface ScheduleLog {
+public interface ScheduleLog {
     boolean isAnythingScheduledForTomorrow();
 
     void mark(LocalDateTime localDateTime);

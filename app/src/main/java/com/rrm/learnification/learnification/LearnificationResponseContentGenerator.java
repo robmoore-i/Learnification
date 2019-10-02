@@ -1,13 +1,13 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
-class LearnificationResponseContentGenerator {
+public class LearnificationResponseContentGenerator {
     private final ScheduleConfiguration scheduleConfiguration;
 
     LearnificationResponseContentGenerator(ScheduleConfiguration scheduleConfiguration) {
         this.scheduleConfiguration = scheduleConfiguration;
     }
 
-    ResponseNotificationContent getResponseNotificationContent(String expected, String actual) {
+    public ResponseNotificationContent getResponseNotificationContent(String expected, String actual) {
         String title = "Got '" + actual + "', expected '" + expected + "'";
         String text = "Next one in " + timeUntilNextLearnificationText() + ".";
         return new ResponseNotificationContent(title, text);

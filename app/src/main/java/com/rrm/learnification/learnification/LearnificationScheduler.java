@@ -1,9 +1,12 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
+
+import com.rrm.learnification.common.AndroidClock;
+import com.rrm.learnification.common.AndroidLogger;
 
 import java.sql.Time;
 
-class LearnificationScheduler {
-    static final String LOG_TAG = "LearnificationScheduler";
+public class LearnificationScheduler {
+    public static final String LOG_TAG = "LearnificationScheduler";
 
     private final AndroidLogger logger;
     private final JobScheduler jobScheduler;
@@ -13,7 +16,7 @@ class LearnificationScheduler {
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ScheduleLog scheduleLog, AndroidClock androidClock) {
+    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ScheduleLog scheduleLog, AndroidClock androidClock) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;
@@ -21,7 +24,7 @@ class LearnificationScheduler {
         this.androidClock = androidClock;
     }
 
-    void scheduleJob(Class<?> serviceClass) {
+    public void scheduleJob(Class<?> serviceClass) {
         PeriodicityRange periodicityRange = scheduleConfiguration.getPeriodicityRange();
         int earliestStartTimeDelayMs = periodicityRange.earliestStartTimeDelayMs;
         int latestStartTimeDelayMs = periodicityRange.latestStartTimeDelayMs;

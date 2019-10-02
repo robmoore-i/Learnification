@@ -1,6 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
-interface LearnificationResponseIntent {
+public interface LearnificationResponseIntent {
     boolean isSkipped();
 
     boolean hasRemoteInput();

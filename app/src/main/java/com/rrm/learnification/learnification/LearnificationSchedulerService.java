@@ -1,7 +1,16 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+
+import com.rrm.learnification.common.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.FileStorageAdaptor;
+import com.rrm.learnification.common.FromFileLearningItemStorage;
+import com.rrm.learnification.common.JavaRandomiser;
+import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemRepository;
+import com.rrm.learnification.common.PersistentLearningItemRepository;
 
 import java.util.List;
 

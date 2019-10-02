@@ -1,19 +1,19 @@
 package com.rrm.learnification.common;
 
-class JavaInMemoryIdGenerator {
+public class JavaInMemoryIdGenerator {
     private int nextId = 0;
     private int lastId = 0;
 
-    int nextId() {
+    public int nextId() {
         lastId = nextId;
         return nextId++;
     }
 
-    void reset() {
-        nextId = 0;
+    public int lastId() {
+        return lastId;
     }
 
-    int lastId() {
-        return lastId;
+    void reset() {
+        nextId = 0;
     }
 }

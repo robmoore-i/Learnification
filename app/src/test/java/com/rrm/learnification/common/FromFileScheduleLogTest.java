@@ -1,5 +1,7 @@
 package com.rrm.learnification.common;
 
+import com.rrm.learnification.learnification.FromFileScheduleLog;
+
 import org.junit.Before;
 import org.junit.Test;
 

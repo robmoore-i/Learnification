@@ -1,9 +1,9 @@
 package com.rrm.learnification.common;
 
-class LearnificationText {
-    final String given;
-    final String expected;
-    final String subHeading;
+public class LearnificationText {
+    public final String given;
+    public final String expected;
+    public final String subHeading;
 
     LearnificationText(String given, String expected, String subHeading) {
         this.expected = expected;

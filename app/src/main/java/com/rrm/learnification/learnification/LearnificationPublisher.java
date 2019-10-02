@@ -1,6 +1,9 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
 import android.app.Notification;
+
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.LearnificationText;
 
 public class LearnificationPublisher {
     private static final String LOG_TAG = "LearnificationPublisher";

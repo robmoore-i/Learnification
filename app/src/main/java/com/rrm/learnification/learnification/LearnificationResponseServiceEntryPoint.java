@@ -1,6 +1,8 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
-class LearnificationResponseServiceEntryPoint {
+import com.rrm.learnification.common.AndroidLogger;
+
+public class LearnificationResponseServiceEntryPoint {
     private static final String LOG_TAG = "LearnificationResponseServiceEntryPoint";
 
     private final NotificationManager notificationManager;
@@ -8,14 +10,14 @@ class LearnificationResponseServiceEntryPoint {
     private final LearnificationResponseContentGenerator responseContentGenerator;
     private final AndroidLogger logger;
 
-    LearnificationResponseServiceEntryPoint(AndroidLogger logger, NotificationManager notificationManager, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator) {
+    public LearnificationResponseServiceEntryPoint(AndroidLogger logger, NotificationManager notificationManager, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator) {
         this.logger = logger;
         this.notificationManager = notificationManager;
         this.learnificationScheduler = learnificationScheduler;
         this.responseContentGenerator = responseContentGenerator;
     }
 
-    void onHandleIntent(LearnificationResponseIntent responseIntent) {
+    public void onHandleIntent(LearnificationResponseIntent responseIntent) {
         if (responseIntent.isSkipped()) {
             logger.v(LOG_TAG, "learnification was skipped");
             notificationManager.cancelLatest();

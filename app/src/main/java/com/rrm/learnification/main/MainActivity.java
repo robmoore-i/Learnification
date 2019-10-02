@@ -10,13 +10,13 @@ import android.view.WindowManager;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.common.AndroidNotificationFacade;
 import com.rrm.learnification.common.FileStorageAdaptor;
 import com.rrm.learnification.common.FromFileLearningItemStorage;
-import com.rrm.learnification.common.FromFileScheduleLog;
 import com.rrm.learnification.common.JavaRandomiser;
 import com.rrm.learnification.common.PersistentLearningItemRepository;
 import com.rrm.learnification.common.Randomiser;
+import com.rrm.learnification.learnification.AndroidNotificationFacade;
+import com.rrm.learnification.learnification.FromFileScheduleLog;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 

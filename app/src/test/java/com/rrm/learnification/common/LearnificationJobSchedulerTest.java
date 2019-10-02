@@ -1,5 +1,11 @@
 package com.rrm.learnification.common;
 
+import com.rrm.learnification.learnification.JobScheduler;
+import com.rrm.learnification.learnification.LearnificationScheduler;
+import com.rrm.learnification.learnification.PeriodicityRange;
+import com.rrm.learnification.learnification.ScheduleConfiguration;
+import com.rrm.learnification.learnification.ScheduleLog;
+
 import org.junit.Before;
 import org.junit.Test;
 

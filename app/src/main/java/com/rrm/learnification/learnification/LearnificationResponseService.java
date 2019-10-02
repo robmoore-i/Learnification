@@ -1,9 +1,13 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.rrm.learnification.common.AndroidClock;
+import com.rrm.learnification.common.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.FileStorageAdaptor;
 import com.rrm.learnification.settings.SettingsRepository;
 
 import java.time.Clock;
