@@ -1,4 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.storage;
+
+import com.rrm.learnification.common.LearningItem;
 
 import java.util.List;
 

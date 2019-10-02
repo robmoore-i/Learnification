@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.storage.FromFileLearningItemStorage;
 
 import org.junit.After;
 import org.junit.Rule;

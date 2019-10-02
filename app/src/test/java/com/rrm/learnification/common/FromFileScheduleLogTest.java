@@ -1,6 +1,7 @@
 package com.rrm.learnification.common;
 
 import com.rrm.learnification.learnification.FromFileScheduleLog;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import org.junit.Before;
 import org.junit.Test;

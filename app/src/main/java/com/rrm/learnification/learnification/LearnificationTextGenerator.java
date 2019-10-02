@@ -2,9 +2,9 @@ package com.rrm.learnification.learnification;
 
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.common.LearningItemRepository;
 import com.rrm.learnification.common.Randomiser;
 import com.rrm.learnification.notification.CantGenerateNotificationTextException;
+import com.rrm.learnification.storage.LearningItemRepository;
 
 import java.util.List;
 

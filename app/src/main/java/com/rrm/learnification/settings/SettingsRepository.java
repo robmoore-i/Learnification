@@ -1,7 +1,7 @@
 package com.rrm.learnification.settings;
 
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.common.FileStorageAdaptor;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import java.util.Collections;
 import java.util.List;

@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.rrm.learnification.common.AndroidClock;
-import com.rrm.learnification.common.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.common.FileStorageAdaptor;
 import com.rrm.learnification.jobscheduler.AndroidJobScheduler;
 import com.rrm.learnification.jobscheduler.JobIdGenerator;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidNotificationManager;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.settings.SettingsRepository;
+import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import java.time.Clock;
 

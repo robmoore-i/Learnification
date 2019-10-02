@@ -9,7 +9,7 @@ public class LearningItem {
         this.right = right;
     }
 
-    static LearningItem fromLine(String line) {
+    public static LearningItem fromLine(String line) {
         if ("".equals(line)) {
             return new EmptyLearningItem();
         }

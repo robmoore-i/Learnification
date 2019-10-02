@@ -1,7 +1,7 @@
 package com.rrm.learnification.learnification;
 
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.common.FileStorageAdaptor;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import java.io.IOException;
 import java.time.Clock;

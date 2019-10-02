@@ -1,4 +1,7 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.storage;
+
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.LearningItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +54,16 @@ public class FromFileLearningItemStorage implements LearningItemStorage {
         rewrite(learningItems);
     }
 
-    void rewrite(List<LearningItem> learningItems) {
+    public static ArrayList<LearningItem> defaultLearningItems() {
+        ArrayList<LearningItem> learningItems = new ArrayList<>();
+        learningItems.add(new LearningItem("live", "ცხოვრობ"));
+        learningItems.add(new LearningItem("travel", "მგზავრობ"));
+        learningItems.add(new LearningItem("use", "ხმარობ"));
+        learningItems.add(new LearningItem("exercise", "ვარჯიშობ"));
+        return learningItems;
+    }
+
+    public void rewrite(List<LearningItem> learningItems) {
         logger.v(LOG_TAG, "rewriting learning items");
 
         fileStorageAdaptor.deleteFile(LEARNING_ITEMS_FILE_NAME);
@@ -60,14 +72,5 @@ public class FromFileLearningItemStorage implements LearningItemStorage {
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
         }
-    }
-
-    static ArrayList<LearningItem> defaultLearningItems() {
-        ArrayList<LearningItem> learningItems = new ArrayList<>();
-        learningItems.add(new LearningItem("live", "ცხოვრობ"));
-        learningItems.add(new LearningItem("travel", "მგზავრობ"));
-        learningItems.add(new LearningItem("use", "ხმარობ"));
-        learningItems.add(new LearningItem("exercise", "ვარჯიშობ"));
-        return learningItems;
     }
 }

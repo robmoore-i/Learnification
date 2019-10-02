@@ -1,6 +1,6 @@
 package com.rrm.learnification.main;
 
-import com.rrm.learnification.common.LearningItemRepository;
+import com.rrm.learnification.storage.LearningItemRepository;
 
 class RemoveItemOnSwipeCommand implements OnSwipeCommand {
     private final LearningItemRepository learningItemRepository;

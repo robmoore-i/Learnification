@@ -1,6 +1,7 @@
 package com.rrm.learnification.common;
 
 import com.rrm.learnification.settings.SettingsRepository;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import org.junit.Test;
 

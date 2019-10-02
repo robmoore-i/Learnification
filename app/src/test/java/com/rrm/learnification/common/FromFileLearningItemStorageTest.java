@@ -1,5 +1,8 @@
 package com.rrm.learnification.common;
 
+import com.rrm.learnification.storage.FileStorageAdaptor;
+import com.rrm.learnification.storage.FromFileLearningItemStorage;
+
 import org.junit.Test;
 
 import java.io.IOException;

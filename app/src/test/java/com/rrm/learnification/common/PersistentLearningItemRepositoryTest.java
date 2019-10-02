@@ -1,5 +1,8 @@
 package com.rrm.learnification.common;
 
+import com.rrm.learnification.storage.LearningItemStorage;
+import com.rrm.learnification.storage.PersistentLearningItemRepository;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

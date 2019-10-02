@@ -4,6 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.storage.FromFileLearningItemStorage;
 
 import org.junit.After;
 import org.junit.Before;

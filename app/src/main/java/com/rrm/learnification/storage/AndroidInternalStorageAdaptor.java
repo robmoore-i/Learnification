@@ -1,7 +1,9 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.storage;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+
+import com.rrm.learnification.common.AndroidLogger;
 
 import java.io.BufferedReader;
 import java.io.File;

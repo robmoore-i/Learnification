@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.common.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.AppToolbar;
-import com.rrm.learnification.common.FileStorageAdaptor;
 import com.rrm.learnification.common.FinishActivityOnClickCommand;
+import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 
 public class SettingsActivity extends AppCompatActivity implements SaveSettingsView {
     @Override
