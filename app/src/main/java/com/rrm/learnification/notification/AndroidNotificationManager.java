@@ -1,13 +1,13 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.notification;
 
 import android.app.Notification;
 import android.support.v4.app.NotificationManagerCompat;
 
-class AndroidNotificationManager implements NotificationManager {
+public class AndroidNotificationManager implements NotificationManager {
     private final NotificationManagerCompat notificationManagerCompat;
     private final AndroidNotificationFactory androidNotificationFactory;
 
-    AndroidNotificationManager(NotificationManagerCompat notificationManagerCompat, AndroidNotificationFactory androidNotificationFactory) {
+    public AndroidNotificationManager(NotificationManagerCompat notificationManagerCompat, AndroidNotificationFactory androidNotificationFactory) {
         this.notificationManagerCompat = notificationManagerCompat;
         this.androidNotificationFactory = androidNotificationFactory;
     }

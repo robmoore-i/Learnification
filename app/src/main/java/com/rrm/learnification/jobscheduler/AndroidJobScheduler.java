@@ -1,14 +1,14 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.jobscheduler;
 
 import android.app.job.JobInfo;
 import android.content.ComponentName;
 import android.content.Context;
 
-class AndroidJobScheduler implements JobScheduler {
+public class AndroidJobScheduler implements JobScheduler {
     private final Context context;
     private final JobIdGenerator jobIdGenerator;
 
-    AndroidJobScheduler(Context context, JobIdGenerator jobIdGenerator) {
+    public AndroidJobScheduler(Context context, JobIdGenerator jobIdGenerator) {
         this.context = context;
         this.jobIdGenerator = jobIdGenerator;
     }

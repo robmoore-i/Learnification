@@ -1,6 +1,6 @@
 package com.rrm.learnification.common;
 
-import com.rrm.learnification.learnification.JobScheduler;
+import com.rrm.learnification.jobscheduler.JobScheduler;
 import com.rrm.learnification.learnification.LearnificationScheduler;
 import com.rrm.learnification.learnification.PeriodicityRange;
 import com.rrm.learnification.learnification.ScheduleConfiguration;

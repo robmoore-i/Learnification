@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.notification;
 
 import android.support.annotation.NonNull;
 

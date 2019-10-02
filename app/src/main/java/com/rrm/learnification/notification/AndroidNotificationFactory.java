@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.notification;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -13,19 +13,19 @@ import android.support.v4.app.RemoteInput;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.learnification.LearnificationResponseService;
 
-class AndroidNotificationFactory {
-    static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
-    static final String SKIPPED_FLAG_EXTRA = "skippedFlag";
+public class AndroidNotificationFactory {
+    public static final String REPLY_TEXT = "remote_input_text_reply";
+    public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
+    public static final String SKIPPED_FLAG_EXTRA = "skippedFlag";
 
-    // Key for the string that's delivered in the reply action's intent.
-    static final String REPLY_TEXT = "key_text_reply";
     private static final String LOG_TAG = "AndroidNotificationFactory";
 
     private final AndroidLogger logger;
     private final Context packageContext;
 
-    AndroidNotificationFactory(AndroidLogger logger, Context packageContext) {
+    public AndroidNotificationFactory(AndroidLogger logger, Context packageContext) {
         this.logger = logger;
         this.packageContext = packageContext;
     }

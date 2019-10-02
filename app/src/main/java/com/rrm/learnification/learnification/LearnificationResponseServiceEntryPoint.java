@@ -1,6 +1,8 @@
 package com.rrm.learnification.learnification;
 
 import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.notification.NotificationManager;
+import com.rrm.learnification.notification.ResponseNotificationContent;
 
 public class LearnificationResponseServiceEntryPoint {
     private static final String LOG_TAG = "LearnificationResponseServiceEntryPoint";

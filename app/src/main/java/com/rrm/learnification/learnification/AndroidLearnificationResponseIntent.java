@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.RemoteInput;
 
+import com.rrm.learnification.notification.AndroidNotificationFactory;
+
 class AndroidLearnificationResponseIntent implements LearnificationResponseIntent {
     private final Intent intent;
     private final Bundle remoteInput;

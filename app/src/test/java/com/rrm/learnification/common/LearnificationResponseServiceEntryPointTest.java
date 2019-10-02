@@ -5,8 +5,8 @@ import com.rrm.learnification.learnification.LearnificationResponseIntent;
 import com.rrm.learnification.learnification.LearnificationResponseServiceEntryPoint;
 import com.rrm.learnification.learnification.LearnificationScheduler;
 import com.rrm.learnification.learnification.LearnificationSchedulerService;
-import com.rrm.learnification.learnification.NotificationManager;
-import com.rrm.learnification.learnification.ResponseNotificationContent;
+import com.rrm.learnification.notification.NotificationManager;
+import com.rrm.learnification.notification.ResponseNotificationContent;
 
 import org.junit.Before;
 import org.junit.Test;

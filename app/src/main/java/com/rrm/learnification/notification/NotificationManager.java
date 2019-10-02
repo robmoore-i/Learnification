@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.notification;
 
 public interface NotificationManager {
     void cancelLatest();

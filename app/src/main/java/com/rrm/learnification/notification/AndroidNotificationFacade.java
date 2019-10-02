@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.notification;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -56,11 +56,11 @@ public class AndroidNotificationFacade {
         logger.v(LOG_TAG, "Created notification channel");
     }
 
-    Notification createLearnification(LearnificationText learnificationText) {
+    public Notification createLearnification(LearnificationText learnificationText) {
         return factory.createLearnification(learnificationText);
     }
 
-    void publish(Notification notification) {
+    public void publish(Notification notification) {
         publisher.publish(notification);
     }
 }

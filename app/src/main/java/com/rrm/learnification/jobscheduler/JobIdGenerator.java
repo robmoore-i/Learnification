@@ -1,8 +1,8 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.jobscheduler;
 
 import com.rrm.learnification.common.JavaInMemoryIdGenerator;
 
-class JobIdGenerator {
+public class JobIdGenerator {
     private static JobIdGenerator instance = new JobIdGenerator();
 
     private final JavaInMemoryIdGenerator javaInMemoryIdGenerator = new JavaInMemoryIdGenerator();
@@ -10,7 +10,7 @@ class JobIdGenerator {
     private JobIdGenerator() {
     }
 
-    static JobIdGenerator getInstance() {
+    public static JobIdGenerator getInstance() {
         return instance;
     }
 

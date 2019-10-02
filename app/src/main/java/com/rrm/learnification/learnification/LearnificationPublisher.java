@@ -4,6 +4,8 @@ import android.app.Notification;
 
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.notification.AndroidNotificationFacade;
+import com.rrm.learnification.notification.CantGenerateNotificationTextException;
 
 public class LearnificationPublisher {
     private static final String LOG_TAG = "LearnificationPublisher";

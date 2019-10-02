@@ -4,6 +4,7 @@ import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemRepository;
 import com.rrm.learnification.common.Randomiser;
+import com.rrm.learnification.notification.CantGenerateNotificationTextException;
 
 import java.util.List;
 

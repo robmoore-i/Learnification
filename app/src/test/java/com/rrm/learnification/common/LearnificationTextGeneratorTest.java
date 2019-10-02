@@ -1,7 +1,7 @@
 package com.rrm.learnification.common;
 
-import com.rrm.learnification.learnification.CantGenerateNotificationTextException;
 import com.rrm.learnification.learnification.LearnificationTextGenerator;
+import com.rrm.learnification.notification.CantGenerateNotificationTextException;
 
 import org.junit.Test;
 

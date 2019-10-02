@@ -1,5 +1,7 @@
 package com.rrm.learnification.learnification;
 
+import com.rrm.learnification.notification.ResponseNotificationContent;
+
 public class LearnificationResponseContentGenerator {
     private final ScheduleConfiguration scheduleConfiguration;
 

@@ -15,8 +15,8 @@ import com.rrm.learnification.common.FromFileLearningItemStorage;
 import com.rrm.learnification.common.JavaRandomiser;
 import com.rrm.learnification.common.PersistentLearningItemRepository;
 import com.rrm.learnification.common.Randomiser;
-import com.rrm.learnification.learnification.AndroidNotificationFacade;
 import com.rrm.learnification.learnification.FromFileScheduleLog;
+import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 
