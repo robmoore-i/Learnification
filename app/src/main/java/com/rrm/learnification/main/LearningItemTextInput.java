@@ -1,6 +1,7 @@
 package com.rrm.learnification.main;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.OnTextChangeListener;
 import com.rrm.learnification.common.TextInput;
 
 class LearningItemTextInput implements TextInput {

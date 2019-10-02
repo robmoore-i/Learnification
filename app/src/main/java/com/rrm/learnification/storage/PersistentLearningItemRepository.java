@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class PersistentLearningItemRepository implements LearningItemRepository {
+public class PersistentLearningItemRepository implements ItemRepository<LearningItem> {
     private static final String LOG_TAG = "PersistentLearningItemRepository";
 
     private final AndroidLogger logger;
@@ -26,7 +26,7 @@ public class PersistentLearningItemRepository implements LearningItemRepository 
     }
 
     @Override
-    public List<LearningItem> learningItems() {
+    public List<LearningItem> items() {
         ListIterator<LearningItem> li = learningItems.listIterator(learningItems.size());
         ArrayList<LearningItem> reversed = new ArrayList<>();
         while (li.hasPrevious()) {

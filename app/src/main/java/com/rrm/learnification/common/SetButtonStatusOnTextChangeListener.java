@@ -1,6 +1,4 @@
-package com.rrm.learnification.main;
-
-import com.rrm.learnification.common.ConfigurableButton;
+package com.rrm.learnification.common;
 
 import java.util.HashMap;
 

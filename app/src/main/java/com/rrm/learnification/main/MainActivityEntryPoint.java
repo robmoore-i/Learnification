@@ -3,16 +3,19 @@ package com.rrm.learnification.main;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.AppToolbar;
 import com.rrm.learnification.common.ClearTextInputOnClickCommand;
-import com.rrm.learnification.common.Randomiser;
+import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.RemoveItemOnSwipeCommand;
+import com.rrm.learnification.common.SetButtonStatusOnTextChangeListener;
 import com.rrm.learnification.learnification.LearnificationPublisher;
 import com.rrm.learnification.learnification.LearnificationTextGenerator;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
-import com.rrm.learnification.storage.LearningItemRepository;
+import com.rrm.learnification.random.Randomiser;
+import com.rrm.learnification.storage.ItemRepository;
 
 class MainActivityEntryPoint {
     private final AndroidNotificationFacade notificationFacade;
     private final LearnificationPublisher learnificationPublisher;
-    private final LearningItemRepository learningItemRepository;
+    private final ItemRepository<LearningItem> itemRepository;
     private final AppToolbar appToolbar;
     private final LearningItemTextInput learningItemTextInput;
     private final AddLearningItemButton addLearningItemButton;
@@ -23,9 +26,9 @@ class MainActivityEntryPoint {
             MainActivityView mainActivityView,
             AndroidNotificationFacade notificationFacade,
             Randomiser randomiser,
-            LearningItemRepository learningItemRepository
+            ItemRepository<LearningItem> itemRepository
     ) {
-        this.learningItemRepository = learningItemRepository;
+        this.itemRepository = itemRepository;
         this.notificationFacade = notificationFacade;
 
         appToolbar = new AppToolbar(logger, mainActivityView);
@@ -35,7 +38,7 @@ class MainActivityEntryPoint {
 
         this.learnificationPublisher = new LearnificationPublisher(
                 logger,
-                new LearnificationTextGenerator(randomiser, learningItemRepository),
+                new LearnificationTextGenerator(randomiser, itemRepository),
                 notificationFacade
         );
     }
@@ -52,11 +55,11 @@ class MainActivityEntryPoint {
         appToolbar.setTitle("Learnification");
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(addLearningItemButton));
-        addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
+        addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, itemRepository, learningItemList));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
-        learningItemList.bindTo(learningItemRepository);
-        learningItemList.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
+        learningItemList.bindTo(itemRepository);
+        learningItemList.setOnSwipeCommand(new RemoveItemOnSwipeCommand(itemRepository));
     }
 
     private void createNotificationChannel() {

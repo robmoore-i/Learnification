@@ -5,7 +5,7 @@ public class LearnificationText {
     public final String expected;
     public final String subHeading;
 
-    LearnificationText(String given, String expected, String subHeading) {
+    public LearnificationText(String given, String expected, String subHeading) {
         this.expected = expected;
         this.given = given;
         this.subHeading = subHeading;

@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.ItemListViewAdaptor;
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.storage.LearningItemRepository;
+import com.rrm.learnification.common.OnSwipeCommand;
+import com.rrm.learnification.storage.ItemRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,16 +19,16 @@ class LearningItemList {
     private final RecyclerView recyclerView;
     private final AndroidLogger logger;
 
-    private LearningItemListViewAdaptor adapter;
+    private ItemListViewAdaptor adapter;
 
     LearningItemList(AndroidLogger logger, LearningItemListView learningItemListView) {
         this.logger = logger;
         recyclerView = learningItemListView.learningItemsList();
     }
 
-    void bindTo(LearningItemRepository learningItemRepository) {
+    void bindTo(ItemRepository<LearningItem> itemRepository) {
         logger.v(LOG_TAG, "populating learning-item list");
-        List<String> learningItemsAsTextEntries = learningItemRepository.learningItems().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
+        List<String> learningItemsAsTextEntries = itemRepository.items().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
         LearningItemListViewAdaptor adapter = new LearningItemListViewAdaptor(logger, learningItemsAsTextEntries);
         recyclerView.setAdapter(adapter);
         this.adapter = adapter;

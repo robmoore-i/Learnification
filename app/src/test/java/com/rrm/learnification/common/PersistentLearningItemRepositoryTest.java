@@ -24,7 +24,7 @@ public class PersistentLearningItemRepositoryTest {
 
         persistentLearnificationRepository.add(new LearningItem("L", "R"));
 
-        List<LearningItem> learningItems = persistentLearnificationRepository.learningItems();
+        List<LearningItem> learningItems = persistentLearnificationRepository.items();
         assertThat(learningItems.size(), equalTo(1));
         assertThat(learningItems.get(0).left, equalTo("L"));
         assertThat(learningItems.get(0).right, equalTo("R"));
@@ -40,7 +40,7 @@ public class PersistentLearningItemRepositoryTest {
         persistentLearnificationRepository.add(new LearningItem("L2", "R2"));
         persistentLearnificationRepository.add(new LearningItem("L3", "R3"));
 
-        List<LearningItem> learningItems = persistentLearnificationRepository.learningItems();
+        List<LearningItem> learningItems = persistentLearnificationRepository.items();
         assertThat(learningItems.get(0).left, equalTo("L3"));
         assertThat(learningItems.get(0).right, equalTo("R3"));
     }

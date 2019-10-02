@@ -1,8 +1,8 @@
 package com.rrm.learnification.common;
 
 public class LearningItem {
-    final String left;
-    final String right;
+    public final String left;
+    public final String right;
 
     public LearningItem(String left, String right) {
         this.left = left;

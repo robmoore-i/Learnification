@@ -4,13 +4,13 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.common.JavaRandomiser;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
+import com.rrm.learnification.random.JavaRandomiser;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.FromFileLearningItemStorage;
-import com.rrm.learnification.storage.LearningItemRepository;
+import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import java.util.List;
@@ -24,14 +24,14 @@ public class LearnificationSchedulerService extends JobService {
     public boolean onStartJob(JobParameters params) {
         logger.v(LOG_TAG, "Job started");
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        LearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
+        ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
 
-        List<LearningItem> learningItems = learningItemRepository.learningItems();
+        List<LearningItem> learningItems = itemRepository.items();
         for (LearningItem learningItem : learningItems) {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
         }
 
-        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), learningItemRepository);
+        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), itemRepository);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 logger,

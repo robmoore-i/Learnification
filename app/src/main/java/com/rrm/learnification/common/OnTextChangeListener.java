@@ -1,4 +1,4 @@
-package com.rrm.learnification.main;
+package com.rrm.learnification.common;
 
 public interface OnTextChangeListener {
     void onTextChange(IdentifiedTextSource identifiedTextSource);

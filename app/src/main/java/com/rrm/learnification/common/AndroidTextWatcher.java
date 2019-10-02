@@ -1,16 +1,16 @@
-package com.rrm.learnification.main;
+package com.rrm.learnification.common;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-class AndroidTextWatcher implements IdentifiedTextSource, TextWatcher {
+public class AndroidTextWatcher implements IdentifiedTextSource, TextWatcher {
     private final String identity;
 
     private String latestText = "";
     private OnTextChangeListener onTextChangeListener;
 
-    AndroidTextWatcher(String identity, EditText editText) {
+    public AndroidTextWatcher(String identity, EditText editText) {
         this.identity = identity;
         editText.addTextChangedListener(this);
     }

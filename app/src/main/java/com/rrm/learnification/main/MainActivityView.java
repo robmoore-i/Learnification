@@ -12,7 +12,9 @@ import android.widget.NumberPicker;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.AndroidTextWatcher;
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.OnTextChangeListener;
 import com.rrm.learnification.common.ToolbarView;
 import com.rrm.learnification.settings.PeriodicityPickerView;
 
