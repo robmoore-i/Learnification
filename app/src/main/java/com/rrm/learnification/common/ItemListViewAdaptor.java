@@ -23,13 +23,13 @@ public abstract class ItemListViewAdaptor extends RecyclerView.Adapter<ItemListV
     }
 
     public void add(String textEntry) {
-        logger.v(LOG_TAG, "adding a text entry to the learning-item list '" + textEntry + "'");
+        logger.v(LOG_TAG, "adding a text entry to the list '" + textEntry + "'");
         textEntries.add(0, textEntry);
         this.notifyDataSetChanged();
     }
 
     void remove(int index) {
-        logger.v(LOG_TAG, "removing a text entry from the learning-item list at index " + index);
+        logger.v(LOG_TAG, "removing a text entry from the list at index " + index);
         textEntries.remove(index);
         this.notifyDataSetChanged();
     }
