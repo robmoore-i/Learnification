@@ -11,6 +11,7 @@ import com.rrm.learnification.jobscheduler.JobIdGenerator;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidNotificationManager;
 import com.rrm.learnification.notification.NotificationManager;
+import com.rrm.learnification.schedulelog.FromFileScheduleLog;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;

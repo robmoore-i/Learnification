@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.schedulelog;
 
 import java.time.LocalDateTime;
 

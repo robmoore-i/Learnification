@@ -4,7 +4,7 @@ import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.notification.ResponseNotificationContent;
 
-public class LearnificationResponseServiceEntryPoint {
+class LearnificationResponseServiceEntryPoint {
     private static final String LOG_TAG = "LearnificationResponseServiceEntryPoint";
 
     private final NotificationManager notificationManager;
@@ -12,14 +12,14 @@ public class LearnificationResponseServiceEntryPoint {
     private final LearnificationResponseContentGenerator responseContentGenerator;
     private final AndroidLogger logger;
 
-    public LearnificationResponseServiceEntryPoint(AndroidLogger logger, NotificationManager notificationManager, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator) {
+    LearnificationResponseServiceEntryPoint(AndroidLogger logger, NotificationManager notificationManager, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator) {
         this.logger = logger;
         this.notificationManager = notificationManager;
         this.learnificationScheduler = learnificationScheduler;
         this.responseContentGenerator = responseContentGenerator;
     }
 
-    public void onHandleIntent(LearnificationResponseIntent responseIntent) {
+    void onHandleIntent(LearnificationResponseIntent responseIntent) {
         if (responseIntent.isSkipped()) {
             logger.v(LOG_TAG, "learnification was skipped");
             notificationManager.cancelLatest();

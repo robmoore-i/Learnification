@@ -9,10 +9,10 @@ import android.view.WindowManager;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.learnification.FromFileScheduleLog;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.random.JavaRandomiser;
 import com.rrm.learnification.random.Randomiser;
+import com.rrm.learnification.schedulelog.FromFileScheduleLog;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;

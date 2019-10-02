@@ -5,19 +5,19 @@ import com.rrm.learnification.settings.SettingsRepository;
 
 import java.sql.Time;
 
-public class ScheduleConfiguration {
-    public static final int MAXIMUM_ACCEPTABLE_DELAY_SECONDS = 10;
+class ScheduleConfiguration {
+    static final int MAXIMUM_ACCEPTABLE_DELAY_SECONDS = 10;
 
     private static final String LOG_TAG = "ScheduleConfiguration";
     private final AndroidLogger logger;
     private final SettingsRepository settingsRepository;
 
-    public ScheduleConfiguration(AndroidLogger logger, SettingsRepository settingsRepository) {
+    ScheduleConfiguration(AndroidLogger logger, SettingsRepository settingsRepository) {
         this.logger = logger;
         this.settingsRepository = settingsRepository;
     }
 
-    public PeriodicityRange getPeriodicityRange() {
+    PeriodicityRange getPeriodicityRange() {
         logger.v(LOG_TAG, "getting periodicity range from settings repository");
 
         int periodicityInSeconds = settingsRepository.readPeriodicitySeconds();
@@ -26,7 +26,7 @@ public class ScheduleConfiguration {
 
     }
 
-    public Time getFirstLearnificationTime() {
+    Time getFirstLearnificationTime() {
         return Time.valueOf("09:00:00");
     }
 }

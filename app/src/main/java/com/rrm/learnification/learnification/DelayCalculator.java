@@ -3,8 +3,8 @@ package com.rrm.learnification.learnification;
 import java.sql.Time;
 import java.time.LocalDateTime;
 
-public class DelayCalculator {
-    public int millisBetween(LocalDateTime now, Time time) {
+class DelayCalculator {
+    int millisBetween(LocalDateTime now, Time time) {
         int hour = now.getHour();
         int hoursLeftToday = 24 - hour;
 
