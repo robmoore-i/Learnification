@@ -1,8 +1,9 @@
 package com.rrm.learnification.main;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.TextInput;
 
-class LearningItemTextInput {
+class LearningItemTextInput implements TextInput {
     private final AddLearningItemView addLearningItemView;
 
     LearningItemTextInput(AddLearningItemView addLearningItemView) {
@@ -13,11 +14,13 @@ class LearningItemTextInput {
         return addLearningItemView.getLearningItemTextInput();
     }
 
-    void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
+    @Override
+    public void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
         addLearningItemView.setOnTextChangeListener(onTextChangeListener);
     }
 
-    void clear() {
+    @Override
+    public void clear() {
         addLearningItemView.clearTextInput();
     }
 }

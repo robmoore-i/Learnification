@@ -2,6 +2,7 @@ package com.rrm.learnification.main;
 
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.AppToolbar;
+import com.rrm.learnification.common.ClearTextInputOnClickCommand;
 import com.rrm.learnification.common.Randomiser;
 import com.rrm.learnification.learnification.LearnificationPublisher;
 import com.rrm.learnification.learnification.LearnificationTextGenerator;
