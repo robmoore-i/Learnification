@@ -3,7 +3,7 @@ package com.rrm.learnification.notification;
 import com.rrm.learnification.common.JavaInMemoryIdGenerator;
 
 class NotificationIdGenerator {
-    private static NotificationIdGenerator instance = new NotificationIdGenerator();
+    private static final NotificationIdGenerator instance = new NotificationIdGenerator();
 
     private final JavaInMemoryIdGenerator javaInMemoryIdGenerator = new JavaInMemoryIdGenerator();
 

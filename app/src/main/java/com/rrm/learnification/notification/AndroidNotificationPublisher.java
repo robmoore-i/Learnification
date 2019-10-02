@@ -5,7 +5,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 class AndroidNotificationPublisher {
     private final NotificationManagerCompat notificationManager;
-    private NotificationIdGenerator notificationIdGenerator;
+    private final NotificationIdGenerator notificationIdGenerator;
 
     AndroidNotificationPublisher(NotificationManagerCompat notificationManager, NotificationIdGenerator notificationIdGenerator) {
         this.notificationManager = notificationManager;

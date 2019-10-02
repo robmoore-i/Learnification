@@ -1,6 +1,7 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
-import com.rrm.learnification.learnification.LearnificationTextGenerator;
+import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.notification.CantGenerateNotificationTextException;
 import com.rrm.learnification.random.Randomiser;
 import com.rrm.learnification.storage.ItemRepository;

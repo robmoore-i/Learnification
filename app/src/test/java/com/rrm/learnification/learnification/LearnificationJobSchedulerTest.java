@@ -1,10 +1,8 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
+import com.rrm.learnification.common.AndroidClock;
+import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.jobscheduler.JobScheduler;
-import com.rrm.learnification.learnification.LearnificationScheduler;
-import com.rrm.learnification.learnification.PeriodicityRange;
-import com.rrm.learnification.learnification.ScheduleConfiguration;
-import com.rrm.learnification.learnification.ScheduleLog;
 
 import org.junit.Before;
 import org.junit.Test;

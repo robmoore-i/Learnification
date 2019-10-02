@@ -7,7 +7,7 @@ import com.rrm.learnification.R;
 import com.rrm.learnification.common.ToolbarView;
 
 class SettingsActivityView implements ToolbarView, PeriodicityPickerView {
-    private SettingsActivity activity;
+    private final SettingsActivity activity;
 
     SettingsActivityView(SettingsActivity activity) {
         this.activity = activity;

@@ -56,7 +56,7 @@ public abstract class ItemListViewAdaptor extends RecyclerView.Adapter<ItemListV
     // you provide access to all the views for a data item in a view holder
     static class TextViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        TextView textView;
+        final TextView textView;
 
         TextViewHolder(TextView v) {
             super(v);

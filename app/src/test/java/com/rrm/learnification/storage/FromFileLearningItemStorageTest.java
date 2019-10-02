@@ -1,7 +1,7 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.storage;
 
-import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.FromFileLearningItemStorage;
+import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.LearningItem;
 
 import org.junit.Test;
 

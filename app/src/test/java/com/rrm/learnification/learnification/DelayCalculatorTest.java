@@ -1,6 +1,4 @@
-package com.rrm.learnification.common;
-
-import com.rrm.learnification.learnification.DelayCalculator;
+package com.rrm.learnification.learnification;
 
 import org.junit.Test;
 

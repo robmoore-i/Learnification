@@ -1,10 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
-import com.rrm.learnification.learnification.LearnificationResponseContentGenerator;
-import com.rrm.learnification.learnification.LearnificationResponseIntent;
-import com.rrm.learnification.learnification.LearnificationResponseServiceEntryPoint;
-import com.rrm.learnification.learnification.LearnificationScheduler;
-import com.rrm.learnification.learnification.LearnificationSchedulerService;
+import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.notification.ResponseNotificationContent;
 

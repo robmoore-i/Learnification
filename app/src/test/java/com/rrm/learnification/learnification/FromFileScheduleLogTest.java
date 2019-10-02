@@ -1,6 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.learnification;
 
-import com.rrm.learnification.learnification.FromFileScheduleLog;
+import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import org.junit.Before;
