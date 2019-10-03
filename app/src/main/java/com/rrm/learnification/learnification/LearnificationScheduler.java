@@ -3,6 +3,7 @@ package com.rrm.learnification.learnification;
 import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.jobscheduler.JobScheduler;
+import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.schedulelog.ScheduleLog;
 
 import java.sql.Time;
@@ -15,15 +16,17 @@ public class LearnificationScheduler {
     private final ScheduleConfiguration scheduleConfiguration;
     private final ScheduleLog scheduleLog;
     private final AndroidClock androidClock;
+    private final NotificationManager notificationManager;
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ScheduleLog scheduleLog, AndroidClock androidClock) {
+    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ScheduleLog scheduleLog, AndroidClock androidClock, NotificationManager notificationManager) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;
         this.scheduleLog = scheduleLog;
         this.androidClock = androidClock;
+        this.notificationManager = notificationManager;
     }
 
     public void scheduleImminentJob(Class<?> serviceClass) {
@@ -38,7 +41,7 @@ public class LearnificationScheduler {
         int earliestStartTimeDelayMs = delayRange.earliestStartTimeDelayMs;
         int latestStartTimeDelayMs = delayRange.latestStartTimeDelayMs;
 
-        if (jobScheduler.hasPendingJob(serviceClass)) {
+        if (jobScheduler.hasPendingJob(serviceClass) || notificationManager.hasActiveLearnifications()) {
             logger.v(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");
             return;
         }

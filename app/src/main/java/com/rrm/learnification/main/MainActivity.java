@@ -2,6 +2,7 @@ package com.rrm.learnification.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,8 @@ import com.rrm.learnification.jobscheduler.JobScheduler;
 import com.rrm.learnification.learnification.LearnificationScheduler;
 import com.rrm.learnification.learnification.ScheduleConfiguration;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
+import com.rrm.learnification.notification.AndroidNotificationManager;
+import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.schedulelog.FromFileScheduleLog;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
@@ -42,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         AndroidJobScheduler jobScheduler = new AndroidJobScheduler(this, JobIdGenerator.getInstance());
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
         FromFileScheduleLog scheduleLog = new FromFileScheduleLog(logger, fileStorageAdaptor, clock);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, jobScheduler, scheduleConfiguration, scheduleLog, clock);
+        NotificationManager notificationManager = new AndroidNotificationManager(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), androidNotificationFacade);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, jobScheduler, scheduleConfiguration, scheduleLog, clock, notificationManager);
 
         // Entry point
         MainActivityEntryPoint mainActivityEntryPoint = new MainActivityEntryPoint(

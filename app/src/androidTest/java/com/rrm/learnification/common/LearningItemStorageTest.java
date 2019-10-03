@@ -38,7 +38,7 @@ public class LearningItemStorageTest {
     }
 
     @Test
-    public void canCreateLearnifications() {
+    public void canCreateLearningItem() {
         learningItemStorage.write(new LearningItem("L", "R"));
 
         List<LearningItem> learningItems = learningItemStorage.read();
@@ -49,7 +49,7 @@ public class LearningItemStorageTest {
     }
 
     @Test
-    public void canCreateLearnificationsTwice() {
+    public void canCreateLearningItemTwice() {
         learningItemStorage.write(new LearningItem("L", "R"));
         learningItemStorage.write(new LearningItem("X", "Y"));
 
@@ -65,7 +65,7 @@ public class LearningItemStorageTest {
     }
 
     @Test
-    public void canCreateNewLearnificationAfterInitialRead() {
+    public void canCreateNewLearningItemAfterInitialRead() {
         learningItemStorage.read();
         learningItemStorage.write(new LearningItem("L", "R"));
 

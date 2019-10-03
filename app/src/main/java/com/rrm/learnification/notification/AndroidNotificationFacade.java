@@ -17,8 +17,9 @@ public class AndroidNotificationFacade {
 
     private final AndroidLogger logger;
     private final AndroidNotificationContext context;
-    private final AndroidNotificationFactory factory;
     private final AndroidNotificationPublisher publisher;
+
+    final AndroidNotificationFactory factory;
 
     private AndroidNotificationFacade(AndroidLogger logger, AndroidNotificationContext context, AndroidNotificationFactory factory, AndroidNotificationPublisher publisher) {
         this.logger = logger;
