@@ -17,4 +17,8 @@ public class JobIdGenerator {
     int nextJobId() {
         return javaInMemoryIdGenerator.nextId();
     }
+
+    public int lastJobId() {
+        return javaInMemoryIdGenerator.lastId();
+    }
 }

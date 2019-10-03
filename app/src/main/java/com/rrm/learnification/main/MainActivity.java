@@ -9,6 +9,9 @@ import android.view.WindowManager;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.jobscheduler.AndroidJobScheduler;
+import com.rrm.learnification.jobscheduler.JobIdGenerator;
+import com.rrm.learnification.jobscheduler.JobScheduler;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.random.JavaRandomiser;
 import com.rrm.learnification.random.Randomiser;
@@ -87,5 +90,9 @@ public class MainActivity extends AppCompatActivity {
     public FromFileLearningItemStorage getFromFileLearnificationStorage() {
         AndroidLogger logger = new AndroidLogger();
         return new FromFileLearningItemStorage(logger, new AndroidInternalStorageAdaptor(logger, this));
+    }
+
+    public JobScheduler getJobScheduler() {
+        return new AndroidJobScheduler(this, JobIdGenerator.getInstance());
     }
 }
