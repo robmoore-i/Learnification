@@ -18,7 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class LearnificationJobSchedulerTest {
+public class LearnificationSchedulerTest {
     private final Class<?> serviceClass = Object.class;
     private final Time nineAm = Time.valueOf("09:00:00");
     private final int earliestStartTimeDelayMs = 10;
