@@ -34,7 +34,7 @@ class LearnificationResponseServiceEntryPoint {
             logger.e(LOG_TAG, new IllegalArgumentException("There was unexpectedly no remote input on a learnification response"));
         }
 
-        learnificationScheduler.scheduleJob(LearnificationSchedulerService.class);
+        learnificationScheduler.scheduleJob(LearnificationPublishingService.class);
         logger.v(LOG_TAG, "scheduled next learnification");
     }
 }

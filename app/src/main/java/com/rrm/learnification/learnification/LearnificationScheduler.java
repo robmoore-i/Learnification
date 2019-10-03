@@ -18,7 +18,7 @@ public class LearnificationScheduler {
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ScheduleLog scheduleLog, AndroidClock androidClock) {
+    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ScheduleLog scheduleLog, AndroidClock androidClock) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;
@@ -26,10 +26,22 @@ public class LearnificationScheduler {
         this.androidClock = androidClock;
     }
 
+    public void scheduleImminentJob(Class<?> serviceClass) {
+        scheduleJob(serviceClass, scheduleConfiguration.getImminentDelayRange());
+    }
+
     void scheduleJob(Class<?> serviceClass) {
-        PeriodicityRange periodicityRange = scheduleConfiguration.getPeriodicityRange();
-        int earliestStartTimeDelayMs = periodicityRange.earliestStartTimeDelayMs;
-        int latestStartTimeDelayMs = periodicityRange.latestStartTimeDelayMs;
+        scheduleJob(serviceClass, scheduleConfiguration.getPeriodicityRange());
+    }
+
+    private void scheduleJob(Class<?> serviceClass, DelayRange delayRange) {
+        int earliestStartTimeDelayMs = delayRange.earliestStartTimeDelayMs;
+        int latestStartTimeDelayMs = delayRange.latestStartTimeDelayMs;
+
+        if (jobScheduler.hasPendingJob(serviceClass)) {
+            logger.v(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");
+            return;
+        }
 
         logger.v(LOG_TAG, "scheduling learnification in the next " + earliestStartTimeDelayMs + " to " + latestStartTimeDelayMs + "ms");
         jobScheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);

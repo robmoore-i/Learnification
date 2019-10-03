@@ -77,6 +77,6 @@ public class LearnificationResponseServiceEntryPointTest {
     public void itSchedulesALearnification() {
         learnificationResponseServiceEntryPoint.onHandleIntent(stubIntent);
 
-        verify(mockLearnificationScheduler, times(1)).scheduleJob(LearnificationSchedulerService.class);
+        verify(mockLearnificationScheduler, times(1)).scheduleJob(LearnificationPublishingService.class);
     }
 }

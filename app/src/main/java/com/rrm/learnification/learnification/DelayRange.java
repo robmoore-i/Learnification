@@ -1,10 +1,10 @@
 package com.rrm.learnification.learnification;
 
-class PeriodicityRange {
+class DelayRange {
     final int earliestStartTimeDelayMs;
     final int latestStartTimeDelayMs;
 
-    PeriodicityRange(int earliestStartTimeDelayMs, int latestStartTimeDelayMs) {
+    DelayRange(int earliestStartTimeDelayMs, int latestStartTimeDelayMs) {
         this.earliestStartTimeDelayMs = earliestStartTimeDelayMs;
         this.latestStartTimeDelayMs = latestStartTimeDelayMs;
     }

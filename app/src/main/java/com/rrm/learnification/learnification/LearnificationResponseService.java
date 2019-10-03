@@ -16,8 +16,6 @@ import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
-import java.time.Clock;
-
 public class LearnificationResponseService extends IntentService {
     private static final String LOG_TAG = "LearnificationResponseService";
 
@@ -35,7 +33,8 @@ public class LearnificationResponseService extends IntentService {
         AndroidLearnificationResponseIntent responseIntent = new AndroidLearnificationResponseIntent(intent);
         LearnificationResponseContentGenerator responseContentGenerator = new LearnificationResponseContentGenerator(scheduleConfiguration);
         NotificationManager notificationManager = new AndroidNotificationManager(NotificationManagerCompat.from(this), new AndroidNotificationFactory(logger, this));
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(this, JobIdGenerator.getInstance()), scheduleConfiguration, new FromFileScheduleLog(logger, fileStorageAdaptor, Clock.systemDefaultZone()), new AndroidClock());
+        AndroidClock clock = new AndroidClock();
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(this, JobIdGenerator.getInstance()), scheduleConfiguration, new FromFileScheduleLog(logger, fileStorageAdaptor, clock), clock);
 
         logger.v(LOG_TAG, "handling learnification response intent: " + responseIntent.toString());
 

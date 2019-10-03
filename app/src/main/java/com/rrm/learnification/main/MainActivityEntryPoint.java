@@ -6,41 +6,35 @@ import com.rrm.learnification.common.ClearTextInputOnClickCommand;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.RemoveItemOnSwipeCommand;
 import com.rrm.learnification.common.SetButtonStatusOnTextChangeListener;
-import com.rrm.learnification.learnification.LearnificationPublisher;
-import com.rrm.learnification.learnification.LearnificationTextGenerator;
+import com.rrm.learnification.learnification.LearnificationPublishingService;
+import com.rrm.learnification.learnification.LearnificationScheduler;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
-import com.rrm.learnification.random.Randomiser;
 import com.rrm.learnification.storage.ItemRepository;
 
 class MainActivityEntryPoint {
     private final AndroidNotificationFacade notificationFacade;
-    private final LearnificationPublisher learnificationPublisher;
     private final ItemRepository<LearningItem> itemRepository;
     private final AppToolbar appToolbar;
     private final LearningItemTextInput learningItemTextInput;
     private final AddLearningItemButton addLearningItemButton;
     private final LearningItemList learningItemList;
+    private final LearnificationScheduler learnificationScheduler;
 
     MainActivityEntryPoint(
             AndroidLogger logger,
             MainActivityView mainActivityView,
             AndroidNotificationFacade notificationFacade,
-            Randomiser randomiser,
-            ItemRepository<LearningItem> itemRepository
-    ) {
+            ItemRepository<LearningItem> itemRepository,
+            LearnificationScheduler learnificationScheduler) {
+
         this.itemRepository = itemRepository;
         this.notificationFacade = notificationFacade;
+        this.learnificationScheduler = learnificationScheduler;
 
-        appToolbar = new AppToolbar(logger, mainActivityView);
-        learningItemTextInput = new LearningItemTextInput(mainActivityView);
-        addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
-        learningItemList = new LearningItemList(logger, mainActivityView);
-
-        this.learnificationPublisher = new LearnificationPublisher(
-                logger,
-                new LearnificationTextGenerator(randomiser, itemRepository),
-                notificationFacade
-        );
+        this.appToolbar = new AppToolbar(logger, mainActivityView);
+        this.learningItemTextInput = new LearningItemTextInput(mainActivityView);
+        this.addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
+        this.learningItemList = new LearningItemList(logger, mainActivityView);
     }
 
     void onMainActivityEntry() {
@@ -48,7 +42,7 @@ class MainActivityEntryPoint {
 
         createNotificationChannel();
 
-        learnificationPublisher.publishLearnification();
+        learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);
     }
 
     private void initialiseView() {

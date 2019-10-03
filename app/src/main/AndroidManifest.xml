@@ -28,7 +28,7 @@
         <activity android:name=".settings.SettingsActivity" />
 
         <service
-            android:name=".learnification.LearnificationSchedulerService"
+            android:name=".learnification.LearnificationPublishingService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 

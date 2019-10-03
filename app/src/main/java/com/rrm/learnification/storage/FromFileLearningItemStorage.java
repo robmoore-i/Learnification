@@ -63,6 +63,7 @@ public class FromFileLearningItemStorage implements LearningItemStorage {
         return learningItems;
     }
 
+    @Override
     public void rewrite(List<LearningItem> learningItems) {
         logger.v(LOG_TAG, "rewriting learning items");
 

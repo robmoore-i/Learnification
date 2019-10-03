@@ -10,4 +10,6 @@ public interface LearningItemStorage {
     void write(LearningItem learningItem);
 
     void remove(List<LearningItem> learningItems, int index);
+
+    void rewrite(List<LearningItem> learningItems);
 }

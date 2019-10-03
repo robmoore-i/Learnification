@@ -4,7 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.main.MainActivity;
-import com.rrm.learnification.storage.FromFileLearningItemStorage;
+import com.rrm.learnification.storage.LearningItemStorage;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,17 +19,17 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class FromFileLearningItemStorageTest {
+public class LearningItemStorageTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     private TestJanitor testJanitor = new TestJanitor();
-    private FromFileLearningItemStorage fromFileLearnificationStorage;
+    private LearningItemStorage learningItemStorage;
 
     @Before
     public void beforeEach() {
-        fromFileLearnificationStorage = activityTestRule.getActivity().getFromFileLearnificationStorage();
-        fromFileLearnificationStorage.rewrite(new ArrayList<>());
+        learningItemStorage = activityTestRule.getActivity().getLearningItemStorage();
+        learningItemStorage.rewrite(new ArrayList<>());
     }
 
     @After
@@ -39,9 +39,9 @@ public class FromFileLearningItemStorageTest {
 
     @Test
     public void canCreateLearnifications() {
-        fromFileLearnificationStorage.write(new LearningItem("L", "R"));
+        learningItemStorage.write(new LearningItem("L", "R"));
 
-        List<LearningItem> learningItems = fromFileLearnificationStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.read();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem.left, equalTo("L"));
@@ -50,10 +50,10 @@ public class FromFileLearningItemStorageTest {
 
     @Test
     public void canCreateLearnificationsTwice() {
-        fromFileLearnificationStorage.write(new LearningItem("L", "R"));
-        fromFileLearnificationStorage.write(new LearningItem("X", "Y"));
+        learningItemStorage.write(new LearningItem("L", "R"));
+        learningItemStorage.write(new LearningItem("X", "Y"));
 
-        List<LearningItem> learningItems = fromFileLearnificationStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.read();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem.left, equalTo("L"));
@@ -66,10 +66,10 @@ public class FromFileLearningItemStorageTest {
 
     @Test
     public void canCreateNewLearnificationAfterInitialRead() {
-        fromFileLearnificationStorage.read();
-        fromFileLearnificationStorage.write(new LearningItem("L", "R"));
+        learningItemStorage.read();
+        learningItemStorage.write(new LearningItem("L", "R"));
 
-        List<LearningItem> learningItems = fromFileLearnificationStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.read();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem.left, equalTo("L"));

@@ -15,13 +15,17 @@ import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import java.util.List;
 
-public class LearnificationSchedulerService extends JobService {
-    private static final String LOG_TAG = "LearnificationSchedulerService";
+public class LearnificationPublishingService extends JobService {
+    private static final String LOG_TAG = "LearnificationPublishingService";
 
     private final AndroidLogger logger = new AndroidLogger();
 
     @Override
     public boolean onStartJob(JobParameters params) {
+        return publishNewLearnification();
+    }
+
+    private boolean publishNewLearnification() {
         logger.v(LOG_TAG, "Job started");
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));

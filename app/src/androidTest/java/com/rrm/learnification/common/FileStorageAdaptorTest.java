@@ -4,7 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.main.MainActivity;
-import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,23 +22,23 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class AndroidInternalStorageAdaptorTest {
+public class FileStorageAdaptorTest {
     private static final String TEST_FILE_NAME = "test_file";
     private static final TestJanitor testJanitor = new TestJanitor();
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private AndroidInternalStorageAdaptor androidInternalStorageAdaptor;
+    private FileStorageAdaptor fileStorageAdaptor;
 
     @Before
     public void beforeEach() {
-        androidInternalStorageAdaptor = activityTestRule.getActivity().getAndroidInternalStorageAdaptor();
+        fileStorageAdaptor = activityTestRule.getActivity().getFileStorageAdaptor();
     }
 
     @After
     public void afterEach() {
-        androidInternalStorageAdaptor.deleteFile(TEST_FILE_NAME);
+        fileStorageAdaptor.deleteFile(TEST_FILE_NAME);
     }
 
     @AfterClass
@@ -49,8 +49,8 @@ public class AndroidInternalStorageAdaptorTest {
     @Test
     public void canWriteAndReadAOneLineFile() throws IOException {
         String line = "a line";
-        androidInternalStorageAdaptor.appendLines(TEST_FILE_NAME, Collections.singletonList(line));
-        List<String> lines = androidInternalStorageAdaptor.readLines(TEST_FILE_NAME);
+        fileStorageAdaptor.appendLines(TEST_FILE_NAME, Collections.singletonList(line));
+        List<String> lines = fileStorageAdaptor.readLines(TEST_FILE_NAME);
 
         assertThat(lines.get(0), equalTo(line));
     }
@@ -60,8 +60,8 @@ public class AndroidInternalStorageAdaptorTest {
         ArrayList<String> lines = new ArrayList<>();
         lines.add("line 1");
         lines.add("line 2");
-        androidInternalStorageAdaptor.appendLines(TEST_FILE_NAME, lines);
-        List<String> readLines = androidInternalStorageAdaptor.readLines(TEST_FILE_NAME);
+        fileStorageAdaptor.appendLines(TEST_FILE_NAME, lines);
+        List<String> readLines = fileStorageAdaptor.readLines(TEST_FILE_NAME);
 
         assertThat(readLines.get(0), equalTo(lines.get(0)));
         assertThat(readLines.get(1), equalTo(lines.get(1)));
@@ -72,9 +72,9 @@ public class AndroidInternalStorageAdaptorTest {
         ArrayList<String> lines = new ArrayList<>();
         lines.add("line 1");
         lines.add("line 2");
-        androidInternalStorageAdaptor.appendLines(TEST_FILE_NAME, Collections.singletonList(lines.get(0)));
-        androidInternalStorageAdaptor.appendLines(TEST_FILE_NAME, Collections.singletonList(lines.get(1)));
-        List<String> readLines = androidInternalStorageAdaptor.readLines(TEST_FILE_NAME);
+        fileStorageAdaptor.appendLines(TEST_FILE_NAME, Collections.singletonList(lines.get(0)));
+        fileStorageAdaptor.appendLines(TEST_FILE_NAME, Collections.singletonList(lines.get(1)));
+        List<String> readLines = fileStorageAdaptor.readLines(TEST_FILE_NAME);
 
         assertThat(readLines.get(0), equalTo(lines.get(0)));
         assertThat(readLines.get(1), equalTo(lines.get(1)));
@@ -85,9 +85,9 @@ public class AndroidInternalStorageAdaptorTest {
         ArrayList<String> lines = new ArrayList<>();
         lines.add("line 1");
         lines.add("line 2");
-        androidInternalStorageAdaptor.appendLines(TEST_FILE_NAME, Collections.singletonList(lines.get(0)));
-        androidInternalStorageAdaptor.overwriteLines(TEST_FILE_NAME, Collections.singletonList(lines.get(1)));
-        List<String> readLines = androidInternalStorageAdaptor.readLines(TEST_FILE_NAME);
+        fileStorageAdaptor.appendLines(TEST_FILE_NAME, Collections.singletonList(lines.get(0)));
+        fileStorageAdaptor.overwriteLines(TEST_FILE_NAME, Collections.singletonList(lines.get(1)));
+        List<String> readLines = fileStorageAdaptor.readLines(TEST_FILE_NAME);
 
         assertThat(readLines.get(0), equalTo(lines.get(1)));
     }

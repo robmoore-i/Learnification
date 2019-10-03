@@ -1,5 +1,6 @@
 package com.rrm.learnification.schedulelog;
 
+import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
@@ -7,9 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Collections;
 
 import static org.junit.Assert.assertFalse;
@@ -18,6 +17,7 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,12 +27,11 @@ public class FromFileScheduleLogTest {
 
     private AndroidLogger logger = mock(AndroidLogger.class);
     private FileStorageAdaptor mockFileStorage = mock(FileStorageAdaptor.class);
-    private Clock stubClock = mock(Clock.class);
+    private AndroidClock stubClock = mock(AndroidClock.class);
 
     @Before
     public void beforeEach() {
-        mockFileStorage = mock(FileStorageAdaptor.class);
-        stubClock = mock(Clock.class);
+        reset(mockFileStorage, stubClock);
     }
 
     @Test
@@ -46,7 +45,7 @@ public class FromFileScheduleLogTest {
     @Test
     public void ifLatestScheduledLearnificationFileHasATimeInItThenSomethingIsSaidToBeScheduled() throws IOException {
         when(mockFileStorage.readLines(FromFileScheduleLog.LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME)).thenReturn(Collections.singletonList(sometime.toString()));
-        when(stubClock.instant()).thenReturn(sometime.minusHours(10).toInstant(OffsetDateTime.now().getOffset()));
+        when(stubClock.now()).thenReturn(sometime.minusHours(10));
         FromFileScheduleLog fromFileScheduleLog = new FromFileScheduleLog(logger, mockFileStorage, stubClock);
 
         assertTrue(fromFileScheduleLog.isAnythingScheduledForTomorrow());
@@ -55,7 +54,7 @@ public class FromFileScheduleLogTest {
     @Test
     public void ifLatestScheduledLearnificationFileIsTodayThenNothingIsScheduledTomorrow() throws IOException {
         when(mockFileStorage.readLines(FromFileScheduleLog.LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME)).thenReturn(Collections.singletonList(sometime.toString()));
-        when(stubClock.instant()).thenReturn(sometime.minusHours(2).toInstant(OffsetDateTime.now().getOffset()));
+        when(stubClock.now()).thenReturn(sometime.minusHours(2));
         FromFileScheduleLog fromFileScheduleLog = new FromFileScheduleLog(logger, mockFileStorage, stubClock);
 
         assertFalse(fromFileScheduleLog.isAnythingScheduledForTomorrow());

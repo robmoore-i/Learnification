@@ -1,12 +1,11 @@
 package com.rrm.learnification.schedulelog;
 
+import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import java.io.IOException;
-import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,9 +14,9 @@ public class FromFileScheduleLog implements ScheduleLog {
     private static final String LOG_TAG = "FromFileScheduleLog";
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
-    private final Clock clock;
+    private final AndroidClock clock;
 
-    public FromFileScheduleLog(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor, Clock clock) {
+    public FromFileScheduleLog(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor, AndroidClock clock) {
         this.logger = logger;
         this.fileStorageAdaptor = fileStorageAdaptor;
         this.clock = clock;
@@ -29,7 +28,7 @@ public class FromFileScheduleLog implements ScheduleLog {
             LocalDateTime currentlyStoredLatestScheduledTime = currentlyStoredLatestScheduledTime();
             logger.v(LOG_TAG, "latest scheduled learnification is at " + currentlyStoredLatestScheduledTime.toString());
             int latestScheduledDayOfMonth = currentlyStoredLatestScheduledTime.getDayOfMonth();
-            int clockDayOfMonth = now().getDayOfMonth();
+            int clockDayOfMonth = clock.now().getDayOfMonth();
             return latestScheduledDayOfMonth - clockDayOfMonth == 1;
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
@@ -51,10 +50,6 @@ public class FromFileScheduleLog implements ScheduleLog {
         } catch (IOException e) {
             logger.e(LOG_TAG, e);
         }
-    }
-
-    private LocalDateTime now() {
-        return LocalDateTime.ofInstant(clock.instant(), ZoneId.systemDefault());
     }
 
     private LocalDateTime currentlyStoredLatestScheduledTime() throws IOException {

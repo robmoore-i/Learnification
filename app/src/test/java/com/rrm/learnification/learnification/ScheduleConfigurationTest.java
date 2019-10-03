@@ -19,9 +19,9 @@ public class ScheduleConfigurationTest {
         when(mockSettingsRepository.readPeriodicitySeconds()).thenReturn(10);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, mockSettingsRepository);
 
-        PeriodicityRange periodicityRange = scheduleConfiguration.getPeriodicityRange();
+        DelayRange delayRange = scheduleConfiguration.getPeriodicityRange();
 
-        assertThat(periodicityRange.earliestStartTimeDelayMs, equalTo(10000));
+        assertThat(delayRange.earliestStartTimeDelayMs, equalTo(10000));
     }
 
     @Test
@@ -29,8 +29,8 @@ public class ScheduleConfigurationTest {
         when(mockSettingsRepository.readPeriodicitySeconds()).thenReturn(10);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, mockSettingsRepository);
 
-        PeriodicityRange periodicityRange = scheduleConfiguration.getPeriodicityRange();
+        DelayRange delayRange = scheduleConfiguration.getPeriodicityRange();
 
-        assertThat(periodicityRange.latestStartTimeDelayMs, equalTo(10000 + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS)));
+        assertThat(delayRange.latestStartTimeDelayMs, equalTo(10000 + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS)));
     }
 }

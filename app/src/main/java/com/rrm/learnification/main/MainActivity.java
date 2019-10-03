@@ -8,41 +8,49 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.jobscheduler.AndroidJobScheduler;
 import com.rrm.learnification.jobscheduler.JobIdGenerator;
 import com.rrm.learnification.jobscheduler.JobScheduler;
+import com.rrm.learnification.learnification.LearnificationScheduler;
+import com.rrm.learnification.learnification.ScheduleConfiguration;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
-import com.rrm.learnification.random.JavaRandomiser;
-import com.rrm.learnification.random.Randomiser;
 import com.rrm.learnification.schedulelog.FromFileScheduleLog;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.FromFileLearningItemStorage;
+import com.rrm.learnification.storage.LearningItemStorage;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 public class MainActivity extends AppCompatActivity {
+    private final AndroidLogger logger = new AndroidLogger();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Dependency construction
-        AndroidLogger logger = new AndroidLogger();
         MainActivityView mainActivityView = new MainActivityView(logger, this);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        Randomiser randomiser = new JavaRandomiser();
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
+        AndroidClock clock = new AndroidClock();
+        AndroidJobScheduler jobScheduler = new AndroidJobScheduler(this, JobIdGenerator.getInstance());
+        ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
+        FromFileScheduleLog scheduleLog = new FromFileScheduleLog(logger, fileStorageAdaptor, clock);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, jobScheduler, scheduleConfiguration, scheduleLog, clock);
 
         // Entry point
         MainActivityEntryPoint mainActivityEntryPoint = new MainActivityEntryPoint(
                 logger,
                 mainActivityView,
                 androidNotificationFacade,
-                randomiser,
-                new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor))
+                learningItemRepository,
+                learnificationScheduler
         );
         mainActivityEntryPoint.onMainActivityEntry();
 
@@ -76,19 +84,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clearData() {
-        AndroidLogger logger = new AndroidLogger();
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         fileStorageAdaptor.deleteFile(FromFileLearningItemStorage.LEARNING_ITEMS_FILE_NAME);
         fileStorageAdaptor.deleteFile(SettingsRepository.PERIODICITY_FILE_NAME);
         fileStorageAdaptor.deleteFile(FromFileScheduleLog.LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME);
     }
 
-    public AndroidInternalStorageAdaptor getAndroidInternalStorageAdaptor() {
-        return new AndroidInternalStorageAdaptor(new AndroidLogger(), this);
+    public FileStorageAdaptor getFileStorageAdaptor() {
+        return new AndroidInternalStorageAdaptor(logger, this);
     }
 
-    public FromFileLearningItemStorage getFromFileLearnificationStorage() {
-        AndroidLogger logger = new AndroidLogger();
+    public LearningItemStorage getLearningItemStorage() {
         return new FromFileLearningItemStorage(logger, new AndroidInternalStorageAdaptor(logger, this));
     }
 
