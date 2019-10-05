@@ -12,3 +12,4 @@
 .externalNativeBuild
 .idea/workspace.xml
 .attach*
+*.iml
