@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("ConstantConditions")
@@ -24,8 +25,6 @@ import static org.junit.Assert.assertTrue;
 public class JobSchedulerTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
-
-    private TestJanitor testJanitor = new TestJanitor();
 
     private JobScheduler jobScheduler;
     private android.app.job.JobScheduler systemJobScheduler;
@@ -52,9 +51,16 @@ public class JobSchedulerTest {
     }
 
     @Test
-    public void itCanTellIfThereIsAScheduledJob() {
+    public void itCanTellIfThereIsAPendingJob() {
         jobScheduler.schedule(10000, 20000, LearnificationPublishingService.class);
 
-        assertTrue(jobScheduler.hasPendingJob(LearnificationPublishingService.class));
+        assertTrue(jobScheduler.hasPendingJob(LearnificationPublishingService.class, 15000));
+    }
+
+    @Test
+    public void itCanTellIfTheIsAPendingJobIsScheduledButNotPendingBecauseItsTooFarInTheFuture() {
+        jobScheduler.schedule(800000, 900000, LearnificationPublishingService.class);
+
+        assertFalse(jobScheduler.hasPendingJob(LearnificationPublishingService.class, 15000));
     }
 }

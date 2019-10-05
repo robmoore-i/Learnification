@@ -29,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity implements SaveSettingsV
         PeriodicityPicker periodicityPicker = new PeriodicityPicker(logger, settingsActivityView);
         periodicityPicker.setInputRangeInMinutes(5, 90);
         periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger, settingsRepository));
-        periodicityPicker.setToValue(settingsRepository.getInitialPeriodicityPickerValue());
+        periodicityPicker.setToValue(settingsRepository.getInitialLearnificationDelayPickerValue());
         periodicityPicker.setChoiceFormatter();
         SaveSettingsButton saveSettingsButton = new SaveSettingsButton(logger, this);
         saveSettingsButton.addOnClickHandler(new FinishActivityOnClickCommand(this));

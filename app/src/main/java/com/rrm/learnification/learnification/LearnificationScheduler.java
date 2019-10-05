@@ -5,6 +5,8 @@ import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.jobscheduler.JobScheduler;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.schedulelog.ScheduleLog;
+import com.rrm.learnification.settings.DelayRange;
+import com.rrm.learnification.settings.ScheduleConfiguration;
 
 import java.sql.Time;
 
@@ -34,15 +36,18 @@ public class LearnificationScheduler {
     }
 
     void scheduleJob(Class<?> serviceClass) {
-        scheduleJob(serviceClass, scheduleConfiguration.getPeriodicityRange());
+        scheduleJob(serviceClass, scheduleConfiguration.getDelayRange());
     }
 
     private void scheduleJob(Class<?> serviceClass, DelayRange delayRange) {
         int earliestStartTimeDelayMs = delayRange.earliestStartTimeDelayMs;
         int latestStartTimeDelayMs = delayRange.latestStartTimeDelayMs;
 
-        if (jobScheduler.hasPendingJob(serviceClass) || notificationManager.hasActiveLearnifications()) {
+        if (jobScheduler.hasPendingJob(serviceClass, scheduleConfiguration.getDelayRange().earliestStartTimeDelayMs)) {
             logger.v(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");
+            return;
+        } else if (notificationManager.hasActiveLearnifications()) {
+            logger.v(LOG_TAG, "ignoring learnification scheduling request because notificationManager reports that there is one active");
             return;
         }
 

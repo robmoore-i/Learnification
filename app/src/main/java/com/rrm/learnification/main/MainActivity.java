@@ -15,11 +15,11 @@ import com.rrm.learnification.jobscheduler.AndroidJobScheduler;
 import com.rrm.learnification.jobscheduler.JobIdGenerator;
 import com.rrm.learnification.jobscheduler.JobScheduler;
 import com.rrm.learnification.learnification.LearnificationScheduler;
-import com.rrm.learnification.learnification.ScheduleConfiguration;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.AndroidNotificationManager;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.schedulelog.FromFileScheduleLog;
+import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
         AndroidClock clock = new AndroidClock();
-        AndroidJobScheduler jobScheduler = new AndroidJobScheduler(this, JobIdGenerator.getInstance());
+        AndroidJobScheduler jobScheduler = new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance());
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
         FromFileScheduleLog scheduleLog = new FromFileScheduleLog(logger, fileStorageAdaptor, clock);
         NotificationManager notificationManager = new AndroidNotificationManager(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), androidNotificationFacade);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     public void clearData() {
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         fileStorageAdaptor.deleteFile(FromFileLearningItemStorage.LEARNING_ITEMS_FILE_NAME);
-        fileStorageAdaptor.deleteFile(SettingsRepository.PERIODICITY_FILE_NAME);
+        fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_DELAY_FILE_NAME);
         fileStorageAdaptor.deleteFile(FromFileScheduleLog.LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME);
     }
 
@@ -103,6 +103,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public JobScheduler getJobScheduler() {
-        return new AndroidJobScheduler(this, JobIdGenerator.getInstance());
+        return new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance());
     }
 }

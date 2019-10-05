@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 public class SettingsRepository {
     private static final String LOG_TAG = "SettingsRepository";
 
-    public static final int DEFAULT_PERIODICITY_SECONDS = 5;
-    public static final String PERIODICITY_FILE_NAME = "settings_periodicity";
+    public static final String LEARNIFICATION_DELAY_FILE_NAME = "settings_delay";
+    static final int DEFAULT_LEARNIFICATION_DELAY_SECONDS = 5;
 
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
@@ -21,30 +21,30 @@ public class SettingsRepository {
         this.fileStorageAdaptor = fileStorageAdaptor;
     }
 
-    void writePeriodicity(int periodicityInSeconds) {
-        logger.v(LOG_TAG, "writing periodicity as " + periodicityInSeconds + " seconds");
+    void writePeriodicity(int learnificationDelayInSeconds) {
+        logger.v(LOG_TAG, "writing periodicity as " + learnificationDelayInSeconds + " seconds");
 
         try {
-            fileStorageAdaptor.overwriteLines(PERIODICITY_FILE_NAME, Collections.singletonList("periodicityInSeconds=" + periodicityInSeconds));
+            fileStorageAdaptor.overwriteLines(LEARNIFICATION_DELAY_FILE_NAME, Collections.singletonList("learnificationDelayInSeconds=" + learnificationDelayInSeconds));
         } catch (Exception e) {
-            logger.v(LOG_TAG, "failed to write periodicity (" + periodicityInSeconds + ") to file (" + PERIODICITY_FILE_NAME + ")");
+            logger.v(LOG_TAG, "failed to write periodicity (" + learnificationDelayInSeconds + ") to file (" + LEARNIFICATION_DELAY_FILE_NAME + ")");
             logger.e(LOG_TAG, e);
         }
     }
 
-    public int readPeriodicitySeconds() {
+    public int readDelaySeconds() {
         try {
-            List<String> lines = fileStorageAdaptor.readLines(PERIODICITY_FILE_NAME).stream().filter(line -> !line.isEmpty()).collect(Collectors.toList());
+            List<String> lines = fileStorageAdaptor.readLines(LEARNIFICATION_DELAY_FILE_NAME).stream().filter(line -> !line.isEmpty()).collect(Collectors.toList());
             return Integer.parseInt(lines.get(0).split("=")[1]);
         } catch (Exception e) {
             logger.e(LOG_TAG, e);
-            logger.v(LOG_TAG, "returning default periodicity in seconds (" + DEFAULT_PERIODICITY_SECONDS + ")");
-            return DEFAULT_PERIODICITY_SECONDS;
+            logger.v(LOG_TAG, "returning default learnification delay in seconds (" + DEFAULT_LEARNIFICATION_DELAY_SECONDS + ")");
+            return DEFAULT_LEARNIFICATION_DELAY_SECONDS;
         }
     }
 
-    public int getInitialPeriodicityPickerValue() {
-        int valueReadFromSettings = readPeriodicitySeconds() / 60;
+    int getInitialLearnificationDelayPickerValue() {
+        int valueReadFromSettings = readDelaySeconds() / 60;
         if (valueReadFromSettings == 0) {
             return 5;
         } else {

@@ -1,6 +1,8 @@
 package com.rrm.learnification.learnification;
 
 import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.settings.DelayRange;
+import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.settings.SettingsRepository;
 
 import org.junit.Test;
@@ -16,20 +18,20 @@ public class ScheduleConfigurationTest {
 
     @Test
     public void readsPeriodicityFromStorage() {
-        when(mockSettingsRepository.readPeriodicitySeconds()).thenReturn(10);
+        when(mockSettingsRepository.readDelaySeconds()).thenReturn(10);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, mockSettingsRepository);
 
-        DelayRange delayRange = scheduleConfiguration.getPeriodicityRange();
+        DelayRange delayRange = scheduleConfiguration.getDelayRange();
 
         assertThat(delayRange.earliestStartTimeDelayMs, equalTo(10000));
     }
 
     @Test
     public void usesTheGreatestAcceptableDelayForTheLatestStartTimeDelayMs() {
-        when(mockSettingsRepository.readPeriodicitySeconds()).thenReturn(10);
+        when(mockSettingsRepository.readDelaySeconds()).thenReturn(10);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, mockSettingsRepository);
 
-        DelayRange delayRange = scheduleConfiguration.getPeriodicityRange();
+        DelayRange delayRange = scheduleConfiguration.getDelayRange();
 
         assertThat(delayRange.latestStartTimeDelayMs, equalTo(10000 + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS)));
     }

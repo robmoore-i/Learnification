@@ -20,10 +20,10 @@ public class SettingsRepositoryTest {
 
     @Test
     public void canReadPeriodicityFile() throws IOException {
-        when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList("periodicityInSeconds=30"));
+        when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList("learnificationDelayInSeconds=30"));
         SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
 
-        int periodicity = settingsRepository.readPeriodicitySeconds();
+        int periodicity = settingsRepository.readDelaySeconds();
 
         assertThat(periodicity, equalTo(30));
     }
@@ -33,19 +33,19 @@ public class SettingsRepositoryTest {
         when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList(""));
         SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
 
-        int periodicity = settingsRepository.readPeriodicitySeconds();
+        int periodicity = settingsRepository.readDelaySeconds();
 
-        assertThat(periodicity, equalTo(SettingsRepository.DEFAULT_PERIODICITY_SECONDS));
+        assertThat(periodicity, equalTo(SettingsRepository.DEFAULT_LEARNIFICATION_DELAY_SECONDS));
     }
 
     @Test
     public void pickerValueIsGivenAsMinutesFromTheStoredSeconds() throws IOException {
         int periodicityInMinutes = 10;
         int storedPeriodicityInSeconds = periodicityInMinutes * 60;
-        when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList("periodicityInSeconds=" + storedPeriodicityInSeconds));
+        when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList("learnificationDelayInSeconds=" + storedPeriodicityInSeconds));
         SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
 
-        int initialPeriodicityPickerValue = settingsRepository.getInitialPeriodicityPickerValue();
+        int initialPeriodicityPickerValue = settingsRepository.getInitialLearnificationDelayPickerValue();
 
         assertThat(initialPeriodicityPickerValue, equalTo(periodicityInMinutes));
     }
@@ -55,7 +55,7 @@ public class SettingsRepositoryTest {
         when(mockFileStorageAdaptor.readLines(anyString())).thenThrow(new IOException("Can't get the periodicity from file!"));
         SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
 
-        int initialPeriodicityPickerValue = settingsRepository.getInitialPeriodicityPickerValue();
+        int initialPeriodicityPickerValue = settingsRepository.getInitialLearnificationDelayPickerValue();
 
         assertThat(initialPeriodicityPickerValue, equalTo(5));
     }
