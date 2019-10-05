@@ -10,8 +10,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class FromFileScheduleLog implements ScheduleLog {
-    public static final String LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME = "latest_scheduled_learnification";
     private static final String LOG_TAG = "FromFileScheduleLog";
+
+    public static final String LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME = "latest_scheduled_learnification";
+
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
     private final AndroidClock clock;
