@@ -1,8 +1,9 @@
 package com.rrm.learnification.notification;
 
 import android.app.Notification;
-import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationManagerCompat;
+
+import java.util.Arrays;
 
 public class AndroidNotificationManager implements NotificationManager {
     private final android.app.NotificationManager systemNotificationManager;
@@ -28,18 +29,16 @@ public class AndroidNotificationManager implements NotificationManager {
 
     @Override
     public void updateLatestWithReply(ResponseNotificationContent replyContent) {
-        Notification responseNotification = androidNotificationFactory.buildResponseNotification(replyContent);
+        Notification responseNotification = androidNotificationFactory.createLearnificationResponse(replyContent);
         notificationManagerCompat.notify(NotificationIdGenerator.getInstance().lastNotificationId(), responseNotification);
     }
 
     @Override
     public boolean hasActiveLearnifications() {
-        StatusBarNotification[] activeNotifications = systemNotificationManager.getActiveNotifications();
-        for (StatusBarNotification activeNotification : activeNotifications) {
-            if (activeNotification.getPackageName().equals("com.rrm.learnification")) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(systemNotificationManager.getActiveNotifications())
+                .map(statusBarNotification -> new AndroidNotification(
+                        statusBarNotification.getPackageName(),
+                        statusBarNotification.getNotification().extras.getString(AndroidNotificationFactory.NOTIFICATION_TYPE)))
+                .anyMatch(AndroidNotification::isLearnification);
     }
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 
@@ -16,10 +17,11 @@ import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.learnification.LearnificationResponseService;
 
 public class AndroidNotificationFactory {
+    public static final String NOTIFICATION_TYPE = "notificationType";
+
     public static final String REPLY_TEXT = "remote_input_text_reply";
     public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
     public static final String SKIPPED_FLAG_EXTRA = "skippedFlag";
-
     private static final String LOG_TAG = "AndroidNotificationFactory";
 
     private final AndroidLogger logger;
@@ -30,7 +32,7 @@ public class AndroidNotificationFactory {
         this.packageContext = packageContext;
     }
 
-    Notification createLearnification(LearnificationText learnificationText) {
+    public Notification createLearnification(LearnificationText learnificationText) {
         String learningItemPrompt = learnificationText.given;
         String subHeading = learnificationText.subHeading;
         logger.v(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
@@ -90,27 +92,33 @@ public class AndroidNotificationFactory {
     }
 
     private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction, NotificationCompat.Action skipAction) {
-        return appNotificationTemplate(title, text)
+        return appNotificationTemplate(title, text, NotificationType.LEARNIFICATION)
                 .addAction(replyAction)
                 .addAction(skipAction)
                 .build();
     }
 
-    Notification buildResponseNotification(ResponseNotificationContent responseNotificationContent) {
-        return appNotificationTemplate(responseNotificationContent.title(), responseNotificationContent.text())
+    public Notification createLearnificationResponse(ResponseNotificationContent responseNotificationContent) {
+        return appNotificationTemplate(responseNotificationContent.title(), responseNotificationContent.text(), NotificationType.LEARNIFICATION_RESPONSE)
                 .build();
     }
 
-    private NotificationCompat.Builder appNotificationTemplate(String title, String text) {
+    private NotificationCompat.Builder appNotificationTemplate(String title, String text, String notificationType) {
         return new NotificationCompat.Builder(packageContext, AndroidNotificationFacade.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(getNotificationLargeIcon())
                 .setContentTitle(title)
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(notificationContentIntent())
-                .setAutoCancel(true);
+                .setContentIntent(notificationContentIntent()) // Set the intent that will fire when the user taps the notification
+                .setAutoCancel(true)
+                .addExtras(notificationExtras(notificationType));
+    }
+
+    private Bundle notificationExtras(String notificationType) {
+        Bundle bundle = new Bundle();
+        bundle.putString(NOTIFICATION_TYPE, notificationType);
+        return bundle;
     }
 
     private Bitmap getNotificationLargeIcon() {

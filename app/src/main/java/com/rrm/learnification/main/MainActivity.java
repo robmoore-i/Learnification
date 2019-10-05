@@ -16,6 +16,7 @@ import com.rrm.learnification.jobscheduler.JobIdGenerator;
 import com.rrm.learnification.jobscheduler.JobScheduler;
 import com.rrm.learnification.learnification.LearnificationScheduler;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
+import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidNotificationManager;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.schedulelog.FromFileScheduleLog;
@@ -104,5 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
     public JobScheduler getJobScheduler() {
         return new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance());
+    }
+
+    public AndroidNotificationFactory getAndroidNotificationFactory() {
+        return new AndroidNotificationFactory(logger, this);
     }
 }
