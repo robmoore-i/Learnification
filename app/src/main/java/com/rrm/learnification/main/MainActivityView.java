@@ -3,7 +3,6 @@ package com.rrm.learnification.main;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,7 +27,7 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
         this.logger = logger;
         this.activity = activity;
 
-        activity.setSupportActionBar(toolbar());
+        activity.setSupportActionBar(activity.findViewById(R.id.toolbar));
 
         learningItemsList().setEnabled(true);
         setLearningItemListInterItemPadding();
@@ -66,8 +65,8 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
     }
 
     @Override
-    public Toolbar toolbar() {
-        return activity.findViewById(R.id.toolbar);
+    public void updateActivityTitle(String title) {
+        activity.setTitle(title);
     }
 
     @Override
@@ -102,5 +101,22 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
     @Override
     public RecyclerView learningItemsList() {
         return activity.findViewById(R.id.learnifications_list);
+    }
+
+    void addPeriodicUiUpdate(ActivityViewUpdate activityViewUpdate, int periodicityMs) {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(periodicityMs);
+                        logger.v(LOG_TAG, "running UI update with id " + activityViewUpdate.id() + ", set to run every " + periodicityMs + "ms");
+                        activity.runOnUiThread(() -> activityViewUpdate.update(MainActivityView.this));
+                    }
+                } catch (InterruptedException ignored) {
+                }
+            }
+        };
+        thread.start();
     }
 }

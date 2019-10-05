@@ -43,10 +43,10 @@ public class LearnificationScheduler {
         int earliestStartTimeDelayMs = delayRange.earliestStartTimeDelayMs;
         int latestStartTimeDelayMs = delayRange.latestStartTimeDelayMs;
 
-        if (jobScheduler.hasPendingJob(serviceClass, scheduleConfiguration.getDelayRange().earliestStartTimeDelayMs)) {
+        if (upcomingLearnificationScheduled(serviceClass)) {
             logger.v(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");
             return;
-        } else if (notificationManager.hasActiveLearnifications()) {
+        } else if (learnificationAvailable()) {
             logger.v(LOG_TAG, "ignoring learnification scheduling request because notificationManager reports that there is one active");
             return;
         }
@@ -71,5 +71,17 @@ public class LearnificationScheduler {
 
     private void logScheduledLearnification(int delayMs) {
         scheduleLog.mark(androidClock.now().plusSeconds(delayMs / 1000));
+    }
+
+    public boolean learnificationAvailable() {
+        return notificationManager.hasActiveLearnifications();
+    }
+
+    private boolean upcomingLearnificationScheduled(Class<?> serviceClass) {
+        return jobScheduler.hasPendingJob(serviceClass, scheduleConfiguration.getDelayRange().earliestStartTimeDelayMs);
+    }
+
+    public boolean learnificationScheduled(Class<?> serviceClass) {
+        return jobScheduler.hasPendingJob(serviceClass);
     }
 }

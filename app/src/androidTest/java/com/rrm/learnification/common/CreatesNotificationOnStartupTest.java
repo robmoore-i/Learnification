@@ -8,7 +8,6 @@ import android.support.test.runner.AndroidJUnit4;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.SearchCondition;
 import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
 
 import org.junit.After;
@@ -72,17 +71,18 @@ public class CreatesNotificationOnStartupTest {
         device.wait(Until.hasObject(By.pkg(PACKAGE_NAME).depth(0)), launchTimeoutMs);
     }
 
-    private void clearNotifications() {
+    static void clearNotifications() {
+        int notificationTimeoutMs = 1000;
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
         try {
-            int notificationTimeoutMs = 1000;
-            UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-            device.openNotification();
             device.wait(Until.hasObject(By.textStartsWith(PACKAGE_NAME)), notificationTimeoutMs);
-            UiObject2 clearAll = device.findObject(By.text("CLEAR ALL"));
-            clearAll.click();
-            device.pressBack();
+            device.findObject(By.text("CLEAR ALL")).click();
         } catch (Exception e) {
+            device.findObject(By.text("CLEAR ALL")).click();
             e.printStackTrace();
+        } finally {
+            device.pressBack();
         }
     }
 }

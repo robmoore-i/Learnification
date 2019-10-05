@@ -35,6 +35,20 @@ class MainActivityEntryPoint {
         this.learningItemTextInput = new LearningItemTextInput(mainActivityView);
         this.addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
         this.learningItemList = new LearningItemList(logger, mainActivityView);
+
+        mainActivityView.addPeriodicUiUpdate(new ActivityViewUpdate("toolbar_update") {
+            @Override
+            public void update(MainActivityView view) {
+                if (learnificationScheduler.learnificationAvailable()) {
+                    view.updateActivityTitle("Learnification: sent & ready");
+                } else if (learnificationScheduler.learnificationScheduled(LearnificationPublishingService.class)) {
+
+                    view.updateActivityTitle("Learnification: scheduled");
+                } else {
+                    view.updateActivityTitle("Learnification: none scheduled");
+                }
+            }
+        }, 2000);
     }
 
     void onMainActivityEntry() {

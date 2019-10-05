@@ -1,6 +1,5 @@
 package com.rrm.learnification.settings;
 
-import android.support.v7.widget.Toolbar;
 import android.widget.NumberPicker;
 
 import com.rrm.learnification.R;
@@ -14,8 +13,8 @@ class SettingsActivityView implements ToolbarView, PeriodicityPickerView {
     }
 
     @Override
-    public Toolbar toolbar() {
-        return activity.findViewById(R.id.toolbar);
+    public void updateActivityTitle(String title) {
+        activity.setTitle(title);
     }
 
     @Override

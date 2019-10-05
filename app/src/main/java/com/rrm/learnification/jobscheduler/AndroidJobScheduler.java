@@ -6,6 +6,8 @@ import android.content.Context;
 
 import com.rrm.learnification.common.AndroidLogger;
 
+import java.util.stream.Stream;
+
 public class AndroidJobScheduler implements JobScheduler {
     private static final String LOG_TAG = "AndroidJobScheduler";
 
@@ -31,12 +33,21 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public boolean hasPendingJob(Class<?> serviceClass, int maxDelayTimeMs) {
-        logger.v(LOG_TAG, "checking for pending job with serviceClass " + serviceClass.getName() + " occuring in the next " + maxDelayTimeMs + "ms");
+        logger.v(LOG_TAG, "checking for pending job with serviceClass " + serviceClass.getName() + " occurring in the next " + maxDelayTimeMs + "ms");
+        return pendingJobs().anyMatch(job -> job.willTriggerService(serviceClass) && job.willTriggerBefore(maxDelayTimeMs));
+    }
+
+    @Override
+    public boolean hasPendingJob(Class<?> serviceClass) {
+        logger.v(LOG_TAG, "checking for pending job with serviceClass " + serviceClass.getName() + " occurring anytime in the future");
+        return pendingJobs().anyMatch(job -> job.willTriggerService(serviceClass));
+    }
+
+    private Stream<PendingJob> pendingJobs() {
         return context
                 .getSystemService(android.app.job.JobScheduler.class)
                 .getAllPendingJobs()
                 .stream()
-                .map(job -> new PendingJob(job.getService().getClassName(), job.getMinLatencyMillis(), job.getMaxExecutionDelayMillis()))
-                .anyMatch(job -> job.willTriggerService(serviceClass) && job.willTriggerBefore(maxDelayTimeMs));
+                .map(job -> new PendingJob(job.getService().getClassName(), job.getMinLatencyMillis(), job.getMaxExecutionDelayMillis()));
     }
 }
