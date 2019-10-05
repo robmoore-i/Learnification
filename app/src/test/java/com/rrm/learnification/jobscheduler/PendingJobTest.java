@@ -13,9 +13,9 @@ public class PendingJobTest {
     @Test
     public void canIdentifyAPendingJobOutOfAList() {
         Stream<PendingJob> pendingJobStream = Stream.of(
-                new PendingJob(serviceClass.getName(), 100L, 200L),
-                new PendingJob("com.rrm.learnification.someOtherClass", 100L, 200L),
-                new PendingJob("com.rrm.learnification.someOtherClass", 100L, 200L)
+                new PendingJob(serviceClass.getName(), 100L),
+                new PendingJob("com.rrm.learnification.someOtherClass", 100L),
+                new PendingJob("com.rrm.learnification.someOtherClass", 100L)
         );
 
         assertTrue(pendingJobStream.anyMatch(pendingJob -> pendingJob.willTriggerService(serviceClass)));
@@ -23,14 +23,14 @@ public class PendingJobTest {
 
     @Test
     public void isIncomingLearnificationReturnsFalseIfItIsFartherInTheFutureThanTheGivenPeriodicity() {
-        PendingJob pendingJob = new PendingJob(serviceClass.getName(), 100L, 200L);
+        PendingJob pendingJob = new PendingJob(serviceClass.getName(), 100L);
 
         assertFalse(pendingJob.willTriggerBefore(50));
     }
 
     @Test
     public void isIncomingLearnificationReturnsTrueIfItIsCloserThanTheGivenPeriodicity() {
-        PendingJob pendingJob = new PendingJob(serviceClass.getName(), 25L, 50L);
+        PendingJob pendingJob = new PendingJob(serviceClass.getName(), 25L);
 
         assertTrue(pendingJob.willTriggerBefore(50));
     }

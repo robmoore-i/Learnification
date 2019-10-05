@@ -6,6 +6,7 @@ import com.rrm.learnification.common.ClearTextInputOnClickCommand;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.RemoveItemOnSwipeCommand;
 import com.rrm.learnification.common.SetButtonStatusOnTextChangeListener;
+import com.rrm.learnification.common.ToolbarViewUpdate;
 import com.rrm.learnification.learnification.LearnificationPublishingService;
 import com.rrm.learnification.learnification.LearnificationScheduler;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
@@ -36,19 +37,7 @@ class MainActivityEntryPoint {
         this.addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
         this.learningItemList = new LearningItemList(logger, mainActivityView);
 
-        mainActivityView.addPeriodicUiUpdate(new ActivityViewUpdate("toolbar_update") {
-            @Override
-            public void update(MainActivityView view) {
-                if (learnificationScheduler.learnificationAvailable()) {
-                    view.updateActivityTitle("Learnification: sent & ready");
-                } else if (learnificationScheduler.learnificationScheduled(LearnificationPublishingService.class)) {
-
-                    view.updateActivityTitle("Learnification: scheduled");
-                } else {
-                    view.updateActivityTitle("Learnification: none scheduled");
-                }
-            }
-        }, 2000);
+        mainActivityView.addToolbarViewUpdate(new ToolbarViewUpdate(logger, learnificationScheduler), 2000);
     }
 
     void onMainActivityEntry() {

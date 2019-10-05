@@ -33,7 +33,7 @@ public class AppToolbarTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    public static Matcher<View> withToolbarTitle(final Matcher<String> textMatcher) {
+    private static Matcher<View> withToolbarTitle(final Matcher<String> textMatcher) {
         return new BoundedMatcher<View, Toolbar>(Toolbar.class) {
             @Override
             public boolean matchesSafely(Toolbar toolbar) {
@@ -49,19 +49,12 @@ public class AppToolbarTest {
     }
 
     @Test
-    public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() throws InterruptedException {
-        waitACoupleOfSeconds();
-
-        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(is("Learnification: sent & ready"))));
-    }
-
-    @Test
     public void ifNotificationIsCancelledThenToolbarSaysThatNoNotificationIsScheduledAfterACoupleOfSeconds() throws InterruptedException {
         clearNotifications();
 
         waitACoupleOfSeconds();
 
-        onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification: none scheduled")))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification none scheduled")))).check(matches(isDisplayed()));
     }
 
     @Test
@@ -75,7 +68,14 @@ public class AppToolbarTest {
 
         waitACoupleOfSeconds();
 
-        onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification: sent & ready")))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification sent & ready")))).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() throws InterruptedException {
+        waitACoupleOfSeconds();
+
+        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(is("Learnification sent & ready"))));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class AppToolbarTest {
 
         waitACoupleOfSeconds();
 
-        onView(allOf(withId(R.id.toolbar), withToolbarTitle(startsWith("Learnification: scheduled")))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.toolbar), withToolbarTitle(startsWith("Learnification in ")))).check(matches(isDisplayed()));
     }
 
     private void waitACoupleOfSeconds() throws InterruptedException {

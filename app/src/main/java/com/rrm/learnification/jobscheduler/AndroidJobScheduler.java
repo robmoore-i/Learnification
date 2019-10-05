@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.rrm.learnification.common.AndroidLogger;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class AndroidJobScheduler implements JobScheduler {
@@ -38,9 +39,10 @@ public class AndroidJobScheduler implements JobScheduler {
     }
 
     @Override
-    public boolean hasPendingJob(Class<?> serviceClass) {
-        logger.v(LOG_TAG, "checking for pending job with serviceClass " + serviceClass.getName() + " occurring anytime in the future");
-        return pendingJobs().anyMatch(job -> job.willTriggerService(serviceClass));
+    public Optional<Long> msUntilNextJob(Class<?> serviceClass) {
+        return pendingJobs()
+                .min((j1, j2) -> Long.compare(j1.delayTime(), j2.delayTime()))
+                .map(PendingJob::delayTime);
     }
 
     private Stream<PendingJob> pendingJobs() {
@@ -48,6 +50,6 @@ public class AndroidJobScheduler implements JobScheduler {
                 .getSystemService(android.app.job.JobScheduler.class)
                 .getAllPendingJobs()
                 .stream()
-                .map(job -> new PendingJob(job.getService().getClassName(), job.getMinLatencyMillis(), job.getMaxExecutionDelayMillis()));
+                .map(job -> new PendingJob(job.getService().getClassName(), job.getMinLatencyMillis()));
     }
 }

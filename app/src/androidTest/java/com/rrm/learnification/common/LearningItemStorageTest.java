@@ -22,6 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class LearningItemStorageTest {
     private final LearningItem a = new LearningItem("sql", "lite");
     private final LearningItem b = new LearningItem("from", "file");
+
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 

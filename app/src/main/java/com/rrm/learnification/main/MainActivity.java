@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void clearData() {
+    public void clearSettings() {
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_DELAY_FILE_NAME);
         fileStorageAdaptor.deleteFile(FromFileScheduleLog.LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME);

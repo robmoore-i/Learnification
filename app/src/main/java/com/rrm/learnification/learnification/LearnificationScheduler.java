@@ -9,6 +9,7 @@ import com.rrm.learnification.settings.DelayRange;
 import com.rrm.learnification.settings.ScheduleConfiguration;
 
 import java.sql.Time;
+import java.util.Optional;
 
 public class LearnificationScheduler {
     public static final String LOG_TAG = "LearnificationScheduler";
@@ -81,7 +82,8 @@ public class LearnificationScheduler {
         return jobScheduler.hasPendingJob(serviceClass, scheduleConfiguration.getDelayRange().earliestStartTimeDelayMs);
     }
 
-    public boolean learnificationScheduled(Class<?> serviceClass) {
-        return jobScheduler.hasPendingJob(serviceClass);
+    public Optional<Integer> secondsUntilNextLearnification(Class<?> serviceClass) {
+        return jobScheduler.msUntilNextJob(serviceClass)
+                .map(l -> l.intValue() / 1000);
     }
 }
