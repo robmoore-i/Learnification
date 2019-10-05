@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.jobscheduler.AndroidJobScheduler;
 import com.rrm.learnification.jobscheduler.JobIdGenerator;
 import com.rrm.learnification.jobscheduler.JobScheduler;
@@ -25,9 +26,12 @@ import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.FromFileLearningItemStorage;
+import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.LearnificationAppDatabase;
+import com.rrm.learnification.storage.LearningItemSqlTableInterface;
 import com.rrm.learnification.storage.LearningItemStorage;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
+import com.rrm.learnification.storage.SqlLiteLearningItemStorage;
 
 public class MainActivity extends AppCompatActivity {
     private final AndroidLogger logger = new AndroidLogger();
@@ -41,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         MainActivityView mainActivityView = new MainActivityView(logger, this);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new FromFileLearningItemStorage(logger, fileStorageAdaptor));
+        SqlLiteLearningItemStorage learningItemStorage = new SqlLiteLearningItemStorage(new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, learningItemStorage);
         AndroidClock clock = new AndroidClock();
         AndroidJobScheduler jobScheduler = new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance());
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
@@ -90,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void clearData() {
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        fileStorageAdaptor.deleteFile(FromFileLearningItemStorage.LEARNING_ITEMS_FILE_NAME);
         fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_DELAY_FILE_NAME);
         fileStorageAdaptor.deleteFile(FromFileScheduleLog.LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME);
     }
@@ -100,7 +104,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public LearningItemStorage getLearningItemStorage() {
-        return new FromFileLearningItemStorage(logger, new AndroidInternalStorageAdaptor(logger, this));
+        return new SqlLiteLearningItemStorage(new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
+    }
+
+    public ItemRepository<LearningItem> getLearningItemRepository() {
+        return new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
     }
 
     public JobScheduler getJobScheduler() {

@@ -24,7 +24,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class FileStorageAdaptorTest {
     private static final String TEST_FILE_NAME = "test_file";
-    private static final TestJanitor testJanitor = new TestJanitor();
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -43,7 +42,6 @@ public class FileStorageAdaptorTest {
 
     @AfterClass
     public static void tearDown() {
-        testJanitor.clearApp();
     }
 
     @Test

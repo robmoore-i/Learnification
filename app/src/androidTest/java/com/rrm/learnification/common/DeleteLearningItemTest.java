@@ -6,9 +6,10 @@ import android.support.v7.widget.RecyclerView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.main.MainActivity;
-import com.rrm.learnification.storage.FromFileLearningItemStorage;
+import com.rrm.learnification.storage.LearningItemStorage;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,11 +26,18 @@ public class DeleteLearningItemTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private final TestJanitor testJanitor = new TestJanitor();
+    private LearningItemStorage learningItemStorage;
+    private LearningItem removedLearningItem;
+
+    @Before
+    public void beforeEach() {
+        learningItemStorage = activityTestRule.getActivity().getLearningItemStorage();
+        removedLearningItem = learningItemStorage.read().get(0);
+    }
 
     @After
     public void afterEach() {
-        testJanitor.clearApp(activityTestRule);
+        learningItemStorage.write(removedLearningItem);
     }
 
     @Test
@@ -37,7 +45,7 @@ public class DeleteLearningItemTest {
         RecyclerView recyclerView = activityTestRule.getActivity().findViewById(R.id.learnifications_list);
         int initialSize = recyclerView.getChildCount();
 
-        onView(withText(startsWith(FromFileLearningItemStorage.defaultLearningItems().get(0).left))).perform(swipeLeft());
+        onView(withText(startsWith(removedLearningItem.left))).perform(swipeLeft());
 
         recyclerView = activityTestRule.getActivity().findViewById(R.id.learnifications_list);
         int finalSize = recyclerView.getChildCount();

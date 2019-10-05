@@ -8,6 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.SearchCondition;
 import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
 
 import org.junit.After;
@@ -23,16 +24,14 @@ import static org.junit.Assert.assertTrue;
 public class CreatesNotificationOnStartupTest {
     private static final String PACKAGE_NAME = "com.rrm.learnification";
 
-    private final TestJanitor testJanitor = new TestJanitor();
-
     @Before
     public void beforeEach() {
-        testJanitor.clearAllNotifications();
+        clearNotifications();
     }
 
     @After
     public void afterEach() {
-        testJanitor.clearApp();
+        clearNotifications();
     }
 
     @Test
@@ -71,5 +70,19 @@ public class CreatesNotificationOnStartupTest {
 
         // Wait for the app to appear
         device.wait(Until.hasObject(By.pkg(PACKAGE_NAME).depth(0)), launchTimeoutMs);
+    }
+
+    private void clearNotifications() {
+        try {
+            int notificationTimeoutMs = 1000;
+            UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+            device.openNotification();
+            device.wait(Until.hasObject(By.textStartsWith(PACKAGE_NAME)), notificationTimeoutMs);
+            UiObject2 clearAll = device.findObject(By.text("CLEAR ALL"));
+            clearAll.click();
+            device.pressBack();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

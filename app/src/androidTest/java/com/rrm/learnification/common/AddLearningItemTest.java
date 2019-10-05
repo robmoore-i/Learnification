@@ -6,11 +6,16 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.storage.ItemRepository;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
+import java.util.UUID;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -28,20 +33,35 @@ public class AddLearningItemTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private final TestJanitor testJanitor = new TestJanitor();
+    private String left;
+    private String right;
+
+    @Before
+    public void beforeEach() {
+        left = UUID.randomUUID().toString().substring(0, 6);
+        right = UUID.randomUUID().toString().substring(0, 6);
+    }
 
     @After
     public void afterEach() {
-        testJanitor.clearApp(activityTestRule);
+        ItemRepository<LearningItem> learningItemRepository = activityTestRule.getActivity().getLearningItemRepository();
+        List<LearningItem> learningItems = learningItemRepository.items();
+        for (int i = 0; i < learningItems.size(); i++) {
+            LearningItem learningItem = learningItems.get(i);
+            if (learningItem.left.equals(left) && learningItem.right.equals(right)) {
+                learningItemRepository.removeAt(i);
+                return;
+            }
+        }
     }
 
     @Test
     public void typingLAndRIntoTheTextFieldsAndClickingThePlusButtonAddsALearnificationToTheList() {
-        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText("L"));
-        onView(withId(R.id.right_input)).perform(typeText("R"));
+        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText(left));
+        onView(withId(R.id.right_input)).perform(typeText(right));
         onView(withId(R.id.add_learning_item_button)).perform(click());
         closeSoftKeyboard();
 
-        onView(allOf(withParent(withId(R.id.learnifications_list)), withText("L - R"))).check(matches(isDisplayed()));
+        onView(allOf(withParent(withId(R.id.learnifications_list)), withText(left + " - " + right))).check(matches(isDisplayed()));
     }
 }

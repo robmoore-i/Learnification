@@ -20,59 +20,111 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class LearningItemStorageTest {
+    private final LearningItem a = new LearningItem("sql", "lite");
+    private final LearningItem b = new LearningItem("from", "file");
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private TestJanitor testJanitor = new TestJanitor();
     private LearningItemStorage learningItemStorage;
+    private List<LearningItem> originalLearningItems;
 
     @Before
     public void beforeEach() {
         learningItemStorage = activityTestRule.getActivity().getLearningItemStorage();
+        originalLearningItems = learningItemStorage.read();
         learningItemStorage.rewrite(new ArrayList<>());
+
     }
 
     @After
     public void afterEach() {
-        testJanitor.clearApp(activityTestRule);
+        learningItemStorage.rewrite(originalLearningItems);
     }
 
     @Test
-    public void canCreateLearningItem() {
-        learningItemStorage.write(new LearningItem("L", "R"));
+    public void canWriteThenReadLearningItem() {
+        learningItemStorage.write(a);
 
         List<LearningItem> learningItems = learningItemStorage.read();
 
         LearningItem learningItem = learningItems.get(0);
-        assertThat(learningItem.left, equalTo("L"));
-        assertThat(learningItem.right, equalTo("R"));
+        assertThat(learningItem, equalTo(a));
     }
 
     @Test
-    public void canCreateLearningItemTwice() {
-        learningItemStorage.write(new LearningItem("L", "R"));
-        learningItemStorage.write(new LearningItem("X", "Y"));
+    public void canWriteTwoLearningItemsThenReadThem() {
+        learningItemStorage.write(a);
+        learningItemStorage.write(b);
 
         List<LearningItem> learningItems = learningItemStorage.read();
 
         LearningItem learningItem = learningItems.get(0);
-        assertThat(learningItem.left, equalTo("L"));
-        assertThat(learningItem.right, equalTo("R"));
+        assertThat(learningItem, equalTo(a));
 
         learningItem = learningItems.get(1);
-        assertThat(learningItem.left, equalTo("X"));
-        assertThat(learningItem.right, equalTo("Y"));
+        assertThat(learningItem, equalTo(b));
     }
 
     @Test
-    public void canCreateNewLearningItemAfterInitialRead() {
+    public void canReadThenWriteAnotherLearningItem() {
         learningItemStorage.read();
-        learningItemStorage.write(new LearningItem("L", "R"));
+        learningItemStorage.write(a);
 
         List<LearningItem> learningItems = learningItemStorage.read();
 
         LearningItem learningItem = learningItems.get(0);
-        assertThat(learningItem.left, equalTo("L"));
-        assertThat(learningItem.right, equalTo("R"));
+        assertThat(learningItem, equalTo(a));
+    }
+
+    @Test
+    public void canWriteThenReadThenDeleteThenReadToCheckItsGoneForASingleLearningItem() {
+        learningItemStorage.write(a);
+        List<LearningItem> learningItems = learningItemStorage.read();
+
+        assertThat(learningItems.size(), equalTo(1));
+        LearningItem learningItem = learningItems.get(0);
+        assertThat(learningItem, equalTo(a));
+
+        learningItemStorage.remove(learningItems, 0);
+        learningItems = learningItemStorage.read();
+        assertThat(learningItems.size(), equalTo(0));
+    }
+
+    @Test
+    public void canWriteTwoLearningItemsThenReadThemThenDeleteTheSecondThenReadAgain() {
+        learningItemStorage.write(a);
+        learningItemStorage.write(b);
+        List<LearningItem> learningItems = learningItemStorage.read();
+
+        assertThat(learningItems.size(), equalTo(2));
+        LearningItem learningItem = learningItems.get(0);
+        assertThat(learningItem, equalTo(a));
+        learningItem = learningItems.get(1);
+        assertThat(learningItem, equalTo(b));
+
+        learningItemStorage.remove(learningItems, 1);
+        learningItems = learningItemStorage.read();
+        assertThat(learningItems.size(), equalTo(1));
+        learningItem = learningItems.get(0);
+        assertThat(learningItem, equalTo(a));
+    }
+
+    @Test
+    public void canWriteTwoLearningItemsThenReadThemThenDeleteTheFirstThenReadAgain() {
+        learningItemStorage.write(a);
+        learningItemStorage.write(b);
+        List<LearningItem> learningItems = learningItemStorage.read();
+
+        assertThat(learningItems.size(), equalTo(2));
+        LearningItem learningItem = learningItems.get(0);
+        assertThat(learningItem, equalTo(a));
+        learningItem = learningItems.get(1);
+        assertThat(learningItem, equalTo(b));
+
+        learningItemStorage.remove(learningItems, 0);
+        learningItems = learningItemStorage.read();
+        assertThat(learningItems.size(), equalTo(1));
+        learningItem = learningItems.get(0);
+        assertThat(learningItem, equalTo(b));
     }
 }

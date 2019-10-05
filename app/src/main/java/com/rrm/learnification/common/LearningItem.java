@@ -1,5 +1,9 @@
 package com.rrm.learnification.common;
 
+import android.support.annotation.NonNull;
+
+import java.util.Objects;
+
 public class LearningItem {
     public final String left;
     public final String right;
@@ -9,33 +13,29 @@ public class LearningItem {
         this.right = right;
     }
 
-    public static LearningItem fromLine(String line) {
-        if ("".equals(line)) {
-            return new EmptyLearningItem();
-        }
-        String[] split = line.split(" - ");
-        if (split.length != 2) {
-            return new EmptyLearningItem();
-        }
-        return new LearningItem(split[0], split[1]);
-    }
-
     public String asSingleString() {
         return left + " - " + right;
     }
 
-    public boolean isEmpty() {
-        return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LearningItem that = (LearningItem) o;
+        return left.equals(that.left) && right.equals(that.right);
     }
 
-    private static class EmptyLearningItem extends LearningItem {
-        EmptyLearningItem() {
-            super("/", "/");
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right);
+    }
 
-        @Override
-        public boolean isEmpty() {
-            return true;
-        }
+    @NonNull
+    @Override
+    public String toString() {
+        return "LearningItem{" +
+                "left='" + left + '\'' +
+                ", right='" + right + '\'' +
+                '}';
     }
 }
