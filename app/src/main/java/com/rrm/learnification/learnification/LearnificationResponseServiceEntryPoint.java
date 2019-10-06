@@ -35,6 +35,5 @@ class LearnificationResponseServiceEntryPoint {
         }
 
         learnificationScheduler.scheduleJob(LearnificationPublishingService.class);
-        logger.v(LOG_TAG, "scheduled next learnification");
     }
 }

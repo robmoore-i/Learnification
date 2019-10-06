@@ -47,5 +47,6 @@ public class LearnificationResponseService extends IntentService {
         );
 
         learnificationResponseServiceEntryPoint.onHandleIntent(responseIntent);
+        logger.v(LOG_TAG, "handled response");
     }
 }
