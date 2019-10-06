@@ -3,8 +3,8 @@ package com.rrm.learnification.settings;
 import android.widget.NumberPicker;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.common.ToolbarView;
-import com.rrm.learnification.common.ToolbarViewParameters;
+import com.rrm.learnification.toolbar.ToolbarView;
+import com.rrm.learnification.toolbar.ToolbarViewParameters;
 
 class SettingsActivityView implements ToolbarView, PeriodicityPickerView {
     private final SettingsActivity activity;

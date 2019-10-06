@@ -1,5 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.toolbar;
 
+import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 

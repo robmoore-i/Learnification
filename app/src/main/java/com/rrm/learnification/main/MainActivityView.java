@@ -14,10 +14,10 @@ import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.AndroidTextWatcher;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.OnTextChangeListener;
-import com.rrm.learnification.common.ToolbarView;
-import com.rrm.learnification.common.ToolbarViewParameters;
-import com.rrm.learnification.common.ToolbarViewUpdate;
 import com.rrm.learnification.settings.PeriodicityPickerView;
+import com.rrm.learnification.toolbar.ToolbarView;
+import com.rrm.learnification.toolbar.ToolbarViewParameters;
+import com.rrm.learnification.toolbar.ToolbarViewUpdate;
 
 class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityPickerView, LearningItemListView {
     private static final String LOG_TAG = "MainActivityView";
