@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         SqlLiteLearningItemStorage learningItemStorage = new SqlLiteLearningItemStorage(new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
         PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, learningItemStorage);
         AndroidClock clock = new AndroidClock();
-        AndroidJobScheduler jobScheduler = new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance());
+        AndroidJobScheduler jobScheduler = new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), clock);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
         FromFileScheduleLog scheduleLog = new FromFileScheduleLog(logger, fileStorageAdaptor, clock);
         NotificationManager notificationManager = new AndroidNotificationManager(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), androidNotificationFacade);
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public JobScheduler getJobScheduler() {
-        return new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance());
+        return new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), new AndroidClock());
     }
 
     public AndroidNotificationFactory getAndroidNotificationFactory() {

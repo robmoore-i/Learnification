@@ -37,7 +37,7 @@ class MainActivityEntryPoint {
         this.addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
         this.learningItemList = new LearningItemList(logger, mainActivityView);
 
-        mainActivityView.addToolbarViewUpdate(new ToolbarViewUpdate(logger, learnificationScheduler), 2000);
+        mainActivityView.addToolbarViewUpdate(new ToolbarViewUpdate(logger, learnificationScheduler), 1000);
     }
 
     void onMainActivityEntry() {

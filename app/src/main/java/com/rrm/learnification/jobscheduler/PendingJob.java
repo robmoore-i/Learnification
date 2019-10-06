@@ -1,12 +1,26 @@
 package com.rrm.learnification.jobscheduler;
 
+import android.app.job.JobInfo;
+import android.os.PersistableBundle;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 class PendingJob {
     private final String serviceClassName;
     private final long earliestStartTimeDelayMs;
+    private final LocalDateTime timeOfScheduling;
 
-    PendingJob(String serviceClassName, long earliestStartTimeDelayMs) {
+    PendingJob(String serviceClassName, long earliestStartTimeDelayMs, LocalDateTime timeOfScheduling) {
         this.serviceClassName = serviceClassName;
         this.earliestStartTimeDelayMs = earliestStartTimeDelayMs;
+        this.timeOfScheduling = timeOfScheduling;
+    }
+
+    static PendingJob fromJobInfo(JobInfo job) {
+        PersistableBundle extras = job.getExtras();
+        LocalDateTime timeOfScheduling = LocalDateTime.parse(extras.getString(AndroidJobScheduler.TIME_OF_SCHEDULING));
+        return new PendingJob(job.getService().getClassName(), job.getMinLatencyMillis(), timeOfScheduling);
     }
 
     /**
@@ -21,11 +35,11 @@ class PendingJob {
      * @param maxDelayTimeMs The delay time you're checking against, in milliseconds
      * @return True, if the PendingJob will trigger before the given maxDelayTime elapses.
      */
-    boolean willTriggerBefore(int maxDelayTimeMs) {
-        return earliestStartTimeDelayMs < maxDelayTimeMs;
+    boolean hasDelayTimeNoMoreThan(int maxDelayTimeMs) {
+        return earliestStartTimeDelayMs <= maxDelayTimeMs;
     }
 
-    Long delayTime() {
-        return earliestStartTimeDelayMs;
+    Long msUntilExecution(LocalDateTime now) {
+        return ChronoUnit.MILLIS.between(now, timeOfScheduling.plusSeconds(earliestStartTimeDelayMs / 1000));
     }
 }
