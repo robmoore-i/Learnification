@@ -2,11 +2,11 @@ package com.rrm.learnification.main;
 
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.AppToolbar;
+import com.rrm.learnification.common.ByLearnificationScheduleStatus;
 import com.rrm.learnification.common.ClearTextInputOnClickCommand;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.RemoveItemOnSwipeCommand;
 import com.rrm.learnification.common.SetButtonStatusOnTextChangeListener;
-import com.rrm.learnification.common.ToolbarViewUpdate;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
@@ -37,7 +37,7 @@ class MainActivityEntryPoint {
         this.addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
         this.learningItemList = new LearningItemList(logger, mainActivityView);
 
-        mainActivityView.addToolbarViewUpdate(new ToolbarViewUpdate(logger, learnificationScheduler), 1000);
+        mainActivityView.addToolbarViewUpdate(new ByLearnificationScheduleStatus(logger, learnificationScheduler));
     }
 
     void onMainActivityEntry() {

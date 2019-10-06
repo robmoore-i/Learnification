@@ -15,6 +15,7 @@ import com.rrm.learnification.common.AndroidTextWatcher;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.OnTextChangeListener;
 import com.rrm.learnification.common.ToolbarView;
+import com.rrm.learnification.common.ToolbarViewParameters;
 import com.rrm.learnification.common.ToolbarViewUpdate;
 import com.rrm.learnification.settings.PeriodicityPickerView;
 
@@ -66,7 +67,12 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
     }
 
     @Override
-    public void updateActivityTitle(String title) {
+    public void updateToolbar(ToolbarViewParameters toolbarViewParameters) {
+        updateToolbar(toolbarViewParameters.toolbarTitle());
+    }
+
+    @Override
+    public void updateToolbar(String title) {
         activity.setTitle(title);
     }
 
@@ -104,15 +110,16 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
         return activity.findViewById(R.id.learnifications_list);
     }
 
-    void addToolbarViewUpdate(ToolbarViewUpdate toolbarViewUpdate, int periodicityMs) {
+    void addToolbarViewUpdate(ToolbarViewUpdate byLearnificationScheduleStatus) {
+        int period = 1000;
         Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        Thread.sleep(periodicityMs);
-                        logger.v(LOG_TAG, "running toolbar view update, set to run every " + periodicityMs + "ms");
-                        activity.runOnUiThread(() -> toolbarViewUpdate.update(MainActivityView.this));
+                        Thread.sleep(period);
+                        logger.v(LOG_TAG, "running toolbar view update, set to run every " + period + "ms");
+                        activity.runOnUiThread(() -> byLearnificationScheduleStatus.update(MainActivityView.this));
                     }
                 } catch (InterruptedException ignored) {
                 }
