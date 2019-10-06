@@ -1,8 +1,8 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.publication;
 
 import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.jobscheduler.JobScheduler;
+import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.schedulelog.ScheduleLog;
 import com.rrm.learnification.settings.DelayRange;

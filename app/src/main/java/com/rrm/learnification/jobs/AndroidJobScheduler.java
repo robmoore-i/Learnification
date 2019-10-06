@@ -1,4 +1,4 @@
-package com.rrm.learnification.jobscheduler;
+package com.rrm.learnification.jobs;
 
 import android.app.job.JobInfo;
 import android.content.ComponentName;

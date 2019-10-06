@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.publication;
 
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.common.LearningItem;

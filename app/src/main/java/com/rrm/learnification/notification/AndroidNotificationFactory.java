@@ -14,7 +14,8 @@ import android.support.v4.app.RemoteInput;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearnificationText;
-import com.rrm.learnification.learnification.LearnificationResponseService;
+import com.rrm.learnification.response.LearnificationResponseService;
+import com.rrm.learnification.response.ResponseNotificationContent;
 
 public class AndroidNotificationFactory {
     public static final String NOTIFICATION_TYPE = "notificationType";

@@ -1,7 +1,7 @@
 package com.rrm.learnification.common;
 
-import com.rrm.learnification.learnification.LearnificationPublishingService;
-import com.rrm.learnification.learnification.LearnificationScheduler;
+import com.rrm.learnification.publication.LearnificationPublishingService;
+import com.rrm.learnification.publication.LearnificationScheduler;
 
 import java.util.Locale;
 

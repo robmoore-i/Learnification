@@ -1,6 +1,6 @@
 package com.rrm.learnification.common;
 
-import com.rrm.learnification.learnification.LearnificationScheduler;
+import com.rrm.learnification.publication.LearnificationScheduler;
 
 import org.junit.Before;
 import org.junit.Test;

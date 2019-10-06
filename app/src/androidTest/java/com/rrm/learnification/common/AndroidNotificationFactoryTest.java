@@ -7,7 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.NotificationType;
-import com.rrm.learnification.notification.ResponseNotificationContent;
+import com.rrm.learnification.response.ResponseNotificationContent;
 
 import org.junit.Before;
 import org.junit.Rule;

@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.publication;
 
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.settings.DelayRange;

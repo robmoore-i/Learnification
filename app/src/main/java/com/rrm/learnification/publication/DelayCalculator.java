@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.publication;
 
 import java.sql.Time;
 import java.time.LocalDateTime;

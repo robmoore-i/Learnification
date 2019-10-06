@@ -28,11 +28,11 @@
         <activity android:name=".settings.SettingsActivity" />
 
         <service
-            android:name=".learnification.LearnificationPublishingService"
+            android:name=".publication.LearnificationPublishingService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".learnification.LearnificationResponseService" />
+        <service android:name=".response.LearnificationResponseService" />
 
     </application>
 

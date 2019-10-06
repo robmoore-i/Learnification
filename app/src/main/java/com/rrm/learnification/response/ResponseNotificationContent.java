@@ -1,4 +1,4 @@
-package com.rrm.learnification.notification;
+package com.rrm.learnification.response;
 
 import android.support.annotation.NonNull;
 
@@ -11,11 +11,11 @@ public class ResponseNotificationContent {
         this.text = text;
     }
 
-    String title() {
+    public String title() {
         return title;
     }
 
-    String text() {
+    public String text() {
         return text;
     }
 

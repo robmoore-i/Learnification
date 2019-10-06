@@ -7,9 +7,9 @@ import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.RemoveItemOnSwipeCommand;
 import com.rrm.learnification.common.SetButtonStatusOnTextChangeListener;
 import com.rrm.learnification.common.ToolbarViewUpdate;
-import com.rrm.learnification.learnification.LearnificationPublishingService;
-import com.rrm.learnification.learnification.LearnificationScheduler;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
+import com.rrm.learnification.publication.LearnificationPublishingService;
+import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.storage.ItemRepository;
 
 class MainActivityEntryPoint {

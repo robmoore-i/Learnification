@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.response;
 
 public interface LearnificationResponseIntent {
     boolean isSkipped();

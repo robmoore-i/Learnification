@@ -4,10 +4,10 @@ import android.app.job.JobInfo;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rrm.learnification.jobscheduler.JobIdGenerator;
-import com.rrm.learnification.jobscheduler.JobScheduler;
-import com.rrm.learnification.learnification.LearnificationPublishingService;
+import com.rrm.learnification.jobs.JobIdGenerator;
+import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.publication.LearnificationPublishingService;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,7 +47,7 @@ public class JobSchedulerTest {
         JobInfo pendingJob = systemJobScheduler.getPendingJob(JobIdGenerator.getInstance().lastJobId());
         assertThat(pendingJob.getMinLatencyMillis(), equalTo(10000L));
         assertThat(pendingJob.getMaxExecutionDelayMillis(), equalTo(20000L));
-        assertThat(pendingJob.getService().getClassName(), equalTo("com.rrm.learnification.learnification.LearnificationPublishingService"));
+        assertThat(pendingJob.getService().getClassName(), equalTo("com.rrm.learnification.publication.LearnificationPublishingService"));
     }
 
     @Test

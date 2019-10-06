@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.publication;
 
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.common.LearningItem;
@@ -8,11 +8,11 @@ import com.rrm.learnification.storage.ItemRepository;
 
 import java.util.List;
 
-public class LearnificationTextGenerator {
+class LearnificationTextGenerator {
     private final ItemRepository<LearningItem> itemRepository;
     private final Randomiser randomiser;
 
-    public LearnificationTextGenerator(Randomiser randomiser, ItemRepository<LearningItem> itemRepository) {
+    LearnificationTextGenerator(Randomiser randomiser, ItemRepository<LearningItem> itemRepository) {
         this.randomiser = randomiser;
         this.itemRepository = itemRepository;
     }

@@ -1,8 +1,9 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.response;
 
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.notification.NotificationManager;
-import com.rrm.learnification.notification.ResponseNotificationContent;
+import com.rrm.learnification.publication.LearnificationPublishingService;
+import com.rrm.learnification.publication.LearnificationScheduler;
 
 import org.junit.Before;
 import org.junit.Test;

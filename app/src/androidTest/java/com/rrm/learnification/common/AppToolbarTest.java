@@ -14,8 +14,8 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.learnification.LearnificationPublishingService;
 import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.publication.LearnificationPublishingService;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

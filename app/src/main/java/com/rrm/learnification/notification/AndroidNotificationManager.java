@@ -3,6 +3,8 @@ package com.rrm.learnification.notification;
 import android.app.Notification;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.rrm.learnification.response.ResponseNotificationContent;
+
 import java.util.Arrays;
 
 public class AndroidNotificationManager implements NotificationManager {

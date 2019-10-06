@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.response;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -6,11 +6,12 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.jobscheduler.AndroidJobScheduler;
-import com.rrm.learnification.jobscheduler.JobIdGenerator;
+import com.rrm.learnification.jobs.AndroidJobScheduler;
+import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidNotificationManager;
 import com.rrm.learnification.notification.NotificationManager;
+import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.schedulelog.FromFileScheduleLog;
 import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.settings.SettingsRepository;

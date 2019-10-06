@@ -1,4 +1,4 @@
-package com.rrm.learnification.jobscheduler;
+package com.rrm.learnification.jobs;
 
 import com.rrm.learnification.common.JavaInMemoryIdGenerator;
 

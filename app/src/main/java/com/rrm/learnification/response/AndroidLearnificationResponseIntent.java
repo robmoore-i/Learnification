@@ -1,4 +1,4 @@
-package com.rrm.learnification.learnification;
+package com.rrm.learnification.response;
 
 import android.content.Intent;
 import android.os.Bundle;
