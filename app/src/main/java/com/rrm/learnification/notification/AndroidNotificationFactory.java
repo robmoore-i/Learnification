@@ -5,8 +5,8 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
@@ -105,25 +105,24 @@ public class AndroidNotificationFactory {
     }
 
     private NotificationCompat.Builder appNotificationTemplate(String title, String text, String notificationType) {
-        return new NotificationCompat.Builder(packageContext, AndroidNotificationFacade.CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_a_notification)
-                .setLargeIcon(getNotificationLargeIcon())
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, AndroidNotificationFacade.CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notificationContentIntent()) // Set the intent that will fire when the user taps the notification
                 .setAutoCancel(true)
                 .addExtras(notificationExtras(notificationType));
+
+        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher_a_notification);
+        notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(packageContext.getResources(), R.mipmap.ic_launcher_a_notification));
+
+        return notificationBuilder;
     }
 
     private Bundle notificationExtras(String notificationType) {
         Bundle bundle = new Bundle();
         bundle.putString(NOTIFICATION_TYPE, notificationType);
         return bundle;
-    }
-
-    private Bitmap getNotificationLargeIcon() {
-        return BitmapFactory.decodeResource(packageContext.getApplicationContext().getResources(), R.mipmap.ic_launcher_a_notification);
     }
 
     private PendingIntent notificationContentIntent() {
