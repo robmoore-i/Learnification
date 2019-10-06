@@ -34,6 +34,7 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
         learningItemsList().setEnabled(true);
         setLearningItemListInterItemPadding();
         setLearningItemListViewBounds();
+        setToolbarTitle("Learnification");
     }
 
     private void setLearningItemListViewBounds() {
@@ -68,12 +69,12 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
 
     @Override
     public void updateToolbar(ToolbarViewParameters toolbarViewParameters) {
-        updateToolbar(toolbarViewParameters.toolbarTitle());
+        setToolbarTitle(toolbarViewParameters.toolbarTitle());
     }
 
     @Override
-    public void updateToolbar(String title) {
-        activity.setTitle(title);
+    public Button toolbarButton() {
+        return activity.findViewById(R.id.toolbar_button);
     }
 
     @Override
@@ -110,7 +111,7 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
         return activity.findViewById(R.id.learnifications_list);
     }
 
-    void addToolbarViewUpdate(ToolbarViewUpdate byLearnificationScheduleStatus) {
+    void addToolbarViewUpdate(ToolbarViewUpdate toolbarViewUpdate) {
         int period = 1000;
         Thread thread = new Thread() {
             @Override
@@ -118,13 +119,16 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
                 try {
                     while (!isInterrupted()) {
                         Thread.sleep(period);
-                        logger.v(LOG_TAG, "running toolbar view update, set to run every " + period + "ms");
-                        activity.runOnUiThread(() -> byLearnificationScheduleStatus.update(MainActivityView.this));
+                        activity.runOnUiThread(() -> toolbarViewUpdate.update(MainActivityView.this));
                     }
                 } catch (InterruptedException ignored) {
                 }
             }
         };
         thread.start();
+    }
+
+    private void setToolbarTitle(String title) {
+        activity.setTitle(title);
     }
 }

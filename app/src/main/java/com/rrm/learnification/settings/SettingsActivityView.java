@@ -3,19 +3,13 @@ package com.rrm.learnification.settings;
 import android.widget.NumberPicker;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.toolbar.ToolbarView;
-import com.rrm.learnification.toolbar.ToolbarViewParameters;
+import com.rrm.learnification.toolbar.SimpleToolbarView;
 
-class SettingsActivityView implements ToolbarView, PeriodicityPickerView {
+class SettingsActivityView implements SimpleToolbarView, PeriodicityPickerView {
     private final SettingsActivity activity;
 
     SettingsActivityView(SettingsActivity activity) {
         this.activity = activity;
-    }
-
-    @Override
-    public void updateToolbar(ToolbarViewParameters toolbarViewParameters) {
-        updateToolbar(toolbarViewParameters.toolbarTitle());
     }
 
     @Override

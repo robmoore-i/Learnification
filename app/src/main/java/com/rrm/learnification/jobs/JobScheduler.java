@@ -10,4 +10,6 @@ public interface JobScheduler {
     Optional<Long> msUntilNextJob(Class<?> serviceClass);
 
     boolean isAnythingScheduledForTomorrow();
+
+    void triggerNext(Class<?> serviceClass);
 }

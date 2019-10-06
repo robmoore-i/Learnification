@@ -9,10 +9,12 @@ public class ByLearnificationScheduleStatus implements ToolbarViewUpdate {
 
     private final AndroidLogger logger;
     private final LearnificationScheduler learnificationScheduler;
+    private final FastForwardScheduleButton fastForwardScheduleButton;
 
-    public ByLearnificationScheduleStatus(AndroidLogger logger, LearnificationScheduler learnificationScheduler) {
+    public ByLearnificationScheduleStatus(AndroidLogger logger, LearnificationScheduler learnificationScheduler, FastForwardScheduleButton fastForwardScheduleButton) {
         this.logger = logger;
         this.learnificationScheduler = learnificationScheduler;
+        this.fastForwardScheduleButton = fastForwardScheduleButton;
     }
 
     @Override
@@ -24,11 +26,12 @@ public class ByLearnificationScheduleStatus implements ToolbarViewUpdate {
             toolbarViewParameters = learnificationScheduler.secondsUntilNextLearnification(LearnificationPublishingService.class)
                     .map(seconds -> {
                         logger.v(LOG_TAG, "next learnification will trigger in " + seconds + " seconds");
-                        return (ToolbarViewParameters) new ToolbarViewParameters.LearnificationScheduled(seconds);
+                        return (ToolbarViewParameters) new ToolbarViewParameters.LearnificationScheduled(learnificationScheduler, seconds);
                     })
-                    .orElse(new ToolbarViewParameters.LearnificationNotScheduled());
+                    .orElse(new ToolbarViewParameters.LearnificationNotScheduled(learnificationScheduler));
         }
         logger.v(LOG_TAG, "updating activity toolbar using learnification status '" + toolbarViewParameters.getName() + "'");
         view.updateToolbar(toolbarViewParameters);
+        toolbarViewParameters.configureFastForwardScheduleButton(fastForwardScheduleButton);
     }
 }

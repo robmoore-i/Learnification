@@ -7,10 +7,13 @@ import android.os.PersistableBundle;
 
 import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.settings.DelayRange;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static com.rrm.learnification.settings.ScheduleConfiguration.getImminentDelayRange;
 
 public class AndroidJobScheduler implements JobScheduler {
     private static final String LOG_TAG = "AndroidJobScheduler";
@@ -50,15 +53,31 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public Optional<Long> msUntilNextJob(Class<?> serviceClass) {
+        return nextJob().map(j -> j.msUntilExecution(clock.now()));
+    }
+
+    private Optional<PendingJob> nextJob() {
         LocalDateTime now = clock.now();
-        return pendingJobs()
-                .min((j1, j2) -> Long.compare(j1.msUntilExecution(now), j2.msUntilExecution(now)))
-                .map(j -> j.msUntilExecution(now));
+        return pendingJobs().min((j1, j2) -> Long.compare(j1.msUntilExecution(now), j2.msUntilExecution(now)));
     }
 
     @Override
     public boolean isAnythingScheduledForTomorrow() {
         return pendingJobs().anyMatch(j -> (j.scheduledExecutionTime().getDayOfMonth() - clock.now().getDayOfMonth()) == 1);
+    }
+
+    @Override
+    public void triggerNext(Class<?> serviceClass) {
+        Optional<PendingJob> pendingJob = nextJob();
+        if (pendingJob.isPresent()) {
+            logger.v(LOG_TAG, "triggering next job");
+            int id = pendingJob.get().id;
+            systemJobScheduler.cancel(id);
+            DelayRange imminentDelayRange = getImminentDelayRange();
+            schedule(imminentDelayRange.earliestStartTimeDelayMs, imminentDelayRange.latestStartTimeDelayMs, serviceClass);
+        } else {
+            logger.v(LOG_TAG, "didn't trigger next job because there isn't one");
+        }
     }
 
     private Stream<PendingJob> pendingJobs() {

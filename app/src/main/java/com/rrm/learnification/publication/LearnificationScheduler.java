@@ -30,7 +30,7 @@ public class LearnificationScheduler {
     }
 
     public void scheduleImminentJob(Class<?> serviceClass) {
-        scheduleJob(serviceClass, scheduleConfiguration.getImminentDelayRange());
+        scheduleJob(serviceClass, ScheduleConfiguration.getImminentDelayRange());
     }
 
     public void scheduleJob(Class<?> serviceClass) {
@@ -76,5 +76,9 @@ public class LearnificationScheduler {
     public Optional<Integer> secondsUntilNextLearnification(Class<?> serviceClass) {
         return jobScheduler.msUntilNextJob(serviceClass)
                 .map(l -> l.intValue() / 1000);
+    }
+
+    public void triggerNext(Class<?> serviceClass) {
+        jobScheduler.triggerNext(serviceClass);
     }
 }

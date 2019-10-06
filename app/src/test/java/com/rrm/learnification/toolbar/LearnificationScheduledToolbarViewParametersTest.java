@@ -1,9 +1,12 @@
 package com.rrm.learnification.toolbar;
 
+import com.rrm.learnification.publication.LearnificationScheduler;
+
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class LearnificationScheduledToolbarViewParametersTest {
     @Test
@@ -22,6 +25,6 @@ public class LearnificationScheduledToolbarViewParametersTest {
     }
 
     private String toolbarTitleWithScheduledDelayTimeInSeconds(int seconds) {
-        return new ToolbarViewParameters.LearnificationScheduled(seconds).toolbarTitle();
+        return new ToolbarViewParameters.LearnificationScheduled(mock(LearnificationScheduler.class), seconds).toolbarTitle();
     }
 }

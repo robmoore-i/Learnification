@@ -24,8 +24,8 @@ public class ScheduleConfiguration {
         return new DelayRange(delayInMs, delayInMs + (MAXIMUM_ACCEPTABLE_DELAY_SECONDS * 1000));
     }
 
-    public DelayRange getImminentDelayRange() {
-        return new DelayRange(0, MAXIMUM_ACCEPTABLE_DELAY_SECONDS * 1000);
+    public static DelayRange getImminentDelayRange() {
+        return new DelayRange(1, 1);
     }
 
     public Time getFirstLearnificationTime() {

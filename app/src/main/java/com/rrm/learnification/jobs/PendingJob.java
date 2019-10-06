@@ -10,17 +10,19 @@ class PendingJob {
     private final String serviceClassName;
     private final long earliestStartTimeDelayMs;
     private final LocalDateTime timeOfScheduling;
+    public final int id;
 
-    PendingJob(String serviceClassName, long earliestStartTimeDelayMs, LocalDateTime timeOfScheduling) {
+    PendingJob(String serviceClassName, long earliestStartTimeDelayMs, LocalDateTime timeOfScheduling, int id) {
         this.serviceClassName = serviceClassName;
         this.earliestStartTimeDelayMs = earliestStartTimeDelayMs;
         this.timeOfScheduling = timeOfScheduling;
+        this.id = id;
     }
 
     static PendingJob fromJobInfo(JobInfo job) {
         PersistableBundle extras = job.getExtras();
         LocalDateTime timeOfScheduling = LocalDateTime.parse(extras.getString(AndroidJobScheduler.TIME_OF_SCHEDULING));
-        return new PendingJob(job.getService().getClassName(), job.getMinLatencyMillis(), timeOfScheduling);
+        return new PendingJob(job.getService().getClassName(), job.getMinLatencyMillis(), timeOfScheduling, job.getId());
     }
 
     /**

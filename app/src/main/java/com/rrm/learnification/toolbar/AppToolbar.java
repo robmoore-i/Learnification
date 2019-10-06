@@ -6,16 +6,16 @@ public class AppToolbar {
     private static final String LOG_TAG = "AppToolbar";
 
     private final AndroidLogger logger;
-    private final ToolbarView toolbarView;
+    private final SimpleToolbarView simpleToolbarView;
 
-    public AppToolbar(AndroidLogger logger, ToolbarView toolbarView) {
+    public AppToolbar(AndroidLogger logger, SimpleToolbarView simpleToolbarView) {
         this.logger = logger;
-        this.toolbarView = toolbarView;
+        this.simpleToolbarView = simpleToolbarView;
     }
 
     public void setTitle(String title) {
         logger.v(LOG_TAG, "setting toolbar title to '" + title + "'");
 
-        toolbarView.updateToolbar(title);
+        simpleToolbarView.updateToolbar(title);
     }
 }

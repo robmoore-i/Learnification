@@ -39,6 +39,10 @@ public abstract class AndroidButton implements ConfigurableButton {
         }
     }
 
+    public void clearOnClickHandlers() {
+        onClickCommands.clear();
+    }
+
     @Override
     public final void enable() {
         activated = true;

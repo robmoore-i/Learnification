@@ -122,8 +122,6 @@ public class LearnificationSchedulerTest {
     @Test
     public void itUsesScheduleConfigurationToGetDelayTimeWhenSchedulingAnImminentJob() {
         when(stubScheduleConfiguration.getDelayRange()).thenReturn(delayRange);
-        DelayRange imminentDelayRange = new DelayRange(delayRange.earliestStartTimeDelayMs - 1, delayRange.latestStartTimeDelayMs - 1);
-        when(stubScheduleConfiguration.getImminentDelayRange()).thenReturn(imminentDelayRange);
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(mockJobScheduler.isAnythingScheduledForTomorrow()).thenReturn(false);
         LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubNotificationManager);
