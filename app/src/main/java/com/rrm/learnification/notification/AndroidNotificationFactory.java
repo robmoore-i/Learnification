@@ -106,7 +106,7 @@ public class AndroidNotificationFactory {
 
     private NotificationCompat.Builder appNotificationTemplate(String title, String text, String notificationType) {
         return new NotificationCompat.Builder(packageContext, AndroidNotificationFacade.CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher_a_notification)
                 .setLargeIcon(getNotificationLargeIcon())
                 .setContentTitle(title)
                 .setContentText(text)
@@ -123,7 +123,7 @@ public class AndroidNotificationFactory {
     }
 
     private Bitmap getNotificationLargeIcon() {
-        return BitmapFactory.decodeResource(packageContext.getApplicationContext().getResources(), R.mipmap.ic_launcher);
+        return BitmapFactory.decodeResource(packageContext.getApplicationContext().getResources(), R.mipmap.ic_launcher_a_notification);
     }
 
     private PendingIntent notificationContentIntent() {
