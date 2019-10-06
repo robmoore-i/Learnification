@@ -20,11 +20,13 @@ public class AndroidJobScheduler implements JobScheduler {
     private final AndroidLogger logger;
     private final Context context;
     private final JobIdGenerator jobIdGenerator;
-    private AndroidClock clock;
+    private final AndroidClock clock;
+    private android.app.job.JobScheduler systemJobScheduler;
 
     public AndroidJobScheduler(AndroidLogger logger, Context context, JobIdGenerator jobIdGenerator, AndroidClock clock) {
         this.logger = logger;
         this.context = context;
+        this.systemJobScheduler = context.getSystemService(android.app.job.JobScheduler.class);
         this.jobIdGenerator = jobIdGenerator;
         this.clock = clock;
     }
@@ -37,7 +39,7 @@ public class AndroidJobScheduler implements JobScheduler {
                 .setOverrideDeadline(latestStartTimeDelayMs)
                 .setRequiresCharging(false)
                 .setExtras(jobExtras());
-        context.getSystemService(android.app.job.JobScheduler.class).schedule(builder.build());
+        systemJobScheduler.schedule(builder.build());
     }
 
     @Override
@@ -54,9 +56,13 @@ public class AndroidJobScheduler implements JobScheduler {
                 .map(j -> j.msUntilExecution(now));
     }
 
+    @Override
+    public boolean isAnythingScheduledForTomorrow() {
+        return pendingJobs().anyMatch(j -> (j.scheduledExecutionTime().getDayOfMonth() - clock.now().getDayOfMonth()) == 1);
+    }
+
     private Stream<PendingJob> pendingJobs() {
-        return context
-                .getSystemService(android.app.job.JobScheduler.class)
+        return systemJobScheduler
                 .getAllPendingJobs()
                 .stream()
                 .map(PendingJob::fromJobInfo);

@@ -55,6 +55,7 @@ public class AppToolbarTest {
     @Test
     public void ifNotificationIsCancelledThenToolbarSaysThatNoNotificationIsScheduledAfterACoupleOfSeconds() throws InterruptedException {
         clearNotifications();
+        clearJobs();
 
         waitACoupleOfSeconds();
 
@@ -101,6 +102,10 @@ public class AppToolbarTest {
         } finally {
             device.pressBack();
         }
+    }
+
+    private void clearJobs() {
+        activityTestRule.getActivity().getSystemService(android.app.job.JobScheduler.class).cancelAll();
     }
 
     private void waitACoupleOfSeconds() throws InterruptedException {

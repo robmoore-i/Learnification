@@ -20,7 +20,6 @@ import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidNotificationManager;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.publication.LearnificationScheduler;
-import com.rrm.learnification.schedulelog.FromFileScheduleLog;
 import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
@@ -50,9 +49,8 @@ public class MainActivity extends AppCompatActivity {
         AndroidClock clock = new AndroidClock();
         AndroidJobScheduler jobScheduler = new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), clock);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
-        FromFileScheduleLog scheduleLog = new FromFileScheduleLog(logger, fileStorageAdaptor, clock);
         NotificationManager notificationManager = new AndroidNotificationManager(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), androidNotificationFacade);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, jobScheduler, scheduleConfiguration, scheduleLog, clock, notificationManager);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, jobScheduler, scheduleConfiguration, clock, notificationManager);
 
         // Entry point
         MainActivityEntryPoint mainActivityEntryPoint = new MainActivityEntryPoint(
@@ -96,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
     public void clearSettings() {
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_DELAY_FILE_NAME);
-        fileStorageAdaptor.deleteFile(FromFileScheduleLog.LATEST_SCHEDULED_LEARNIFICATION_FILE_NAME);
     }
 
     public FileStorageAdaptor getFileStorageAdaptor() {

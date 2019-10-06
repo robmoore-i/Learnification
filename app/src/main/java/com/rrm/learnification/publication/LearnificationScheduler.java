@@ -4,7 +4,6 @@ import com.rrm.learnification.common.AndroidClock;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.notification.NotificationManager;
-import com.rrm.learnification.schedulelog.ScheduleLog;
 import com.rrm.learnification.settings.DelayRange;
 import com.rrm.learnification.settings.ScheduleConfiguration;
 
@@ -17,17 +16,15 @@ public class LearnificationScheduler {
     private final AndroidLogger logger;
     private final JobScheduler jobScheduler;
     private final ScheduleConfiguration scheduleConfiguration;
-    private final ScheduleLog scheduleLog;
     private final AndroidClock androidClock;
     private final NotificationManager notificationManager;
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ScheduleLog scheduleLog, AndroidClock androidClock, NotificationManager notificationManager) {
+    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, AndroidClock androidClock, NotificationManager notificationManager) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;
-        this.scheduleLog = scheduleLog;
         this.androidClock = androidClock;
         this.notificationManager = notificationManager;
     }
@@ -54,9 +51,8 @@ public class LearnificationScheduler {
 
         logger.v(LOG_TAG, "scheduling learnification in the next " + earliestStartTimeDelayMs + " to " + latestStartTimeDelayMs + "ms");
         jobScheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
-        logScheduledLearnification(earliestStartTimeDelayMs);
 
-        if (!scheduleLog.isAnythingScheduledForTomorrow()) {
+        if (!jobScheduler.isAnythingScheduledForTomorrow()) {
             scheduleTomorrow(serviceClass);
         }
     }
@@ -67,11 +63,6 @@ public class LearnificationScheduler {
         int earliestStartTimeDelayMs = delayCalculator.millisBetween(androidClock.now(), firstLearnificationTime);
         int latestStartTimeDelayMs = earliestStartTimeDelayMs + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS);
         jobScheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
-        logScheduledLearnification(earliestStartTimeDelayMs);
-    }
-
-    private void logScheduledLearnification(int delayMs) {
-        scheduleLog.mark(androidClock.now().plusSeconds(delayMs / 1000));
     }
 
     public boolean learnificationAvailable() {

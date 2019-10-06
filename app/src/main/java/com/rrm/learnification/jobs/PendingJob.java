@@ -40,6 +40,10 @@ class PendingJob {
     }
 
     Long msUntilExecution(LocalDateTime now) {
-        return ChronoUnit.MILLIS.between(now, timeOfScheduling.plusSeconds(earliestStartTimeDelayMs / 1000));
+        return ChronoUnit.MILLIS.between(now, scheduledExecutionTime());
+    }
+
+    LocalDateTime scheduledExecutionTime() {
+        return timeOfScheduling.plusSeconds(earliestStartTimeDelayMs / 1000);
     }
 }

@@ -8,4 +8,6 @@ public interface JobScheduler {
     boolean hasPendingJob(Class<?> serviceClass, int earliestStartTimeDelayMs);
 
     Optional<Long> msUntilNextJob(Class<?> serviceClass);
+
+    boolean isAnythingScheduledForTomorrow();
 }
