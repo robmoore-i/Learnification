@@ -14,14 +14,15 @@ import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.response.LearnificationResponseService;
-import com.rrm.learnification.response.ResponseNotificationContent;
+import com.rrm.learnification.response.NotificationTextContent;
 
 public class AndroidNotificationFactory {
     public static final String NOTIFICATION_TYPE = "notificationType";
 
     public static final String REPLY_TEXT = "remote_input_text_reply";
     public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
-    public static final String SKIPPED_FLAG_EXTRA = "skippedFlag";
+    public static final String SHOW_ME_FLAG_EXTRA = "showMeFlag";
+    public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
     private static final String LOG_TAG = "AndroidNotificationFactory";
 
     private final AndroidLogger logger;
@@ -35,6 +36,7 @@ public class AndroidNotificationFactory {
     public Notification createLearnification(LearnificationText learnificationText) {
         String learningItemPrompt = learnificationText.given;
         String subHeading = learnificationText.subHeading;
+        String expectedUserResponse = learnificationText.expected;
         logger.v(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
         RemoteInput remoteInput = new RemoteInput.Builder(REPLY_TEXT)
@@ -45,24 +47,44 @@ public class AndroidNotificationFactory {
         NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
                 replyActionLabel(),
-                responsePendingIntent(learnificationText.expected))
+                learnificationIntent(expectedUserResponse, learningItemPrompt))
                 .addRemoteInput(remoteInput)
                 .build();
 
-        // Create the skip action
+        // Create the show-me action
         NotificationCompat.Action skipAction = new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
-                "Skip",
-                skipIntent())
+                "Show me",
+                showMeIntent(expectedUserResponse, learningItemPrompt))
                 .build();
 
         // Use the title for the learnification main text, so it shows up boldly.
         return buildNotification(learningItemPrompt, subHeading, replyAction, skipAction);
     }
 
-    private PendingIntent skipIntent() {
+    public Notification createLearnificationResponse(NotificationTextContent notificationTextContent) {
+        return appNotificationTemplate(notificationTextContent.title(), notificationTextContent.text(), NotificationType.LEARNIFICATION_RESPONSE)
+                .build();
+    }
+
+    private PendingIntent showMeIntent(String expectedUserResponse, String learningItemPrompt) {
         Intent intent = new Intent(packageContext, LearnificationResponseService.class);
-        intent.putExtra(SKIPPED_FLAG_EXTRA, true);
+        intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
+        intent.putExtra(GIVEN_PROMPT_EXTRA, learningItemPrompt);
+        intent.putExtra(SHOW_ME_FLAG_EXTRA, true);
+        return PendingIntent.getService(
+                packageContext,
+                PendingIntentRequestCodeGenerator.getInstance().nextRequestCode(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+    }
+
+    private PendingIntent learnificationIntent(String expectedUserResponse, String learningItemPrompt) {
+        Intent intent = new Intent(packageContext, LearnificationResponseService.class);
+        intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
+        intent.putExtra(GIVEN_PROMPT_EXTRA, learningItemPrompt);
+        intent.putExtra(SHOW_ME_FLAG_EXTRA, false);
         return PendingIntent.getService(
                 packageContext,
                 PendingIntentRequestCodeGenerator.getInstance().nextRequestCode(),
@@ -79,27 +101,10 @@ public class AndroidNotificationFactory {
         return packageContext.getString(R.string.reply_label);
     }
 
-    private PendingIntent responsePendingIntent(String expectedUserResponse) {
-        Intent intent = new Intent(packageContext, LearnificationResponseService.class);
-        intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
-        intent.putExtra(SKIPPED_FLAG_EXTRA, false);
-        return PendingIntent.getService(
-                packageContext,
-                PendingIntentRequestCodeGenerator.getInstance().nextRequestCode(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-    }
-
     private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction, NotificationCompat.Action skipAction) {
         return appNotificationTemplate(title, text, NotificationType.LEARNIFICATION)
                 .addAction(replyAction)
                 .addAction(skipAction)
-                .build();
-    }
-
-    public Notification createLearnificationResponse(ResponseNotificationContent responseNotificationContent) {
-        return appNotificationTemplate(responseNotificationContent.title(), responseNotificationContent.text(), NotificationType.LEARNIFICATION_RESPONSE)
                 .build();
     }
 

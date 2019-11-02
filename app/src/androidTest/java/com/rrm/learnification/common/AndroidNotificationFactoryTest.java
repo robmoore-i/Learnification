@@ -7,7 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.NotificationType;
-import com.rrm.learnification.response.ResponseNotificationContent;
+import com.rrm.learnification.response.NotificationTextContent;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,7 +38,7 @@ public class AndroidNotificationFactoryTest {
 
     @Test
     public void itGeneratesLearnificationResponseWithABundleContainingTheNotificationType() {
-        Notification learnification = androidNotificationFactory.createLearnificationResponse(new ResponseNotificationContent("a", "b"));
+        Notification learnification = androidNotificationFactory.createLearnificationResponse(new NotificationTextContent("a", "b"));
 
         assertThat(learnification.extras.getString(AndroidNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION_RESPONSE));
     }

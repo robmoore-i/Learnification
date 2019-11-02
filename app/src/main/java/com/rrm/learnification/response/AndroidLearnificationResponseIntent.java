@@ -17,8 +17,8 @@ class AndroidLearnificationResponseIntent implements LearnificationResponseInten
     }
 
     @Override
-    public boolean isSkipped() {
-        return intent.getBooleanExtra(AndroidNotificationFactory.SKIPPED_FLAG_EXTRA, true);
+    public boolean isShowMeResponse() {
+        return intent.getBooleanExtra(AndroidNotificationFactory.SHOW_ME_FLAG_EXTRA, true);
     }
 
     @Override
@@ -41,13 +41,19 @@ class AndroidLearnificationResponseIntent implements LearnificationResponseInten
         return intent.getStringExtra(AndroidNotificationFactory.EXPECTED_USER_RESPONSE_EXTRA);
     }
 
+    @Override
+    public String givenPrompt() {
+        return intent.getStringExtra(AndroidNotificationFactory.GIVEN_PROMPT_EXTRA);
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "AndroidLearnificationResponseIntent{" +
-                "isSkipped=" + isSkipped() + "," +
+                "isShowMeResponse=" + isShowMeResponse() + "," +
                 "hasRemoteInput=" + hasRemoteInput() + "," +
                 "actualUserResponse=" + actualUserResponse() + "," +
-                "expectedUserResponse=" + expectedUserResponse() + "}";
+                "expectedUserResponse=" + expectedUserResponse() + "," +
+                "givenPrompt=" + givenPrompt() + "}";
     }
 }

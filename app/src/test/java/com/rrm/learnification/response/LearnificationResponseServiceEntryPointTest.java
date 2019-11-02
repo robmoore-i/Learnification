@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class LearnificationResponseServiceEntryPointTest {
     private final String userExpectedResponse = "expected";
     private final String userActualResponse = "actual";
-    private ResponseNotificationContent content = new ResponseNotificationContent("title", "text");
+    private NotificationTextContent content = new NotificationTextContent("title", "text");
 
     private AndroidLogger mockLogger = mock(AndroidLogger.class);
     private NotificationManager mockNotificationManager = mock(NotificationManager.class);
@@ -35,7 +35,7 @@ public class LearnificationResponseServiceEntryPointTest {
 
         when(stubIntent.expectedUserResponse()).thenReturn(userExpectedResponse);
         when(stubIntent.actualUserResponse()).thenReturn(userActualResponse);
-        when(mockContentGenerator.getResponseNotificationContent(anyString(), anyString())).thenReturn(content);
+        when(mockContentGenerator.getResponseNotificationTextContent(anyString(), anyString())).thenReturn(content);
 
         learnificationResponseServiceEntryPoint = new LearnificationResponseServiceEntryPoint(
                 mockLogger,
@@ -46,27 +46,18 @@ public class LearnificationResponseServiceEntryPointTest {
     }
 
     @Test
-    public void ifLearnificationWasSkippedItCancelsTheNotification() {
-        when(stubIntent.isSkipped()).thenReturn(true);
-
-        learnificationResponseServiceEntryPoint.onHandleIntent(stubIntent);
-
-        verify(mockNotificationManager, times(1)).cancelLatest();
-    }
-
-    @Test
     public void ifNotSkippedAndHasRemoteInputItCreatesResponseContentUsingGeneratorFromLearningItem() {
-        when(stubIntent.isSkipped()).thenReturn(false);
+        when(stubIntent.isShowMeResponse()).thenReturn(false);
         when(stubIntent.hasRemoteInput()).thenReturn(true);
 
         learnificationResponseServiceEntryPoint.onHandleIntent(stubIntent);
 
-        verify(mockContentGenerator, times(1)).getResponseNotificationContent(userExpectedResponse, userActualResponse);
+        verify(mockContentGenerator, times(1)).getResponseNotificationTextContent(userExpectedResponse, userActualResponse);
     }
 
     @Test
     public void ifNotSkippedAndHasRemoteInputItUsesResponseContentToUpdateLatestNotification() {
-        when(stubIntent.isSkipped()).thenReturn(false);
+        when(stubIntent.isShowMeResponse()).thenReturn(false);
         when(stubIntent.hasRemoteInput()).thenReturn(true);
 
         learnificationResponseServiceEntryPoint.onHandleIntent(stubIntent);

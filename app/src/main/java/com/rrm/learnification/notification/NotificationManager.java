@@ -1,11 +1,9 @@
 package com.rrm.learnification.notification;
 
-import com.rrm.learnification.response.ResponseNotificationContent;
+import com.rrm.learnification.response.NotificationTextContent;
 
 public interface NotificationManager {
-    void cancelLatest();
-
-    void updateLatestWithReply(ResponseNotificationContent replyContent);
+    void updateLatestWithReply(NotificationTextContent replyContent);
 
     boolean hasActiveLearnifications();
 }

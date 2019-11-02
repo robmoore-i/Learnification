@@ -21,13 +21,18 @@ class LearnificationResponseServiceEntryPoint {
     }
 
     void onHandleIntent(LearnificationResponseIntent responseIntent) {
-        if (responseIntent.isSkipped()) {
-            logger.v(LOG_TAG, "learnification was skipped");
-            notificationManager.cancelLatest();
+        if (responseIntent.isShowMeResponse()) {
+            logger.v(LOG_TAG, "learnification response was 'show-me'");
+            String given = responseIntent.givenPrompt();
+            String expected = responseIntent.expectedUserResponse();
+            NotificationTextContent responseContent = new NotificationTextContent(given + " -> " + expected, "Showing answer for last learnification");
+            logger.v(LOG_TAG, "replying with response content: " + responseContent.toString());
+            notificationManager.updateLatestWithReply(responseContent);
+            logger.v(LOG_TAG, "replied to learnification by showing '" + given + " -> " + expected + "'");
         } else if (responseIntent.hasRemoteInput()) {
             String actual = responseIntent.actualUserResponse();
             String expected = responseIntent.expectedUserResponse();
-            ResponseNotificationContent responseContent = responseContentGenerator.getResponseNotificationContent(expected, actual);
+            NotificationTextContent responseContent = responseContentGenerator.getResponseNotificationTextContent(expected, actual);
             logger.v(LOG_TAG, "replying with response content: " + responseContent.toString());
             notificationManager.updateLatestWithReply(responseContent);
             logger.v(LOG_TAG, "replied to learnification response of '" + actual + "' for expected value '" + expected + "'");

@@ -3,7 +3,7 @@ package com.rrm.learnification.notification;
 import android.app.Notification;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.rrm.learnification.response.ResponseNotificationContent;
+import com.rrm.learnification.response.NotificationTextContent;
 
 import java.util.Arrays;
 
@@ -25,12 +25,7 @@ public class AndroidNotificationManager implements NotificationManager {
     }
 
     @Override
-    public void cancelLatest() {
-        notificationManagerCompat.cancel(NotificationIdGenerator.getInstance().lastNotificationId());
-    }
-
-    @Override
-    public void updateLatestWithReply(ResponseNotificationContent replyContent) {
+    public void updateLatestWithReply(NotificationTextContent replyContent) {
         Notification responseNotification = androidNotificationFactory.createLearnificationResponse(replyContent);
         notificationManagerCompat.notify(NotificationIdGenerator.getInstance().lastNotificationId(), responseNotification);
     }

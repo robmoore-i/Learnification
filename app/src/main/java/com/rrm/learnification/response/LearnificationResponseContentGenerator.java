@@ -9,10 +9,10 @@ class LearnificationResponseContentGenerator {
         this.scheduleConfiguration = scheduleConfiguration;
     }
 
-    ResponseNotificationContent getResponseNotificationContent(String expected, String actual) {
+    NotificationTextContent getResponseNotificationTextContent(String expected, String actual) {
         String title = "Got '" + actual + "', expected '" + expected + "'";
         String text = "Next one in " + timeUntilNextLearnificationText() + ".";
-        return new ResponseNotificationContent(title, text);
+        return new NotificationTextContent(title, text);
     }
 
     private String timeUntilNextLearnificationText() {

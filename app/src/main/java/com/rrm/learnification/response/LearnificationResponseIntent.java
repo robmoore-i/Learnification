@@ -1,11 +1,13 @@
 package com.rrm.learnification.response;
 
 public interface LearnificationResponseIntent {
-    boolean isSkipped();
+    boolean isShowMeResponse();
 
     boolean hasRemoteInput();
 
     String actualUserResponse();
 
     String expectedUserResponse();
+
+    String givenPrompt();
 }
