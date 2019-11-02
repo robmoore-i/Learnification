@@ -5,14 +5,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.AndroidTextWatcher;
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.OnSubmitTextAction;
 import com.rrm.learnification.common.OnTextChangeListener;
 import com.rrm.learnification.settings.PeriodicityPickerView;
 import com.rrm.learnification.toolbar.ToolbarView;
@@ -80,8 +83,8 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
     @Override
     public LearningItem getLearningItemTextInput() {
         return new LearningItem(
-                ((EditText) activity.findViewById(R.id.left_input)).getText().toString(),
-                ((EditText) activity.findViewById(R.id.right_input)).getText().toString());
+                (leftEditText()).getText().toString(),
+                (rightEditText()).getText().toString());
     }
 
     @Override
@@ -91,14 +94,28 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
 
     @Override
     public void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
-        onTextChangeListener.addTextSource(new AndroidTextWatcher("left", activity.findViewById(R.id.left_input)));
-        onTextChangeListener.addTextSource(new AndroidTextWatcher("right", activity.findViewById(R.id.right_input)));
+        onTextChangeListener.addTextSource(new AndroidTextWatcher("left", leftEditText()));
+        onTextChangeListener.addTextSource(new AndroidTextWatcher("right", rightEditText()));
     }
 
     @Override
     public void clearTextInput() {
-        activity.<EditText>findViewById(R.id.left_input).setText("");
-        activity.<EditText>findViewById(R.id.right_input).setText("");
+        leftEditText().setText("");
+        rightEditText().setText("");
+    }
+
+    @Override
+    public void setOnLearningItemSubmitAction(OnSubmitTextAction onSubmitTextAction) {
+        TextView.OnEditorActionListener onEditorActionListener = (textView, actionId, event) -> {
+            logger.v(LOG_TAG, "Learning item text input received an action with id '" + actionId + "'");
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                logger.v(LOG_TAG, "Learning item submitted via the virtual keyboard");
+                onSubmitTextAction.onSubmit();
+            }
+            return true;
+        };
+        leftEditText().setOnEditorActionListener(onEditorActionListener);
+        rightEditText().setOnEditorActionListener(onEditorActionListener);
     }
 
     @Override
@@ -130,5 +147,13 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
 
     private void setToolbarTitle(String title) {
         activity.setTitle(title);
+    }
+
+    private EditText leftEditText() {
+        return activity.findViewById(R.id.left_input);
+    }
+
+    private EditText rightEditText() {
+        return activity.findViewById(R.id.right_input);
     }
 }

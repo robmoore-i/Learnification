@@ -15,7 +15,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     private final AndroidLogger logger;
     private final Button button;
     private final List<OnClickCommand> onClickCommands = new ArrayList<>();
-    private boolean activated;
+    private boolean enabled;
 
     public AndroidButton(AndroidLogger logger, Button button) {
         this.logger = logger;
@@ -34,7 +34,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     @Override
     public final void addOnClickHandler(final OnClickCommand onClickCommand) {
         this.onClickCommands.add(onClickCommand);
-        if (activated) {
+        if (enabled) {
             bindClickListenersToButton(onClickCommands);
         }
     }
@@ -45,7 +45,7 @@ public abstract class AndroidButton implements ConfigurableButton {
 
     @Override
     public final void enable() {
-        activated = true;
+        enabled = true;
         AndroidButton.ButtonColour.setColour(button, AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
         button.setClickable(true);
         bindClickListenersToButton(onClickCommands);
@@ -53,10 +53,14 @@ public abstract class AndroidButton implements ConfigurableButton {
 
     @Override
     public final void disable() {
-        activated = false;
+        enabled = false;
         AndroidButton.ButtonColour.setColour(button, AndroidButton.ButtonColour.GRAYED_OUT);
         button.setClickable(false);
         bindClickListenersToButton(Collections.singletonList(OnClickCommand.doNothingOnClickCommand()));
+    }
+
+    public void click() {
+        button.callOnClick();
     }
 
     private String logTag() {
@@ -73,11 +77,11 @@ public abstract class AndroidButton implements ConfigurableButton {
     @SuppressLint("ClickableViewAccessibility")
     private void setOnFocusHandler() {
         button.setOnTouchListener((view, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN && activated) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN && enabled) {
                 AndroidButton.ButtonColour.setColour(view, AndroidButton.ButtonColour.FINGER_DOWN);
-            } else if (event.getAction() == MotionEvent.ACTION_UP && activated) {
+            } else if (event.getAction() == MotionEvent.ACTION_UP && enabled) {
                 AndroidButton.ButtonColour.setColour(view, AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
-            } else if (!activated) {
+            } else if (!enabled) {
                 AndroidButton.ButtonColour.setColour(view, AndroidButton.ButtonColour.GRAYED_OUT);
             }
             return false;
