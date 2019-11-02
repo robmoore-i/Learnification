@@ -13,16 +13,11 @@ import android.support.v4.app.RemoteInput;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearnificationText;
-import com.rrm.learnification.response.LearnificationResponseService;
 import com.rrm.learnification.response.NotificationTextContent;
 
 public class AndroidNotificationFactory {
     public static final String NOTIFICATION_TYPE = "notificationType";
-
     public static final String REPLY_TEXT = "remote_input_text_reply";
-    public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
-    public static final String SHOW_ME_FLAG_EXTRA = "showMeFlag";
-    public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
     private static final String LOG_TAG = "AndroidNotificationFactory";
 
     private final AndroidLogger logger;
@@ -40,7 +35,7 @@ public class AndroidNotificationFactory {
         logger.v(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
         RemoteInput remoteInput = new RemoteInput.Builder(REPLY_TEXT)
-                .setLabel(getRemoteInputReplyLabel())
+                .setLabel(replyActionLabel())
                 .build();
 
         // Create the reply action and add the remote input.
@@ -62,43 +57,27 @@ public class AndroidNotificationFactory {
         return buildNotification(learningItemPrompt, subHeading, replyAction, skipAction);
     }
 
-    public Notification createLearnificationResponse(NotificationTextContent notificationTextContent) {
-        return appNotificationTemplate(notificationTextContent.title(), notificationTextContent.text(), NotificationType.LEARNIFICATION_RESPONSE)
-                .build();
+    private String replyActionLabel() {
+        return packageContext.getString(R.string.reply_label);
     }
 
     private PendingIntent showMeIntent(String expectedUserResponse, String learningItemPrompt) {
-        Intent intent = new Intent(packageContext, LearnificationResponseService.class);
-        intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
-        intent.putExtra(GIVEN_PROMPT_EXTRA, learningItemPrompt);
-        intent.putExtra(SHOW_ME_FLAG_EXTRA, true);
-        return PendingIntent.getService(
-                packageContext,
-                PendingIntentRequestCodeGenerator.getInstance().nextRequestCode(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
+        return AndroidPendingIntentBuilder.showMeIntent(packageContext)
+                .withExpectedUserResponse(expectedUserResponse)
+                .withLearningItemPrompt(learningItemPrompt)
+                .build();
     }
 
     private PendingIntent learnificationIntent(String expectedUserResponse, String learningItemPrompt) {
-        Intent intent = new Intent(packageContext, LearnificationResponseService.class);
-        intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
-        intent.putExtra(GIVEN_PROMPT_EXTRA, learningItemPrompt);
-        intent.putExtra(SHOW_ME_FLAG_EXTRA, false);
-        return PendingIntent.getService(
-                packageContext,
-                PendingIntentRequestCodeGenerator.getInstance().nextRequestCode(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
+        return AndroidPendingIntentBuilder.learnificationIntent(packageContext)
+                .withExpectedUserResponse(expectedUserResponse)
+                .withLearningItemPrompt(learningItemPrompt)
+                .build();
     }
 
-    private String getRemoteInputReplyLabel() {
-        return packageContext.getResources().getString(R.string.reply_label);
-    }
-
-    private String replyActionLabel() {
-        return packageContext.getString(R.string.reply_label);
+    public Notification createLearnificationResponse(NotificationTextContent notificationTextContent) {
+        return appNotificationTemplate(notificationTextContent.title(), notificationTextContent.text(), NotificationType.LEARNIFICATION_RESPONSE)
+                .build();
     }
 
     private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction, NotificationCompat.Action skipAction) {
@@ -119,7 +98,6 @@ public class AndroidNotificationFactory {
 
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher_a_notification);
         notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(packageContext.getResources(), R.mipmap.ic_launcher_a_notification));
-
         return notificationBuilder;
     }
 

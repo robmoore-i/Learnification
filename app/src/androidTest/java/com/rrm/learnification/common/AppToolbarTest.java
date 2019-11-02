@@ -111,7 +111,11 @@ public class AppToolbarTest {
             device.wait(Until.hasObject(By.textStartsWith("com.rrm.learnification")), notificationTimeoutMs);
             device.findObject(By.text("CLEAR ALL")).click();
         } catch (Exception e) {
-            device.findObject(By.text("CLEAR ALL")).click();
+            try {
+                device.findObject(By.text("CLEAR ALL")).click();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
             e.printStackTrace();
         } finally {
             device.pressBack();

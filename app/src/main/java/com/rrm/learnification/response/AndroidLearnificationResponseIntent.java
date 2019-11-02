@@ -7,6 +7,10 @@ import android.support.v4.app.RemoteInput;
 
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 
+import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.EXPECTED_USER_RESPONSE_EXTRA;
+import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.GIVEN_PROMPT_EXTRA;
+import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.SHOW_ME_FLAG_EXTRA;
+
 class AndroidLearnificationResponseIntent implements LearnificationResponseIntent {
     private final Intent intent;
     private final Bundle remoteInput;
@@ -18,7 +22,7 @@ class AndroidLearnificationResponseIntent implements LearnificationResponseInten
 
     @Override
     public boolean isShowMeResponse() {
-        return intent.getBooleanExtra(AndroidNotificationFactory.SHOW_ME_FLAG_EXTRA, true);
+        return intent.getBooleanExtra(SHOW_ME_FLAG_EXTRA, true);
     }
 
     @Override
@@ -38,12 +42,12 @@ class AndroidLearnificationResponseIntent implements LearnificationResponseInten
 
     @Override
     public String expectedUserResponse() {
-        return intent.getStringExtra(AndroidNotificationFactory.EXPECTED_USER_RESPONSE_EXTRA);
+        return intent.getStringExtra(EXPECTED_USER_RESPONSE_EXTRA);
     }
 
     @Override
     public String givenPrompt() {
-        return intent.getStringExtra(AndroidNotificationFactory.GIVEN_PROMPT_EXTRA);
+        return intent.getStringExtra(GIVEN_PROMPT_EXTRA);
     }
 
     @NonNull
