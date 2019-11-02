@@ -1,31 +1,17 @@
 # Learnification
 
-## Technical priorities
+## How to create a new release
 
-### Major
+1. Update the `versionName` and `versionCode` in `app/build.gradle`
 
-- Nail down android internal storage behaviour in integration tests
+2. In Android Studio, go to Build->Generate Signed Bundle/APK. Generate a bundle, and as the
+keystore, use `release-keystore.jks`. This should generate a file `app/release/app-release.aab`.
 
-- Injectable components for use in Android tests
+3. Go to the play console, and go to release management. Go to the "Learnification" app.
 
-### Minor
+4. Under "Release management" go to "App releases". Under the "Production track" go to "manage".
+Press "Create release".
 
-- UI test coverage across the most important journeys.
-
-- Unit test coverage
-
-## MVP
-
-- I can download the app from the play store
-
-- I can define my own learning items and browse them
-
-- I periodically get notifications based on my learning items, at a periodicity I define
-
-- I can pay as little for the app as I want to
-
-## Plan
-
-1. Deliver the MVP to the PlayStore.
-
-2. Iterate
+5. Upload your app bundle, the `.aab` file, as the bundle. Enter the release notes. Enter the
+release name, which should be the same as the versionCode you updated earlier. Save, review and
+roll-out the release.
