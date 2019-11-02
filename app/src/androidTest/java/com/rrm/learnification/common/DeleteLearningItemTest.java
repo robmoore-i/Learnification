@@ -40,8 +40,6 @@ public class DeleteLearningItemTest {
         learningItemStorage.write(removedLearningItem);
     }
 
-    // This test is bizarrely failing, although the feature does appear to work.
-    // TODO: Rewrite the test for this feature
     @Test
     public void swipingALearningItemLeftDeletesIt() {
         RecyclerView recyclerView = activityTestRule.getActivity().findViewById(R.id.learningitem_list);
