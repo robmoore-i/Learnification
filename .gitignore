@@ -1,3 +1,8 @@
+private_key.pepk
+release-keystore.jks
+app/release
+keystore.jks
+
 .gradle
 /local.properties
 /.idea/caches
