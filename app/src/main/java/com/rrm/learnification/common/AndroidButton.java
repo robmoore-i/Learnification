@@ -39,6 +39,7 @@ public abstract class AndroidButton implements ConfigurableButton {
         }
     }
 
+    @Override
     public void clearOnClickHandlers() {
         onClickCommands.clear();
     }
@@ -59,6 +60,7 @@ public abstract class AndroidButton implements ConfigurableButton {
         bindClickListenersToButton(Collections.singletonList(OnClickCommand.doNothingOnClickCommand()));
     }
 
+    @Override
     public void click() {
         button.callOnClick();
     }

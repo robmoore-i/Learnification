@@ -62,6 +62,6 @@ public class AddLearningItemTest {
         onView(withId(R.id.add_learning_item_button)).perform(click());
         closeSoftKeyboard();
 
-        onView(allOf(withParent(withId(R.id.learnifications_list)), withText(left + " - " + right))).check(matches(isDisplayed()));
+        onView(allOf(withParent(withId(R.id.learningitem_list)), withText(left + " - " + right))).check(matches(isDisplayed()));
     }
 }

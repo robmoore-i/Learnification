@@ -40,14 +40,16 @@ public class DeleteLearningItemTest {
         learningItemStorage.write(removedLearningItem);
     }
 
+    // This test is bizarrely failing, although the feature does appear to work.
+    // TODO: Rewrite the test for this feature
     @Test
-    public void swipingALearnificationLeftDeletesIt() {
-        RecyclerView recyclerView = activityTestRule.getActivity().findViewById(R.id.learnifications_list);
+    public void swipingALearningItemLeftDeletesIt() {
+        RecyclerView recyclerView = activityTestRule.getActivity().findViewById(R.id.learningitem_list);
         int initialSize = recyclerView.getChildCount();
 
         onView(withText(startsWith(removedLearningItem.left))).perform(swipeLeft());
 
-        recyclerView = activityTestRule.getActivity().findViewById(R.id.learnifications_list);
+        recyclerView = activityTestRule.getActivity().findViewById(R.id.learningitem_list);
         int finalSize = recyclerView.getChildCount();
 
         assertThat(finalSize, equalTo(initialSize - 1));

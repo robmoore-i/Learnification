@@ -1,5 +1,8 @@
 package com.rrm.learnification.toolbar;
 
+import android.support.annotation.Nullable;
+
+import com.rrm.learnification.common.ConfigurableButton;
 import com.rrm.learnification.publication.LearnificationScheduler;
 
 import java.util.Locale;
@@ -9,9 +12,42 @@ public interface ToolbarViewParameters {
 
     String getName();
 
-    void configureFastForwardScheduleButton(FastForwardScheduleButton fastForwardScheduleButton);
+    static ToolbarViewParameters empty() {
+        return new ToolbarViewParameters() {
+            @Override
+            public String toolbarTitle() {
+                return "";
+            }
 
-    class LearnificationReady implements ToolbarViewParameters {
+            @Override
+            public String getName() {
+                return "";
+            }
+
+            @Override
+            public void configureFastForwardScheduleButton(ConfigurableButton fastForwardScheduleButton) {
+            }
+
+            @Override
+            public boolean equals(@Nullable Object obj) {
+                return false;
+            }
+        };
+    }
+
+    void configureFastForwardScheduleButton(ConfigurableButton fastForwardScheduleButton);
+
+    abstract class EquatableToolbarViewParameters implements ToolbarViewParameters {
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            if (obj == null) return false;
+            if (!(obj instanceof EquatableToolbarViewParameters)) return false;
+            EquatableToolbarViewParameters other = (EquatableToolbarViewParameters) obj;
+            return this.getName().equals(other.getName());
+        }
+    }
+
+    class LearnificationReady extends EquatableToolbarViewParameters {
         @Override
         public String toolbarTitle() {
             return "Learnification ready";
@@ -23,12 +59,12 @@ public interface ToolbarViewParameters {
         }
 
         @Override
-        public void configureFastForwardScheduleButton(FastForwardScheduleButton fastForwardScheduleButton) {
+        public void configureFastForwardScheduleButton(ConfigurableButton fastForwardScheduleButton) {
             fastForwardScheduleButton.disable();
         }
     }
 
-    class LearnificationScheduled implements ToolbarViewParameters {
+    class LearnificationScheduled extends EquatableToolbarViewParameters {
         private final LearnificationScheduler learnificationScheduler;
         private final int seconds;
 
@@ -48,7 +84,7 @@ public interface ToolbarViewParameters {
         }
 
         @Override
-        public void configureFastForwardScheduleButton(FastForwardScheduleButton fastForwardScheduleButton) {
+        public void configureFastForwardScheduleButton(ConfigurableButton fastForwardScheduleButton) {
             fastForwardScheduleButton.clearOnClickHandlers();
             fastForwardScheduleButton.enable();
             fastForwardScheduleButton.addOnClickHandler(new TriggerNextLearnificationOnClickCommand(learnificationScheduler));
@@ -59,7 +95,7 @@ public interface ToolbarViewParameters {
         }
     }
 
-    class LearnificationNotScheduled implements ToolbarViewParameters {
+    class LearnificationNotScheduled extends EquatableToolbarViewParameters {
         private final LearnificationScheduler learnificationScheduler;
 
         LearnificationNotScheduled(LearnificationScheduler learnificationScheduler) {
@@ -77,7 +113,7 @@ public interface ToolbarViewParameters {
         }
 
         @Override
-        public void configureFastForwardScheduleButton(FastForwardScheduleButton fastForwardScheduleButton) {
+        public void configureFastForwardScheduleButton(ConfigurableButton fastForwardScheduleButton) {
             fastForwardScheduleButton.clearOnClickHandlers();
             fastForwardScheduleButton.enable();
             fastForwardScheduleButton.addOnClickHandler(new ScheduleLearnificationOnClickCommand(learnificationScheduler));

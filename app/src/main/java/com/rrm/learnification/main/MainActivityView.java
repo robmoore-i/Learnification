@@ -107,9 +107,9 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
     @Override
     public void setOnLearningItemSubmitAction(OnSubmitTextAction onSubmitTextAction) {
         TextView.OnEditorActionListener onEditorActionListener = (textView, actionId, event) -> {
-            logger.v(LOG_TAG, "Learning item text input received an action with id '" + actionId + "'");
+            logger.v(LOG_TAG, "learning item text input received an action with id '" + actionId + "'");
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                logger.v(LOG_TAG, "Learning item submitted via the virtual keyboard");
+                logger.v(LOG_TAG, "learning item submitted via the virtual keyboard");
                 onSubmitTextAction.onSubmit();
             }
             return true;
@@ -125,7 +125,7 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
 
     @Override
     public RecyclerView learningItemsList() {
-        return activity.findViewById(R.id.learnifications_list);
+        return activity.findViewById(R.id.learningitem_list);
     }
 
     void addToolbarViewUpdate(ToolbarViewUpdate toolbarViewUpdate) {

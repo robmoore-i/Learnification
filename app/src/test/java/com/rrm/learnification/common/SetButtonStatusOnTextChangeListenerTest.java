@@ -68,6 +68,10 @@ public class SetButtonStatusOnTextChangeListenerTest {
         }
 
         @Override
+        public void clearOnClickHandlers() {
+        }
+
+        @Override
         public void enable() {
             active = true;
         }
@@ -75,6 +79,10 @@ public class SetButtonStatusOnTextChangeListenerTest {
         @Override
         public void disable() {
             active = false;
+        }
+
+        @Override
+        public void click() {
         }
     }
 
