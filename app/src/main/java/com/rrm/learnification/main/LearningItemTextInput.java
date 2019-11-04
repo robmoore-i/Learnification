@@ -12,10 +12,6 @@ class LearningItemTextInput implements TextInput {
         this.addLearningItemView = addLearningItemView;
     }
 
-    LearningItem getLearningItem() {
-        return addLearningItemView.getLearningItemTextInput();
-    }
-
     @Override
     public void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
         addLearningItemView.setOnTextChangeListener(onTextChangeListener);
@@ -24,6 +20,10 @@ class LearningItemTextInput implements TextInput {
     @Override
     public void setOnSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand) {
         addLearningItemView.setOnLearningItemInputSubmitTextCommand(onSubmitTextCommand);
+    }
+
+    LearningItem getLearningItem() {
+        return addLearningItemView.getLearningItemTextInput();
     }
 
     @Override
