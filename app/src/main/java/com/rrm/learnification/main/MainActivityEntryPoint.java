@@ -1,14 +1,14 @@
 package com.rrm.learnification.main;
 
+import com.rrm.learnification.button.ClearTextInputOnClickCommand;
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.common.ClearTextInputOnClickCommand;
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.common.RemoveItemOnSwipeCommand;
-import com.rrm.learnification.common.SetButtonStatusOnTextChangeListener;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
+import com.rrm.learnification.textlist.RemoveItemOnSwipeCommand;
 import com.rrm.learnification.toolbar.ByLearnificationScheduleStatus;
 import com.rrm.learnification.toolbar.FastForwardScheduleButton;
 

@@ -31,6 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
+import static org.junit.Assume.assumeFalse;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -98,6 +99,9 @@ public class AppToolbarTest {
 
     @Test
     public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() throws InterruptedException {
+        // If there are no learning items, the app will choose not to generate a learnification.
+        assumeFalse(activityTestRule.getActivity().getLearningItemRepository().items().isEmpty());
+
         waitACoupleOfSeconds();
 
         onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(is("Learnification ready"))));

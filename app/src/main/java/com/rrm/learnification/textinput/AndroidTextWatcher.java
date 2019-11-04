@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.textinput;
 
 import android.text.Editable;
 import android.text.TextWatcher;

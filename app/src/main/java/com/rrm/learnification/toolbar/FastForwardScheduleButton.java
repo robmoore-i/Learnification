@@ -1,6 +1,6 @@
 package com.rrm.learnification.toolbar;
 
-import com.rrm.learnification.common.AndroidButton;
+import com.rrm.learnification.button.AndroidButton;
 import com.rrm.learnification.common.AndroidLogger;
 
 public class FastForwardScheduleButton extends AndroidButton {

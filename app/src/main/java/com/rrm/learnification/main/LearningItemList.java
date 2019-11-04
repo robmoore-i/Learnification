@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.common.ItemListViewAdaptor;
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.common.OnSwipeCommand;
 import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.textlist.OnSwipeCommand;
+import com.rrm.learnification.textlist.TextListViewAdaptor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +19,7 @@ class LearningItemList {
     private final RecyclerView recyclerView;
     private final AndroidLogger logger;
 
-    private ItemListViewAdaptor adapter;
+    private TextListViewAdaptor adapter;
 
     LearningItemList(AndroidLogger logger, LearningItemListView learningItemListView) {
         this.logger = logger;

@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.AndroidLogger;
-import com.rrm.learnification.common.AndroidTextWatcher;
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.common.OnSubmitTextAction;
-import com.rrm.learnification.common.OnTextChangeListener;
 import com.rrm.learnification.settings.PeriodicityPickerView;
+import com.rrm.learnification.textinput.AndroidTextWatcher;
+import com.rrm.learnification.textinput.OnSubmitTextAction;
+import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.toolbar.ToolbarView;
 import com.rrm.learnification.toolbar.ToolbarViewParameters;
 import com.rrm.learnification.toolbar.ToolbarViewUpdate;

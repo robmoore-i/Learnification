@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.button;
 
 public interface OnClickCommand {
     static OnClickCommand doNothingOnClickCommand() {

@@ -1,6 +1,6 @@
 package com.rrm.learnification.toolbar;
 
-import com.rrm.learnification.common.OnClickCommand;
+import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 

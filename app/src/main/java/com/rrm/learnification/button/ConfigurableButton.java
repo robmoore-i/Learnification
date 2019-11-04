@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.button;
 
 public interface ConfigurableButton {
     void addOnClickHandler(OnClickCommand onClickCommand);

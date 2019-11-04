@@ -2,7 +2,7 @@ package com.rrm.learnification.toolbar;
 
 import android.support.annotation.Nullable;
 
-import com.rrm.learnification.common.ConfigurableButton;
+import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.publication.LearnificationScheduler;
 
 import java.util.Locale;

@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.textlist;
 
 import com.rrm.learnification.storage.ItemRepository;
 
@@ -10,7 +10,7 @@ public class RemoveItemOnSwipeCommand implements OnSwipeCommand {
     }
 
     @Override
-    public void onSwipe(ItemListViewAdaptor adapter, int index) {
+    public void onSwipe(TextListViewAdaptor adapter, int index) {
         adapter.remove(index);
         itemRepository.removeAt(index);
     }

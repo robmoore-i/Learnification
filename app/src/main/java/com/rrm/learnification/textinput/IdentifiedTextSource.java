@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.textinput;
 
 public interface IdentifiedTextSource {
     String identity();

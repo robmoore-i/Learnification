@@ -1,7 +1,7 @@
 package com.rrm.learnification.main;
 
+import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.common.OnClickCommand;
 import com.rrm.learnification.storage.ItemRepository;
 
 class AddLearningItemOnClickCommand implements OnClickCommand {

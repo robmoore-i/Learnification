@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.textlist;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,16 +6,18 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.rrm.learnification.common.AndroidLogger;
+
 import java.util.List;
 
-public abstract class ItemListViewAdaptor extends RecyclerView.Adapter<ItemListViewAdaptor.TextViewHolder> {
+public abstract class TextListViewAdaptor extends RecyclerView.Adapter<TextListViewAdaptor.TextViewHolder> {
     private final AndroidLogger logger;
     private final String LOG_TAG;
 
     private final int textViewId;
     private final List<String> textEntries;
 
-    public ItemListViewAdaptor(List<String> textEntries, AndroidLogger logger, String LOG_TAG, int textViewId) {
+    public TextListViewAdaptor(List<String> textEntries, AndroidLogger logger, String LOG_TAG, int textViewId) {
         this.textEntries = textEntries;
         this.logger = logger;
         this.LOG_TAG = LOG_TAG;

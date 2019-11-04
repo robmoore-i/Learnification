@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.button;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -6,6 +6,8 @@ import android.graphics.PorterDuff;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+
+import com.rrm.learnification.common.AndroidLogger;
 
 import java.util.ArrayList;
 import java.util.Collections;

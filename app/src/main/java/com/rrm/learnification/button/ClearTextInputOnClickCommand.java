@@ -1,4 +1,6 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.button;
+
+import com.rrm.learnification.textinput.TextInput;
 
 public class ClearTextInputOnClickCommand implements OnClickCommand {
     private final TextInput textInput;

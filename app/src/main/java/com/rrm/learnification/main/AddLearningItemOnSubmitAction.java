@@ -1,6 +1,6 @@
 package com.rrm.learnification.main;
 
-import com.rrm.learnification.common.OnSubmitTextAction;
+import com.rrm.learnification.textinput.OnSubmitTextAction;
 
 class AddLearningItemOnSubmitAction implements OnSubmitTextAction {
     private final AddLearningItemButton addLearningItemButton;
