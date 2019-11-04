@@ -16,7 +16,7 @@ import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.settings.PeriodicityPickerView;
 import com.rrm.learnification.textinput.AndroidTextWatcher;
-import com.rrm.learnification.textinput.OnSubmitTextAction;
+import com.rrm.learnification.textinput.OnSubmitTextCommand;
 import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.toolbar.ToolbarView;
 import com.rrm.learnification.toolbar.ToolbarViewParameters;
@@ -105,12 +105,12 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
     }
 
     @Override
-    public void setOnLearningItemSubmitAction(OnSubmitTextAction onSubmitTextAction) {
+    public void setOnLearningItemInputSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand) {
         TextView.OnEditorActionListener onEditorActionListener = (textView, actionId, event) -> {
             logger.v(LOG_TAG, "learning item text input received an action with id '" + actionId + "'");
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 logger.v(LOG_TAG, "learning item submitted via the virtual keyboard");
-                onSubmitTextAction.onSubmit();
+                onSubmitTextCommand.onSubmit();
             }
             return true;
         };

@@ -1,7 +1,7 @@
 package com.rrm.learnification.main;
 
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.textinput.OnSubmitTextAction;
+import com.rrm.learnification.textinput.OnSubmitTextCommand;
 import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.textinput.TextInput;
 
@@ -22,8 +22,8 @@ class LearningItemTextInput implements TextInput {
     }
 
     @Override
-    public void setOnSubmitAction(OnSubmitTextAction onSubmitTextAction) {
-        addLearningItemView.setOnLearningItemSubmitAction(onSubmitTextAction);
+    public void setOnSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand) {
+        addLearningItemView.setOnLearningItemInputSubmitTextCommand(onSubmitTextCommand);
     }
 
     @Override

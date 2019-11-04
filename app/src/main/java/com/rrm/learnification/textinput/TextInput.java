@@ -5,5 +5,5 @@ public interface TextInput {
 
     void clear();
 
-    void setOnSubmitAction(OnSubmitTextAction onSubmitTextAction);
+    void setOnSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand);
 }

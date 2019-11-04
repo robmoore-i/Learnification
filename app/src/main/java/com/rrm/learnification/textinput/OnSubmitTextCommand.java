@@ -1,5 +1,5 @@
 package com.rrm.learnification.textinput;
 
-public interface OnSubmitTextAction {
+public interface OnSubmitTextCommand {
     void onSubmit();
 }

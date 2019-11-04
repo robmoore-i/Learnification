@@ -1,11 +1,11 @@
 package com.rrm.learnification.main;
 
-import com.rrm.learnification.textinput.OnSubmitTextAction;
+import com.rrm.learnification.textinput.OnSubmitTextCommand;
 
-class AddLearningItemOnSubmitAction implements OnSubmitTextAction {
+class AddLearningItemOnSubmitCommand implements OnSubmitTextCommand {
     private final AddLearningItemButton addLearningItemButton;
 
-    AddLearningItemOnSubmitAction(AddLearningItemButton addLearningItemButton) {
+    AddLearningItemOnSubmitCommand(AddLearningItemButton addLearningItemButton) {
         this.addLearningItemButton = addLearningItemButton;
     }
 

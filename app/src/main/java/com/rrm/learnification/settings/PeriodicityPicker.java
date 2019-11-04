@@ -75,4 +75,8 @@ class PeriodicityPicker {
 
         periodicityPicker.setValue(pickerValue);
     }
+
+    int currentValueInSeconds() {
+        return periodicityPicker.getValue() * 60;
+    }
 }

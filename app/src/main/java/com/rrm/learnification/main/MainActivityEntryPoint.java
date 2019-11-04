@@ -48,7 +48,7 @@ class MainActivityEntryPoint {
 
     private void initialiseView() {
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(addLearningItemButton));
-        learningItemTextInput.setOnSubmitAction(new AddLearningItemOnSubmitAction(addLearningItemButton));
+        learningItemTextInput.setOnSubmitTextCommand(new AddLearningItemOnSubmitCommand(addLearningItemButton));
         addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, itemRepository, learningItemList));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
