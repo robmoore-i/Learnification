@@ -8,6 +8,7 @@ import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
+import com.rrm.learnification.textinput.SimulateButtonClickOnSubmitTextCommand;
 import com.rrm.learnification.textlist.RemoveItemOnSwipeCommand;
 import com.rrm.learnification.toolbar.FastForwardScheduleButton;
 import com.rrm.learnification.toolbar.LearnificationScheduleStatusUpdate;
@@ -48,7 +49,7 @@ class MainActivityEntryPoint {
 
     private void initialiseView() {
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(addLearningItemButton));
-        learningItemTextInput.setOnSubmitTextCommand(new AddLearningItemOnSubmitCommand(addLearningItemButton));
+        learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));
         addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, itemRepository, learningItemList));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
