@@ -7,8 +7,8 @@ import com.rrm.learnification.publication.LearnificationScheduler;
 
 import java.util.Optional;
 
-public class ByLearnificationScheduleStatus implements ToolbarViewUpdate {
-    private static final String LOG_TAG = "ByLearnificationScheduleStatus";
+public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
+    private static final String LOG_TAG = "LearnificationScheduleStatusUpdate";
 
     private final AndroidLogger logger;
     private final LearnificationScheduler learnificationScheduler;
@@ -16,7 +16,7 @@ public class ByLearnificationScheduleStatus implements ToolbarViewUpdate {
 
     private ToolbarViewParameters toolbarViewParameters = ToolbarViewParameters.empty();
 
-    public ByLearnificationScheduleStatus(AndroidLogger logger, LearnificationScheduler learnificationScheduler, ConfigurableButton fastForwardScheduleButton) {
+    public LearnificationScheduleStatusUpdate(AndroidLogger logger, LearnificationScheduler learnificationScheduler, ConfigurableButton fastForwardScheduleButton) {
         this.logger = logger;
         this.learnificationScheduler = learnificationScheduler;
         this.fastForwardScheduleButton = fastForwardScheduleButton;
@@ -31,7 +31,7 @@ public class ByLearnificationScheduleStatus implements ToolbarViewUpdate {
     }
 
     private void logChangeInToolbarViewParameters(ToolbarViewParameters toolbarViewParameters) {
-        if (!this.toolbarViewParameters.equals(toolbarViewParameters) || "scheduled".equals(toolbarViewParameters.getName())) {
+        if (!this.toolbarViewParameters.equals(toolbarViewParameters)) {
             this.toolbarViewParameters = toolbarViewParameters;
             logger.v(LOG_TAG, "updating activity toolbar using learnification status '" + toolbarViewParameters.getName() + "'");
         }

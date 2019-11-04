@@ -18,7 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ByLearnificationScheduleStatusTest {
+public class LearnificationScheduleStatusUpdateTest {
     private AndroidLogger mockLogger = mock(AndroidLogger.class);
     private LearnificationScheduler mockLearnificationScheduler = mock(LearnificationScheduler.class);
     private ConfigurableButton mockFastForwardScheduleButton = mock(ConfigurableButton.class);
@@ -30,12 +30,12 @@ public class ByLearnificationScheduleStatusTest {
     }
 
     @Test
-    public void doesntLogTheSameMessageTwice() {
+    public void doesntLogTheReadyMessageTwice() {
         when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(true);
-        ByLearnificationScheduleStatus byLearnificationScheduleStatus = new ByLearnificationScheduleStatus(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
-        byLearnificationScheduleStatus.update(mockToolbarView);
-        byLearnificationScheduleStatus.update(mockToolbarView);
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
 
         verify(mockLogger, times(1)).v(anyString(), contains("'ready'"));
     }
@@ -44,24 +44,36 @@ public class ByLearnificationScheduleStatusTest {
     public void logsTwoDifferentMessages() {
         when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
         when(mockLearnificationScheduler.secondsUntilNextLearnification(LearnificationPublishingService.class)).thenReturn(Optional.of(100)).thenReturn(Optional.empty());
-        ByLearnificationScheduleStatus byLearnificationScheduleStatus = new ByLearnificationScheduleStatus(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
-        byLearnificationScheduleStatus.update(mockToolbarView);
-        byLearnificationScheduleStatus.update(mockToolbarView);
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
 
         verify(mockLogger, times(1)).v(anyString(), contains("'scheduled'"));
         verify(mockLogger, times(1)).v(anyString(), contains("'not scheduled'"));
     }
 
     @Test
-    public void alwaysUpdatesToolbarViewIfStatusIsScheduled() {
+    public void doesntLogTheScheduledMessageTwice() {
         when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
         when(mockLearnificationScheduler.secondsUntilNextLearnification(LearnificationPublishingService.class)).thenReturn(Optional.of(100)).thenReturn(Optional.of(99));
-        ByLearnificationScheduleStatus byLearnificationScheduleStatus = new ByLearnificationScheduleStatus(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
-        byLearnificationScheduleStatus.update(mockToolbarView);
-        byLearnificationScheduleStatus.update(mockToolbarView);
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
 
-        verify(mockLogger, times(2)).v(anyString(), contains("'scheduled'"));
+        verify(mockLogger, times(1)).v(anyString(), contains("'scheduled'"));
+    }
+
+    @Test
+    public void doesntLogTheNotScheduledMessageTwice() {
+        when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
+        when(mockLearnificationScheduler.secondsUntilNextLearnification(LearnificationPublishingService.class)).thenReturn(Optional.empty()).thenReturn(Optional.empty());
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
+
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
+
+        verify(mockLogger, times(1)).v(anyString(), contains("'not scheduled'"));
     }
 }

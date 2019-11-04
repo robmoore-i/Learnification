@@ -9,8 +9,8 @@ import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
 import com.rrm.learnification.textlist.RemoveItemOnSwipeCommand;
-import com.rrm.learnification.toolbar.ByLearnificationScheduleStatus;
 import com.rrm.learnification.toolbar.FastForwardScheduleButton;
+import com.rrm.learnification.toolbar.LearnificationScheduleStatusUpdate;
 
 class MainActivityEntryPoint {
     private final AndroidNotificationFacade notificationFacade;
@@ -35,7 +35,7 @@ class MainActivityEntryPoint {
         this.addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
         this.learningItemList = new LearningItemList(logger, mainActivityView);
 
-        mainActivityView.addToolbarViewUpdate(new ByLearnificationScheduleStatus(logger, learnificationScheduler, new FastForwardScheduleButton(logger, mainActivityView)));
+        mainActivityView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, mainActivityView)));
     }
 
     void onMainActivityEntry() {
