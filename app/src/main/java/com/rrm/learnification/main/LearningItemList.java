@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.textlist.OnSwipeCommand;
 import com.rrm.learnification.textlist.TextListViewAdaptor;

@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.List;
 

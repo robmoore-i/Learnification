@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.time;
 
 import java.time.LocalDateTime;
 

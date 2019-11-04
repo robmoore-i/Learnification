@@ -1,6 +1,6 @@
 package com.rrm.learnification.response;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.NotificationManager;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;

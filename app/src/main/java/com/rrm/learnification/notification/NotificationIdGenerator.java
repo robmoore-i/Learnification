@@ -1,6 +1,6 @@
 package com.rrm.learnification.notification;
 
-import com.rrm.learnification.common.JavaInMemoryIdGenerator;
+import com.rrm.learnification.idgenerator.JavaInMemoryIdGenerator;
 
 class NotificationIdGenerator {
     private static final NotificationIdGenerator instance = new NotificationIdGenerator();

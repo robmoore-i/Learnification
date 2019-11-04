@@ -4,10 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.rrm.learnification.common.AndroidClock;
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidNotificationManager;
 import com.rrm.learnification.notification.NotificationManager;
@@ -16,6 +15,7 @@ import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
+import com.rrm.learnification.time.AndroidClock;
 
 public class LearnificationResponseService extends IntentService {
     private static final String LOG_TAG = "LearnificationResponseService";

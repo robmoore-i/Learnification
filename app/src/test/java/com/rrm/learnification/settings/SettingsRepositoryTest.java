@@ -1,6 +1,6 @@
 package com.rrm.learnification.settings;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import org.junit.Test;

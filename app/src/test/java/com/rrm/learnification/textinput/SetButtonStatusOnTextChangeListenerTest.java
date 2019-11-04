@@ -1,10 +1,7 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.textinput;
 
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
-import com.rrm.learnification.textinput.IdentifiedTextSource;
-import com.rrm.learnification.textinput.OnTextChangeListener;
-import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
 
 import org.junit.Before;
 import org.junit.Test;

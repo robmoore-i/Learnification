@@ -1,6 +1,6 @@
 package com.rrm.learnification.toolbar;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 
 public class AppToolbar {
     private static final String LOG_TAG = "AppToolbar";

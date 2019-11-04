@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.idgenerator;
 
 import org.junit.Before;
 import org.junit.Test;

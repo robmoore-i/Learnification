@@ -1,7 +1,7 @@
 package com.rrm.learnification.settings;
 
 import com.rrm.learnification.button.AndroidButton;
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 
 class SaveSettingsButton extends AndroidButton {
     SaveSettingsButton(AndroidLogger logger, SaveSettingsView saveSettingsView) {

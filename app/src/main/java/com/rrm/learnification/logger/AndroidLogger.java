@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.logger;
 
 import android.util.Log;
 

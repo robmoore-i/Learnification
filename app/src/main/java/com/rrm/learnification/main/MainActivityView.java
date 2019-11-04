@@ -12,8 +12,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.settings.PeriodicityPickerView;
 import com.rrm.learnification.textinput.AndroidTextWatcher;
 import com.rrm.learnification.textinput.OnSubmitTextAction;

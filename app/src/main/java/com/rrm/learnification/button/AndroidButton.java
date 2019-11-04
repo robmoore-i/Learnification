@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.ArrayList;
 import java.util.Collections;

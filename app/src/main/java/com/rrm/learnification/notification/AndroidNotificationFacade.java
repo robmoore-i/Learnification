@@ -7,8 +7,8 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.logger.AndroidLogger;
 
 public class AndroidNotificationFacade {
     public static final String CHANNEL_ID = "learnification";

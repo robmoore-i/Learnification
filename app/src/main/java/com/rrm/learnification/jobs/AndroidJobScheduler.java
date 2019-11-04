@@ -5,9 +5,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.PersistableBundle;
 
-import com.rrm.learnification.common.AndroidClock;
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.settings.DelayRange;
+import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

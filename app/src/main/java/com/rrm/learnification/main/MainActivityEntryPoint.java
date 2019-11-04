@@ -1,8 +1,8 @@
 package com.rrm.learnification.main;
 
 import com.rrm.learnification.button.ClearTextInputOnClickCommand;
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;

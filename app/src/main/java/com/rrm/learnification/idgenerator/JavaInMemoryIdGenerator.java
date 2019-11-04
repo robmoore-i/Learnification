@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification.idgenerator;
 
 public class JavaInMemoryIdGenerator {
     private int nextId = 0;

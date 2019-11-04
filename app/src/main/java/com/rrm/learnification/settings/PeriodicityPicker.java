@@ -3,7 +3,7 @@ package com.rrm.learnification.settings;
 import android.annotation.SuppressLint;
 import android.widget.NumberPicker;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

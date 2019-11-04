@@ -1,6 +1,6 @@
 package com.rrm.learnification.publication;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.settings.DelayRange;
 import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.settings.SettingsRepository;

@@ -3,8 +3,8 @@ package com.rrm.learnification.publication;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.random.JavaRandomiser;
 import com.rrm.learnification.storage.ItemRepository;

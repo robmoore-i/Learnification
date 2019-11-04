@@ -2,8 +2,8 @@ package com.rrm.learnification.publication;
 
 import android.app.Notification;
 
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.CantGenerateNotificationTextException;
 

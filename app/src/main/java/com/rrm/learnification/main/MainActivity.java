@@ -9,12 +9,11 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.common.AndroidClock;
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidNotificationManager;
@@ -31,6 +30,7 @@ import com.rrm.learnification.storage.LearningItemSqlTableInterface;
 import com.rrm.learnification.storage.LearningItemStorage;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLiteLearningItemStorage;
+import com.rrm.learnification.time.AndroidClock;
 
 public class MainActivity extends AppCompatActivity {
     private final AndroidLogger logger = new AndroidLogger();

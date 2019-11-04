@@ -1,6 +1,6 @@
 package com.rrm.learnification.settings;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 
 class StorePeriodicityOnValuePickedCommand implements OnValuePickedCommand {
     private static final String LOG_TAG = "StorePeriodicityOnValuePickedCommand";

@@ -1,7 +1,7 @@
 package com.rrm.learnification.main;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.textlist.TextListViewAdaptor;
 
 import java.util.List;

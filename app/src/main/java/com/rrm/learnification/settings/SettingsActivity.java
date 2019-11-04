@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.button.FinishActivityOnClickCommand;
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.toolbar.AppToolbar;

@@ -1,6 +1,6 @@
 package com.rrm.learnification.jobs;
 
-import com.rrm.learnification.common.JavaInMemoryIdGenerator;
+import com.rrm.learnification.idgenerator.JavaInMemoryIdGenerator;
 
 public class JobIdGenerator {
     private static final JobIdGenerator instance = new JobIdGenerator();

@@ -3,7 +3,7 @@ package com.rrm.learnification.storage;
 import android.content.Context;
 import android.content.ContextWrapper;
 
-import com.rrm.learnification.common.AndroidLogger;
+import com.rrm.learnification.logger.AndroidLogger;
 
 import java.io.BufferedReader;
 import java.io.File;
