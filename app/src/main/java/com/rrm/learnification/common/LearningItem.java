@@ -9,6 +9,9 @@ public class LearningItem {
     public final String right;
 
     public LearningItem(String left, String right) {
+        if (left == null || right == null) {
+            throw new IllegalArgumentException();
+        }
         this.left = left;
         this.right = right;
     }

@@ -36,10 +36,10 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     }
 
     @Override
-    public void add(LearningItem learningItem) {
-        logger.v(LOG_TAG, "adding a learning-item '" + learningItem.asSingleString() + "'");
-        learningItemStorage.write(learningItem);
-        learningItems.add(learningItem);
+    public void add(LearningItem item) {
+        logger.v(LOG_TAG, "adding a learning-item '" + item.asSingleString() + "'");
+        learningItemStorage.write(item);
+        learningItems.add(item);
     }
 
     @Override

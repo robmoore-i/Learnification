@@ -17,8 +17,12 @@ class AddLearningItemOnClickCommand implements OnClickCommand {
 
     @Override
     public void onClick() {
-        LearningItem learningItem = learningItemTextInput.getLearningItem();
-        itemRepository.add(learningItem);
-        learningItemList.addTextEntry(learningItem.asSingleString());
+        try {
+            LearningItem learningItem = learningItemTextInput.getLearningItem();
+            itemRepository.add(learningItem);
+            learningItemList.addTextEntry(learningItem.asSingleString());
+        } catch (Exception e) {
+            throw new CantAddLearningItemException(e);
+        }
     }
 }
