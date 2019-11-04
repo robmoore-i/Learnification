@@ -8,8 +8,8 @@ import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
-import com.rrm.learnification.notification.AndroidNotificationManager;
-import com.rrm.learnification.notification.NotificationManager;
+import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
+import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
 import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.settings.SettingsRepository;
@@ -33,15 +33,15 @@ public class LearnificationResponseService extends IntentService {
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
         AndroidLearnificationResponseIntent responseIntent = new AndroidLearnificationResponseIntent(intent);
         LearnificationResponseContentGenerator responseContentGenerator = new LearnificationResponseContentGenerator(scheduleConfiguration);
-        NotificationManager notificationManager = new AndroidNotificationManager(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), new AndroidNotificationFactory(logger, this));
+        ResponseNotificationCorrespondent responseNotificationCorrespondent = new AndroidResponseNotificationCorrespondent(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), new AndroidNotificationFactory(logger, this));
         AndroidClock clock = new AndroidClock();
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), clock), scheduleConfiguration, clock, notificationManager);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), clock), scheduleConfiguration, clock, responseNotificationCorrespondent);
 
         logger.v(LOG_TAG, "handling learnification response intent: " + responseIntent.toString());
 
         LearnificationResponseServiceEntryPoint learnificationResponseServiceEntryPoint = new LearnificationResponseServiceEntryPoint(
                 logger,
-                notificationManager,
+                responseNotificationCorrespondent,
                 learnificationScheduler,
                 responseContentGenerator
         );

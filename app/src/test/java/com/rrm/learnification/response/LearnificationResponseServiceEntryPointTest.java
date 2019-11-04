@@ -1,7 +1,7 @@
 package com.rrm.learnification.response;
 
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.NotificationManager;
+import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 
@@ -21,7 +21,7 @@ public class LearnificationResponseServiceEntryPointTest {
     private NotificationTextContent content = new NotificationTextContent("title", "text");
 
     private AndroidLogger mockLogger = mock(AndroidLogger.class);
-    private NotificationManager mockNotificationManager = mock(NotificationManager.class);
+    private ResponseNotificationCorrespondent mockResponseNotificationCorrespondent = mock(ResponseNotificationCorrespondent.class);
     private LearnificationScheduler mockLearnificationScheduler = mock(LearnificationScheduler.class);
     private LearnificationResponseContentGenerator mockContentGenerator = mock(LearnificationResponseContentGenerator.class);
 
@@ -31,7 +31,7 @@ public class LearnificationResponseServiceEntryPointTest {
 
     @Before
     public void beforeEach() {
-        Mockito.reset(mockLogger, mockNotificationManager, mockLearnificationScheduler, mockContentGenerator, stubIntent);
+        Mockito.reset(mockLogger, mockResponseNotificationCorrespondent, mockLearnificationScheduler, mockContentGenerator, stubIntent);
 
         when(stubIntent.expectedUserResponse()).thenReturn(userExpectedResponse);
         when(stubIntent.actualUserResponse()).thenReturn(userActualResponse);
@@ -39,7 +39,7 @@ public class LearnificationResponseServiceEntryPointTest {
 
         learnificationResponseServiceEntryPoint = new LearnificationResponseServiceEntryPoint(
                 mockLogger,
-                mockNotificationManager,
+                mockResponseNotificationCorrespondent,
                 mockLearnificationScheduler,
                 mockContentGenerator
         );
@@ -62,7 +62,7 @@ public class LearnificationResponseServiceEntryPointTest {
 
         learnificationResponseServiceEntryPoint.onHandleIntent(stubIntent);
 
-        verify(mockNotificationManager, times(1)).updateLatestWithReply(content);
+        verify(mockResponseNotificationCorrespondent, times(1)).updateLatestWithReply(content);
     }
 
     @Test

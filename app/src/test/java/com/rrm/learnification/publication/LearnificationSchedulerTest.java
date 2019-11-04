@@ -2,7 +2,7 @@ package com.rrm.learnification.publication;
 
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.NotificationManager;
+import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
 import com.rrm.learnification.settings.DelayRange;
 import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.time.AndroidClock;
@@ -34,13 +34,13 @@ public class LearnificationSchedulerTest {
     private final JobScheduler mockJobScheduler = mock(JobScheduler.class);
     private final ScheduleConfiguration stubScheduleConfiguration = mock(ScheduleConfiguration.class);
     private final AndroidClock stubAndroidClock = mock(AndroidClock.class);
-    private final NotificationManager stubNotificationManager = mock(NotificationManager.class);
+    private final ResponseNotificationCorrespondent stubResponseNotificationCorrespondent = mock(ResponseNotificationCorrespondent.class);
 
     @Before
     public void beforeEach() {
-        reset(mockLogger, mockJobScheduler, stubScheduleConfiguration, mockJobScheduler, stubAndroidClock, stubNotificationManager);
+        reset(mockLogger, mockJobScheduler, stubScheduleConfiguration, mockJobScheduler, stubAndroidClock, stubResponseNotificationCorrespondent);
         when(mockJobScheduler.hasPendingJob(serviceClass, earliestStartTimeDelayMs)).thenReturn(false);
-        when(stubNotificationManager.hasActiveLearnifications()).thenReturn(false);
+        when(stubResponseNotificationCorrespondent.hasActiveLearnifications()).thenReturn(false);
         when(stubAndroidClock.now()).thenReturn(fivePmSeptFirst);
     }
 
@@ -48,7 +48,7 @@ public class LearnificationSchedulerTest {
     public void itPassesTheScheduleThroughToTheScheduler() {
         when(stubScheduleConfiguration.getDelayRange()).thenReturn(delayRange);
         when(mockJobScheduler.isAnythingScheduledForTomorrow()).thenReturn(true);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubNotificationManager);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubResponseNotificationCorrespondent);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
@@ -60,7 +60,7 @@ public class LearnificationSchedulerTest {
         when(stubScheduleConfiguration.getDelayRange()).thenReturn(delayRange);
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(mockJobScheduler.isAnythingScheduledForTomorrow()).thenReturn(false);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubNotificationManager);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubResponseNotificationCorrespondent);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
@@ -72,7 +72,7 @@ public class LearnificationSchedulerTest {
         when(stubScheduleConfiguration.getDelayRange()).thenReturn(delayRange);
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(mockJobScheduler.isAnythingScheduledForTomorrow()).thenReturn(false);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubNotificationManager);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubResponseNotificationCorrespondent);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
@@ -84,7 +84,7 @@ public class LearnificationSchedulerTest {
         when(stubScheduleConfiguration.getDelayRange()).thenReturn(delayRange);
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(mockJobScheduler.isAnythingScheduledForTomorrow()).thenReturn(false);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubNotificationManager);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubResponseNotificationCorrespondent);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
@@ -99,7 +99,7 @@ public class LearnificationSchedulerTest {
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(mockJobScheduler.isAnythingScheduledForTomorrow()).thenReturn(false);
         when(mockJobScheduler.hasPendingJob(serviceClass, earliestStartTimeDelayMs)).thenReturn(true);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubNotificationManager);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubResponseNotificationCorrespondent);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
@@ -111,8 +111,8 @@ public class LearnificationSchedulerTest {
         when(stubScheduleConfiguration.getDelayRange()).thenReturn(delayRange);
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(mockJobScheduler.isAnythingScheduledForTomorrow()).thenReturn(false);
-        when(stubNotificationManager.hasActiveLearnifications()).thenReturn(true);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubNotificationManager);
+        when(stubResponseNotificationCorrespondent.hasActiveLearnifications()).thenReturn(true);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubResponseNotificationCorrespondent);
 
         learnificationScheduler.scheduleJob(serviceClass);
 
@@ -124,7 +124,7 @@ public class LearnificationSchedulerTest {
         when(stubScheduleConfiguration.getDelayRange()).thenReturn(delayRange);
         when(stubScheduleConfiguration.getFirstLearnificationTime()).thenReturn(nineAm);
         when(mockJobScheduler.isAnythingScheduledForTomorrow()).thenReturn(false);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubNotificationManager);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(mockLogger, mockJobScheduler, stubScheduleConfiguration, stubAndroidClock, stubResponseNotificationCorrespondent);
 
         learnificationScheduler.scheduleImminentJob(serviceClass);
 

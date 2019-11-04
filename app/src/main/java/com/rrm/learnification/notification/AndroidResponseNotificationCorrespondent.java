@@ -1,24 +1,25 @@
 package com.rrm.learnification.notification;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.rrm.learnification.response.NotificationTextContent;
 
 import java.util.Arrays;
 
-public class AndroidNotificationManager implements NotificationManager {
-    private final android.app.NotificationManager systemNotificationManager;
+public class AndroidResponseNotificationCorrespondent implements ResponseNotificationCorrespondent {
+    private final NotificationManager systemNotificationManager;
     private final NotificationManagerCompat notificationManagerCompat;
     private final AndroidNotificationFactory androidNotificationFactory;
 
-    public AndroidNotificationManager(android.app.NotificationManager systemNotificationManager, NotificationManagerCompat notificationManagerCompat, AndroidNotificationFactory androidNotificationFactory) {
+    public AndroidResponseNotificationCorrespondent(NotificationManager systemNotificationManager, NotificationManagerCompat notificationManagerCompat, AndroidNotificationFactory androidNotificationFactory) {
         this.systemNotificationManager = systemNotificationManager;
         this.notificationManagerCompat = notificationManagerCompat;
         this.androidNotificationFactory = androidNotificationFactory;
     }
 
-    public AndroidNotificationManager(android.app.NotificationManager systemNotificationManager, NotificationManagerCompat notificationManagerCompat, AndroidNotificationFacade androidNotificationFacade) {
+    public AndroidResponseNotificationCorrespondent(NotificationManager systemNotificationManager, NotificationManagerCompat notificationManagerCompat, AndroidNotificationFacade androidNotificationFacade) {
         this.systemNotificationManager = systemNotificationManager;
         this.notificationManagerCompat = notificationManagerCompat;
         this.androidNotificationFactory = androidNotificationFacade.factory;

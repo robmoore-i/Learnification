@@ -2,7 +2,7 @@ package com.rrm.learnification.publication;
 
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.NotificationManager;
+import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
 import com.rrm.learnification.settings.DelayRange;
 import com.rrm.learnification.settings.ScheduleConfiguration;
 import com.rrm.learnification.time.AndroidClock;
@@ -17,16 +17,16 @@ public class LearnificationScheduler {
     private final JobScheduler jobScheduler;
     private final ScheduleConfiguration scheduleConfiguration;
     private final AndroidClock androidClock;
-    private final NotificationManager notificationManager;
+    private final ResponseNotificationCorrespondent responseNotificationCorrespondent;
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, AndroidClock androidClock, NotificationManager notificationManager) {
+    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, AndroidClock androidClock, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;
         this.androidClock = androidClock;
-        this.notificationManager = notificationManager;
+        this.responseNotificationCorrespondent = responseNotificationCorrespondent;
     }
 
     public void scheduleImminentJob(Class<?> serviceClass) {
@@ -45,7 +45,7 @@ public class LearnificationScheduler {
             logger.v(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");
             return;
         } else if (learnificationAvailable()) {
-            logger.v(LOG_TAG, "ignoring learnification scheduling request because notificationManager reports that there is one active");
+            logger.v(LOG_TAG, "ignoring learnification scheduling request because responseNotificationCorrespondent reports that there is one active");
             return;
         }
 
@@ -66,7 +66,7 @@ public class LearnificationScheduler {
     }
 
     public boolean learnificationAvailable() {
-        return notificationManager.hasActiveLearnifications();
+        return responseNotificationCorrespondent.hasActiveLearnifications();
     }
 
     private boolean upcomingLearnificationScheduled(Class<?> serviceClass) {
