@@ -44,7 +44,9 @@ public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
             Optional<Integer> optionalSeconds = learnificationScheduler.secondsUntilNextLearnification(LearnificationPublishingService.class);
             if (optionalSeconds.isPresent()) {
                 int seconds = optionalSeconds.get();
-                logger.v(LOG_TAG, "next learnification will trigger in " + seconds + " seconds");
+                if (!"scheduled".equals(toolbarViewParameters.getName())) {
+                    logger.v(LOG_TAG, "next learnification will trigger in " + seconds + " seconds");
+                }
                 return new ToolbarViewParameters.LearnificationScheduled(learnificationScheduler, seconds);
             } else {
                 return new ToolbarViewParameters.LearnificationNotScheduled(learnificationScheduler);

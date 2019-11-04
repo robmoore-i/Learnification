@@ -76,4 +76,16 @@ public class LearnificationScheduleStatusUpdateTest {
 
         verify(mockLogger, times(1)).v(anyString(), contains("'not scheduled'"));
     }
+
+    @Test
+    public void doesntLogTheTimeUntilNextLearnificationRepeatedlyAsACountdown() {
+        when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
+        when(mockLearnificationScheduler.secondsUntilNextLearnification(LearnificationPublishingService.class)).thenReturn(Optional.of(100)).thenReturn(Optional.of(99));
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
+
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
+        learnificationScheduleStatusUpdate.update(mockToolbarView);
+
+        verify(mockLogger, times(1)).v(anyString(), contains("next learnification will trigger in"));
+    }
 }
