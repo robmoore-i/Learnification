@@ -6,6 +6,7 @@ import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.publication.LearnificationScheduler;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public interface ToolbarViewParameters {
     String toolbarTitle();
@@ -44,6 +45,11 @@ public interface ToolbarViewParameters {
             if (!(obj instanceof EquatableToolbarViewParameters)) return false;
             EquatableToolbarViewParameters other = (EquatableToolbarViewParameters) obj;
             return this.getName().equals(other.getName());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getName());
         }
     }
 
