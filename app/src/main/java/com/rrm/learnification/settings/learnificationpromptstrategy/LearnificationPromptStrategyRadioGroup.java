@@ -22,7 +22,7 @@ public class LearnificationPromptStrategyRadioGroup {
         bindRadioButtonActions();
     }
 
-    public LearnificationPromptStrategy getValue() {
+    LearnificationPromptStrategy getValue() {
         return radioGroupMappings.optionOfViewId(view.viewIdOfCheckedOption());
     }
 
