@@ -1,11 +1,11 @@
 package com.rrm.learnification.settings.learnificationpromptstrategy;
 
-import android.util.SparseArray;
-
-import com.rrm.learnification.radiogroup.RadioGroupChangeListener;
+import com.rrm.learnification.radiogroup.RadioGroupMappings;
 
 public interface LearnificationPromptStrategyRadioGroupView {
-    SparseArray<LearnificationPromptStrategy> learnificationPromptStrategyRadioGroupOptions();
+    void bindLearnificationPromptStrategyRadioGroup(RadioGroupMappings<LearnificationPromptStrategy> radioGroupMappings);
 
-    void bindLearnificationPromptStrategyRadioGroup(RadioGroupChangeListener<LearnificationPromptStrategy> radioGroupChangeListener);
+    void checkLearnificationPromptStrategy(int radioButtonViewId);
+
+    RadioGroupMappings<LearnificationPromptStrategy> radioGroupMappings();
 }

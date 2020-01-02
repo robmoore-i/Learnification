@@ -10,8 +10,18 @@ public class JavaRandomiser implements Randomiser {
     private final Random random = new Random();
 
     @Override
-    public LearnificationText randomLearnificationQuestion(List<LearningItem> learningItems) {
-        return chooseRandomLearningItemSide(chooseRandomLearningItem(learningItems));
+    public LearnificationText randomMixedLearnificationQuestion(List<LearningItem> learningItems) {
+        return randomSideText(chooseRandomLearningItem(learningItems));
+    }
+
+    @Override
+    public LearnificationText randomLeftToRightLearnificationQuestion(List<LearningItem> learningItems) {
+        return leftToRightText(chooseRandomLearningItem(learningItems));
+    }
+
+    @Override
+    public LearnificationText randomRightToLeftLearnificationQuestion(List<LearningItem> learningItems) {
+        return rightToLeftText(chooseRandomLearningItem(learningItems));
     }
 
     private LearningItem chooseRandomLearningItem(List<LearningItem> learningItems) {
@@ -19,11 +29,19 @@ public class JavaRandomiser implements Randomiser {
         return learningItems.get(n);
     }
 
-    private LearnificationText chooseRandomLearningItemSide(LearningItem learningItem) {
+    private LearnificationText randomSideText(LearningItem learningItem) {
         if (random.nextBoolean()) {
-            return new LearnificationText(learningItem.left, learningItem.right, "Learn!");
+            return leftToRightText(learningItem);
         } else {
-            return new LearnificationText(learningItem.right, learningItem.left, "Learn!");
+            return rightToLeftText(learningItem);
         }
+    }
+
+    private LearnificationText rightToLeftText(LearningItem learningItem) {
+        return new LearnificationText(learningItem.right, learningItem.left);
+    }
+
+    private LearnificationText leftToRightText(LearningItem learningItem) {
+        return new LearnificationText(learningItem.left, learningItem.right);
     }
 }

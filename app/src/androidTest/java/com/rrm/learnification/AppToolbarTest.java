@@ -61,7 +61,7 @@ public class AppToolbarTest {
 
         waitACoupleOfSeconds();
 
-        Notification learnification = activityTestRule.getActivity().getAndroidNotificationFactory().createLearnification(new LearnificationText("a", "b", "c"));
+        Notification learnification = activityTestRule.getActivity().getAndroidNotificationFactory().createLearnification(new LearnificationText("a", "b"));
         NotificationManagerCompat.from(activityTestRule.getActivity()).notify(0, learnification);
 
         waitACoupleOfSeconds();

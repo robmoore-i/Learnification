@@ -1,15 +1,17 @@
 package com.rrm.learnification.settings;
 
-import android.util.SparseArray;
+import android.annotation.SuppressLint;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.radiogroup.RadioGroupChangeListener;
+import com.rrm.learnification.radiogroup.RadioGroupMappings;
 import com.rrm.learnification.settings.learnificationdelay.DelayPickerView;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategyRadioGroupView;
 import com.rrm.learnification.toolbar.SimpleToolbarView;
+
+import java.util.HashMap;
 
 import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.LEFT_TO_RIGHT;
 import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.MIXED;
@@ -33,17 +35,38 @@ public class SettingsActivityView implements SimpleToolbarView, DelayPickerView,
     }
 
     @Override
-    public SparseArray<LearnificationPromptStrategy> learnificationPromptStrategyRadioGroupOptions() {
-        SparseArray<LearnificationPromptStrategy> options = new SparseArray<>();
+    public void bindLearnificationPromptStrategyRadioGroup(RadioGroupMappings<LearnificationPromptStrategy> radioGroupMappings) {
+        learnificationPromptStrategyRadioGroup().setOnCheckedChangeListener((group, checkedId) -> radioGroupMappings.onChecked(checkedId));
+    }
+
+    @Override
+    public void checkLearnificationPromptStrategy(int radioButtonViewId) {
+        learnificationPromptStrategyRadioGroup().check(radioButtonViewId);
+    }
+
+    @Override
+    public RadioGroupMappings<LearnificationPromptStrategy> radioGroupMappings() {
+        return new RadioGroupMappings<>(learnificationPromptStrategyRadioGroupOptions(), learnificationPromptStrategyRadioGroupViewIds());
+    }
+
+    private HashMap<Integer, LearnificationPromptStrategy> learnificationPromptStrategyRadioGroupOptions() {
+        @SuppressLint("UseSparseArrays")
+        HashMap<Integer, LearnificationPromptStrategy> options = new HashMap<>();
         options.put(R.id.left_to_right, LEFT_TO_RIGHT);
         options.put(R.id.right_to_left, RIGHT_TO_LEFT);
         options.put(R.id.mixed_left_and_right, MIXED);
         return options;
     }
 
-    @Override
-    public void bindLearnificationPromptStrategyRadioGroup(RadioGroupChangeListener<LearnificationPromptStrategy> radioGroupChangeListener) {
-        RadioGroup radioGroup = activity.findViewById(R.id.learnification_prompt_strategy_radio_group);
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> radioGroupChangeListener.onChecked(checkedId));
+    private HashMap<LearnificationPromptStrategy, Integer> learnificationPromptStrategyRadioGroupViewIds() {
+        HashMap<LearnificationPromptStrategy, Integer> viewIds = new HashMap<>();
+        viewIds.put(LEFT_TO_RIGHT, R.id.left_to_right);
+        viewIds.put(RIGHT_TO_LEFT, R.id.right_to_left);
+        viewIds.put(MIXED, R.id.mixed_left_and_right);
+        return viewIds;
+    }
+
+    private RadioGroup learnificationPromptStrategyRadioGroup() {
+        return activity.findViewById(R.id.learnification_prompt_strategy_radio_group);
     }
 }

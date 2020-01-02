@@ -36,6 +36,15 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     }
 
     @Override
+    public List<LearningItem> itemsOrThrowIfEmpty() {
+        List<LearningItem> learningItems = items();
+        if (learningItems.isEmpty()) {
+            throw new IllegalStateException("there are no learning items");
+        }
+        return learningItems;
+    }
+
+    @Override
     public void add(LearningItem item) {
         logger.v(LOG_TAG, "adding a learning-item '" + item.asSingleString() + "'");
         learningItemStorage.write(item);

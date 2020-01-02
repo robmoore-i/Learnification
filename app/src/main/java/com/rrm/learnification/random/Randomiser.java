@@ -6,5 +6,9 @@ import com.rrm.learnification.common.LearningItem;
 import java.util.List;
 
 public interface Randomiser {
-    LearnificationText randomLearnificationQuestion(List<LearningItem> learningItems);
+    LearnificationText randomMixedLearnificationQuestion(List<LearningItem> learningItems);
+
+    LearnificationText randomLeftToRightLearnificationQuestion(List<LearningItem> learningItems);
+
+    LearnificationText randomRightToLeftLearnificationQuestion(List<LearningItem> learningItems);
 }

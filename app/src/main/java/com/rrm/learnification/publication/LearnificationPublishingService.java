@@ -6,7 +6,8 @@ import android.app.job.JobService;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
-import com.rrm.learnification.random.JavaRandomiser;
+import com.rrm.learnification.settings.SettingsRepository;
+import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
 import com.rrm.learnification.storage.LearningItemSqlTableInterface;
@@ -35,7 +36,9 @@ public class LearnificationPublishingService extends JobService {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
         }
 
-        LearnificationTextGenerator learnificationTextGenerator = new LearnificationTextGenerator(new JavaRandomiser(), itemRepository);
+        SettingsRepository settingsRepository = new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this));
+        LearnificationTextGenerator learnificationTextGenerator = settingsRepository.learnificationTextGenerator(itemRepository);
+
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 logger,

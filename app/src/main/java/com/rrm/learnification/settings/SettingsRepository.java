@@ -1,8 +1,11 @@
 package com.rrm.learnification.settings;
 
+import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.publication.LearnificationTextGenerator;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
 import com.rrm.learnification.storage.FileStorageAdaptor;
+import com.rrm.learnification.storage.ItemRepository;
 
 import java.io.FileNotFoundException;
 import java.util.Collections;
@@ -72,5 +75,9 @@ public class SettingsRepository {
             logger.v(LOG_TAG, "returning default value '" + defaultValue + "'");
             return defaultValue;
         }
+    }
+
+    public LearnificationTextGenerator learnificationTextGenerator(ItemRepository<LearningItem> itemRepository) {
+        return readLearnificationPromptStrategy().toLearnificationTextGenerator(itemRepository);
     }
 }

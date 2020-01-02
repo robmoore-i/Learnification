@@ -32,7 +32,7 @@ public class AndroidNotificationFactoryTest {
 
     @Test
     public void itGeneratesLearnificationWithABundleContainingTheNotificationType() {
-        Notification learnification = androidNotificationFactory.createLearnification(new LearnificationText("a", "b", "yo"));
+        Notification learnification = androidNotificationFactory.createLearnification(new LearnificationText("a", "b"));
 
         assertThat(learnification.extras.getString(AndroidNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION));
     }

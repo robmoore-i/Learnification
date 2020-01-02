@@ -5,7 +5,6 @@ import android.app.Notification;
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
-import com.rrm.learnification.notification.CantGenerateNotificationTextException;
 
 class LearnificationPublisher {
     private static final String LOG_TAG = "LearnificationPublisher";
@@ -27,7 +26,9 @@ class LearnificationPublisher {
             Notification notification = androidNotificationFacade.createLearnification(learnificationText);
 
             androidNotificationFacade.publish(notification);
-        } catch (CantGenerateNotificationTextException e) {
+        } catch (IllegalStateException e) {
+            logger.v(LOG_TAG, "didn't publish a learnification because '" + e.getMessage() + "'");
+        } catch (Exception e) {
             logger.e(LOG_TAG, e);
         }
     }

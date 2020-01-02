@@ -5,9 +5,9 @@ public class LearnificationText {
     public final String expected;
     public final String subHeading;
 
-    public LearnificationText(String given, String expected, String subHeading) {
+    public LearnificationText(String given, String expected) {
         this.expected = expected;
         this.given = given;
-        this.subHeading = subHeading;
+        this.subHeading = "Learn!";
     }
 }
