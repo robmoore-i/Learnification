@@ -1,13 +1,14 @@
-package com.rrm.learnification.settings;
+package com.rrm.learnification.settings.learnificationdelay;
 
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.settings.SettingsRepository;
 
-class StoreDelayOnValuePickedCommand implements OnValuePickedCommand {
+public class StoreDelayOnValuePickedCommand implements OnValuePickedCommand {
     private static final String LOG_TAG = "StoreDelayOnValuePickedCommand";
     private final AndroidLogger logger;
     private final SettingsRepository settingsRepository;
 
-    StoreDelayOnValuePickedCommand(AndroidLogger logger, SettingsRepository settingsRepository) {
+    public StoreDelayOnValuePickedCommand(AndroidLogger logger, SettingsRepository settingsRepository) {
         this.logger = logger;
         this.settingsRepository = settingsRepository;
     }

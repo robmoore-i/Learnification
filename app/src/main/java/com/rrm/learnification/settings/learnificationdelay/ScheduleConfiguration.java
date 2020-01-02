@@ -1,6 +1,7 @@
-package com.rrm.learnification.settings;
+package com.rrm.learnification.settings.learnificationdelay;
 
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.settings.SettingsRepository;
 
 import java.sql.Time;
 

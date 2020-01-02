@@ -6,14 +6,14 @@ import android.content.Context;
 import android.os.PersistableBundle;
 
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.settings.DelayRange;
+import com.rrm.learnification.settings.learnificationdelay.DelayRange;
 import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.rrm.learnification.settings.ScheduleConfiguration.getImminentDelayRange;
+import static com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration.getImminentDelayRange;
 
 public class AndroidJobScheduler implements JobScheduler {
     private static final String LOG_TAG = "AndroidJobScheduler";

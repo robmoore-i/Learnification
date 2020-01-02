@@ -1,6 +1,6 @@
 package com.rrm.learnification.response;
 
-import com.rrm.learnification.settings.ScheduleConfiguration;
+import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 
 class LearnificationResponseContentGenerator {
     private final ScheduleConfiguration scheduleConfiguration;

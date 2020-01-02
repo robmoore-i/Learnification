@@ -3,8 +3,8 @@ package com.rrm.learnification.publication;
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
-import com.rrm.learnification.settings.DelayRange;
-import com.rrm.learnification.settings.ScheduleConfiguration;
+import com.rrm.learnification.settings.learnificationdelay.DelayRange;
+import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 import com.rrm.learnification.time.AndroidClock;
 
 import java.sql.Time;

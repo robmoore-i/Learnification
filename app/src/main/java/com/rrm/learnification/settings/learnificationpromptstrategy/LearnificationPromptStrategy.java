@@ -1,6 +1,6 @@
-package com.rrm.learnification.settings;
+package com.rrm.learnification.settings.learnificationpromptstrategy;
 
-enum LearnificationPromptStrategy {
+public enum LearnificationPromptStrategy {
     LEFT_TO_RIGHT,
     RIGHT_TO_LEFT,
     MIXED;

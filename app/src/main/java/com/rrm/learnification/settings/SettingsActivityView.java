@@ -6,13 +6,16 @@ import android.widget.RadioGroup;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.radiogroup.RadioGroupChangeListener;
+import com.rrm.learnification.settings.learnificationdelay.DelayPickerView;
+import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
+import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategyRadioGroupView;
 import com.rrm.learnification.toolbar.SimpleToolbarView;
 
-import static com.rrm.learnification.settings.LearnificationPromptStrategy.LEFT_TO_RIGHT;
-import static com.rrm.learnification.settings.LearnificationPromptStrategy.MIXED;
-import static com.rrm.learnification.settings.LearnificationPromptStrategy.RIGHT_TO_LEFT;
+import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.LEFT_TO_RIGHT;
+import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.MIXED;
+import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.RIGHT_TO_LEFT;
 
-class SettingsActivityView implements SimpleToolbarView, DelayPickerView, LearnificationPromptStrategyRadioGroupView {
+public class SettingsActivityView implements SimpleToolbarView, DelayPickerView, LearnificationPromptStrategyRadioGroupView {
     private final SettingsActivity activity;
 
     SettingsActivityView(SettingsActivity activity) {

@@ -1,4 +1,4 @@
-package com.rrm.learnification.settings;
+package com.rrm.learnification.settings.learnificationdelay;
 
 import android.widget.NumberPicker;
 

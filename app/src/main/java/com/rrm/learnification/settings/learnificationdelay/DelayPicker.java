@@ -1,4 +1,4 @@
-package com.rrm.learnification.settings;
+package com.rrm.learnification.settings.learnificationdelay;
 
 import android.annotation.SuppressLint;
 import android.widget.NumberPicker;
@@ -10,26 +10,26 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
-class DelayPicker {
+public class DelayPicker {
     private static final String LOG_TAG = "DelayPicker";
 
     private final AndroidLogger logger;
     private final NumberPicker delayPicker;
 
-    DelayPicker(AndroidLogger logger, DelayPickerView delayPickerView) {
+    public DelayPicker(AndroidLogger logger, DelayPickerView delayPickerView) {
         this.logger = logger;
         this.delayPicker = delayPickerView.delayPicker();
     }
 
     @SuppressWarnings("SameParameterValue")
-    void setInputRangeInMinutes(int min, int max) {
+    public void setInputRangeInMinutes(int min, int max) {
         logger.v(LOG_TAG, "setting delay picker input range to between " + min + " and " + max + " minutes.");
 
         delayPicker.setMinValue(min);
         delayPicker.setMaxValue(max);
     }
 
-    void setOnValuePickedListener(OnValuePickedCommand onValuePickedCommand) {
+    public void setOnValuePickedListener(OnValuePickedCommand onValuePickedCommand) {
         logger.v(LOG_TAG, "setting delay onChangeListener");
 
         delayPicker.setOnScrollListener((view, scrollState) -> {
@@ -53,7 +53,7 @@ class DelayPicker {
         });
     }
 
-    void setChoiceFormatter() {
+    public void setChoiceFormatter() {
         logger.v(LOG_TAG, "setting the formatter for the choices on the number picker to say 'x minutes' for all x");
 
         delayPicker.setFormatter(i -> i + " minute" + (i == 1 ? "" : "s"));
@@ -71,7 +71,7 @@ class DelayPicker {
         }
     }
 
-    void setToValue(int pickerValue) {
+    public void setToValue(int pickerValue) {
         logger.v(LOG_TAG, "setting the picker to value " + pickerValue);
 
         delayPicker.setValue(pickerValue);

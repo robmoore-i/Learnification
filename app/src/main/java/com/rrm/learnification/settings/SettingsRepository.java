@@ -1,6 +1,7 @@
 package com.rrm.learnification.settings;
 
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import java.io.FileNotFoundException;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.rrm.learnification.settings.LearnificationPromptStrategy.LEFT_TO_RIGHT;
+import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.LEFT_TO_RIGHT;
 
 public class SettingsRepository {
     private static final String LOG_TAG = "SettingsRepository";
@@ -28,7 +29,7 @@ public class SettingsRepository {
         this.fileStorageAdaptor = fileStorageAdaptor;
     }
 
-    void writeDelay(int learnificationDelayInSeconds) {
+    public void writeDelay(int learnificationDelayInSeconds) {
         writeFile(LEARNIFICATION_DELAY_FILE_NAME, "learnificationDelayInSeconds", String.valueOf(learnificationDelayInSeconds));
     }
 
@@ -44,7 +45,7 @@ public class SettingsRepository {
         return readFile(LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME, DEFAULT_LEARNIFICATION_PROMPT_STRATEGY, LearnificationPromptStrategy::fromName);
     }
 
-    void writeLearnificationPromptStrategy(LearnificationPromptStrategy learnificationPromptStrategy) {
+    public void writeLearnificationPromptStrategy(LearnificationPromptStrategy learnificationPromptStrategy) {
         writeFile(LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME, "learnificationPromptStrategy", learnificationPromptStrategy.name());
     }
 

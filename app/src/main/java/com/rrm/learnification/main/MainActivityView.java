@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.settings.DelayPickerView;
+import com.rrm.learnification.settings.learnificationdelay.DelayPickerView;
 import com.rrm.learnification.textinput.AndroidTextWatcher;
 import com.rrm.learnification.textinput.OnSubmitTextCommand;
 import com.rrm.learnification.textinput.OnTextChangeListener;
