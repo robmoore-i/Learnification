@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification;
 
 import android.app.job.JobInfo;
 import android.support.test.rule.ActivityTestRule;

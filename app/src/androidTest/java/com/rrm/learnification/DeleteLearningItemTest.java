@@ -1,11 +1,10 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 
-import com.rrm.learnification.R;
 import com.rrm.learnification.main.MainActivity;
 
 import org.junit.Before;

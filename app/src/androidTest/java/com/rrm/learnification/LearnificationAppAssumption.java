@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification;
 
 import android.support.test.rule.ActivityTestRule;
 
@@ -11,7 +11,7 @@ class LearnificationAppAssumption {
         assumeFalse(learningItemsAreEmpty(activityTestRule));
     }
 
-    static boolean learningItemsAreEmpty(ActivityTestRule<MainActivity> activityTestRule) {
+    private static boolean learningItemsAreEmpty(ActivityTestRule<MainActivity> activityTestRule) {
         return activityTestRule.getActivity().getLearningItemStorage().read().isEmpty();
     }
 }

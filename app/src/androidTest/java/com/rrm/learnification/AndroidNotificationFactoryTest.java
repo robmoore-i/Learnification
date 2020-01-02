@@ -1,9 +1,10 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification;
 
 import android.app.Notification;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.NotificationType;

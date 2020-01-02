@@ -1,4 +1,4 @@
-package com.rrm.learnification.common;
+package com.rrm.learnification;
 
 import android.app.Notification;
 import android.support.test.InstrumentationRegistry;
@@ -13,7 +13,7 @@ import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
-import com.rrm.learnification.R;
+import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 
@@ -28,7 +28,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.rrm.learnification.common.LearnificationAppAssumption.assumeThatThereAreLearningItems;
+import static com.rrm.learnification.LearnificationAppAssumption.assumeThatThereAreLearningItems;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
