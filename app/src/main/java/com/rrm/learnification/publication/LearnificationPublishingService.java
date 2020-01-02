@@ -28,7 +28,7 @@ public class LearnificationPublishingService extends JobService {
 
     private boolean publishNewLearnification() {
         logger.v(LOG_TAG, "Job started");
-        LearningItemStorage learningItemStorage = new SqlLiteLearningItemStorage(new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
+        LearningItemStorage learningItemStorage = new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
         ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, learningItemStorage);
         List<LearningItem> learningItems = itemRepository.items();
         for (LearningItem learningItem : learningItems) {

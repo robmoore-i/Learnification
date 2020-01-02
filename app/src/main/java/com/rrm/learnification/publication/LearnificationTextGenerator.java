@@ -20,7 +20,7 @@ class LearnificationTextGenerator {
     LearnificationText learnificationText() throws CantGenerateNotificationTextException {
         List<LearningItem> learningItems = itemRepository.items();
         if (learningItems.isEmpty()) {
-            throw new CantGenerateNotificationTextException();
+            throw new CantGenerateNotificationTextException("There are no learning items");
         }
         return randomiser.randomLearnificationQuestion(learningItems);
     }

@@ -3,6 +3,7 @@ package com.rrm.learnification.settings;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +37,9 @@ public class SettingsRepository {
         try {
             List<String> lines = fileStorageAdaptor.readLines(LEARNIFICATION_DELAY_FILE_NAME).stream().filter(line -> !line.isEmpty()).collect(Collectors.toList());
             return Integer.parseInt(lines.get(0).split("=")[1]);
+        } catch (FileNotFoundException e) {
+            logger.v(LOG_TAG, "file '" + LEARNIFICATION_DELAY_FILE_NAME + "' wasn't found. returning default learnification delay in seconds (" + DEFAULT_LEARNIFICATION_DELAY_SECONDS + ")");
+            return DEFAULT_LEARNIFICATION_DELAY_SECONDS;
         } catch (Exception e) {
             logger.e(LOG_TAG, e);
             logger.v(LOG_TAG, "returning default learnification delay in seconds (" + DEFAULT_LEARNIFICATION_DELAY_SECONDS + ")");

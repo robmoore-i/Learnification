@@ -28,31 +28,16 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.rrm.learnification.common.LearnificationAppAssumption.assumeThatThereAreLearningItems;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assume.assumeFalse;
 
 
 @RunWith(AndroidJUnit4.class)
 public class AppToolbarTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
-
-    private static Matcher<View> withToolbarTitle(final Matcher<String> textMatcher) {
-        return new BoundedMatcher<View, Toolbar>(Toolbar.class) {
-            @Override
-            public boolean matchesSafely(Toolbar toolbar) {
-                return textMatcher.matches(toolbar.getTitle());
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("with toolbar title: ");
-                textMatcher.describeTo(description);
-            }
-        };
-    }
 
     @Test
     public void theFastForwardButtonIsDisplayed() {
@@ -97,14 +82,19 @@ public class AppToolbarTest {
         onView(allOf(withId(R.id.toolbar), withToolbarTitle(startsWith("Learnification in ")))).check(matches(isDisplayed()));
     }
 
-    @Test
-    public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() throws InterruptedException {
-        // If there are no learning items, the app will choose not to generate a learnification.
-        assumeFalse(activityTestRule.getActivity().getLearningItemRepository().items().isEmpty());
+    private static Matcher<View> withToolbarTitle(final Matcher<String> textMatcher) {
+        return new BoundedMatcher<View, Toolbar>(Toolbar.class) {
+            @Override
+            public boolean matchesSafely(Toolbar toolbar) {
+                return textMatcher.matches(toolbar.getTitle());
+            }
 
-        waitACoupleOfSeconds();
-
-        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(is("Learnification ready"))));
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with toolbar title: ");
+                textMatcher.describeTo(description);
+            }
+        };
     }
 
     private static void clearNotifications() {
@@ -132,5 +122,13 @@ public class AppToolbarTest {
 
     private void waitACoupleOfSeconds() throws InterruptedException {
         Thread.sleep(2000);
+    }
+
+    @Test
+    public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() throws InterruptedException {
+        assumeThatThereAreLearningItems(activityTestRule);
+        waitACoupleOfSeconds();
+
+        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(is("Learnification ready"))));
     }
 }

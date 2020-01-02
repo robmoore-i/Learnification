@@ -9,7 +9,7 @@ public interface LearningItemStorage {
 
     void write(LearningItem learningItem);
 
-    void remove(List<LearningItem> learningItems, int index);
+    void remove(LearningItem learningItem);
 
     void rewrite(List<LearningItem> learningItems);
 }

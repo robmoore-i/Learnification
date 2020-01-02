@@ -46,7 +46,7 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     public void removeAt(int index) {
         int reversedIndex = learningItems.size() - index - 1;
         logger.v(LOG_TAG, "removing a learning-item at index " + index + " in the view, which corresponds to index " + reversedIndex + " in storage");
-        learningItemStorage.remove(learningItems, reversedIndex);
+        learningItemStorage.remove(learningItems.get(reversedIndex));
         learningItems.remove(reversedIndex);
     }
 }

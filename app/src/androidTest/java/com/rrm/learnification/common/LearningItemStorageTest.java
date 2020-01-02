@@ -86,7 +86,7 @@ public class LearningItemStorageTest {
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
 
-        learningItemStorage.remove(learningItems, 0);
+        learningItemStorage.remove(learningItems.get(0));
         learningItems = learningItemStorage.read();
         assertThat(learningItems.size(), equalTo(0));
     }
@@ -103,7 +103,7 @@ public class LearningItemStorageTest {
         learningItem = learningItems.get(1);
         assertThat(learningItem, equalTo(b));
 
-        learningItemStorage.remove(learningItems, 1);
+        learningItemStorage.remove(learningItems.get(1));
         learningItems = learningItemStorage.read();
         assertThat(learningItems.size(), equalTo(1));
         learningItem = learningItems.get(0);
@@ -122,7 +122,7 @@ public class LearningItemStorageTest {
         learningItem = learningItems.get(1);
         assertThat(learningItem, equalTo(b));
 
-        learningItemStorage.remove(learningItems, 0);
+        learningItemStorage.remove(learningItems.get(0));
         learningItems = learningItemStorage.read();
         assertThat(learningItems.size(), equalTo(1));
         learningItem = learningItems.get(0);
