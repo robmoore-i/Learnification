@@ -9,8 +9,8 @@
     <string name="periodicity_input_text_prompt">How many minutes between each notification?</string>
     <string name="add_learning_item_button_text">Add Learning Item</string>
     <string name="save_settings">Save</string>
-    <string name="left_to_right">Left given</string>
-    <string name="right_to_left">Right given</string>
+    <string name="left_to_right">Left</string>
+    <string name="right_to_left">Right</string>
     <string name="mixed_left_and_right">Mixed</string>
-    <string name="learnification_prompt_strategy_input_text_prompt">What should you be prompted with from your learning items?</string>
+    <string name="learnification_prompt_strategy_input_text_prompt">Which side of the learning items do you want to be prompted with?</string>
 </resources>
