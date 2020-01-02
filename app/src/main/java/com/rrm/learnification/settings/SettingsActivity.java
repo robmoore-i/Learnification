@@ -27,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity implements SaveSettingsV
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         SettingsRepository settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
         DelayPicker delayPicker = new DelayPicker(logger, settingsActivityView);
-        delayPicker.setInputRangeInMinutes(5, 90);
+        delayPicker.setInputRangeInMinutes(1, 180);
         delayPicker.setOnValuePickedListener(new StoreDelayOnValuePickedCommand(logger, settingsRepository));
         delayPicker.setToValue(settingsRepository.getInitialLearnificationDelayPickerValue());
         delayPicker.setChoiceFormatter();
