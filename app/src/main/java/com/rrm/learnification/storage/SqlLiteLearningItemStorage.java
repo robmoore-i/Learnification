@@ -2,8 +2,8 @@ package com.rrm.learnification.storage;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.rrm.learnification.common.AndroidLogger;
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.List;
 

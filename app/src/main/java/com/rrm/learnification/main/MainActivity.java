@@ -48,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create a fuckton of objects
+        // Create some objects
 
         MainActivityView mainActivityView = new MainActivityView(logger, this);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
         LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), clock), new ScheduleConfiguration(logger, new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this))), clock, new AndroidResponseNotificationCorrespondent(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), androidNotificationFacade));
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(mainActivityView);
         AddLearningItemButton addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
@@ -114,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public LearningItemStorage getLearningItemStorage() {
-        return new SqlLiteLearningItemStorage(new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
+        return new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
     }
 
     public ItemRepository<LearningItem> getLearningItemRepository() {
-        return new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
+        return new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
     }
 
     public JobScheduler getJobScheduler() {
