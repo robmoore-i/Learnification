@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="40dp"
+        android:paddingTop="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,15 +32,69 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/save_settings_button"
-            android:layout_width="wrap_content"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/learnification_prompt_strategy_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/periodicity_input">
+
+        <TextView
+            android:id="@+id/learnification_prompt_strategy_input_text_prompt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/save_settings"
+            android:gravity="center"
+            android:text="@string/learnification_prompt_strategy_input_text_prompt"
+            android:textSize="15sp" />
+
+        <RadioGroup
+
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/delay_picker" />
+            app:layout_constraintTop_toBottomOf="@+id/learnification_prompt_strategy_input_text_prompt">
 
+            <RadioButton
+                android:id="@+id/left_to_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/left_to_right" />
+
+            <RadioButton
+                android:id="@+id/right_to_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/right_to_left" />
+
+            <RadioButton
+                android:id="@+id/mixed_left_and_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mixed_left_and_right" />
+
+        </RadioGroup>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/save_settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/save_settings"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/learnification_prompt_strategy_input" />
 
 </android.support.constraint.ConstraintLayout>
