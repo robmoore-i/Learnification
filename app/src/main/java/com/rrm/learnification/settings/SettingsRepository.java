@@ -22,13 +22,13 @@ public class SettingsRepository {
         this.fileStorageAdaptor = fileStorageAdaptor;
     }
 
-    void writePeriodicity(int learnificationDelayInSeconds) {
-        logger.v(LOG_TAG, "writing periodicity as " + learnificationDelayInSeconds + " seconds");
+    void writeDelay(int learnificationDelayInSeconds) {
+        logger.v(LOG_TAG, "writing learnification-delay as " + learnificationDelayInSeconds + " seconds");
 
         try {
             fileStorageAdaptor.overwriteLines(LEARNIFICATION_DELAY_FILE_NAME, Collections.singletonList("learnificationDelayInSeconds=" + learnificationDelayInSeconds));
         } catch (Exception e) {
-            logger.v(LOG_TAG, "failed to write periodicity (" + learnificationDelayInSeconds + ") to file (" + LEARNIFICATION_DELAY_FILE_NAME + ")");
+            logger.v(LOG_TAG, "failed to write learnification-delay (" + learnificationDelayInSeconds + ") to file (" + LEARNIFICATION_DELAY_FILE_NAME + ")");
             logger.e(LOG_TAG, e);
         }
     }

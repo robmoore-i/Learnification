@@ -10,28 +10,28 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
-class PeriodicityPicker {
-    private static final String LOG_TAG = "PeriodicityPicker";
+class DelayPicker {
+    private static final String LOG_TAG = "DelayPicker";
 
     private final AndroidLogger logger;
-    private final NumberPicker periodicityPicker;
+    private final NumberPicker delayPicker;
 
-    PeriodicityPicker(AndroidLogger logger, PeriodicityPickerView periodicityPickerView) {
+    DelayPicker(AndroidLogger logger, DelayPickerView delayPickerView) {
         this.logger = logger;
-        this.periodicityPicker = periodicityPickerView.periodicityPicker();
+        this.delayPicker = delayPickerView.delayPicker();
     }
 
     void setInputRangeInMinutes(int min, int max) {
-        logger.v(LOG_TAG, "setting periodicity picker input range to between " + min + " and " + max + " minutes.");
+        logger.v(LOG_TAG, "setting delay picker input range to between " + min + " and " + max + " minutes.");
 
-        periodicityPicker.setMinValue(min);
-        periodicityPicker.setMaxValue(max);
+        delayPicker.setMinValue(min);
+        delayPicker.setMaxValue(max);
     }
 
     void setOnValuePickedListener(OnValuePickedCommand onValuePickedCommand) {
-        logger.v(LOG_TAG, "setting periodicity onChangeListener");
+        logger.v(LOG_TAG, "setting delay onChangeListener");
 
-        periodicityPicker.setOnScrollListener((view, scrollState) -> {
+        delayPicker.setOnScrollListener((view, scrollState) -> {
             if (scrollState == NumberPicker.OnScrollListener.SCROLL_STATE_IDLE) {
                 final int value = view.getValue();
                 onValuePickedCommand.onValuePicked(value * 60);
@@ -42,7 +42,7 @@ class PeriodicityPicker {
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        int delayedValue = periodicityPicker.getValue();
+                        int delayedValue = delayPicker.getValue();
                         if (Math.abs(delayedValue - value) == 1) {
                             onValuePickedCommand.onValuePicked(delayedValue * 60);
                         }
@@ -55,16 +55,16 @@ class PeriodicityPicker {
     void setChoiceFormatter() {
         logger.v(LOG_TAG, "setting the formatter for the choices on the number picker to say 'x minutes' for all x");
 
-        periodicityPicker.setFormatter(i -> i + " minutes");
-        periodicityPicker.setWrapSelectorWheel(false);
+        delayPicker.setFormatter(i -> i + " minutes");
+        delayPicker.setWrapSelectorWheel(false);
 
         // Use a little hack to ensure that formatter applies correctly on first render.
         // See: https://stackoverflow.com/questions/17708325/android-numberpicker-with-formatter-doesnt-format-on-first-rendering
         try {
             @SuppressLint({"PrivateApi", "DiscouragedPrivateApi"})
-            Method method = periodicityPicker.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
+            Method method = delayPicker.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
             method.setAccessible(true);
-            method.invoke(periodicityPicker, true);
+            method.invoke(delayPicker, true);
         } catch (NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -73,10 +73,10 @@ class PeriodicityPicker {
     void setToValue(int pickerValue) {
         logger.v(LOG_TAG, "setting the picker to value " + pickerValue);
 
-        periodicityPicker.setValue(pickerValue);
+        delayPicker.setValue(pickerValue);
     }
 
     int currentValueInSeconds() {
-        return periodicityPicker.getValue() * 60;
+        return delayPicker.getValue() * 60;
     }
 }

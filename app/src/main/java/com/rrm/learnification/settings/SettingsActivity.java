@@ -26,13 +26,13 @@ public class SettingsActivity extends AppCompatActivity implements SaveSettingsV
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         SettingsRepository settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
-        PeriodicityPicker periodicityPicker = new PeriodicityPicker(logger, settingsActivityView);
-        periodicityPicker.setInputRangeInMinutes(5, 90);
-        periodicityPicker.setOnValuePickedListener(new StorePeriodicityOnValuePickedCommand(logger, settingsRepository));
-        periodicityPicker.setToValue(settingsRepository.getInitialLearnificationDelayPickerValue());
-        periodicityPicker.setChoiceFormatter();
+        DelayPicker delayPicker = new DelayPicker(logger, settingsActivityView);
+        delayPicker.setInputRangeInMinutes(5, 90);
+        delayPicker.setOnValuePickedListener(new StoreDelayOnValuePickedCommand(logger, settingsRepository));
+        delayPicker.setToValue(settingsRepository.getInitialLearnificationDelayPickerValue());
+        delayPicker.setChoiceFormatter();
         SaveSettingsButton saveSettingsButton = new SaveSettingsButton(logger, this);
-        saveSettingsButton.addOnClickHandler(new SavePeriodicityFromPickerOnClickCommand(logger, settingsRepository, periodicityPicker));
+        saveSettingsButton.addOnClickHandler(new SaveDelayFromPickerOnClickCommand(logger, settingsRepository, delayPicker));
         saveSettingsButton.addOnClickHandler(new FinishActivityOnClickCommand(this));
     }
 

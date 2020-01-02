@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.settings.PeriodicityPickerView;
+import com.rrm.learnification.settings.DelayPickerView;
 import com.rrm.learnification.textinput.AndroidTextWatcher;
 import com.rrm.learnification.textinput.OnSubmitTextCommand;
 import com.rrm.learnification.textinput.OnTextChangeListener;
@@ -22,7 +22,7 @@ import com.rrm.learnification.toolbar.ToolbarView;
 import com.rrm.learnification.toolbar.ToolbarViewParameters;
 import com.rrm.learnification.toolbar.ToolbarViewUpdate;
 
-class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityPickerView, LearningItemListView {
+class MainActivityView implements ToolbarView, AddLearningItemView, DelayPickerView, LearningItemListView {
     private static final String LOG_TAG = "MainActivityView";
 
     private final AndroidLogger logger;
@@ -119,8 +119,8 @@ class MainActivityView implements ToolbarView, AddLearningItemView, PeriodicityP
     }
 
     @Override
-    public NumberPicker periodicityPicker() {
-        return activity.findViewById(R.id.periodicity_picker);
+    public NumberPicker delayPicker() {
+        return activity.findViewById(R.id.delay_picker);
     }
 
     @Override

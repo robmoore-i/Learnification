@@ -5,7 +5,7 @@ import android.widget.NumberPicker;
 import com.rrm.learnification.R;
 import com.rrm.learnification.toolbar.SimpleToolbarView;
 
-class SettingsActivityView implements SimpleToolbarView, PeriodicityPickerView {
+class SettingsActivityView implements SimpleToolbarView, DelayPickerView {
     private final SettingsActivity activity;
 
     SettingsActivityView(SettingsActivity activity) {
@@ -18,7 +18,7 @@ class SettingsActivityView implements SimpleToolbarView, PeriodicityPickerView {
     }
 
     @Override
-    public NumberPicker periodicityPicker() {
-        return activity.findViewById(R.id.periodicity_picker);
+    public NumberPicker delayPicker() {
+        return activity.findViewById(R.id.delay_picker);
     }
 }
