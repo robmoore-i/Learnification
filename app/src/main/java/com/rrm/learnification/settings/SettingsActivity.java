@@ -47,8 +47,8 @@ public class SettingsActivity extends AppCompatActivity implements SaveSettingsV
 
         SaveSettingsButton saveSettingsButton = new SaveSettingsButton(logger, this);
         saveSettingsButton.addOnClickHandler(new SaveDelayFromPickerOnClickCommand(logger, settingsRepository, delayPicker));
-        saveSettingsButton.addOnClickHandler(new FinishActivityOnClickCommand(this));
         saveSettingsButton.addOnClickHandler(new SavePromptStrategyOnClickCommand(settingsRepository, learnificationPromptStrategyRadioGroup));
+        saveSettingsButton.addOnClickHandler(new FinishActivityOnClickCommand(this));
     }
 
     @Override
