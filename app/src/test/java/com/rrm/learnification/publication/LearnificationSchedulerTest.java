@@ -14,6 +14,7 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -76,7 +77,7 @@ public class LearnificationSchedulerTest {
 
         learnificationScheduler.scheduleJob(serviceClass);
 
-        verify(mockLogger, times(1)).v(LearnificationScheduler.LOG_TAG, "scheduling learnification for tomorrow at around 09:00:00");
+        verify(mockLogger, times(1)).v(anyString(), eq("scheduling learnification for tomorrow at around 09:00:00"));
     }
 
     @Test

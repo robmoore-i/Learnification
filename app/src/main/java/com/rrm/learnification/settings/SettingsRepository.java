@@ -6,13 +6,19 @@ import com.rrm.learnification.storage.FileStorageAdaptor;
 import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static com.rrm.learnification.settings.LearnificationPromptStrategy.LEFT_TO_RIGHT;
 
 public class SettingsRepository {
     private static final String LOG_TAG = "SettingsRepository";
 
     public static final String LEARNIFICATION_DELAY_FILE_NAME = "settings_delay";
+    public static final String LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME = "settings_prompt_strategy";
+
     static final int DEFAULT_LEARNIFICATION_DELAY_SECONDS = 5;
+    static final LearnificationPromptStrategy DEFAULT_LEARNIFICATION_PROMPT_STRATEGY = LEFT_TO_RIGHT;
 
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
@@ -23,36 +29,47 @@ public class SettingsRepository {
     }
 
     void writeDelay(int learnificationDelayInSeconds) {
-        logger.v(LOG_TAG, "writing learnification-delay as " + learnificationDelayInSeconds + " seconds");
-
-        try {
-            fileStorageAdaptor.overwriteLines(LEARNIFICATION_DELAY_FILE_NAME, Collections.singletonList("learnificationDelayInSeconds=" + learnificationDelayInSeconds));
-        } catch (Exception e) {
-            logger.v(LOG_TAG, "failed to write learnification-delay (" + learnificationDelayInSeconds + ") to file (" + LEARNIFICATION_DELAY_FILE_NAME + ")");
-            logger.e(LOG_TAG, e);
-        }
+        writeFile(LEARNIFICATION_DELAY_FILE_NAME, "learnificationDelayInSeconds", String.valueOf(learnificationDelayInSeconds));
     }
 
     public int readDelaySeconds() {
+        return readFile(LEARNIFICATION_DELAY_FILE_NAME, DEFAULT_LEARNIFICATION_DELAY_SECONDS, Integer::parseInt);
+    }
+
+    int readDelayMinutes() {
+        return readDelaySeconds() / 60;
+    }
+
+    LearnificationPromptStrategy readLearnificationPromptStrategy() {
+        return readFile(LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME, DEFAULT_LEARNIFICATION_PROMPT_STRATEGY, LearnificationPromptStrategy::fromName);
+    }
+
+    void writeLearnificationPromptStrategy(LearnificationPromptStrategy learnificationPromptStrategy) {
+        writeFile(LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME, "learnificationPromptStrategy", learnificationPromptStrategy.name());
+    }
+
+    private void writeFile(String fileName, String key, String value) {
+        logger.v(LOG_TAG, "writing '" + key + "' as '" + value + "' in file '" + fileName + "'");
+
         try {
-            List<String> lines = fileStorageAdaptor.readLines(LEARNIFICATION_DELAY_FILE_NAME).stream().filter(line -> !line.isEmpty()).collect(Collectors.toList());
-            return Integer.parseInt(lines.get(0).split("=")[1]);
-        } catch (FileNotFoundException e) {
-            logger.v(LOG_TAG, "file '" + LEARNIFICATION_DELAY_FILE_NAME + "' wasn't found. returning default learnification delay in seconds (" + DEFAULT_LEARNIFICATION_DELAY_SECONDS + ")");
-            return DEFAULT_LEARNIFICATION_DELAY_SECONDS;
+            fileStorageAdaptor.overwriteLines(fileName, Collections.singletonList(key + "=" + value));
         } catch (Exception e) {
+            logger.v(LOG_TAG, "failed to write value '" + value + "' to file '" + fileName + "'");
             logger.e(LOG_TAG, e);
-            logger.v(LOG_TAG, "returning default learnification delay in seconds (" + DEFAULT_LEARNIFICATION_DELAY_SECONDS + ")");
-            return DEFAULT_LEARNIFICATION_DELAY_SECONDS;
         }
     }
 
-    int getInitialLearnificationDelayPickerValue() {
-        int valueReadFromSettings = readDelaySeconds() / 60;
-        if (valueReadFromSettings == 0) {
-            return 5;
-        } else {
-            return valueReadFromSettings;
+    private <T> T readFile(String fileName, T defaultValue, Function<String, T> function) {
+        try {
+            List<String> lines = fileStorageAdaptor.readLines(fileName).stream().filter(line -> !line.isEmpty()).collect(Collectors.toList());
+            return function.apply(lines.get(0).split("=")[1]);
+        } catch (FileNotFoundException e) {
+            logger.v(LOG_TAG, "file '" + fileName + "' wasn't found. returning default value '" + defaultValue + "'");
+            return defaultValue;
+        } catch (Exception e) {
+            logger.e(LOG_TAG, e);
+            logger.v(LOG_TAG, "returning default value '" + defaultValue + "'");
+            return defaultValue;
         }
     }
 }

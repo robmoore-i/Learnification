@@ -11,6 +11,8 @@ import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.toolbar.AppToolbar;
 
+import static java.lang.Integer.max;
+
 public class SettingsActivity extends AppCompatActivity implements SaveSettingsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +32,11 @@ public class SettingsActivity extends AppCompatActivity implements SaveSettingsV
         DelayPicker delayPicker = new DelayPicker(logger, settingsActivityView);
         delayPicker.setInputRangeInMinutes(1, 180);
         delayPicker.setOnValuePickedListener(new StoreDelayOnValuePickedCommand(logger, settingsRepository));
-        delayPicker.setToValue(settingsRepository.getInitialLearnificationDelayPickerValue());
+        delayPicker.setToValue(max(settingsRepository.readDelayMinutes(), 1));
         delayPicker.setChoiceFormatter();
+
+        LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup = new LearnificationPromptStrategyRadioGroup(logger, settingsRepository, settingsActivityView);
+        learnificationPromptStrategyRadioGroup.setToValue(settingsRepository.readLearnificationPromptStrategy());
 
         SaveSettingsButton saveSettingsButton = new SaveSettingsButton(logger, this);
         saveSettingsButton.addOnClickHandler(new SaveDelayFromPickerOnClickCommand(logger, settingsRepository, delayPicker));

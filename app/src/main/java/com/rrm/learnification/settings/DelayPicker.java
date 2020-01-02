@@ -21,6 +21,7 @@ class DelayPicker {
         this.delayPicker = delayPickerView.delayPicker();
     }
 
+    @SuppressWarnings("SameParameterValue")
     void setInputRangeInMinutes(int min, int max) {
         logger.v(LOG_TAG, "setting delay picker input range to between " + min + " and " + max + " minutes.");
 
@@ -55,7 +56,7 @@ class DelayPicker {
     void setChoiceFormatter() {
         logger.v(LOG_TAG, "setting the formatter for the choices on the number picker to say 'x minutes' for all x");
 
-        delayPicker.setFormatter(i -> i + " minutes");
+        delayPicker.setFormatter(i -> i + " minute" + (i == 1 ? "" : "s"));
         delayPicker.setWrapSelectorWheel(false);
 
         // Use a little hack to ensure that formatter applies correctly on first render.

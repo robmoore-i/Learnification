@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     public void clearSettings() {
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_DELAY_FILE_NAME);
+        fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME);
     }
 
     public FileStorageAdaptor getFileStorageAdaptor() {

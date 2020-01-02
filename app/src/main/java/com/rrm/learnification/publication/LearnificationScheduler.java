@@ -11,7 +11,7 @@ import java.sql.Time;
 import java.util.Optional;
 
 public class LearnificationScheduler {
-    public static final String LOG_TAG = "LearnificationScheduler";
+    private static final String LOG_TAG = "LearnificationScheduler";
 
     private final AndroidLogger logger;
     private final JobScheduler jobScheduler;

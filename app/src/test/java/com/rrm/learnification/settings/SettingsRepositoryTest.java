@@ -39,26 +39,34 @@ public class SettingsRepositoryTest {
     }
 
     @Test
-    public void pickerValueIsGivenAsMinutesFromTheStoredSeconds() throws IOException {
-        int periodicityInMinutes = 10;
-        int storedPeriodicityInSeconds = periodicityInMinutes * 60;
+    public void delayIsSecondsDividedBy60() throws IOException {
+        int delayInMinutes = 10;
+        int storedPeriodicityInSeconds = delayInMinutes * 60;
         when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList("learnificationDelayInSeconds=" + storedPeriodicityInSeconds));
         SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
 
-        int initialPeriodicityPickerValue = settingsRepository.getInitialLearnificationDelayPickerValue();
+        int delayMinutes = settingsRepository.readDelayMinutes();
 
-        assertThat(initialPeriodicityPickerValue, equalTo(periodicityInMinutes));
+        assertThat(delayMinutes, equalTo(delayInMinutes));
     }
 
     @Test
-    public void pickerValueIs5MinsIfThereIsNoStoredPeriodicity() throws IOException {
-        when(mockFileStorageAdaptor.readLines(anyString())).thenThrow(new IOException("Can't get the periodicity from file!"));
+    public void delayInMinutesIs0IfDelayFileNotFound() throws IOException {
+        when(mockFileStorageAdaptor.readLines(anyString())).thenThrow(new IOException("Can't get the delay from file!"));
         SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
 
-        int initialPeriodicityPickerValue = settingsRepository.getInitialLearnificationDelayPickerValue();
+        int delayMinutes = settingsRepository.readDelayMinutes();
 
-        assertThat(initialPeriodicityPickerValue, equalTo(5));
+        assertThat(delayMinutes, equalTo(0));
     }
 
+    @Test
+    public void ifPromptStrategyFileIsEmptyItReturnsTeDefault() throws IOException {
+        when(mockFileStorageAdaptor.readLines(anyString())).thenReturn(Collections.singletonList(""));
+        SettingsRepository settingsRepository = new SettingsRepository(logger, mockFileStorageAdaptor);
 
+        LearnificationPromptStrategy learnificationPromptStrategy = settingsRepository.readLearnificationPromptStrategy();
+
+        assertThat(learnificationPromptStrategy, equalTo(SettingsRepository.DEFAULT_LEARNIFICATION_PROMPT_STRATEGY));
+    }
 }
