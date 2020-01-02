@@ -11,6 +11,7 @@ import com.rrm.learnification.settings.learnificationdelay.DelayPicker;
 import com.rrm.learnification.settings.learnificationdelay.SaveDelayFromPickerOnClickCommand;
 import com.rrm.learnification.settings.learnificationdelay.StoreDelayOnValuePickedCommand;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategyRadioGroup;
+import com.rrm.learnification.settings.learnificationpromptstrategy.SavePromptStrategyOnClickCommand;
 import com.rrm.learnification.settings.save.SaveSettingsButton;
 import com.rrm.learnification.settings.save.SaveSettingsView;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;

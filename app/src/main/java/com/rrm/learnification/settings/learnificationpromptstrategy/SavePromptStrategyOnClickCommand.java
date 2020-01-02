@@ -1,13 +1,13 @@
-package com.rrm.learnification.settings;
+package com.rrm.learnification.settings.learnificationpromptstrategy;
 
 import com.rrm.learnification.button.OnClickCommand;
-import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategyRadioGroup;
+import com.rrm.learnification.settings.SettingsRepository;
 
-class SavePromptStrategyOnClickCommand implements OnClickCommand {
+public class SavePromptStrategyOnClickCommand implements OnClickCommand {
     private final SettingsRepository settingsRepository;
     private final LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup;
 
-    SavePromptStrategyOnClickCommand(SettingsRepository settingsRepository, LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup) {
+    public SavePromptStrategyOnClickCommand(SettingsRepository settingsRepository, LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup) {
         this.settingsRepository = settingsRepository;
         this.learnificationPromptStrategyRadioGroup = learnificationPromptStrategyRadioGroup;
     }
