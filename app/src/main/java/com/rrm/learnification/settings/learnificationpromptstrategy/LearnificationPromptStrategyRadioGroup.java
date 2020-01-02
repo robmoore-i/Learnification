@@ -2,7 +2,7 @@ package com.rrm.learnification.settings.learnificationpromptstrategy;
 
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.radiogroup.RadioGroupMappings;
-import com.rrm.learnification.settings.SettingsRepository;
+import com.rrm.learnification.radiogroup.RadioGroupView;
 
 import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.LEFT_TO_RIGHT;
 import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.MIXED;
@@ -12,33 +12,34 @@ public class LearnificationPromptStrategyRadioGroup {
     private static final String LOG_TAG = "LearnificationPromptStrategyRadioGroup";
 
     private final AndroidLogger logger;
-    private final SettingsRepository settingsRepository;
+    private final RadioGroupView<LearnificationPromptStrategy> view;
     private final RadioGroupMappings<LearnificationPromptStrategy> radioGroupMappings;
-    private final LearnificationPromptStrategyRadioGroupView view;
 
-    public LearnificationPromptStrategyRadioGroup(AndroidLogger logger, SettingsRepository settingsRepository, LearnificationPromptStrategyRadioGroupView view) {
+    public LearnificationPromptStrategyRadioGroup(AndroidLogger logger, RadioGroupView<LearnificationPromptStrategy> view) {
         this.logger = logger;
-        this.settingsRepository = settingsRepository;
         this.view = view;
         this.radioGroupMappings = this.view.radioGroupMappings();
-        bindRadioButtons();
+        bindRadioButtonActions();
     }
 
-    public void checkValue(LearnificationPromptStrategy learnificationPromptStrategy) {
-        int radioButtonViewId = radioGroupMappings.idOfOption(learnificationPromptStrategy);
+    public LearnificationPromptStrategy getValue() {
+        return radioGroupMappings.optionOfViewId(view.viewIdOfCheckedOption());
+    }
+
+    public void setValue(LearnificationPromptStrategy learnificationPromptStrategy) {
+        int radioButtonViewId = radioGroupMappings.viewIdOfOption(learnificationPromptStrategy);
         logger.v(LOG_TAG, "checking radio button for learnification prompt strategy '" + learnificationPromptStrategy.name() + "', with view id '" + radioButtonViewId + "'");
-        view.checkLearnificationPromptStrategy(radioButtonViewId);
+        view.checkOption(radioButtonViewId);
     }
 
-    private void writeValue(LearnificationPromptStrategy learnificationPromptStrategy) {
+    private void bindRadioButtonActions() {
+        radioGroupMappings.setAction(LEFT_TO_RIGHT, () -> logRadioButtonClick(LEFT_TO_RIGHT));
+        radioGroupMappings.setAction(RIGHT_TO_LEFT, () -> logRadioButtonClick(RIGHT_TO_LEFT));
+        radioGroupMappings.setAction(MIXED, () -> logRadioButtonClick(MIXED));
+        view.bindActionsToRadioGroupOptions(radioGroupMappings);
+    }
+
+    private void logRadioButtonClick(LearnificationPromptStrategy learnificationPromptStrategy) {
         logger.v(LOG_TAG, "setting learnification prompt strategy to '" + learnificationPromptStrategy.name() + "'");
-        settingsRepository.writeLearnificationPromptStrategy(learnificationPromptStrategy);
-    }
-
-    private void bindRadioButtons() {
-        radioGroupMappings.setAction(LEFT_TO_RIGHT, () -> writeValue(LEFT_TO_RIGHT));
-        radioGroupMappings.setAction(RIGHT_TO_LEFT, () -> writeValue(RIGHT_TO_LEFT));
-        radioGroupMappings.setAction(MIXED, () -> writeValue(MIXED));
-        view.bindLearnificationPromptStrategyRadioGroup(radioGroupMappings);
     }
 }

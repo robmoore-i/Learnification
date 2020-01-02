@@ -8,6 +8,10 @@ public class RadioGroupMappings<T> {
     private final Map<T, Integer> viewIds;
     private final HashMap<T, OnCheckedCommand> actions = new HashMap<>();
 
+    /**
+     * @param options A map from radio button view id to T
+     * @param viewIds A map from T to radio button view id
+     */
     public RadioGroupMappings(Map<Integer, T> options, Map<T, Integer> viewIds) {
         this.options = options;
         this.viewIds = viewIds;
@@ -30,8 +34,12 @@ public class RadioGroupMappings<T> {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public int idOfOption(T value) {
+    public int viewIdOfOption(T value) {
         if (viewIds.containsKey(value)) return viewIds.get(value);
         throw new UnrecognisedOptionException("no radio group view id found for value '" + value.toString() + "'");
+    }
+
+    public T optionOfViewId(int viewId) {
+        return options.get(viewId);
     }
 }
