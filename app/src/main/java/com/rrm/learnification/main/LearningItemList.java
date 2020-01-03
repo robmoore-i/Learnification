@@ -68,5 +68,6 @@ class LearningItemList {
     }
 
     void setOnEntryChangeListener(OnTextChangeListener onTextChangeListener) {
+        adapter.setEntryOnTextChangeListener(onTextChangeListener);
     }
 }
