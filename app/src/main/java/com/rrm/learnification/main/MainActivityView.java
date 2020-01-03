@@ -20,7 +20,7 @@ import com.rrm.learnification.toolbar.ToolbarView;
 import com.rrm.learnification.toolbar.ToolbarViewParameters;
 import com.rrm.learnification.toolbar.ToolbarViewUpdate;
 
-class MainActivityView implements ToolbarView, AddLearningItemView, LearningItemListView {
+class MainActivityView implements ToolbarView, AddLearningItemView, LearningItemListView, UpdateLearningItemView {
     private static final String LOG_TAG = "MainActivityView";
 
     private final AndroidLogger logger;
@@ -119,6 +119,11 @@ class MainActivityView implements ToolbarView, AddLearningItemView, LearningItem
     @Override
     public RecyclerView learningItemsList() {
         return activity.findViewById(R.id.learningitem_list);
+    }
+
+    @Override
+    public Button updateLearningItemButton() {
+        return activity.findViewById(R.id.update_learning_item_button);
     }
 
     void addToolbarViewUpdate(ToolbarViewUpdate toolbarViewUpdate) {

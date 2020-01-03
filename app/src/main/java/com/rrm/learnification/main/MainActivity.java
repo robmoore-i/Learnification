@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(mainActivityView);
         AddLearningItemButton addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
         LearningItemList learningItemList = new LearningItemList(logger, mainActivityView);
+        UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, mainActivityView);
 
         // Set them up where necessary
 

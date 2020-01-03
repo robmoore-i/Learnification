@@ -14,4 +14,5 @@
     <string name="mixed_left_and_right">Mixed</string>
     <string name="learnification_prompt_strategy_input_text_prompt">Which side of the learning items do you want to be prompted with?</string>
     <string name="learning_item_editable_text_entry_hint">editable text entry for a learning item</string>
+    <string name="update_learning_item_button_text">Update Learning Item</string>
 </resources>
