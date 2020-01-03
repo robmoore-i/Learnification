@@ -43,4 +43,10 @@ public class SqlLiteLearningItemStorage implements LearningItemStorage {
         tableInterface.deleteAll(writableDatabase);
         tableInterface.writeAll(writableDatabase, learningItems);
     }
+
+    @Override
+    public void replace(LearningItem target, LearningItem replacement) {
+        SQLiteDatabase writableDatabase = database.getWritableDatabase();
+        tableInterface.replace(writableDatabase, target, replacement);
+    }
 }

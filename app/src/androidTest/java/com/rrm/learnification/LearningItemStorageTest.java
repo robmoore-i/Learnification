@@ -23,6 +23,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class LearningItemStorageTest {
     private final LearningItem a = new LearningItem("sql", "lite");
     private final LearningItem b = new LearningItem("from", "file");
+    private final LearningItem bMod = new LearningItem("from", "mars");
+    private final LearningItem c = new LearningItem("vanity", "fair");
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -128,5 +130,17 @@ public class LearningItemStorageTest {
         assertThat(learningItems.size(), equalTo(1));
         learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(b));
+    }
+
+    @Test
+    public void canReplaceALearningItem() {
+        learningItemStorage.write(a);
+        learningItemStorage.write(b);
+        learningItemStorage.write(c);
+
+        learningItemStorage.replace(b, bMod);
+        List<LearningItem> learningItems = learningItemStorage.read();
+        LearningItem learningItem = learningItems.get(1);
+        assertThat(learningItem, equalTo(bMod));
     }
 }

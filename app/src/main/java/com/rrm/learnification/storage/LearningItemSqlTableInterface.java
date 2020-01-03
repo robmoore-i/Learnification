@@ -47,4 +47,9 @@ public class LearningItemSqlTableInterface implements SqlTableInterface<Learning
     public void delete(SQLiteDatabase writableDatabase, LearningItem item) {
         LearningItemSqlTable.delete(writableDatabase, item);
     }
+
+    @Override
+    public void replace(SQLiteDatabase writableDatabase, LearningItem target, LearningItem replacement) {
+        LearningItemSqlTable.replace(writableDatabase, target, replacement);
+    }
 }

@@ -2,6 +2,8 @@ package com.rrm.learnification.storage;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.rrm.learnification.common.LearningItem;
+
 import java.util.List;
 
 interface SqlTableInterface<T> {
@@ -14,4 +16,6 @@ interface SqlTableInterface<T> {
     void deleteAll(SQLiteDatabase writableDatabase);
 
     void delete(SQLiteDatabase writableDatabase, T item);
+
+    void replace(SQLiteDatabase writableDatabase, LearningItem target, LearningItem replacement);
 }

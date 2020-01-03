@@ -34,7 +34,7 @@ final class LearningItemSqlTable implements BaseColumns {
     }
 
     static Cursor all(SQLiteDatabase readableDatabase) {
-        return readableDatabase.query(LearningItemSqlTable.TABLE_NAME, new String[]{_ID, COLUMN_NAME_LEFT, COLUMN_NAME_RIGHT},
+        return readableDatabase.query(TABLE_NAME, new String[]{_ID, COLUMN_NAME_LEFT, COLUMN_NAME_RIGHT},
                 null, null, null, null, null);
     }
 
@@ -45,6 +45,12 @@ final class LearningItemSqlTable implements BaseColumns {
     static void delete(SQLiteDatabase writableDatabase, LearningItem learningItemToRemove) {
         String selection = COLUMN_NAME_LEFT + " LIKE ? AND " + COLUMN_NAME_RIGHT + " LIKE ?";
         String[] selectionArgs = {learningItemToRemove.left, learningItemToRemove.right};
-        writableDatabase.delete(LearningItemSqlTable.TABLE_NAME, selection, selectionArgs);
+        writableDatabase.delete(TABLE_NAME, selection, selectionArgs);
+    }
+
+    static void replace(SQLiteDatabase writableDatabase, LearningItem target, LearningItem replacement) {
+        String selection = COLUMN_NAME_LEFT + " LIKE ? AND " + COLUMN_NAME_RIGHT + " LIKE ?";
+        String[] selectionArgs = {target.left, target.right};
+        writableDatabase.update(TABLE_NAME, from(replacement), selection, selectionArgs);
     }
 }

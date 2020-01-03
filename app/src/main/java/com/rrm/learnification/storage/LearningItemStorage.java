@@ -12,4 +12,6 @@ public interface LearningItemStorage {
     void remove(LearningItem learningItem);
 
     void rewrite(List<LearningItem> learningItems);
+
+    void replace(LearningItem target, LearningItem replacement);
 }
