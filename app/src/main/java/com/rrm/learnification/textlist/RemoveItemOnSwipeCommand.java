@@ -10,7 +10,7 @@ public class RemoveItemOnSwipeCommand implements OnSwipeCommand {
     }
 
     @Override
-    public void onSwipe(TextListViewAdaptor adapter, int index) {
+    public void onSwipe(EditableTextListViewAdaptor adapter, int index) {
         adapter.remove(index);
         itemRepository.removeAt(index);
     }

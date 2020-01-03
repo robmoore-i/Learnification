@@ -10,14 +10,14 @@ import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.List;
 
-public abstract class TextListViewAdaptor extends RecyclerView.Adapter<TextListViewAdaptor.TextViewHolder> {
+public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<EditableTextListViewAdaptor.ViewHolder> {
     private final AndroidLogger logger;
     private final String LOG_TAG;
 
     private final int viewHolderId;
     private final List<String> textEntries;
 
-    public TextListViewAdaptor(List<String> textEntries, AndroidLogger logger, String LOG_TAG, int viewHolderId) {
+    public EditableTextListViewAdaptor(AndroidLogger logger, String LOG_TAG, List<String> textEntries, int viewHolderId) {
         this.textEntries = textEntries;
         this.logger = logger;
         this.LOG_TAG = LOG_TAG;
@@ -37,8 +37,8 @@ public abstract class TextListViewAdaptor extends RecyclerView.Adapter<TextListV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TextViewHolder holder, int position) {
-        holder.listItemView.setText(textEntries.get(position));
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.setText(textEntries.get(position));
     }
 
     @Override
@@ -48,30 +48,36 @@ public abstract class TextListViewAdaptor extends RecyclerView.Adapter<TextListV
 
     @NonNull
     @Override
-    public TextViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         EditText v = (EditText) LayoutInflater.from(parent.getContext()).inflate(viewHolderId, parent, false);
-        v.setEnabled(false);
-        return new TextViewHolder(logger, LOG_TAG, v);
+        return new ViewHolder(logger, LOG_TAG, v);
     }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    static class TextViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private final EditText listItemView;
 
-        TextViewHolder(AndroidLogger logger, String PARENT_LOG_TAG, EditText listItemView) {
+        ViewHolder(AndroidLogger logger, String PARENT_LOG_TAG, EditText listItemView) {
             super(listItemView);
-            String LOG_TAG = PARENT_LOG_TAG + ".TextViewHolder";
             this.listItemView = listItemView;
+            configureLogging(logger, PARENT_LOG_TAG + ".ViewHolder");
+        }
 
-            this.listItemView.setOnLongClickListener(v -> {
-                logger.v(LOG_TAG, "long press detected for view with text '" + ((EditText) v).getText().toString() + "'");
-                v.setEnabled(true);
-                return false;
+        private void configureLogging(AndroidLogger logger, String LOG_TAG) {
+            this.listItemView.setOnFocusChangeListener((v, hasFocus) -> {
+                String viewText = ((EditText) v).getText().toString();
+                if (!hasFocus) {
+                    logger.v(LOG_TAG, "loss of focus detected for list item view with text '" + viewText + "'");
+                } else {
+                    logger.v(LOG_TAG, "focus acquisition detected for list item view with text '" + viewText + "'");
+                }
             });
+        }
 
-            this.listItemView.setOnClickListener(v -> logger.v(LOG_TAG, "click detected for view with text '" + ((EditText) v).getText().toString() + "'"));
+        private void setText(CharSequence text) {
+            listItemView.setText(text);
         }
     }
 }

@@ -2,12 +2,12 @@ package com.rrm.learnification.main;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.textlist.TextListViewAdaptor;
+import com.rrm.learnification.textlist.EditableTextListViewAdaptor;
 
 import java.util.List;
 
-class LearningItemListViewAdaptor extends TextListViewAdaptor {
+class LearningItemListViewAdaptor extends EditableTextListViewAdaptor {
     LearningItemListViewAdaptor(AndroidLogger logger, List<String> textEntries) {
-        super(textEntries, logger, "LearningItemListViewAdaptor", R.layout.learning_item_editable_text_entry);
+        super(logger, "LearningItemListViewAdaptor", textEntries, R.layout.learning_item_editable_text_entry);
     }
 }
