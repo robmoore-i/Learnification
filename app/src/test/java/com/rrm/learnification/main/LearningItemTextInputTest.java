@@ -26,7 +26,7 @@ public class LearningItemTextInputTest {
 
         learningItemTextInput.setOnTextChangeListener(dummy);
 
-        verify(mockView, times(1)).setOnTextChangeListener(dummy);
+        verify(mockView, times(1)).addLearningItemOnTextChangeListener(dummy);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class LearningItemTextInputTest {
 
         learningItemTextInput.setOnSubmitTextCommand(dummy);
 
-        verify(mockView, times(1)).setOnLearningItemInputSubmitTextCommand(dummy);
+        verify(mockView, times(1)).addLearningItemOnSubmitTextCommand(dummy);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class LearningItemTextInputTest {
 
         learningItemTextInput.getLearningItem();
 
-        verify(mockView, times(1)).getLearningItemTextInput();
+        verify(mockView, times(1)).addLearningItemTextInput();
     }
 
     @Test
@@ -54,6 +54,6 @@ public class LearningItemTextInputTest {
 
         learningItemTextInput.clear();
 
-        verify(mockView, times(1)).clearTextInput();
+        verify(mockView, times(1)).addLearningItemClearTextInput();
     }
 }

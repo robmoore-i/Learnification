@@ -14,20 +14,20 @@ class LearningItemTextInput implements TextInput {
 
     @Override
     public void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
-        addLearningItemView.setOnTextChangeListener(onTextChangeListener);
+        addLearningItemView.addLearningItemOnTextChangeListener(onTextChangeListener);
     }
 
     @Override
     public void setOnSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand) {
-        addLearningItemView.setOnLearningItemInputSubmitTextCommand(onSubmitTextCommand);
+        addLearningItemView.addLearningItemOnSubmitTextCommand(onSubmitTextCommand);
     }
 
     LearningItem getLearningItem() {
-        return addLearningItemView.getLearningItemTextInput();
+        return addLearningItemView.addLearningItemTextInput();
     }
 
     @Override
     public void clear() {
-        addLearningItemView.clearTextInput();
+        addLearningItemView.addLearningItemClearTextInput();
     }
 }

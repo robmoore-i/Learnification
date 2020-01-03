@@ -7,13 +7,13 @@ import com.rrm.learnification.textinput.OnSubmitTextCommand;
 import com.rrm.learnification.textinput.OnTextChangeListener;
 
 interface AddLearningItemView {
-    LearningItem getLearningItemTextInput();
+    LearningItem addLearningItemTextInput();
 
     Button addLearningItemButton();
 
-    void setOnTextChangeListener(OnTextChangeListener onTextChangeListener);
+    void addLearningItemOnTextChangeListener(OnTextChangeListener onTextChangeListener);
 
-    void clearTextInput();
+    void addLearningItemOnSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand);
 
-    void setOnLearningItemInputSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand);
+    void addLearningItemClearTextInput();
 }

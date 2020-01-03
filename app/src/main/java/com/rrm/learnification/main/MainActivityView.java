@@ -8,13 +8,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.settings.learnificationdelay.DelayPickerView;
 import com.rrm.learnification.textinput.AndroidTextWatcher;
 import com.rrm.learnification.textinput.OnSubmitTextCommand;
 import com.rrm.learnification.textinput.OnTextChangeListener;
@@ -22,7 +20,7 @@ import com.rrm.learnification.toolbar.ToolbarView;
 import com.rrm.learnification.toolbar.ToolbarViewParameters;
 import com.rrm.learnification.toolbar.ToolbarViewUpdate;
 
-class MainActivityView implements ToolbarView, AddLearningItemView, DelayPickerView, LearningItemListView {
+class MainActivityView implements ToolbarView, AddLearningItemView, LearningItemListView {
     private static final String LOG_TAG = "MainActivityView";
 
     private final AndroidLogger logger;
@@ -81,7 +79,7 @@ class MainActivityView implements ToolbarView, AddLearningItemView, DelayPickerV
     }
 
     @Override
-    public LearningItem getLearningItemTextInput() {
+    public LearningItem addLearningItemTextInput() {
         return new LearningItem(
                 (leftEditText()).getText().toString(),
                 (rightEditText()).getText().toString());
@@ -93,19 +91,13 @@ class MainActivityView implements ToolbarView, AddLearningItemView, DelayPickerV
     }
 
     @Override
-    public void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
+    public void addLearningItemOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
         onTextChangeListener.addTextSource(new AndroidTextWatcher("left", leftEditText()));
         onTextChangeListener.addTextSource(new AndroidTextWatcher("right", rightEditText()));
     }
 
     @Override
-    public void clearTextInput() {
-        leftEditText().setText("");
-        rightEditText().setText("");
-    }
-
-    @Override
-    public void setOnLearningItemInputSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand) {
+    public void addLearningItemOnSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand) {
         TextView.OnEditorActionListener onEditorActionListener = (textView, actionId, event) -> {
             logger.v(LOG_TAG, "learning item text input received an action with id '" + actionId + "'");
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -119,8 +111,9 @@ class MainActivityView implements ToolbarView, AddLearningItemView, DelayPickerV
     }
 
     @Override
-    public NumberPicker delayPicker() {
-        return activity.findViewById(R.id.delay_picker);
+    public void addLearningItemClearTextInput() {
+        leftEditText().setText("");
+        rightEditText().setText("");
     }
 
     @Override
