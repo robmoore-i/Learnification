@@ -7,6 +7,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.textlist.EditableTextListViewAdaptor;
 import com.rrm.learnification.textlist.OnSwipeCommand;
 
@@ -64,5 +65,8 @@ class LearningItemList {
     void addTextEntry(String textEntry) {
         logger.v(LOG_TAG, "adding a text entry to the learning-item list '" + textEntry + "'");
         adapter.add(textEntry);
+    }
+
+    void setOnEntryChangeListener(OnTextChangeListener onTextChangeListener) {
     }
 }

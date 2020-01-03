@@ -38,6 +38,9 @@ import com.rrm.learnification.time.AndroidClock;
 import com.rrm.learnification.toolbar.FastForwardScheduleButton;
 import com.rrm.learnification.toolbar.LearnificationScheduleStatusUpdate;
 
+import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.noneEmpty;
+import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.validLearningItemSingleTextEntries;
+
 public class MainActivity extends AppCompatActivity {
     private final AndroidLogger logger = new AndroidLogger();
     private final AndroidClock clock = new AndroidClock();
@@ -63,13 +66,14 @@ public class MainActivity extends AppCompatActivity {
 
         mainActivityView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, mainActivityView)));
 
-        learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(addLearningItemButton));
+        learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(addLearningItemButton, noneEmpty));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));
         addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
         learningItemList.bindTo(learningItemRepository);
         learningItemList.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
+        learningItemList.setOnEntryChangeListener(new SetButtonStatusOnTextChangeListener(updateLearningItemButton, validLearningItemSingleTextEntries));
 
         androidNotificationFacade.createNotificationChannel(AndroidNotificationFacade.CHANNEL_ID);
         learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);
