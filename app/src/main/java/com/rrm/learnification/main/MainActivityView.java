@@ -38,6 +38,18 @@ class MainActivityView implements ToolbarView, AddLearningItemView, LearningItem
         setToolbarTitle("Learnification");
     }
 
+    private void setLearningItemListInterItemPadding() {
+        RecyclerView recyclerView = this.learningItemsList();
+        // RecyclerViews must have a layout manager
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        // Provide padding between the elements of the recycler list view
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(activity, linearLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
     private void setLearningItemListViewBounds() {
         RecyclerView recyclerView = this.learningItemsList();
         // A bit of a hack: Makes sure that the recycler view height doesn't spill over the bottom of the screen,
@@ -54,18 +66,6 @@ class MainActivityView implements ToolbarView, AddLearningItemView, LearningItem
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
         params.height = halfTheScreenVertically;
         recyclerView.setLayoutParams(params);
-    }
-
-    private void setLearningItemListInterItemPadding() {
-        RecyclerView recyclerView = this.learningItemsList();
-        // RecyclerViews must have a layout manager
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        // Provide padding between the elements of the recycler list view
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(activity, linearLayoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     @Override
