@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.rrm.learnification.logger.AndroidLogger;
 
@@ -14,14 +14,14 @@ public abstract class TextListViewAdaptor extends RecyclerView.Adapter<TextListV
     private final AndroidLogger logger;
     private final String LOG_TAG;
 
-    private final int textViewId;
+    private final int viewHolderId;
     private final List<String> textEntries;
 
-    public TextListViewAdaptor(List<String> textEntries, AndroidLogger logger, String LOG_TAG, int textViewId) {
+    public TextListViewAdaptor(List<String> textEntries, AndroidLogger logger, String LOG_TAG, int viewHolderId) {
         this.textEntries = textEntries;
         this.logger = logger;
         this.LOG_TAG = LOG_TAG;
-        this.textViewId = textViewId;
+        this.viewHolderId = viewHolderId;
     }
 
     public void add(String textEntry) {
@@ -38,7 +38,7 @@ public abstract class TextListViewAdaptor extends RecyclerView.Adapter<TextListV
 
     @Override
     public void onBindViewHolder(@NonNull TextViewHolder holder, int position) {
-        holder.textView.setText(textEntries.get(position));
+        holder.listItemView.setText(textEntries.get(position));
     }
 
     @Override
@@ -49,20 +49,29 @@ public abstract class TextListViewAdaptor extends RecyclerView.Adapter<TextListV
     @NonNull
     @Override
     public TextViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(textViewId, parent, false);
-        return new TextViewHolder(v);
+        EditText v = (EditText) LayoutInflater.from(parent.getContext()).inflate(viewHolderId, parent, false);
+        v.setEnabled(false);
+        return new TextViewHolder(logger, LOG_TAG, v);
     }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     static class TextViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        final TextView textView;
+        private final EditText listItemView;
 
-        TextViewHolder(TextView v) {
-            super(v);
-            textView = v;
+        TextViewHolder(AndroidLogger logger, String PARENT_LOG_TAG, EditText listItemView) {
+            super(listItemView);
+            String LOG_TAG = PARENT_LOG_TAG + ".TextViewHolder";
+            this.listItemView = listItemView;
+
+            this.listItemView.setOnLongClickListener(v -> {
+                logger.v(LOG_TAG, "long press detected for view with text '" + ((EditText) v).getText().toString() + "'");
+                v.setEnabled(true);
+                return false;
+            });
+
+            this.listItemView.setOnClickListener(v -> logger.v(LOG_TAG, "click detected for view with text '" + ((EditText) v).getText().toString() + "'"));
         }
     }
 }

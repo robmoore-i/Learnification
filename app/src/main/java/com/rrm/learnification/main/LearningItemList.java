@@ -21,9 +21,9 @@ class LearningItemList {
 
     private TextListViewAdaptor adapter;
 
-    LearningItemList(AndroidLogger logger, LearningItemListView learningItemListView) {
+    LearningItemList(AndroidLogger logger, LearningItemListView view) {
         this.logger = logger;
-        recyclerView = learningItemListView.learningItemsList();
+        recyclerView = view.learningItemsList();
     }
 
     void bindTo(ItemRepository<LearningItem> itemRepository) {

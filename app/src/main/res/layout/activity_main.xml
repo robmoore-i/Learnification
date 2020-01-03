@@ -25,7 +25,8 @@
                 android:layout_gravity="end"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:text=">>" />
+                android:text=">>"
+                tools:ignore="HardcodedText" />
 
         </android.support.v7.widget.Toolbar>
 

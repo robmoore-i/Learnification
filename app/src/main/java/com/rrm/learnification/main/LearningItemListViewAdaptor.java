@@ -8,6 +8,6 @@ import java.util.List;
 
 class LearningItemListViewAdaptor extends TextListViewAdaptor {
     LearningItemListViewAdaptor(AndroidLogger logger, List<String> textEntries) {
-        super(textEntries, logger, "LearningItemListViewAdaptor", R.layout.learnification_text_entry);
+        super(textEntries, logger, "LearningItemListViewAdaptor", R.layout.learning_item_editable_text_entry);
     }
 }
