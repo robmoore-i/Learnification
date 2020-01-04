@@ -39,7 +39,7 @@ import com.rrm.learnification.toolbar.FastForwardScheduleButton;
 import com.rrm.learnification.toolbar.LearnificationScheduleStatusUpdate;
 
 import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.noneEmpty;
-import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.validLearningItemSingleTextEntries;
+import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.unpersistedValidLearningItemSingleTextEntries;
 
 public class MainActivity extends AppCompatActivity {
     private final AndroidLogger logger = new AndroidLogger();
@@ -51,29 +51,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create some objects
+        // Create some objects, in the order in which they have relevance in the view
 
         MainActivityView mainActivityView = new MainActivityView(logger, this);
-        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), clock), new ScheduleConfiguration(logger, new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this))), clock, new AndroidResponseNotificationCorrespondent(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), androidNotificationFacade));
+
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(mainActivityView);
         AddLearningItemButton addLearningItemButton = new AddLearningItemButton(logger, mainActivityView);
-        LearningItemList learningItemList = new LearningItemList(logger, mainActivityView);
-        UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, mainActivityView);
 
-        // Set them up where necessary
+        LearningItemList learningItemList = new LearningItemList(logger, mainActivityView);
+
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
+        UpdatedLearningItemSaver updatedLearningItemSaver = new UpdatedLearningItemSaver(logger, learningItemRepository);
+        UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, mainActivityView, updatedLearningItemSaver);
+
+        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), clock), new ScheduleConfiguration(logger, new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this))), clock, new AndroidResponseNotificationCorrespondent(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), androidNotificationFacade));
+
+        // Set them up where necessary, again in the order in which they have relevance in the view
 
         mainActivityView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, mainActivityView)));
 
-        learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(addLearningItemButton, noneEmpty));
+        learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty, false));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));
         addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
         learningItemList.bindTo(learningItemRepository);
         learningItemList.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
-        learningItemList.setOnEntryChangeListener(new SetButtonStatusOnTextChangeListener(updateLearningItemButton, validLearningItemSingleTextEntries));
+        learningItemList.setEntryUpdateHandlers(
+                new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, unpersistedValidLearningItemSingleTextEntries(logger, learningItemRepository), true),
+                updatedLearningItemSaver
+        );
+
+        updateLearningItemButton.addOnClickHandler(learningItemRepository::replace);
 
         androidNotificationFacade.createNotificationChannel(AndroidNotificationFacade.CHANNEL_ID);
         learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);

@@ -20,6 +20,11 @@ public class LearningItem {
         return left + " - " + right;
     }
 
+    public static LearningItem fromSingleString(String s) {
+        String[] split = s.split("-");
+        return new LearningItem(split[0].trim(), split[1].trim());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -10,4 +10,8 @@ public interface ItemRepository<T> {
     void add(T item);
 
     void removeAt(int index);
+
+    void replace(T target, T replacement);
+
+    void subscribeToModifications(T item, ItemChangeListener<T> itemChangeListener);
 }

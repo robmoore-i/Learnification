@@ -94,4 +94,23 @@ public class PersistentLearningItemRepositoryTest {
             assertThat(itemsAgain, hasItem(learningItem));
         }
     }
+
+    @Test
+    public void replacingALearningItemUpdatesItWhenYouReadAllItems() {
+        LearningItemStorage stubLearningItemStorage = mock(LearningItemStorage.class);
+        ArrayList<LearningItem> learningItems = new ArrayList<>(Arrays.asList(
+                new LearningItem("a", "a"),
+                new LearningItem("b", "b"),
+                new LearningItem("c", "c"),
+                new LearningItem("d", "d")
+        ));
+        when(stubLearningItemStorage.read()).thenReturn(learningItems);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningItemStorage);
+
+        persistentLearnificationRepository.replace(new LearningItem("c", "c"), new LearningItem("e", "e"));
+
+        List<LearningItem> items = persistentLearnificationRepository.items();
+        assertThat(items, hasItem(new LearningItem("e", "e")));
+        assertThat(items, not(hasItem(new LearningItem("c", "c"))));
+    }
 }

@@ -18,6 +18,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     private final Button button;
     private final List<OnClickCommand> onClickCommands = new ArrayList<>();
     private boolean enabled;
+    private OnClickCommand lastExecutedOnClickCommand;
 
     public AndroidButton(AndroidLogger logger, Button button) {
         this.logger = logger;
@@ -31,13 +32,21 @@ public abstract class AndroidButton implements ConfigurableButton {
         }
     }
 
-    public abstract boolean enabledInitially();
-
     @Override
     public final void addOnClickHandler(final OnClickCommand onClickCommand) {
         this.onClickCommands.add(onClickCommand);
         if (enabled) {
-            bindClickListenersToButton(onClickCommands);
+            bindClickListeners();
+        }
+    }
+
+    @Override
+    public final void addLastExecutedOnClickHandler(final OnClickCommand onClickCommand) {
+        if (lastExecutedOnClickCommand != null)
+            throw new IllegalStateException("there is already a last executed on click command registered");
+        lastExecutedOnClickCommand = onClickCommand;
+        if (enabled) {
+            bindClickListeners();
         }
     }
 
@@ -51,7 +60,7 @@ public abstract class AndroidButton implements ConfigurableButton {
         enabled = true;
         AndroidButton.ButtonColour.setColour(button, AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
         button.setClickable(true);
-        bindClickListenersToButton(onClickCommands);
+        bindClickListeners();
     }
 
     @Override
@@ -59,7 +68,7 @@ public abstract class AndroidButton implements ConfigurableButton {
         enabled = false;
         AndroidButton.ButtonColour.setColour(button, AndroidButton.ButtonColour.GRAYED_OUT);
         button.setClickable(false);
-        bindClickListenersToButton(Collections.singletonList(OnClickCommand.doNothingOnClickCommand()));
+        unbindClickListeners();
     }
 
     @Override
@@ -67,15 +76,28 @@ public abstract class AndroidButton implements ConfigurableButton {
         button.callOnClick();
     }
 
-    private String logTag() {
-        return this.getClass().getSimpleName();
+    private void bindClickListeners() {
+        ArrayList<OnClickCommand> onClickCommands = new ArrayList<>(this.onClickCommands);
+        if (lastExecutedOnClickCommand != null) {
+            logger.v(logTag(), "last executed on click command is set");
+            onClickCommands.add(lastExecutedOnClickCommand);
+        }
+        bindClickListeners(onClickCommands);
     }
 
-    private void bindClickListenersToButton(List<OnClickCommand> onClickCommands) {
+    private void unbindClickListeners() {
+        bindClickListeners(Collections.singletonList(OnClickCommand.doNothingOnClickCommand()));
+    }
+
+    private void bindClickListeners(List<OnClickCommand> onClickCommands) {
         button.setOnClickListener(view -> {
             logger.v(logTag(), "clicked");
             onClickCommands.forEach(OnClickCommand::onClick);
         });
+    }
+
+    private String logTag() {
+        return this.getClass().getSimpleName();
     }
 
     @SuppressLint("ClickableViewAccessibility")

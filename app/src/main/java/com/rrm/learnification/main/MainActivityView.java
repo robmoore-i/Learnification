@@ -81,8 +81,8 @@ class MainActivityView implements ToolbarView, AddLearningItemView, LearningItem
     @Override
     public LearningItem addLearningItemTextInput() {
         return new LearningItem(
-                (leftEditText()).getText().toString(),
-                (rightEditText()).getText().toString());
+                (leftEditText()).getText().toString().trim(),
+                (rightEditText()).getText().toString().trim());
     }
 
     @Override

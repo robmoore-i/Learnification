@@ -9,6 +9,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.textlist.EditableTextListViewAdaptor;
+import com.rrm.learnification.textlist.ListViewItemSaver;
 import com.rrm.learnification.textlist.OnSwipeCommand;
 
 import java.util.List;
@@ -67,7 +68,7 @@ class LearningItemList {
         adapter.add(textEntry);
     }
 
-    void setOnEntryChangeListener(OnTextChangeListener onTextChangeListener) {
-        adapter.setEntryOnTextChangeListener(onTextChangeListener);
+    void setEntryUpdateHandlers(OnTextChangeListener onTextChangeListener, ListViewItemSaver listItemViewSaver) {
+        adapter.setEntryUpdateHandlers(onTextChangeListener, listItemViewSaver);
     }
 }

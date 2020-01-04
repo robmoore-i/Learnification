@@ -13,5 +13,11 @@ public interface OnTextChangeListener {
         @Override
         public void addTextSource(IdentifiedTextSource identifiedTextSource) {
         }
+
+        @Override
+        public void removeTextSource(String textSourceId) {
+        }
     };
+
+    void removeTextSource(String textSourceId);
 }

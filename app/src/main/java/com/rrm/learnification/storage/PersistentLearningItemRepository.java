@@ -4,8 +4,10 @@ import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 public class PersistentLearningItemRepository implements ItemRepository<LearningItem> {
     private static final String LOG_TAG = "PersistentLearningItemRepository";
@@ -13,6 +15,8 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     private final AndroidLogger logger;
     private final LearningItemStorage learningItemStorage;
     private final List<LearningItem> learningItems;
+
+    private final Map<LearningItem, ItemChangeListener<LearningItem>> modificationListeners = new HashMap<>();
 
     public PersistentLearningItemRepository(AndroidLogger logger, LearningItemStorage learningItemStorage) {
         this.logger = logger;
@@ -57,5 +61,26 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
         logger.v(LOG_TAG, "removing a learning-item at index " + index + " in the view, which corresponds to index " + reversedIndex + " in storage");
         learningItemStorage.remove(learningItems.get(reversedIndex));
         learningItems.remove(reversedIndex);
+    }
+
+    @Override
+    public void replace(LearningItem target, LearningItem replacement) {
+        logger.v(LOG_TAG, "replacing '" + target.asSingleString() + "' with '" + replacement.asSingleString() + "'");
+        ItemChangeListener<LearningItem> itemChangeListener = modificationListeners.get(target);
+        if (itemChangeListener != null) {
+            modificationListeners.remove(target);
+            itemChangeListener.onItemChange(replacement);
+        }
+        learningItemStorage.replace(target, replacement);
+        learningItems.replaceAll(learningItem -> {
+            if (learningItem.equals(target)) return replacement;
+            return learningItem;
+        });
+    }
+
+    @Override
+    public void subscribeToModifications(LearningItem item, ItemChangeListener<LearningItem> itemChangeListener) {
+        logger.v(LOG_TAG, "assigning change listener to item '" + item.asSingleString() + "'");
+        modificationListeners.put(item, itemChangeListener);
     }
 }

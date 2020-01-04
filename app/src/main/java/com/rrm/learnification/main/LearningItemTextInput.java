@@ -22,12 +22,12 @@ class LearningItemTextInput implements TextInput {
         addLearningItemView.addLearningItemOnSubmitTextCommand(onSubmitTextCommand);
     }
 
-    LearningItem getLearningItem() {
-        return addLearningItemView.addLearningItemTextInput();
-    }
-
     @Override
     public void clear() {
         addLearningItemView.addLearningItemClearTextInput();
+    }
+
+    LearningItem getLearningItem() {
+        return addLearningItemView.addLearningItemTextInput();
     }
 }
