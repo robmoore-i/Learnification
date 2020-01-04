@@ -11,6 +11,8 @@ public interface ItemRepository<T> {
 
     void removeAt(int index);
 
+    void remove(T item);
+
     void replace(T target, T replacement);
 
     void subscribeToModifications(T item, ItemChangeListener<T> itemChangeListener);

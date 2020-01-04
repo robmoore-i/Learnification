@@ -49,7 +49,7 @@ public class AppToolbarTest {
         clearNotifications();
         clearJobs();
 
-        waitACoupleOfSeconds();
+        waitSomeSeconds();
 
         onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification")))).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.toolbar_button), withText(">>"))).check(matches(isDisplayed()));
@@ -122,6 +122,10 @@ public class AppToolbarTest {
 
     private void waitACoupleOfSeconds() throws InterruptedException {
         Thread.sleep(2000);
+    }
+
+    private void waitSomeSeconds() throws InterruptedException {
+        Thread.sleep(4000);
     }
 
     @Test

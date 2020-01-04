@@ -9,9 +9,10 @@ import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.ItemStorage;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
+import com.rrm.learnification.storage.LearningItemChangeListenerGroup;
 import com.rrm.learnification.storage.LearningItemSqlTableInterface;
-import com.rrm.learnification.storage.LearningItemStorage;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLiteLearningItemStorage;
 
@@ -29,8 +30,8 @@ public class LearnificationPublishingService extends JobService {
 
     private boolean publishNewLearnification() {
         logger.v(LOG_TAG, "Job started");
-        LearningItemStorage learningItemStorage = new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
-        ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, learningItemStorage);
+        ItemStorage<LearningItem> learningItemStorage = new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
+        ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, learningItemStorage, new LearningItemChangeListenerGroup());
         List<LearningItem> learningItems = itemRepository.items();
         for (LearningItem learningItem : learningItems) {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");

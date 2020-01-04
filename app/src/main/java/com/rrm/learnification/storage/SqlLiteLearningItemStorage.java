@@ -7,7 +7,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.List;
 
-public class SqlLiteLearningItemStorage implements LearningItemStorage {
+public class SqlLiteLearningItemStorage implements ItemStorage<LearningItem> {
     private static final String LOG_TAG = "SqlLiteLearningItemStorage";
 
     private final AndroidLogger logger;

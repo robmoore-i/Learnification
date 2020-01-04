@@ -83,7 +83,6 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
             this.onTextChangeListener = onTextChangeListener;
 
             configureListItemSaver(listViewItemSaver);
-            configureOnTextChangeListener();
         }
 
         private void configureListItemSaver(ListViewItemSaver listViewItemSaver) {
@@ -93,6 +92,8 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
                     logger.v(LOG_TAG, "focus acquired on list item with text '" + viewText + "'");
                     // Set update button to update the learning item based on viewText with the text of listItemView
                     listViewItemSaver.saveText(new AndroidTextSource(listItemView), viewText);
+                    // Set the currently focused text source as the active one
+                    onTextChangeListener.addTextSource(new AndroidTextWatcher(textSourceId, listItemView));
                 } else {
                     logger.v(LOG_TAG, "focus lost on list item with text '" + viewText + "'");
                     // Reload text content from storage
@@ -101,10 +102,6 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
                     onTextChangeListener.removeTextSource(textSourceId);
                 }
             });
-        }
-
-        private void configureOnTextChangeListener() {
-            onTextChangeListener.addTextSource(new AndroidTextWatcher(textSourceId, listItemView));
         }
 
         private void setText(CharSequence text) {

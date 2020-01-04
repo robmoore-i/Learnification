@@ -31,7 +31,7 @@ public class SetButtonStatusOnTextChangeListenerTest {
     @Before
     public void beforeEach() {
         mockButton = new MockAndroidButton();
-        setButtonStatusOnTextChangeListener = new SetButtonStatusOnTextChangeListener(dummyLogger, mockButton, noneEmpty, false);
+        setButtonStatusOnTextChangeListener = new SetButtonStatusOnTextChangeListener(dummyLogger, mockButton, noneEmpty);
     }
 
     @Test
@@ -171,8 +171,9 @@ public class SetButtonStatusOnTextChangeListenerTest {
     }
 
     private static class StubIdentifiedTextSource implements IdentifiedTextSource {
-        private String identity;
-        private String text;
+        private final String identity;
+
+        private String text = "";
 
         StubIdentifiedTextSource(String identity) {
             this.identity = identity;

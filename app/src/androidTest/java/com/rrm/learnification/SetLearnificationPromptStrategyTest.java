@@ -24,12 +24,10 @@ public class SetLearnificationPromptStrategyTest {
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void settingTheLearnificationPromptSavesItAndIsStillSetIfYouGoInAndOutOfTheSettingsScreen() throws InterruptedException {
+    public void settingTheLearnificationPromptSavesItAndIsStillSetIfYouGoInAndOutOfTheSettingsScreen() {
         goToSettings();
-        waitACoupleOfSeconds();
         onView(withId(R.id.right_to_left)).perform(click());
         onView(withId(R.id.save_settings_button)).perform(click());
-        waitACoupleOfSeconds();
         goToSettings();
         onView(withId(R.id.right_to_left)).check(matches(isChecked()));
     }
@@ -37,9 +35,5 @@ public class SetLearnificationPromptStrategyTest {
     public void goToSettings() {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText(R.string.action_settings)).perform(click());
-    }
-
-    private void waitACoupleOfSeconds() throws InterruptedException {
-        Thread.sleep(2000);
     }
 }

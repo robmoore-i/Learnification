@@ -26,9 +26,10 @@ import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.ItemStorage;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
+import com.rrm.learnification.storage.LearningItemChangeListenerGroup;
 import com.rrm.learnification.storage.LearningItemSqlTableInterface;
-import com.rrm.learnification.storage.LearningItemStorage;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLiteLearningItemStorage;
 import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         LearningItemList learningItemList = new LearningItemList(logger, mainActivityView);
 
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()), new LearningItemChangeListenerGroup());
         UpdatedLearningItemSaver updatedLearningItemSaver = new UpdatedLearningItemSaver(logger, learningItemRepository);
         UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, mainActivityView, updatedLearningItemSaver);
 
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainActivityView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, mainActivityView)));
 
-        learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty, false));
+        learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));
         addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         learningItemList.bindTo(learningItemRepository);
         learningItemList.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
         learningItemList.setEntryUpdateHandlers(
-                new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, unpersistedValidLearningItemSingleTextEntries(logger, learningItemRepository), true),
+                new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, unpersistedValidLearningItemSingleTextEntries(logger, learningItemRepository)),
                 updatedLearningItemSaver
         );
 
@@ -129,12 +130,12 @@ public class MainActivity extends AppCompatActivity {
         return new AndroidInternalStorageAdaptor(logger, this);
     }
 
-    public LearningItemStorage getLearningItemStorage() {
+    public ItemStorage<LearningItem> getLearningItemStorage() {
         return new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
     }
 
     public ItemRepository<LearningItem> getLearningItemRepository() {
-        return new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()));
+        return new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()), new LearningItemChangeListenerGroup());
     }
 
     public JobScheduler getJobScheduler() {

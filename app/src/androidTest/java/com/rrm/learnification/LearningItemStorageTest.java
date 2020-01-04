@@ -5,7 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.main.MainActivity;
-import com.rrm.learnification.storage.LearningItemStorage;
+import com.rrm.learnification.storage.ItemStorage;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +29,7 @@ public class LearningItemStorageTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private LearningItemStorage learningItemStorage;
+    private ItemStorage<LearningItem> learningItemStorage;
     private List<LearningItem> originalLearningItems;
 
     @Before

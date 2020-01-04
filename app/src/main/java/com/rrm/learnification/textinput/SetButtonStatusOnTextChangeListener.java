@@ -14,30 +14,13 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.asList;
 
 public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
-    public static final Function<HashMap<String, String>, Boolean> noneEmpty = texts -> texts.values().stream().map(String::trim).noneMatch(""::equals);
     private static final String LOG_TAG = "SetButtonStatusOnTextChangeListener";
     private final ConfigurableButton configurableButton;
     private final AndroidLogger logger;
     private final Function<HashMap<String, String>, Boolean> textsValidation;
     private final HashMap<String, String> texts = new HashMap<>();
 
-    /**
-     * @param logger                        Logger
-     * @param configurableButton            ConfigurableButton
-     * @param textsValidation               This is a function which accepts a mapping from text source id to
-     *                                      text. The text is the text within one of the listened-to text sources.
-     *                                      So the values of the map are the text entries you'll likely want to
-     * @param reevaluateButtonStatusOnClick If set to true, the button is given an onClickHandler which causes the
-     *                                      status of the button itself to be reevaluated. This onClickHandler is
-     *                                      always executed last in the list of onClickHandlers.
-     */
-    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton, Function<HashMap<String, String>, Boolean> textsValidation, boolean reevaluateButtonStatusOnClick) {
-        this.logger = logger;
-        this.configurableButton = configurableButton;
-        this.textsValidation = textsValidation;
-        if (reevaluateButtonStatusOnClick)
-            configurableButton.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
-    }
+    public static final Function<HashMap<String, String>, Boolean> noneEmpty = texts -> texts.values().stream().map(String::trim).noneMatch(""::equals);
 
     public static Function<HashMap<String, String>, Boolean> unpersistedValidLearningItemSingleTextEntries(AndroidLogger logger, ItemRepository<LearningItem> learningItemRepository) {
         return new Function<HashMap<String, String>, Boolean>() {
@@ -51,8 +34,6 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
 
             private boolean allCandidateTextEntriesAreAlreadyStored(Collection<String> textEntries) {
                 List<String> stored = learningItemRepository.items().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
-                logger.v(LOG_TAG, "stored text entries are '" + stored.toString() + "'");
-                logger.v(LOG_TAG, "written text entries are '" + collectionToString(textEntries) + "'");
                 boolean result = stored.containsAll(textEntries);
                 logger.v(LOG_TAG, "all candidate text entries are " + (result ? "" : "not") + " already stored");
                 return result;
@@ -73,11 +54,19 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
         };
     }
 
-    @Override
-    public void addTextSource(IdentifiedTextSource identifiedTextSource) {
-        logger.v(LOG_TAG, "adding text source '" + identifiedTextSource.identity() + "' with current text '" + identifiedTextSource.latestText() + "'");
-        identifiedTextSource.addTextSink(this);
-        texts.put(identifiedTextSource.identity(), "");
+    /**
+     * @param logger             Logger
+     * @param configurableButton ConfigurableButton
+     * @param textsValidation    This is a function which accepts a mapping from text source id to
+     *                           text. The text is the text within one of the listened-to text sources.
+     *                           So the values of the map are the text entries you'll likely want to
+     */
+    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton, Function<HashMap<String, String>, Boolean> textsValidation) {
+        this.logger = logger;
+        this.configurableButton = configurableButton;
+        this.textsValidation = textsValidation;
+        // Reevaluate button status onclick
+        configurableButton.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
     }
 
     @Override
@@ -88,18 +77,17 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
     }
 
     @Override
-    public void removeTextSource(String textSourceId) {
-        texts.remove(textSourceId);
-        setButtonStatus(configurableButton.enabledInitially());
+    public void addTextSource(IdentifiedTextSource identifiedTextSource) {
+        logger.v(LOG_TAG, "adding text source '" + identifiedTextSource.identity() + "' with current text '" + identifiedTextSource.latestText() + "'");
+        identifiedTextSource.addTextSink(this);
+        texts.put(identifiedTextSource.identity(), identifiedTextSource.latestText());
     }
 
-    private void setButtonStatusBasedOnTexts() {
-        boolean buttonShouldBeEnabled = true;
-        if (!textsValidation.apply(texts)) {
-            buttonShouldBeEnabled = false;
-        }
-        logger.v(LOG_TAG, "setting button status to '" + buttonShouldBeEnabled + "', based on texts");
-        setButtonStatus(buttonShouldBeEnabled);
+    @Override
+    public void removeTextSource(String textSourceId) {
+        logger.v(LOG_TAG, "removing text source '" + textSourceId + "'");
+        texts.remove(textSourceId);
+        setButtonStatusBasedOnTexts();
     }
 
     private void setButtonStatus(boolean shouldBeEnabled) {
@@ -109,5 +97,15 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
         } else {
             configurableButton.disable();
         }
+    }
+
+    private void setButtonStatusBasedOnTexts() {
+        boolean buttonShouldBeEnabled = true;
+        boolean textsAreValid = textsValidation.apply(texts);
+        logger.v(LOG_TAG, "that the button should be enabled is deemed " + textsAreValid + " for texts '" + texts.toString() + "'");
+        if (!textsAreValid) {
+            buttonShouldBeEnabled = false;
+        }
+        setButtonStatus(buttonShouldBeEnabled);
     }
 }
