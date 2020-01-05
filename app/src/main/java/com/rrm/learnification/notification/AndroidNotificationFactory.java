@@ -8,28 +8,27 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.RemoteInput;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.response.NotificationTextContent;
 
-import static com.rrm.learnification.notification.LearnificationResponseType.ANSWER;
-import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
-import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
+import java.util.List;
 
 public class AndroidNotificationFactory {
     public static final String NOTIFICATION_TYPE = "notificationType";
-    public static final String REPLY_TEXT = "remote_input_text_reply";
     private static final String LOG_TAG = "AndroidNotificationFactory";
 
     private final AndroidLogger logger;
     private final Context packageContext;
+    private final AndroidNotificationActionFactory notificationActionFactory;
+
 
     public AndroidNotificationFactory(AndroidLogger logger, Context packageContext) {
         this.logger = logger;
         this.packageContext = packageContext;
+        this.notificationActionFactory = new AndroidNotificationActionFactory(packageContext);
     }
 
     public Notification createLearnification(LearnificationText learnificationText) {
@@ -38,53 +37,10 @@ public class AndroidNotificationFactory {
         String expectedUserResponse = learnificationText.expected;
         logger.v(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
-        RemoteInput remoteInput = new RemoteInput.Builder(REPLY_TEXT)
-                .setLabel(replyActionLabel())
-                .build();
-
-        // Create the reply action and add the remote input.
-        NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
-                R.drawable.android_send,
-                replyActionLabel(),
-                learnificationIntent(expectedUserResponse, learningItemPrompt))
-                .addRemoteInput(remoteInput)
-                .build();
-
-        // Create the show-me action
-        NotificationCompat.Action showMeAction = new NotificationCompat.Action.Builder(
-                R.drawable.android_send,
-                "Show me",
-                showMeIntent(expectedUserResponse, learningItemPrompt))
-                .build();
-
-        // Create the 'next' action
-        NotificationCompat.Action nextAction = new NotificationCompat.Action.Builder(
-                R.drawable.android_send,
-                "Next",
-                nextIntent(expectedUserResponse, learningItemPrompt))
-                .build();
-
-        // Use the title for the learnification main text, so it shows up boldly.
-        return buildNotification(learningItemPrompt, subHeading, replyAction, showMeAction, nextAction);
-    }
-
-    private String replyActionLabel() {
-        return "Respond";
-    }
-
-    private PendingIntent learnificationIntent(String expectedUserResponse, String learningItemPrompt) {
-        return new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, ANSWER)
-                .build();
-    }
-
-    private PendingIntent showMeIntent(String expectedUserResponse, String learningItemPrompt) {
-        return new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, SHOW_ME)
-                .build();
-    }
-
-    private PendingIntent nextIntent(String expectedUserResponse, String learningItemPrompt) {
-        return new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, NEXT)
-                .build();
+        return buildNotification(
+                learningItemPrompt,
+                subHeading,
+                notificationActionFactory.learnificationActions(learningItemPrompt, expectedUserResponse));
     }
 
     public Notification createLearnificationResponse(NotificationTextContent notificationTextContent) {
@@ -92,12 +48,10 @@ public class AndroidNotificationFactory {
                 .build();
     }
 
-    private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction, NotificationCompat.Action skipAction, NotificationCompat.Action nextAction) {
-        return appNotificationTemplate(title, text, NotificationType.LEARNIFICATION)
-                .addAction(replyAction)
-                .addAction(skipAction)
-                .addAction(nextAction)
-                .build();
+    private Notification buildNotification(String title, String text, List<NotificationCompat.Action> actions) {
+        NotificationCompat.Builder builder = appNotificationTemplate(title, text, NotificationType.LEARNIFICATION);
+        actions.forEach(builder::addAction);
+        return builder.build();
     }
 
     private NotificationCompat.Builder appNotificationTemplate(String title, String text, String notificationType) {
@@ -114,16 +68,16 @@ public class AndroidNotificationFactory {
         return notificationBuilder;
     }
 
-    private Bundle notificationExtras(String notificationType) {
-        Bundle bundle = new Bundle();
-        bundle.putString(NOTIFICATION_TYPE, notificationType);
-        return bundle;
-    }
-
     private PendingIntent notificationContentIntent() {
         // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(packageContext, AlertDialog.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return PendingIntent.getActivity(packageContext, 0, intent, 0);
+    }
+
+    private Bundle notificationExtras(String notificationType) {
+        Bundle bundle = new Bundle();
+        bundle.putString(NOTIFICATION_TYPE, notificationType);
+        return bundle;
     }
 }
