@@ -6,10 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.RemoteInput;
 
 import com.rrm.learnification.notification.AndroidNotificationFactory;
+import com.rrm.learnification.notification.AndroidPendingIntentBuilder;
 
 import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.EXPECTED_USER_RESPONSE_EXTRA;
 import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.GIVEN_PROMPT_EXTRA;
-import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.SHOW_ME_FLAG_EXTRA;
+import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
 
 class AndroidLearnificationResponseIntent implements LearnificationResponseIntent {
     private final Intent intent;
@@ -22,7 +23,7 @@ class AndroidLearnificationResponseIntent implements LearnificationResponseInten
 
     @Override
     public boolean isShowMeResponse() {
-        return intent.getBooleanExtra(SHOW_ME_FLAG_EXTRA, true);
+        return SHOW_ME.name().equals(intent.getStringExtra(AndroidPendingIntentBuilder.RESPONSE_TYPE_EXTRA));
     }
 
     @Override

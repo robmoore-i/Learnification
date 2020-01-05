@@ -15,8 +15,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class AndroidNotificationFactoryTest {
@@ -39,8 +45,19 @@ public class AndroidNotificationFactoryTest {
 
     @Test
     public void itGeneratesLearnificationResponseWithABundleContainingTheNotificationType() {
-        Notification learnification = androidNotificationFactory.createLearnificationResponse(new NotificationTextContent("a", "b"));
+        Notification learnificationResponse = androidNotificationFactory.createLearnificationResponse(new NotificationTextContent("a", "b"));
 
-        assertThat(learnification.extras.getString(AndroidNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION_RESPONSE));
+        assertThat(learnificationResponse.extras.getString(AndroidNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION_RESPONSE));
+    }
+
+    @Test
+    public void itGeneratesLearnificationWithPendingIntents() {
+        String[] expectedPendingIntentTitles = {"Respond", "Show me", "Next"};
+        Notification learnification = androidNotificationFactory.createLearnification(new LearnificationText("a", "b"));
+
+        List<String> pendingIntentTitles = Arrays.stream(learnification.actions).map(action -> action.title.toString()).collect(Collectors.toList());
+
+        assertThat(pendingIntentTitles, hasItems(expectedPendingIntentTitles));
+        assertEquals(expectedPendingIntentTitles.length, learnification.actions.length);
     }
 }

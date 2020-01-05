@@ -15,6 +15,10 @@ import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.response.NotificationTextContent;
 
+import static com.rrm.learnification.notification.LearnificationResponseType.ANSWER;
+import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
+import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
+
 public class AndroidNotificationFactory {
     public static final String NOTIFICATION_TYPE = "notificationType";
     public static final String REPLY_TEXT = "remote_input_text_reply";
@@ -47,31 +51,39 @@ public class AndroidNotificationFactory {
                 .build();
 
         // Create the show-me action
-        NotificationCompat.Action skipAction = new NotificationCompat.Action.Builder(
+        NotificationCompat.Action showMeAction = new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
                 "Show me",
                 showMeIntent(expectedUserResponse, learningItemPrompt))
                 .build();
 
+        // Create the 'next' action
+        NotificationCompat.Action nextAction = new NotificationCompat.Action.Builder(
+                R.drawable.android_send,
+                "Next",
+                nextIntent(expectedUserResponse, learningItemPrompt))
+                .build();
+
         // Use the title for the learnification main text, so it shows up boldly.
-        return buildNotification(learningItemPrompt, subHeading, replyAction, skipAction);
+        return buildNotification(learningItemPrompt, subHeading, replyAction, showMeAction, nextAction);
     }
 
     private String replyActionLabel() {
-        return packageContext.getString(R.string.reply_label);
-    }
-
-    private PendingIntent showMeIntent(String expectedUserResponse, String learningItemPrompt) {
-        return AndroidPendingIntentBuilder.showMeIntent(packageContext)
-                .withExpectedUserResponse(expectedUserResponse)
-                .withLearningItemPrompt(learningItemPrompt)
-                .build();
+        return "Respond";
     }
 
     private PendingIntent learnificationIntent(String expectedUserResponse, String learningItemPrompt) {
-        return AndroidPendingIntentBuilder.learnificationIntent(packageContext)
-                .withExpectedUserResponse(expectedUserResponse)
-                .withLearningItemPrompt(learningItemPrompt)
+        return new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, ANSWER)
+                .build();
+    }
+
+    private PendingIntent showMeIntent(String expectedUserResponse, String learningItemPrompt) {
+        return new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, SHOW_ME)
+                .build();
+    }
+
+    private PendingIntent nextIntent(String expectedUserResponse, String learningItemPrompt) {
+        return new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, NEXT)
                 .build();
     }
 
@@ -80,10 +92,11 @@ public class AndroidNotificationFactory {
                 .build();
     }
 
-    private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction, NotificationCompat.Action skipAction) {
+    private Notification buildNotification(String title, String text, NotificationCompat.Action replyAction, NotificationCompat.Action skipAction, NotificationCompat.Action nextAction) {
         return appNotificationTemplate(title, text, NotificationType.LEARNIFICATION)
                 .addAction(replyAction)
                 .addAction(skipAction)
+                .addAction(nextAction)
                 .build();
     }
 

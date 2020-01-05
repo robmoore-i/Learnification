@@ -8,34 +8,19 @@ import com.rrm.learnification.response.LearnificationResponseService;
 
 public class AndroidPendingIntentBuilder {
     public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
-    public static final String SHOW_ME_FLAG_EXTRA = "showMeFlag";
     public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
+
+    public static final String RESPONSE_TYPE_EXTRA = "responseType";
 
     private final Context packageContext;
     private final Intent intent;
 
-    private AndroidPendingIntentBuilder(Context packageContext, boolean isShowMeResponse) {
+    AndroidPendingIntentBuilder(Context packageContext, String expectedUserResponse, String learningItemPrompt, LearnificationResponseType learnificationResponseType) {
         this.packageContext = packageContext;
         intent = new Intent(packageContext, LearnificationResponseService.class);
-        intent.putExtra(SHOW_ME_FLAG_EXTRA, isShowMeResponse);
-    }
-
-    static AndroidPendingIntentBuilder showMeIntent(Context packageContext) {
-        return new AndroidPendingIntentBuilder(packageContext, true);
-    }
-
-    static AndroidPendingIntentBuilder learnificationIntent(Context packageContext) {
-        return new AndroidPendingIntentBuilder(packageContext, false);
-    }
-
-    AndroidPendingIntentBuilder withExpectedUserResponse(String expectedUserResponse) {
+        intent.putExtra(RESPONSE_TYPE_EXTRA, learnificationResponseType.name());
         intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
-        return this;
-    }
-
-    AndroidPendingIntentBuilder withLearningItemPrompt(String learningItemPrompt) {
         intent.putExtra(GIVEN_PROMPT_EXTRA, learningItemPrompt);
-        return this;
     }
 
     PendingIntent build() {
