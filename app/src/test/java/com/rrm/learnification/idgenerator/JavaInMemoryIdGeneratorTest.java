@@ -37,12 +37,4 @@ public class JavaInMemoryIdGeneratorTest {
         generator.nextId();
         assertThat(generator.lastId(), equalTo(1));
     }
-
-    @Test
-    public void afterReturningAnIdTwiceThenResettingTheLastIdIsStill1() {
-        generator.nextId();
-        generator.nextId();
-        generator.reset();
-        assertThat(generator.lastId(), equalTo(1));
-    }
 }

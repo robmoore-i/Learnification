@@ -1,11 +1,12 @@
 package com.rrm.learnification.notification;
 
+import com.rrm.learnification.idgenerator.IdGenerator;
 import com.rrm.learnification.idgenerator.JavaInMemoryIdGenerator;
 
 class NotificationIdGenerator {
     private static final NotificationIdGenerator instance = new NotificationIdGenerator();
 
-    private final JavaInMemoryIdGenerator javaInMemoryIdGenerator = new JavaInMemoryIdGenerator();
+    private final IdGenerator idGenerator = new JavaInMemoryIdGenerator();
 
     private NotificationIdGenerator() {
     }
@@ -15,10 +16,10 @@ class NotificationIdGenerator {
     }
 
     int nextNotificationId() {
-        return javaInMemoryIdGenerator.nextId();
+        return idGenerator.nextId();
     }
 
     int lastNotificationId() {
-        return javaInMemoryIdGenerator.lastId();
+        return idGenerator.lastId();
     }
 }
