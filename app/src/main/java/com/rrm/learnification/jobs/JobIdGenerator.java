@@ -1,24 +1,32 @@
 package com.rrm.learnification.jobs;
 
-import com.rrm.learnification.idgenerator.JavaInMemoryIdGenerator;
+import com.rrm.learnification.idgenerator.IdGenerator;
+import com.rrm.learnification.idgenerator.InternalStorageIdGenerator;
+import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 
 public class JobIdGenerator {
-    private static final JobIdGenerator instance = new JobIdGenerator();
+    private static final String ID_TYPE = "jobs";
 
-    private final JavaInMemoryIdGenerator javaInMemoryIdGenerator = new JavaInMemoryIdGenerator();
+    private final IdGenerator idGenerator;
 
-    private JobIdGenerator() {
+    private JobIdGenerator(IdGenerator idGenerator) {
+        this.idGenerator = idGenerator;
     }
 
-    public static JobIdGenerator getInstance() {
-        return instance;
+    public static JobIdGenerator fromFileStorageAdaptor(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor) {
+        return new JobIdGenerator(new InternalStorageIdGenerator(logger, fileStorageAdaptor, JobIdGenerator.ID_TYPE));
     }
 
     int nextJobId() {
-        return javaInMemoryIdGenerator.nextId();
+        return idGenerator.nextId();
     }
 
     public int lastJobId() {
-        return javaInMemoryIdGenerator.lastId();
+        return idGenerator.lastId();
+    }
+
+    public void reset() {
+        idGenerator.reset();
     }
 }

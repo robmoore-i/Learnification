@@ -4,4 +4,6 @@ public interface IdGenerator {
     int nextId();
 
     int lastId();
+
+    void reset();
 }

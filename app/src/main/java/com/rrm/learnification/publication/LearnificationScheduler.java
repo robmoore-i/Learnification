@@ -21,7 +21,7 @@ public class LearnificationScheduler {
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    public LearnificationScheduler(AndroidLogger logger, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, AndroidClock androidClock, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
+    public LearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;

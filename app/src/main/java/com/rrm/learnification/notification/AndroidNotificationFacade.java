@@ -18,8 +18,7 @@ public class AndroidNotificationFacade {
     private final AndroidLogger logger;
     private final AndroidNotificationContext context;
     private final AndroidNotificationPublisher publisher;
-
-    final AndroidNotificationFactory factory;
+    private final AndroidNotificationFactory factory;
 
     private AndroidNotificationFacade(AndroidLogger logger, AndroidNotificationContext context, AndroidNotificationFactory factory, AndroidNotificationPublisher publisher) {
         this.logger = logger;
@@ -28,12 +27,12 @@ public class AndroidNotificationFacade {
         this.publisher = publisher;
     }
 
-    public static AndroidNotificationFacade fromContext(AndroidLogger logger, Context context) {
+    public static AndroidNotificationFacade fromContext(AndroidLogger logger, Context context, NotificationIdGenerator notificationIdGenerator, PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator) {
         return new AndroidNotificationFacade(
                 logger,
                 new AndroidNotificationContext(context.getApplicationContext()),
-                new AndroidNotificationFactory(logger, context),
-                new AndroidNotificationPublisher(NotificationManagerCompat.from(context), NotificationIdGenerator.getInstance())
+                new AndroidNotificationFactory(logger, context, pendingIntentRequestCodeGenerator),
+                new AndroidNotificationPublisher(logger, NotificationManagerCompat.from(context), notificationIdGenerator)
         );
     }
 
@@ -63,5 +62,9 @@ public class AndroidNotificationFacade {
 
     public void publish(Notification notification) {
         publisher.publish(notification);
+    }
+
+    public AndroidNotificationFactory getFactory() {
+        return factory;
     }
 }

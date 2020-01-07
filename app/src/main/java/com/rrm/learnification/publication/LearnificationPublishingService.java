@@ -6,8 +6,11 @@ import android.app.job.JobService;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
+import com.rrm.learnification.notification.NotificationIdGenerator;
+import com.rrm.learnification.notification.PendingIntentRequestCodeGenerator;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.storage.ItemStorage;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
@@ -37,10 +40,13 @@ public class LearnificationPublishingService extends JobService {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
         }
 
-        SettingsRepository settingsRepository = new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this));
+        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
+        SettingsRepository settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
         LearnificationTextGenerator learnificationTextGenerator = settingsRepository.learnificationTextGenerator(itemRepository);
 
-        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
+        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
+        PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator = PendingIntentRequestCodeGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
+        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this, notificationIdGenerator, pendingIntentRequestCodeGenerator);
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 logger,
                 learnificationTextGenerator,

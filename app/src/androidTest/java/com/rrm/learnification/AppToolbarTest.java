@@ -14,11 +14,14 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +41,12 @@ import static org.hamcrest.CoreMatchers.startsWith;
 public class AppToolbarTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    @Before
+    public void beforeEach() {
+        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(new AndroidLogger(), activityTestRule.getActivity().getFileStorageAdaptor());
+        notificationIdGenerator.reset();
+    }
 
     @Test
     public void theFastForwardButtonIsDisplayed() {

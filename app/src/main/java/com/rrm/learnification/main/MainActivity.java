@@ -18,6 +18,8 @@ import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
+import com.rrm.learnification.notification.NotificationIdGenerator;
+import com.rrm.learnification.notification.PendingIntentRequestCodeGenerator;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.settings.SettingsActivity;
@@ -65,8 +67,20 @@ public class MainActivity extends AppCompatActivity {
         UpdatedLearningItemSaver updatedLearningItemSaver = new UpdatedLearningItemSaver(logger, learningItemRepository);
         UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, mainActivityView, updatedLearningItemSaver);
 
-        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), clock), new ScheduleConfiguration(logger, new SettingsRepository(logger, new AndroidInternalStorageAdaptor(logger, this))), clock, new AndroidResponseNotificationCorrespondent(this.getSystemService(android.app.NotificationManager.class), NotificationManagerCompat.from(this), androidNotificationFacade));
+        FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
+        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
+        PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator = PendingIntentRequestCodeGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
+        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this, notificationIdGenerator, pendingIntentRequestCodeGenerator);
+        JobIdGenerator jobIdGenerator = JobIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
+        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, clock,
+                new AndroidJobScheduler(logger, clock, this, jobIdGenerator),
+                new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor)),
+                new AndroidResponseNotificationCorrespondent(
+                        logger,
+                        this.getSystemService(android.app.NotificationManager.class),
+                        NotificationManagerCompat.from(this),
+                        androidNotificationFacade.getFactory(),
+                        notificationIdGenerator));
 
         // Set them up where necessary, again in the order in which they have relevance in the view
 
@@ -135,14 +149,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ItemRepository<LearningItem> getLearningItemRepository() {
-        return new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()), new LearningItemChangeListenerGroup());
+        return new PersistentLearningItemRepository(logger, getLearningItemStorage(), new LearningItemChangeListenerGroup());
     }
 
     public JobScheduler getJobScheduler() {
-        return new AndroidJobScheduler(logger, this, JobIdGenerator.getInstance(), new AndroidClock());
+        return new AndroidJobScheduler(logger, clock, this, getJobIdGenerator());
+    }
+
+    public JobIdGenerator getJobIdGenerator() {
+        return JobIdGenerator.fromFileStorageAdaptor(logger, getFileStorageAdaptor());
     }
 
     public AndroidNotificationFactory getAndroidNotificationFactory() {
-        return new AndroidNotificationFactory(logger, this);
+        return new AndroidNotificationFactory(logger, this, getPendingIntentRequestCodeGenerator());
+    }
+
+    public PendingIntentRequestCodeGenerator getPendingIntentRequestCodeGenerator() {
+        return PendingIntentRequestCodeGenerator.fromFileStorageAdaptor(logger, getFileStorageAdaptor());
+    }
+
+    public NotificationIdGenerator getNotificationIdGenerator() {
+        return NotificationIdGenerator.fromFileStorageAdaptor(logger, getFileStorageAdaptor());
     }
 }

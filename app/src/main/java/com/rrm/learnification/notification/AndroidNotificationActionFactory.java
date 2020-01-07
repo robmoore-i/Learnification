@@ -17,16 +17,18 @@ public class AndroidNotificationActionFactory {
     public static final String REPLY_TEXT = "remote_input_text_reply";
 
     private final Context packageContext;
+    private final PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator;
 
-    AndroidNotificationActionFactory(Context packageContext) {
+    AndroidNotificationActionFactory(Context packageContext, PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator) {
         this.packageContext = packageContext;
+        this.pendingIntentRequestCodeGenerator = pendingIntentRequestCodeGenerator;
     }
 
     private NotificationCompat.Action replyAction(String learningItemPrompt, String expectedUserResponse) {
         return new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
                 "Respond",
-                new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, ANSWER).build())
+                new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, ANSWER, pendingIntentRequestCodeGenerator).build())
                 .addRemoteInput(new RemoteInput.Builder(REPLY_TEXT).setLabel("Respond").build())
                 .build();
     }
@@ -35,7 +37,7 @@ public class AndroidNotificationActionFactory {
         return new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
                 "Show me",
-                new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, SHOW_ME).build())
+                new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, SHOW_ME, pendingIntentRequestCodeGenerator).build())
                 .build();
     }
 
@@ -43,7 +45,7 @@ public class AndroidNotificationActionFactory {
         return new NotificationCompat.Action.Builder(
                 R.drawable.android_send,
                 "Next",
-                new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, NEXT).build())
+                new AndroidPendingIntentBuilder(packageContext, expectedUserResponse, learningItemPrompt, NEXT, pendingIntentRequestCodeGenerator).build())
                 .build();
     }
 

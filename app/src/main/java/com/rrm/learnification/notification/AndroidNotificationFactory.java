@@ -25,10 +25,10 @@ public class AndroidNotificationFactory {
     private final AndroidNotificationActionFactory notificationActionFactory;
 
 
-    public AndroidNotificationFactory(AndroidLogger logger, Context packageContext) {
+    public AndroidNotificationFactory(AndroidLogger logger, Context packageContext, PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator) {
         this.logger = logger;
         this.packageContext = packageContext;
-        this.notificationActionFactory = new AndroidNotificationActionFactory(packageContext);
+        this.notificationActionFactory = new AndroidNotificationActionFactory(packageContext, pendingIntentRequestCodeGenerator);
     }
 
     public Notification createLearnification(LearnificationText learnificationText) {

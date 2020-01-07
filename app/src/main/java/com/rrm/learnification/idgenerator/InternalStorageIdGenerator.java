@@ -3,11 +3,10 @@ package com.rrm.learnification.idgenerator;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-import static java.lang.Math.max;
 
 public class InternalStorageIdGenerator implements IdGenerator {
     private static final String LOG_TAG = "InternalStorageIdGenerator";
@@ -15,15 +14,8 @@ public class InternalStorageIdGenerator implements IdGenerator {
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
 
-    /**
-     * This file stores the id for the next generated one, i.e. the id stored in this file does not
-     * correspond to an an id which has been returned yet.
-     */
     private final String fileName;
-    /**
-     * This stores the next id to be generated. At any time, the value in this variable represents
-     * an id that has not yet been given for use.
-     */
+
     private int nextId = 0;
 
     public InternalStorageIdGenerator(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor, String idType) {
@@ -34,20 +26,35 @@ public class InternalStorageIdGenerator implements IdGenerator {
 
     @Override
     public int nextId() {
-        int returnValue = nextId;
-        incrementNextId();
-        return returnValue;
+        int nextId;
+        try {
+            nextId = readFromStorage();
+        } catch (FileNotFoundException e) {
+            nextId = 0;
+        } catch (IOException e) {
+            nextId = this.nextId;
+        }
+
+        this.nextId = nextId + 1;
+        saveToStorage(this.nextId);
+        return nextId;
     }
 
     @Override
     public int lastId() {
-        int nextId;
         try {
-            nextId = readFromStorage();
+            return readFromStorage() - 1;
+        } catch (FileNotFoundException e) {
+            return 0;
         } catch (IOException e) {
-            nextId = this.nextId;
+            return this.nextId - 1;
         }
-        return max(0, nextId - 1);
+    }
+
+    @Override
+    public void reset() {
+        fileStorageAdaptor.deleteFile(fileName);
+        nextId = 0;
     }
 
     private int readFromStorage() throws IOException {
@@ -63,25 +70,11 @@ public class InternalStorageIdGenerator implements IdGenerator {
 
     private void saveToStorage(int idToSave) {
         try {
+            logger.v(LOG_TAG, "saving id " + idToSave + " into storage");
             fileStorageAdaptor.overwriteLines(fileName, Collections.singletonList(String.valueOf(idToSave)));
         } catch (IOException e) {
             logger.v(LOG_TAG, "couldn't write next generated id from file '" + fileName + "'");
             logger.e(LOG_TAG, e);
         }
-    }
-
-    private void incrementNextId() {
-        try {
-            int lastId = readFromStorage();
-            nextId = lastId + 1;
-        } catch (IOException e) {
-            nextId += 1;
-        }
-        saveToStorage(nextId);
-    }
-
-    public void reset() {
-        fileStorageAdaptor.deleteFile(fileName);
-        nextId = 0;
     }
 }

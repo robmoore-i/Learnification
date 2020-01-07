@@ -28,11 +28,15 @@ public class JobSchedulerTest {
 
     private JobScheduler jobScheduler;
     private android.app.job.JobScheduler systemJobScheduler;
+    private JobIdGenerator jobIdGenerator;
 
     @Before
     public void beforeEach() {
-        jobScheduler = activityTestRule.getActivity().getJobScheduler();
-        systemJobScheduler = activityTestRule.getActivity().getSystemService(android.app.job.JobScheduler.class);
+        MainActivity mainActivity = activityTestRule.getActivity();
+        jobScheduler = mainActivity.getJobScheduler();
+        systemJobScheduler = mainActivity.getSystemService(android.app.job.JobScheduler.class);
+        jobIdGenerator = mainActivity.getJobIdGenerator();
+        jobIdGenerator.reset();
     }
 
     @After
@@ -44,7 +48,7 @@ public class JobSchedulerTest {
     public void itSchedulesAJobsWithTheCorrectParameters() {
         jobScheduler.schedule(10000, 20000, LearnificationPublishingService.class);
 
-        JobInfo pendingJob = systemJobScheduler.getPendingJob(JobIdGenerator.getInstance().lastJobId());
+        JobInfo pendingJob = systemJobScheduler.getPendingJob(jobIdGenerator.lastJobId());
         assertThat(pendingJob.getMinLatencyMillis(), equalTo(10000L));
         assertThat(pendingJob.getMaxExecutionDelayMillis(), equalTo(20000L));
         assertThat(pendingJob.getService().getClassName(), equalTo("com.rrm.learnification.publication.LearnificationPublishingService"));

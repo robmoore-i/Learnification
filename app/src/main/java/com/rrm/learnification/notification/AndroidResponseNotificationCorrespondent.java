@@ -4,31 +4,39 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.response.NotificationTextContent;
 
 import java.util.Arrays;
 
 public class AndroidResponseNotificationCorrespondent implements ResponseNotificationCorrespondent {
+    private static final String LOG_TAG = "AndroidResponseNotificationCorrespondent";
+
+    private final AndroidLogger logger;
     private final NotificationManager systemNotificationManager;
     private final NotificationManagerCompat notificationManagerCompat;
     private final AndroidNotificationFactory androidNotificationFactory;
+    private final NotificationIdGenerator notificationIdGenerator;
 
-    public AndroidResponseNotificationCorrespondent(NotificationManager systemNotificationManager, NotificationManagerCompat notificationManagerCompat, AndroidNotificationFactory androidNotificationFactory) {
+    public AndroidResponseNotificationCorrespondent(
+            AndroidLogger logger,
+            NotificationManager systemNotificationManager,
+            NotificationManagerCompat notificationManagerCompat,
+            AndroidNotificationFactory androidNotificationFactory,
+            NotificationIdGenerator notificationIdGenerator) {
+        this.logger = logger;
         this.systemNotificationManager = systemNotificationManager;
         this.notificationManagerCompat = notificationManagerCompat;
         this.androidNotificationFactory = androidNotificationFactory;
-    }
-
-    public AndroidResponseNotificationCorrespondent(NotificationManager systemNotificationManager, NotificationManagerCompat notificationManagerCompat, AndroidNotificationFacade androidNotificationFacade) {
-        this.systemNotificationManager = systemNotificationManager;
-        this.notificationManagerCompat = notificationManagerCompat;
-        this.androidNotificationFactory = androidNotificationFacade.factory;
+        this.notificationIdGenerator = notificationIdGenerator;
     }
 
     @Override
     public void updateLatestWithReply(NotificationTextContent replyContent) {
         Notification responseNotification = androidNotificationFactory.createLearnificationResponse(replyContent);
-        notificationManagerCompat.notify(NotificationIdGenerator.getInstance().lastNotificationId(), responseNotification);
+        int lastId = notificationIdGenerator.lastNotificationId();
+        logger.v(LOG_TAG, "updating notification with id " + lastId);
+        notificationManagerCompat.notify(lastId, responseNotification);
     }
 
     @Override

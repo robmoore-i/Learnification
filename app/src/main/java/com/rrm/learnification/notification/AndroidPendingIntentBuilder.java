@@ -14,9 +14,11 @@ public class AndroidPendingIntentBuilder {
 
     private final Context packageContext;
     private final Intent intent;
+    private PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator;
 
-    AndroidPendingIntentBuilder(Context packageContext, String expectedUserResponse, String learningItemPrompt, LearnificationResponseType learnificationResponseType) {
+    AndroidPendingIntentBuilder(Context packageContext, String expectedUserResponse, String learningItemPrompt, LearnificationResponseType learnificationResponseType, PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator) {
         this.packageContext = packageContext;
+        this.pendingIntentRequestCodeGenerator = pendingIntentRequestCodeGenerator;
         intent = new Intent(packageContext, LearnificationResponseService.class);
         intent.putExtra(RESPONSE_TYPE_EXTRA, learnificationResponseType.name());
         intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
@@ -26,7 +28,7 @@ public class AndroidPendingIntentBuilder {
     PendingIntent build() {
         return PendingIntent.getService(
                 packageContext,
-                PendingIntentRequestCodeGenerator.getInstance().nextRequestCode(),
+                pendingIntentRequestCodeGenerator.nextRequestCode(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );

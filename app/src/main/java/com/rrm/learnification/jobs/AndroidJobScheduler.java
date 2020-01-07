@@ -21,17 +21,17 @@ public class AndroidJobScheduler implements JobScheduler {
     static final String TIME_OF_SCHEDULING = "timeOfScheduling";
 
     private final AndroidLogger logger;
+    private final AndroidClock clock;
     private final Context context;
     private final JobIdGenerator jobIdGenerator;
-    private final AndroidClock clock;
     private android.app.job.JobScheduler systemJobScheduler;
 
-    public AndroidJobScheduler(AndroidLogger logger, Context context, JobIdGenerator jobIdGenerator, AndroidClock clock) {
+    public AndroidJobScheduler(AndroidLogger logger, AndroidClock clock, Context context, JobIdGenerator jobIdGenerator) {
         this.logger = logger;
+        this.clock = clock;
         this.context = context;
         this.systemJobScheduler = context.getSystemService(android.app.job.JobScheduler.class);
         this.jobIdGenerator = jobIdGenerator;
-        this.clock = clock;
     }
 
     @Override

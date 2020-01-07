@@ -13,19 +13,24 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+import java.util.Collections;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class InternalStorageIdGeneratorTest {
     private final AndroidLogger logger = new AndroidLogger();
+
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
     private InternalStorageIdGenerator generator;
+    private FileStorageAdaptor fileStorageAdaptor;
 
     @Before
     public void beforeEach() {
-        FileStorageAdaptor fileStorageAdaptor = activityTestRule.getActivity().getFileStorageAdaptor();
+        fileStorageAdaptor = activityTestRule.getActivity().getFileStorageAdaptor();
         generator = new InternalStorageIdGenerator(logger, fileStorageAdaptor, "test");
         generator.reset();
     }
@@ -57,5 +62,17 @@ public class InternalStorageIdGeneratorTest {
     @Test
     public void ifIGetLastIdWithoutHavingSetOneBeforeItIs0() {
         assertThat(generator.lastId(), equalTo(0));
+    }
+
+    @Test
+    public void ifThereIsAValueStoredOnStartupThenThatIsReadToDetermineTheNextId() throws IOException {
+        fileStorageAdaptor.overwriteLines("generated-next-id-test", Collections.singletonList("5"));
+        assertThat(generator.nextId(), equalTo(5));
+    }
+
+    @Test
+    public void ifThereIsAValueStoredOnStartupThenThatIsReadToDetermineTheLastId() throws IOException {
+        fileStorageAdaptor.overwriteLines("generated-next-id-test", Collections.singletonList("5"));
+        assertThat(generator.lastId(), equalTo(4));
     }
 }
