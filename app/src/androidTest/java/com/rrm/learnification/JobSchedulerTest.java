@@ -48,7 +48,7 @@ public class JobSchedulerTest {
     public void itSchedulesAJobsWithTheCorrectParameters() {
         jobScheduler.schedule(10000, 20000, LearnificationPublishingService.class);
 
-        JobInfo pendingJob = systemJobScheduler.getPendingJob(jobIdGenerator.lastJobId());
+        JobInfo pendingJob = systemJobScheduler.getPendingJob(jobIdGenerator.last());
         assertThat(pendingJob.getMinLatencyMillis(), equalTo(10000L));
         assertThat(pendingJob.getMaxExecutionDelayMillis(), equalTo(20000L));
         assertThat(pendingJob.getService().getClassName(), equalTo("com.rrm.learnification.publication.LearnificationPublishingService"));

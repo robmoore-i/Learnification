@@ -28,7 +28,7 @@ public class AndroidPendingIntentBuilder {
     PendingIntent build() {
         return PendingIntent.getService(
                 packageContext,
-                pendingIntentRequestCodeGenerator.nextRequestCode(),
+                pendingIntentRequestCodeGenerator.next(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );

@@ -34,7 +34,7 @@ public class AndroidResponseNotificationCorrespondent implements ResponseNotific
     @Override
     public void updateLatestWithReply(NotificationTextContent replyContent) {
         Notification responseNotification = androidNotificationFactory.createLearnificationResponse(replyContent);
-        int lastId = notificationIdGenerator.lastNotificationId();
+        int lastId = notificationIdGenerator.last();
         logger.v(LOG_TAG, "updating notification with id " + lastId);
         notificationManagerCompat.notify(lastId, responseNotification);
     }

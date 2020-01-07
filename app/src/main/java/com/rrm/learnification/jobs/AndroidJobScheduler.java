@@ -37,7 +37,7 @@ public class AndroidJobScheduler implements JobScheduler {
     @Override
     public void schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass) {
         logger.v(LOG_TAG, "scheduling job for serviceClass " + serviceClass.getName() + " in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
-        JobInfo.Builder builder = new JobInfo.Builder(jobIdGenerator.nextJobId(), new ComponentName(context, serviceClass))
+        JobInfo.Builder builder = new JobInfo.Builder(jobIdGenerator.next(), new ComponentName(context, serviceClass))
                 .setMinimumLatency(earliestStartTimeDelayMs)
                 .setOverrideDeadline(latestStartTimeDelayMs)
                 .setRequiresCharging(false)

@@ -1,24 +1,17 @@
 package com.rrm.learnification.notification;
 
-import com.rrm.learnification.idgenerator.IdGenerator;
-import com.rrm.learnification.idgenerator.InternalStorageIdGenerator;
+import com.rrm.learnification.idgenerator.PersistentIdGenerator;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
-public class PendingIntentRequestCodeGenerator {
+public class PendingIntentRequestCodeGenerator extends PersistentIdGenerator {
     private static final String ID_TYPE = "pending-intent";
 
-    private final IdGenerator idGenerator;
-
-    private PendingIntentRequestCodeGenerator(IdGenerator idGenerator) {
-        this.idGenerator = idGenerator;
+    private PendingIntentRequestCodeGenerator(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor) {
+        super(logger, fileStorageAdaptor, ID_TYPE);
     }
 
     public static PendingIntentRequestCodeGenerator fromFileStorageAdaptor(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor) {
-        return new PendingIntentRequestCodeGenerator(new InternalStorageIdGenerator(logger, fileStorageAdaptor, PendingIntentRequestCodeGenerator.ID_TYPE));
-    }
-
-    int nextRequestCode() {
-        return idGenerator.nextId();
+        return new PendingIntentRequestCodeGenerator(logger, fileStorageAdaptor);
     }
 }
