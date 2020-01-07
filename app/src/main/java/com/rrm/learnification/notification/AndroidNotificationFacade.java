@@ -49,8 +49,7 @@ public class AndroidNotificationFacade {
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-            NotificationManager notificationManager = context.getNotificationManager();
-            notificationManager.createNotificationChannel(channel);
+            context.getNotificationManager().createNotificationChannel(channel);
         }
 
         logger.v(LOG_TAG, "Created notification channel");
