@@ -24,7 +24,7 @@ public class AndroidJobScheduler implements JobScheduler {
     private final AndroidClock clock;
     private final Context context;
     private final JobIdGenerator jobIdGenerator;
-    private android.app.job.JobScheduler systemJobScheduler;
+    private final android.app.job.JobScheduler systemJobScheduler;
 
     public AndroidJobScheduler(AndroidLogger logger, AndroidClock clock, Context context, JobIdGenerator jobIdGenerator) {
         this.logger = logger;
