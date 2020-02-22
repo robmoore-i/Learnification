@@ -50,7 +50,7 @@ public class DeleteLearningItemTest {
 
     @After
     public void afterEach() {
-        activityTestRule.getActivity().getLearningItemStorage().remove(new LearningItem(left, right));
+        activityTestRule.getActivity().androidTestObjectFactory().getLearningItemStorage().remove(new LearningItem(left, right));
     }
 
     @Test

@@ -5,7 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearnificationText;
-import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.response.NotificationTextContent;
@@ -27,13 +27,13 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class AndroidNotificationFactoryTest {
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private AndroidNotificationFactory androidNotificationFactory;
 
     @Before
     public void beforeEach() {
-        androidNotificationFactory = activityTestRule.getActivity().getAndroidNotificationFactory();
+        androidNotificationFactory = activityTestRule.getActivity().androidTestObjectFactory().getAndroidNotificationFactory();
     }
 
     @Test

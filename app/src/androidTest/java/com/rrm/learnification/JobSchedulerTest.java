@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
-import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 
 import org.junit.After;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class JobSchedulerTest {
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private JobScheduler jobScheduler;
     private android.app.job.JobScheduler systemJobScheduler;
@@ -32,10 +32,10 @@ public class JobSchedulerTest {
 
     @Before
     public void beforeEach() {
-        MainActivity mainActivity = activityTestRule.getActivity();
-        jobScheduler = mainActivity.getJobScheduler();
-        systemJobScheduler = mainActivity.getSystemService(android.app.job.JobScheduler.class);
-        jobIdGenerator = mainActivity.getJobIdGenerator();
+        LearningItemSetEditorActivity activity = activityTestRule.getActivity();
+        jobScheduler = activity.androidTestObjectFactory().getJobScheduler();
+        systemJobScheduler = activity.getSystemService(android.app.job.JobScheduler.class);
+        jobIdGenerator = activity.androidTestObjectFactory().getJobIdGenerator();
         jobIdGenerator.reset();
     }
 

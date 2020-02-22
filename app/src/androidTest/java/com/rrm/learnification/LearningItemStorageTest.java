@@ -4,7 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.ItemStorage;
 
 import org.junit.After;
@@ -27,14 +27,14 @@ public class LearningItemStorageTest {
     private final LearningItem c = new LearningItem("vanity", "fair");
 
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private ItemStorage<LearningItem> learningItemStorage;
     private List<LearningItem> originalLearningItems;
 
     @Before
     public void beforeEach() {
-        learningItemStorage = activityTestRule.getActivity().getLearningItemStorage();
+        learningItemStorage = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemStorage();
         originalLearningItems = learningItemStorage.read();
         learningItemStorage.rewrite(new ArrayList<>());
 

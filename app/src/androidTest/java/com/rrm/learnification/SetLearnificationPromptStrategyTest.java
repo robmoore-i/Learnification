@@ -3,7 +3,7 @@ package com.rrm.learnification;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class SetLearnificationPromptStrategyTest {
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     @Test
     public void settingTheLearnificationPromptSavesItAndIsStillSetIfYouGoInAndOutOfTheSettingsScreen() {

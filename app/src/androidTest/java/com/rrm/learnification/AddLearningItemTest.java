@@ -5,7 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.ItemRepository;
 
 import org.junit.After;
@@ -31,7 +31,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class AddLearningItemTest {
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private String left;
     private String right;
@@ -44,7 +44,7 @@ public class AddLearningItemTest {
 
     @After
     public void afterEach() {
-        ItemRepository<LearningItem> learningItemRepository = activityTestRule.getActivity().getLearningItemRepository();
+        ItemRepository<LearningItem> learningItemRepository = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemRepository();
         List<LearningItem> learningItems = learningItemRepository.items();
         for (int i = 0; i < learningItems.size(); i++) {
             LearningItem learningItem = learningItems.get(i);

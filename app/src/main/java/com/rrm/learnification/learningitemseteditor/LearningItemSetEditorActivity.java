@@ -10,7 +10,6 @@ import android.view.WindowManager;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.button.ClearTextInputOnClickCommand;
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -25,12 +24,12 @@ import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.ItemStorage;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
 import com.rrm.learnification.storage.LearningItemChangeListenerGroup;
 import com.rrm.learnification.storage.LearningItemSqlTableInterface;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLiteLearningItemStorage;
+import com.rrm.learnification.test.AndroidTestObjectFactory;
 import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
 import com.rrm.learnification.textinput.SimulateButtonClickOnSubmitTextCommand;
 import com.rrm.learnification.textlist.RemoveItemOnSwipeCommand;
@@ -44,6 +43,7 @@ import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListen
 public class LearningItemSetEditorActivity extends AppCompatActivity {
     private final AndroidLogger logger = new AndroidLogger();
     private final AndroidClock clock = new AndroidClock();
+    private final AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +130,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public ItemStorage<LearningItem> getLearningItemStorage() {
-        return new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
+    public AndroidTestObjectFactory androidTestObjectFactory() {
+        return androidTestObjectFactory;
     }
 }

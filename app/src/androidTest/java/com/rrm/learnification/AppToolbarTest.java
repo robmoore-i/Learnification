@@ -14,8 +14,8 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 
@@ -40,11 +40,11 @@ import static org.hamcrest.CoreMatchers.startsWith;
 @RunWith(AndroidJUnit4.class)
 public class AppToolbarTest {
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     @Before
     public void beforeEach() {
-        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(new AndroidLogger(), activityTestRule.getActivity().getFileStorageAdaptor());
+        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(new AndroidLogger(), activityTestRule.getActivity().androidTestObjectFactory().getFileStorageAdaptor());
         notificationIdGenerator.reset();
     }
 
@@ -70,7 +70,7 @@ public class AppToolbarTest {
 
         waitACoupleOfSeconds();
 
-        Notification learnification = activityTestRule.getActivity().getAndroidNotificationFactory().createLearnification(new LearnificationText("a", "b"));
+        Notification learnification = activityTestRule.getActivity().androidTestObjectFactory().getAndroidNotificationFactory().createLearnification(new LearnificationText("a", "b"));
         NotificationManagerCompat.from(activityTestRule.getActivity()).notify(0, learnification);
 
         waitACoupleOfSeconds();
@@ -84,7 +84,7 @@ public class AppToolbarTest {
 
         waitACoupleOfSeconds();
 
-        activityTestRule.getActivity().getJobScheduler().schedule(10000, 20000, LearnificationPublishingService.class);
+        activityTestRule.getActivity().androidTestObjectFactory().getJobScheduler().schedule(10000, 20000, LearnificationPublishingService.class);
 
         waitACoupleOfSeconds();
 

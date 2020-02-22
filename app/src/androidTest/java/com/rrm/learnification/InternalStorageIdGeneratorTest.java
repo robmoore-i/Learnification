@@ -30,7 +30,7 @@ public class InternalStorageIdGeneratorTest {
 
     @Before
     public void beforeEach() {
-        fileStorageAdaptor = activityTestRule.getActivity().getFileStorageAdaptor();
+        fileStorageAdaptor = activityTestRule.getActivity().androidTestObjectFactory().getFileStorageAdaptor();
         generator = new InternalStorageIdGenerator(logger, fileStorageAdaptor, "test");
         generator.reset();
     }

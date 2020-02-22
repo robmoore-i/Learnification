@@ -3,7 +3,7 @@ package com.rrm.learnification;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import org.junit.After;
@@ -26,13 +26,13 @@ public class FileStorageAdaptorTest {
     private static final String TEST_FILE_NAME = "test_file";
 
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private FileStorageAdaptor fileStorageAdaptor;
 
     @Before
     public void beforeEach() {
-        fileStorageAdaptor = activityTestRule.getActivity().getFileStorageAdaptor();
+        fileStorageAdaptor = activityTestRule.getActivity().androidTestObjectFactory().getFileStorageAdaptor();
     }
 
     @After
