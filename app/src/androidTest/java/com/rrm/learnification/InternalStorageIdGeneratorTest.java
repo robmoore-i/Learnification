@@ -4,8 +4,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.idgenerator.InternalStorageIdGenerator;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class InternalStorageIdGeneratorTest {
     private final AndroidLogger logger = new AndroidLogger();
 
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
     private InternalStorageIdGenerator generator;
     private FileStorageAdaptor fileStorageAdaptor;
 
