@@ -1,4 +1,4 @@
-package com.rrm.learnification.main;
+package com.rrm.learnification.learningitemseteditor;
 
 class CantAddLearningItemException extends RuntimeException {
     CantAddLearningItemException(Exception cause) {

@@ -1,4 +1,4 @@
-package com.rrm.learnification.main;
+package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.textinput.OnSubmitTextCommand;

@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.main.MainActivity;
+import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,7 +32,7 @@ import static org.junit.Assume.assumeThat;
 @RunWith(AndroidJUnit4.class)
 public class DeleteLearningItemTest {
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private String left;
     private String right;

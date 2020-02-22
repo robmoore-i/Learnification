@@ -1,4 +1,4 @@
-package com.rrm.learnification.main;
+package com.rrm.learnification.learningitemseteditor;
 
 import android.support.v7.widget.RecyclerView;
 

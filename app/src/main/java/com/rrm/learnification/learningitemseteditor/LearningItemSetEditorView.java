@@ -1,4 +1,4 @@
-package com.rrm.learnification.main;
+package com.rrm.learnification.learningitemseteditor;
 
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,13 +20,13 @@ import com.rrm.learnification.toolbar.ToolbarView;
 import com.rrm.learnification.toolbar.ToolbarViewParameters;
 import com.rrm.learnification.toolbar.ToolbarViewUpdate;
 
-class MainActivityView implements ToolbarView, AddLearningItemView, LearningItemListView, UpdateLearningItemView {
-    private static final String LOG_TAG = "MainActivityView";
+class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, LearningItemListView, UpdateLearningItemView {
+    private static final String LOG_TAG = "LearningItemSetEditorView";
 
     private final AndroidLogger logger;
-    private final MainActivity activity;
+    private final LearningItemSetEditorActivity activity;
 
-    MainActivityView(AndroidLogger logger, MainActivity activity) {
+    LearningItemSetEditorView(AndroidLogger logger, LearningItemSetEditorActivity activity) {
         this.logger = logger;
         this.activity = activity;
 
@@ -134,7 +134,7 @@ class MainActivityView implements ToolbarView, AddLearningItemView, LearningItem
                 try {
                     while (!isInterrupted()) {
                         Thread.sleep(period);
-                        activity.runOnUiThread(() -> toolbarViewUpdate.update(MainActivityView.this));
+                        activity.runOnUiThread(() -> toolbarViewUpdate.update(LearningItemSetEditorView.this));
                     }
                 } catch (InterruptedException ignored) {
                 }
