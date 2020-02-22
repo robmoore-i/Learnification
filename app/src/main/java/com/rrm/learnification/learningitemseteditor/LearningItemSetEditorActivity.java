@@ -48,7 +48,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_learningitemseteditor);
 
         // Create some objects, in the order in which they have relevance in the view
 
