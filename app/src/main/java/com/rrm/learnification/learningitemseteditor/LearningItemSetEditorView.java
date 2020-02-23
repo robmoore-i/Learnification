@@ -1,13 +1,14 @@
 package com.rrm.learnification.learningitemseteditor;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.app.Activity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,11 +23,13 @@ import com.rrm.learnification.toolbar.ToolbarView;
 import com.rrm.learnification.toolbar.ToolbarViewParameters;
 import com.rrm.learnification.toolbar.ToolbarViewUpdate;
 
-class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, LearningItemListView, UpdateLearningItemView {
+class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, LearningItemListView, UpdateLearningItemView, SoftKeyboardView {
     private static final String LOG_TAG = "LearningItemSetEditorView";
 
     private final AndroidLogger logger;
     private final LearningItemSetEditorActivity activity;
+
+    private final LearningItemSetTitle learningItemSetTitle;
 
     LearningItemSetEditorView(AndroidLogger logger, LearningItemSetEditorActivity activity) {
         this.logger = logger;
@@ -38,6 +41,8 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
         setLearningItemListInterItemPadding();
         setLearningItemListViewBounds();
         setToolbarTitle("Learnification");
+
+        learningItemSetTitle = new LearningItemSetTitle(logger, this, activity.findViewById(R.id.learning_item_set_name_textbox), activity.findViewById(R.id.learning_item_set_name_change_icon));
     }
 
     private void setLearningItemListInterItemPadding() {
@@ -128,6 +133,24 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
         return activity.findViewById(R.id.update_learning_item_button);
     }
 
+    @Override
+    public void hideSoftKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View focusedView = activity.getCurrentFocus();
+        if (focusedView != null) {
+            inputMethodManager.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void showSoftKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View focusedView = activity.getCurrentFocus();
+        if (focusedView != null) {
+            inputMethodManager.showSoftInput(focusedView, 0);
+        }
+    }
+
     void addToolbarViewUpdate(ToolbarViewUpdate toolbarViewUpdate) {
         int period = 1000;
         Thread thread = new Thread() {
@@ -145,13 +168,8 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
         thread.start();
     }
 
-    void setLearningItemSetName(String learningItemSetName) {
-        EditText titleView = activity.findViewById(R.id.learning_item_set_name);
-        titleView.setText(learningItemSetName);
-        titleView.setEnabled(false);
-        titleView.setTextColor(Color.BLACK);
-        titleView.setTypeface(Typeface.DEFAULT_BOLD);
-        titleView.setBackgroundResource(android.R.color.transparent);
+    void setTitle(String learningItemSetTitle) {
+        this.learningItemSetTitle.setLearningItemSetName(learningItemSetTitle);
     }
 
     private void setToolbarTitle(String title) {
