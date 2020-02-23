@@ -1,5 +1,7 @@
 package com.rrm.learnification.learningitemseteditor;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -141,6 +143,15 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
             }
         };
         thread.start();
+    }
+
+    void setLearningItemSetName(String learningItemSetName) {
+        EditText titleView = activity.findViewById(R.id.learning_item_set_name);
+        titleView.setText(learningItemSetName);
+        titleView.setEnabled(false);
+        titleView.setTextColor(Color.BLACK);
+        titleView.setTypeface(Typeface.DEFAULT_BOLD);
+        titleView.setBackgroundResource(android.R.color.transparent);
     }
 
     private void setToolbarTitle(String title) {
