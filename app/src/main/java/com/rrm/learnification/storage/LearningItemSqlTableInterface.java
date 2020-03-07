@@ -9,9 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LearningItemSqlTableInterface implements SqlTableInterface<LearningItem> {
+    private final String learningItemSetName;
+
+    public LearningItemSqlTableInterface() {
+        this("default");
+    }
+
+    public LearningItemSqlTableInterface(String learningItemSetName) {
+        this.learningItemSetName = learningItemSetName;
+    }
+
     @Override
     public List<LearningItem> readAll(SQLiteDatabase readableDatabase) {
-        Cursor cursor = LearningItemSqlTable.all(readableDatabase);
+        Cursor cursor = LearningItemSqlTable.all(readableDatabase, learningItemSetName);
         ArrayList<LearningItem> learningItems = new ArrayList<>();
         while (cursor.moveToNext()) {
             learningItems.add(LearningItemSqlTable.extract(cursor));
@@ -22,7 +32,7 @@ public class LearningItemSqlTableInterface implements SqlTableInterface<Learning
 
     @Override
     public void deleteAll(SQLiteDatabase writableDatabase) {
-        writableDatabase.delete(LearningItemSqlTable.TABLE_NAME, null, null);
+        LearningItemSqlTable.deleteAll(writableDatabase, learningItemSetName);
     }
 
     @Override
@@ -40,16 +50,16 @@ public class LearningItemSqlTableInterface implements SqlTableInterface<Learning
 
     @Override
     public void write(SQLiteDatabase writableDatabase, LearningItem item) {
-        writableDatabase.insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(item));
+        writableDatabase.insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(learningItemSetName, item));
     }
 
     @Override
     public void delete(SQLiteDatabase writableDatabase, LearningItem item) {
-        LearningItemSqlTable.delete(writableDatabase, item);
+        LearningItemSqlTable.delete(writableDatabase, learningItemSetName, item);
     }
 
     @Override
     public void replace(SQLiteDatabase writableDatabase, LearningItem target, LearningItem replacement) {
-        LearningItemSqlTable.replace(writableDatabase, target, replacement);
+        LearningItemSqlTable.replace(writableDatabase, learningItemSetName, target, replacement);
     }
 }

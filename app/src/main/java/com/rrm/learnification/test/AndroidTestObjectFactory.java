@@ -58,4 +58,8 @@ public class AndroidTestObjectFactory {
     public AndroidNotificationFactory getAndroidNotificationFactory() {
         return new AndroidNotificationFactory(logger(), activity, PendingIntentRequestCodeGenerator.fromFileStorageAdaptor(logger(), getFileStorageAdaptor()));
     }
+
+    public LearnificationAppDatabase getLearnificationAppDatabase() {
+        return new LearnificationAppDatabase(activity);
+    }
 }

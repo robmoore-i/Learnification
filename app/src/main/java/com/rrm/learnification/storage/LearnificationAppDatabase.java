@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class LearnificationAppDatabase extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1; // If you change the database schema, you must increment the database version.
+    private static final int DATABASE_VERSION = 2; // If you change the database schema, you must increment the database version.
     private static final String DATABASE_NAME = "LearnificationApps.db";
 
     public LearnificationAppDatabase(Context context) {
