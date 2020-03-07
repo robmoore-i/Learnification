@@ -4,7 +4,6 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.main.MainActivity;
-import com.rrm.learnification.storage.LearnificationAppDatabase;
 import com.rrm.learnification.storage.LearningItemSqlRecordStore;
 import com.rrm.learnification.storage.PersistentItemStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
@@ -35,8 +34,6 @@ public class LearningItemSqlRecordStoreTest {
     private PersistentItemStore<LearningItem> learningPersistentItemStore;
     private List<LearningItem> originalLearningItems;
 
-    private LearnificationAppDatabase learnificationAppDatabase;
-
     private LearningItemSqlRecordStore learningItemSqlTableInterfaceEuropean;
     private LearningItemSqlRecordStore learningItemSqlTableInterfaceAsian;
 
@@ -47,7 +44,6 @@ public class LearningItemSqlRecordStoreTest {
         originalLearningItems = learningPersistentItemStore.read();
         learningPersistentItemStore.rewrite(new ArrayList<>());
 
-        learnificationAppDatabase = androidTestObjectFactory.getLearnificationAppDatabase();
         learningItemSqlTableInterfaceAsian = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
         learningItemSqlTableInterfaceEuropean = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
 

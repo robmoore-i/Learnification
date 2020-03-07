@@ -43,6 +43,11 @@ final class LearningItemSqlTable implements BaseColumns {
                 selection, selectionArgs, null, null, null);
     }
 
+    static Cursor all(SQLiteDatabase readableDatabase) {
+        return readableDatabase.query(TABLE_NAME, new String[]{_ID, COLUMN_NAME_LEFT, COLUMN_NAME_RIGHT},
+                null, null, null, null, null);
+    }
+
     static LearningItem extract(Cursor cursor) {
         return new LearningItem(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_LEFT)), cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_RIGHT)));
     }
@@ -63,5 +68,18 @@ final class LearningItemSqlTable implements BaseColumns {
         String whereClause = COLUMN_NAME_LEARNING_ITEM_SET + " LIKE ?";
         String[] whereArgs = {learningItemSetName};
         writableDatabase.delete(LearningItemSqlTable.TABLE_NAME, whereClause, whereArgs);
+    }
+
+    static void deleteAll(SQLiteDatabase writableDatabase) {
+        writableDatabase.delete(LearningItemSqlTable.TABLE_NAME, null, null);
+    }
+
+    static int numberOfDistinctLearningItemSets(SQLiteDatabase readableDatabase) {
+        String viewName = "numberOfDistinctLearningItemSets";
+        Cursor cursor = readableDatabase.rawQuery("SELECT (COUNT(DISTINCT " + COLUMN_NAME_LEARNING_ITEM_SET + ")) AS " + viewName + " FROM " + TABLE_NAME, null);
+        cursor.moveToFirst();
+        int numberOfDistinctLearningItemSets = cursor.getInt(cursor.getColumnIndex(viewName));
+        cursor.close();
+        return numberOfDistinctLearningItemSets;
     }
 }
