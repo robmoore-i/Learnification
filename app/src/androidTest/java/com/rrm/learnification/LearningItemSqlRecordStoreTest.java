@@ -5,7 +5,6 @@ import android.support.test.rule.ActivityTestRule;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.storage.LearningItemSqlRecordStore;
-import com.rrm.learnification.storage.PersistentItemStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -15,7 +14,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -25,35 +23,31 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
 public class LearningItemSqlRecordStoreTest {
-    private static final String LEARNING_ITEM_SET_DEFAULT = "default";
-    private static final String LEARNING_ITEM_SET_EUROPEAN = "european";
-
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private PersistentItemStore<LearningItem> learningPersistentItemStore;
-    private List<LearningItem> originalLearningItems;
+    private DatabaseTestWrapper databaseTestWrapper;
+
+    private static final String LEARNING_ITEM_SET_DEFAULT = "default";
+    private static final String LEARNING_ITEM_SET_EUROPEAN = "european";
 
     private LearningItemSqlRecordStore learningItemSqlTableInterfaceEuropean;
     private LearningItemSqlRecordStore learningItemSqlTableInterfaceAsian;
 
     @Before
     public void beforeEach() {
+        databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
+        databaseTestWrapper.beforeEach();
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        learningPersistentItemStore = androidTestObjectFactory.getLearningItemStorage();
-        originalLearningItems = learningPersistentItemStore.read();
-        learningPersistentItemStore.rewrite(new ArrayList<>());
-
         learningItemSqlTableInterfaceAsian = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
         learningItemSqlTableInterfaceEuropean = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
-
         learningItemSqlTableInterfaceAsian.writeAll(Arrays.asList(asianLearningItems()));
         learningItemSqlTableInterfaceEuropean.writeAll(Arrays.asList(europeanLearningItems()));
     }
 
     @After
     public void afterEach() {
-        learningPersistentItemStore.rewrite(originalLearningItems);
+        databaseTestWrapper.afterEach();
     }
 
     @Test
