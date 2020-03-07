@@ -14,13 +14,13 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     private final ItemStorage<LearningItem> learningItemStorage;
     private final List<LearningItem> learningItems;
 
-    private final ItemChangeListenerGroup<LearningItem> itemItemChangeListenerGroup;
+    private final ItemUpdateBroker<LearningItem> itemUpdateBroker;
 
-    public PersistentLearningItemRepository(AndroidLogger logger, ItemStorage<LearningItem> learningItemStorage, ItemChangeListenerGroup<LearningItem> changeListenerGroup) {
+    public PersistentLearningItemRepository(AndroidLogger logger, ItemStorage<LearningItem> learningItemStorage, ItemUpdateBroker<LearningItem> itemUpdateBroker) {
         this.logger = logger;
         this.learningItemStorage = learningItemStorage;
         this.learningItems = learningItemStorage.read();
-        this.itemItemChangeListenerGroup = changeListenerGroup;
+        this.itemUpdateBroker = itemUpdateBroker;
 
         for (LearningItem learningItem : learningItems) {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
@@ -71,7 +71,7 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     public void replace(LearningItem target, LearningItem replacement) {
         logger.v(LOG_TAG, "replacing '" + target.asSingleString() + "' with '" + replacement.asSingleString() + "'");
 
-        itemItemChangeListenerGroup.handleChange(target, replacement);
+        itemUpdateBroker.sendUpdate(target, replacement);
 
         learningItemStorage.replace(target, replacement);
         learningItems.replaceAll(learningItem -> {
@@ -81,8 +81,8 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     }
 
     @Override
-    public void subscribeToModifications(LearningItem item, ItemChangeListener<LearningItem> itemChangeListener) {
+    public void subscribeToModifications(LearningItem item, ItemUpdateListener<LearningItem> itemUpdateListener) {
         logger.v(LOG_TAG, "assigning change listener to item '" + item.asSingleString() + "'");
-        itemItemChangeListenerGroup.put(item, itemChangeListener);
+        itemUpdateBroker.put(item, itemUpdateListener);
     }
 }

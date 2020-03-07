@@ -15,5 +15,5 @@ public interface ItemRepository<T> {
 
     void replace(T target, T replacement);
 
-    void subscribeToModifications(T item, ItemChangeListener<T> itemChangeListener);
+    void subscribeToModifications(T item, ItemUpdateListener<T> itemUpdateListener);
 }

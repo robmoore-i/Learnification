@@ -2,15 +2,15 @@ package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.ItemChangeListener;
 import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.ItemUpdateListener;
 import com.rrm.learnification.textlist.ListViewItemSaver;
 import com.rrm.learnification.textlist.TextSource;
 
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class UpdatedLearningItemSaver implements ListViewItemSaver, ItemChangeListener<LearningItem> {
+public class UpdatedLearningItemSaver implements ListViewItemSaver, ItemUpdateListener<LearningItem> {
     private static final String LOG_TAG = "UpdatedLearningItemSaver";
 
     private final AndroidLogger logger;
@@ -47,8 +47,8 @@ public class UpdatedLearningItemSaver implements ListViewItemSaver, ItemChangeLi
     }
 
     @Override
-    public void onItemChange(LearningItem updatedLearningItem) {
-        String updatedText = updatedLearningItem.asSingleString();
+    public void onItemChange(LearningItem updatedItem) {
+        String updatedText = updatedItem.asSingleString();
         logger.v(LOG_TAG, "item with saved text '" + savedText + "' updated to '" + updatedText + "'");
         savedText = updatedText;
         learningItemRepository.subscribeToModifications(savedLearningItem(), this);
