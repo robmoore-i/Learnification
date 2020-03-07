@@ -4,9 +4,9 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.main.MainActivity;
-import com.rrm.learnification.storage.ItemStorage;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlTableInterface;
+import com.rrm.learnification.storage.LearningItemSqlRecordStore;
+import com.rrm.learnification.storage.PersistentItemStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -25,55 +25,55 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
-public class LearningItemSqlTableInterfaceTest {
+public class LearningItemSqlRecordStoreTest {
     private static final String LEARNING_ITEM_SET_DEFAULT = "default";
     private static final String LEARNING_ITEM_SET_EUROPEAN = "european";
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private ItemStorage<LearningItem> learningItemStorage;
+    private PersistentItemStore<LearningItem> learningPersistentItemStore;
     private List<LearningItem> originalLearningItems;
 
     private LearnificationAppDatabase learnificationAppDatabase;
 
-    private LearningItemSqlTableInterface learningItemSqlTableInterfaceEuropean;
-    private LearningItemSqlTableInterface learningItemSqlTableInterfaceAsian;
+    private LearningItemSqlRecordStore learningItemSqlTableInterfaceEuropean;
+    private LearningItemSqlRecordStore learningItemSqlTableInterfaceAsian;
 
     @Before
     public void beforeEach() {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        learningItemStorage = androidTestObjectFactory.getLearningItemStorage();
-        originalLearningItems = learningItemStorage.read();
-        learningItemStorage.rewrite(new ArrayList<>());
+        learningPersistentItemStore = androidTestObjectFactory.getLearningItemStorage();
+        originalLearningItems = learningPersistentItemStore.read();
+        learningPersistentItemStore.rewrite(new ArrayList<>());
 
         learnificationAppDatabase = androidTestObjectFactory.getLearnificationAppDatabase();
-        learningItemSqlTableInterfaceAsian = new LearningItemSqlTableInterface(LEARNING_ITEM_SET_DEFAULT);
-        learningItemSqlTableInterfaceEuropean = new LearningItemSqlTableInterface(LEARNING_ITEM_SET_EUROPEAN);
+        learningItemSqlTableInterfaceAsian = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
+        learningItemSqlTableInterfaceEuropean = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
 
-        learningItemSqlTableInterfaceAsian.writeAll(learnificationAppDatabase.getWritableDatabase(), Arrays.asList(asianLearningItems()));
-        learningItemSqlTableInterfaceEuropean.writeAll(learnificationAppDatabase.getWritableDatabase(), Arrays.asList(europeanLearningItems()));
+        learningItemSqlTableInterfaceAsian.writeAll(Arrays.asList(asianLearningItems()));
+        learningItemSqlTableInterfaceEuropean.writeAll(Arrays.asList(europeanLearningItems()));
     }
 
     @After
     public void afterEach() {
-        learningItemStorage.rewrite(originalLearningItems);
+        learningPersistentItemStore.rewrite(originalLearningItems);
     }
 
     @Test
     public void itReadsOnlyFromTheAssociatedSet() {
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(learnificationAppDatabase.getReadableDatabase()),
+        assertThat(learningItemSqlTableInterfaceAsian.readAll(),
                 allOf(hasItems(asianLearningItems()), not(hasItems(europeanLearningItems()))));
     }
 
     @Test
     public void itWritesALearningItemOnlyInTheAssociatedSet() {
         LearningItem additionalLearningItem = new LearningItem("l-test-write", "r-test-write");
-        learningItemSqlTableInterfaceEuropean.write(learnificationAppDatabase.getWritableDatabase(), additionalLearningItem);
+        learningItemSqlTableInterfaceEuropean.write(additionalLearningItem);
 
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(learnificationAppDatabase.getReadableDatabase()),
+        assertThat(learningItemSqlTableInterfaceAsian.readAll(),
                 allOf(hasItems(asianLearningItems()), not(hasItems(europeanLearningItems()))));
-        assertThat(learningItemSqlTableInterfaceEuropean.readAll(learnificationAppDatabase.getReadableDatabase()),
+        assertThat(learningItemSqlTableInterfaceEuropean.readAll(),
                 allOf(hasItems(europeanLearningItems()), hasItems(additionalLearningItem), not(hasItems(asianLearningItems()))));
     }
 
@@ -81,33 +81,33 @@ public class LearningItemSqlTableInterfaceTest {
     public void itReplacesALearningItemOnlyInTheAssociatedSet() {
         LearningItem replaced = new LearningItem("l-test-replace", "r-test-replace");
         LearningItem replacement = new LearningItem("l-test-replacement", "r-test-replacement");
-        learningItemSqlTableInterfaceAsian.write(learnificationAppDatabase.getWritableDatabase(), replaced);
-        learningItemSqlTableInterfaceEuropean.write(learnificationAppDatabase.getWritableDatabase(), replaced);
+        learningItemSqlTableInterfaceAsian.write(replaced);
+        learningItemSqlTableInterfaceEuropean.write(replaced);
 
-        learningItemSqlTableInterfaceEuropean.replace(learnificationAppDatabase.getWritableDatabase(), replaced, replacement);
+        learningItemSqlTableInterfaceEuropean.replace(replaced, replacement);
 
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(learnificationAppDatabase.getReadableDatabase()), hasItem(replaced));
-        assertThat(learningItemSqlTableInterfaceEuropean.readAll(learnificationAppDatabase.getReadableDatabase()), hasItem(replacement));
+        assertThat(learningItemSqlTableInterfaceAsian.readAll(), hasItem(replaced));
+        assertThat(learningItemSqlTableInterfaceEuropean.readAll(), hasItem(replacement));
     }
 
     @Test
     public void itDeletesALearningItemOnlyInTheAssociatedSet() {
         LearningItem deleted = new LearningItem("l-test-replace", "r-test-replace");
-        learningItemSqlTableInterfaceAsian.write(learnificationAppDatabase.getWritableDatabase(), deleted);
-        learningItemSqlTableInterfaceEuropean.write(learnificationAppDatabase.getWritableDatabase(), deleted);
+        learningItemSqlTableInterfaceAsian.write(deleted);
+        learningItemSqlTableInterfaceEuropean.write(deleted);
 
-        learningItemSqlTableInterfaceAsian.delete(learnificationAppDatabase.getWritableDatabase(), deleted);
+        learningItemSqlTableInterfaceAsian.delete(deleted);
 
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(learnificationAppDatabase.getReadableDatabase()), not(hasItem(deleted)));
-        assertThat(learningItemSqlTableInterfaceEuropean.readAll(learnificationAppDatabase.getReadableDatabase()), hasItem(deleted));
+        assertThat(learningItemSqlTableInterfaceAsian.readAll(), not(hasItem(deleted)));
+        assertThat(learningItemSqlTableInterfaceEuropean.readAll(), hasItem(deleted));
     }
 
     @Test
     public void itDeletesAllLearningItemsOnlyInTheAssociatedSet() {
-        learningItemSqlTableInterfaceEuropean.deleteAll(learnificationAppDatabase.getWritableDatabase());
+        learningItemSqlTableInterfaceEuropean.deleteAll();
 
-        assertThat(learningItemSqlTableInterfaceEuropean.readAll(learnificationAppDatabase.getReadableDatabase()), empty());
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(learnificationAppDatabase.getReadableDatabase()), hasItems(asianLearningItems()));
+        assertThat(learningItemSqlTableInterfaceEuropean.readAll(), empty());
+        assertThat(learningItemSqlTableInterfaceAsian.readAll(), hasItems(asianLearningItems()));
     }
 
     private LearningItem[] asianLearningItems() {

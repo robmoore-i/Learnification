@@ -12,12 +12,12 @@ import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
-import com.rrm.learnification.storage.ItemStorage;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlTableInterface;
+import com.rrm.learnification.storage.LearningItemSqlRecordStore;
 import com.rrm.learnification.storage.LearningItemUpdateBroker;
+import com.rrm.learnification.storage.PersistentItemStore;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.storage.SqlLiteLearningItemStorage;
+import com.rrm.learnification.storage.SqlPersistentLearningItemStore;
 
 import java.util.List;
 
@@ -33,8 +33,8 @@ public class LearnificationPublishingService extends JobService {
 
     private boolean publishNewLearnification() {
         logger.v(LOG_TAG, "Job started");
-        ItemStorage<LearningItem> learningItemStorage = new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface());
-        ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, learningItemStorage, new LearningItemUpdateBroker());
+        PersistentItemStore<LearningItem> learningPersistentItemStore = new SqlPersistentLearningItemStore(logger, new LearningItemSqlRecordStore(new LearnificationAppDatabase(this)));
+        ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, learningPersistentItemStore, new LearningItemUpdateBroker());
         List<LearningItem> learningItems = itemRepository.items();
         for (LearningItem learningItem : learningItems) {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");

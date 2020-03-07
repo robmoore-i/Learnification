@@ -5,7 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.storage.ItemStorage;
+import com.rrm.learnification.storage.PersistentItemStore;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class LearningItemStorageTest {
+public class LearningPersistentItemStoreTest {
     private final LearningItem a = new LearningItem("sql", "lite");
     private final LearningItem b = new LearningItem("from", "file");
     private final LearningItem bMod = new LearningItem("from", "mars");
@@ -29,27 +29,27 @@ public class LearningItemStorageTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
-    private ItemStorage<LearningItem> learningItemStorage;
+    private PersistentItemStore<LearningItem> learningPersistentItemStore;
     private List<LearningItem> originalLearningItems;
 
     @Before
     public void beforeEach() {
-        learningItemStorage = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemStorage();
-        originalLearningItems = learningItemStorage.read();
-        learningItemStorage.rewrite(new ArrayList<>());
+        learningPersistentItemStore = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemStorage();
+        originalLearningItems = learningPersistentItemStore.read();
+        learningPersistentItemStore.rewrite(new ArrayList<>());
 
     }
 
     @After
     public void afterEach() {
-        learningItemStorage.rewrite(originalLearningItems);
+        learningPersistentItemStore.rewrite(originalLearningItems);
     }
 
     @Test
     public void canWriteThenReadLearningItem() {
-        learningItemStorage.write(a);
+        learningPersistentItemStore.write(a);
 
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningPersistentItemStore.read();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
@@ -57,10 +57,10 @@ public class LearningItemStorageTest {
 
     @Test
     public void canWriteTwoLearningItemsThenReadThem() {
-        learningItemStorage.write(a);
-        learningItemStorage.write(b);
+        learningPersistentItemStore.write(a);
+        learningPersistentItemStore.write(b);
 
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningPersistentItemStore.read();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
@@ -71,10 +71,10 @@ public class LearningItemStorageTest {
 
     @Test
     public void canReadThenWriteAnotherLearningItem() {
-        learningItemStorage.read();
-        learningItemStorage.write(a);
+        learningPersistentItemStore.read();
+        learningPersistentItemStore.write(a);
 
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningPersistentItemStore.read();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
@@ -82,23 +82,23 @@ public class LearningItemStorageTest {
 
     @Test
     public void canWriteThenReadThenDeleteThenReadToCheckItsGoneForASingleLearningItem() {
-        learningItemStorage.write(a);
-        List<LearningItem> learningItems = learningItemStorage.read();
+        learningPersistentItemStore.write(a);
+        List<LearningItem> learningItems = learningPersistentItemStore.read();
 
         assertThat(learningItems.size(), equalTo(1));
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
 
-        learningItemStorage.remove(learningItems.get(0));
-        learningItems = learningItemStorage.read();
+        learningPersistentItemStore.remove(learningItems.get(0));
+        learningItems = learningPersistentItemStore.read();
         assertThat(learningItems.size(), equalTo(0));
     }
 
     @Test
     public void canWriteTwoLearningItemsThenReadThemThenDeleteTheSecondThenReadAgain() {
-        learningItemStorage.write(a);
-        learningItemStorage.write(b);
-        List<LearningItem> learningItems = learningItemStorage.read();
+        learningPersistentItemStore.write(a);
+        learningPersistentItemStore.write(b);
+        List<LearningItem> learningItems = learningPersistentItemStore.read();
 
         assertThat(learningItems.size(), equalTo(2));
         LearningItem learningItem = learningItems.get(0);
@@ -106,8 +106,8 @@ public class LearningItemStorageTest {
         learningItem = learningItems.get(1);
         assertThat(learningItem, equalTo(b));
 
-        learningItemStorage.remove(learningItems.get(1));
-        learningItems = learningItemStorage.read();
+        learningPersistentItemStore.remove(learningItems.get(1));
+        learningItems = learningPersistentItemStore.read();
         assertThat(learningItems.size(), equalTo(1));
         learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
@@ -115,9 +115,9 @@ public class LearningItemStorageTest {
 
     @Test
     public void canWriteTwoLearningItemsThenReadThemThenDeleteTheFirstThenReadAgain() {
-        learningItemStorage.write(a);
-        learningItemStorage.write(b);
-        List<LearningItem> learningItems = learningItemStorage.read();
+        learningPersistentItemStore.write(a);
+        learningPersistentItemStore.write(b);
+        List<LearningItem> learningItems = learningPersistentItemStore.read();
 
         assertThat(learningItems.size(), equalTo(2));
         LearningItem learningItem = learningItems.get(0);
@@ -125,8 +125,8 @@ public class LearningItemStorageTest {
         learningItem = learningItems.get(1);
         assertThat(learningItem, equalTo(b));
 
-        learningItemStorage.remove(learningItems.get(0));
-        learningItems = learningItemStorage.read();
+        learningPersistentItemStore.remove(learningItems.get(0));
+        learningItems = learningPersistentItemStore.read();
         assertThat(learningItems.size(), equalTo(1));
         learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(b));
@@ -134,12 +134,12 @@ public class LearningItemStorageTest {
 
     @Test
     public void canReplaceALearningItem() {
-        learningItemStorage.write(a);
-        learningItemStorage.write(b);
-        learningItemStorage.write(c);
+        learningPersistentItemStore.write(a);
+        learningPersistentItemStore.write(b);
+        learningPersistentItemStore.write(c);
 
-        learningItemStorage.replace(b, bMod);
-        List<LearningItem> learningItems = learningItemStorage.read();
+        learningPersistentItemStore.replace(b, bMod);
+        List<LearningItem> learningItems = learningPersistentItemStore.read();
         LearningItem learningItem = learningItems.get(1);
         assertThat(learningItem, equalTo(bMod));
     }

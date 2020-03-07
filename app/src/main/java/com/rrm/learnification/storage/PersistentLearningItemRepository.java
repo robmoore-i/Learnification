@@ -11,15 +11,15 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     private static final String LOG_TAG = "PersistentLearningItemRepository";
 
     private final AndroidLogger logger;
-    private final ItemStorage<LearningItem> learningItemStorage;
+    private final PersistentItemStore<LearningItem> learningPersistentItemStore;
     private final List<LearningItem> learningItems;
 
     private final ItemUpdateBroker<LearningItem> itemUpdateBroker;
 
-    public PersistentLearningItemRepository(AndroidLogger logger, ItemStorage<LearningItem> learningItemStorage, ItemUpdateBroker<LearningItem> itemUpdateBroker) {
+    public PersistentLearningItemRepository(AndroidLogger logger, PersistentItemStore<LearningItem> learningPersistentItemStore, ItemUpdateBroker<LearningItem> itemUpdateBroker) {
         this.logger = logger;
-        this.learningItemStorage = learningItemStorage;
-        this.learningItems = learningItemStorage.read();
+        this.learningPersistentItemStore = learningPersistentItemStore;
+        this.learningItems = learningPersistentItemStore.read();
         this.itemUpdateBroker = itemUpdateBroker;
 
         for (LearningItem learningItem : learningItems) {
@@ -49,7 +49,7 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     @Override
     public void add(LearningItem item) {
         logger.v(LOG_TAG, "adding a learning item '" + item.asSingleString() + "'");
-        learningItemStorage.write(item);
+        learningPersistentItemStore.write(item);
         learningItems.add(item);
     }
 
@@ -63,7 +63,7 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
     @Override
     public void remove(LearningItem item) {
         logger.v(LOG_TAG, "removing learning item '" + item.asSingleString() + "'");
-        learningItemStorage.remove(item);
+        learningPersistentItemStore.remove(item);
         learningItems.remove(item);
     }
 
@@ -73,7 +73,7 @@ public class PersistentLearningItemRepository implements ItemRepository<Learning
 
         itemUpdateBroker.sendUpdate(target, replacement);
 
-        learningItemStorage.replace(target, replacement);
+        learningPersistentItemStore.replace(target, replacement);
         learningItems.replaceAll(learningItem -> {
             if (learningItem.equals(target)) return replacement;
             return learningItem;

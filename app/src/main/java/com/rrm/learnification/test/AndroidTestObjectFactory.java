@@ -12,12 +12,12 @@ import com.rrm.learnification.notification.PendingIntentRequestCodeGenerator;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
-import com.rrm.learnification.storage.ItemStorage;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlTableInterface;
+import com.rrm.learnification.storage.LearningItemSqlRecordStore;
 import com.rrm.learnification.storage.LearningItemUpdateBroker;
+import com.rrm.learnification.storage.PersistentItemStore;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.storage.SqlLiteLearningItemStorage;
+import com.rrm.learnification.storage.SqlPersistentLearningItemStore;
 import com.rrm.learnification.time.AndroidClock;
 
 public class AndroidTestObjectFactory {
@@ -39,8 +39,8 @@ public class AndroidTestObjectFactory {
         return new AndroidInternalStorageAdaptor(logger(), activity);
     }
 
-    public ItemStorage<LearningItem> getLearningItemStorage() {
-        return new SqlLiteLearningItemStorage(logger(), new LearnificationAppDatabase(activity), new LearningItemSqlTableInterface());
+    public PersistentItemStore<LearningItem> getLearningItemStorage() {
+        return new SqlPersistentLearningItemStore(logger(), new LearningItemSqlRecordStore(new LearnificationAppDatabase(activity)));
     }
 
     public ItemRepository<LearningItem> getLearningItemRepository() {

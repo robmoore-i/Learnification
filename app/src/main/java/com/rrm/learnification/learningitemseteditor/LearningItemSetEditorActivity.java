@@ -25,10 +25,10 @@ import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlTableInterface;
+import com.rrm.learnification.storage.LearningItemSqlRecordStore;
 import com.rrm.learnification.storage.LearningItemUpdateBroker;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.storage.SqlLiteLearningItemStorage;
+import com.rrm.learnification.storage.SqlPersistentLearningItemStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
 import com.rrm.learnification.textinput.SimulateButtonClickOnSubmitTextCommand;
@@ -59,7 +59,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         LearningItemList learningItemList = new LearningItemList(logger, learningItemSetEditorView);
 
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlLiteLearningItemStorage(logger, new LearnificationAppDatabase(this), new LearningItemSqlTableInterface()), new LearningItemUpdateBroker());
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlPersistentLearningItemStore(logger, new LearningItemSqlRecordStore(new LearnificationAppDatabase(this))), new LearningItemUpdateBroker());
         UpdatedLearningItemSaver updatedLearningItemSaver = new UpdatedLearningItemSaver(logger, learningItemRepository);
         UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, learningItemSetEditorView, updatedLearningItemSaver);
 
