@@ -24,6 +24,20 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
 public class LearningItemSetSqlRecordStoreTest {
+    private final LearningItem[] asianLearningItems = {
+            new LearningItem("frog", "gemba"),
+            new LearningItem("phone", "machine brain"),
+            new LearningItem("good", "dee")
+    };
+    private final LearningItem[] europeanLearningItems = {
+            new LearningItem("der", "the"),
+            new LearningItem("gamarjoba", "hello"),
+            new LearningItem("sans", "without")
+    };
+    private final LearningItem deletedLearningItem = new LearningItem("l-test-replace", "r-test-replace");
+    private final LearningItem replacementLearningItem = new LearningItem("l-test-replacement", "r-test-replacement");
+    private final LearningItem writtenLearningItem = new LearningItem("l-test-write", "r-test-write");
+
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -33,89 +47,79 @@ public class LearningItemSetSqlRecordStoreTest {
     private static final String LEARNING_ITEM_SET_EUROPEAN = "european";
 
     private final AndroidLogger logger = new AndroidLogger();
-    private LearningItemSetSqlRecordStore learningItemSqlTableInterfaceEuropean;
-    private LearningItemSetSqlRecordStore learningItemSqlTableInterfaceAsian;
+    private LearningItemSetSqlRecordStore euroLearningItemRecordStore;
+    private LearningItemSetSqlRecordStore asianLearningItemRecordStore;
 
     @Before
     public void beforeEach() {
         databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
         databaseTestWrapper.beforeEach();
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        learningItemSqlTableInterfaceAsian = new LearningItemSetSqlRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
-        learningItemSqlTableInterfaceEuropean = new LearningItemSetSqlRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
-        learningItemSqlTableInterfaceAsian.writeAll(Arrays.asList(asianLearningItems()));
-        learningItemSqlTableInterfaceEuropean.writeAll(Arrays.asList(europeanLearningItems()));
+        asianLearningItemRecordStore = new LearningItemSetSqlRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
+        euroLearningItemRecordStore = new LearningItemSetSqlRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
+        asianLearningItemRecordStore.writeAll(Arrays.asList(asianLearningItems));
+        euroLearningItemRecordStore.writeAll(Arrays.asList(europeanLearningItems));
     }
 
     @After
     public void afterEach() {
         databaseTestWrapper.afterEach();
+        ArrayList<LearningItem> toCleanUp = new ArrayList<>();
+        toCleanUp.addAll(Arrays.asList(asianLearningItems));
+        toCleanUp.addAll(Arrays.asList(europeanLearningItems));
+        toCleanUp.add(deletedLearningItem);
+        toCleanUp.add(replacementLearningItem);
+        toCleanUp.add(writtenLearningItem);
+        for (LearningItem learningItem : toCleanUp) {
+            asianLearningItemRecordStore.delete(learningItem);
+            euroLearningItemRecordStore.delete(learningItem);
+        }
     }
 
     @Test
     public void itReadsOnlyFromTheAssociatedSet() {
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(),
-                allOf(hasItems(asianLearningItems()), not(hasItems(europeanLearningItems()))));
+        assertThat(asianLearningItemRecordStore.readAll(), allOf(hasItems(asianLearningItems), not(hasItems(europeanLearningItems))));
     }
 
     @Test
     public void itWritesALearningItemOnlyInTheAssociatedSet() {
-        LearningItem additionalLearningItem = new LearningItem("l-test-write", "r-test-write");
-        learningItemSqlTableInterfaceEuropean.write(additionalLearningItem);
+        LearningItem additionalLearningItem = writtenLearningItem;
+        euroLearningItemRecordStore.write(additionalLearningItem);
 
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(),
-                allOf(hasItems(asianLearningItems()), not(hasItems(europeanLearningItems()))));
-        assertThat(learningItemSqlTableInterfaceEuropean.readAll(),
-                allOf(hasItems(europeanLearningItems()), hasItems(additionalLearningItem), not(hasItems(asianLearningItems()))));
+        assertThat(asianLearningItemRecordStore.readAll(), allOf(hasItems(asianLearningItems), not(hasItems(europeanLearningItems))));
+        assertThat(euroLearningItemRecordStore.readAll(), allOf(hasItems(europeanLearningItems), hasItems(additionalLearningItem), not(hasItems(asianLearningItems))));
     }
 
     @Test
     public void itReplacesALearningItemOnlyInTheAssociatedSet() {
-        LearningItem replaced = new LearningItem("l-test-replace", "r-test-replace");
-        LearningItem replacement = new LearningItem("l-test-replacement", "r-test-replacement");
-        learningItemSqlTableInterfaceAsian.write(replaced);
-        learningItemSqlTableInterfaceEuropean.write(replaced);
+        LearningItem replaced = deletedLearningItem;
+        LearningItem replacement = replacementLearningItem;
+        asianLearningItemRecordStore.write(replaced);
+        euroLearningItemRecordStore.write(replaced);
 
-        learningItemSqlTableInterfaceEuropean.replace(replaced, replacement);
+        euroLearningItemRecordStore.replace(replaced, replacement);
 
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(), hasItem(replaced));
-        assertThat(learningItemSqlTableInterfaceEuropean.readAll(), hasItem(replacement));
+        assertThat(asianLearningItemRecordStore.readAll(), hasItem(replaced));
+        assertThat(euroLearningItemRecordStore.readAll(), hasItem(replacement));
     }
 
     @Test
     public void itDeletesALearningItemOnlyInTheAssociatedSet() {
-        LearningItem deleted = new LearningItem("l-test-replace", "r-test-replace");
-        learningItemSqlTableInterfaceAsian.write(deleted);
-        learningItemSqlTableInterfaceEuropean.write(deleted);
+        LearningItem deleted = deletedLearningItem;
+        asianLearningItemRecordStore.write(deleted);
+        euroLearningItemRecordStore.write(deleted);
 
-        learningItemSqlTableInterfaceAsian.delete(deleted);
+        asianLearningItemRecordStore.delete(deleted);
 
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(), not(hasItem(deleted)));
-        assertThat(learningItemSqlTableInterfaceEuropean.readAll(), hasItem(deleted));
+        assertThat(asianLearningItemRecordStore.readAll(), not(hasItem(deleted)));
+        assertThat(euroLearningItemRecordStore.readAll(), hasItem(deleted));
     }
 
     @Test
     public void itDeletesAllLearningItemsOnlyInTheAssociatedSet() {
-        learningItemSqlTableInterfaceEuropean.deleteAll();
+        euroLearningItemRecordStore.deleteAll();
 
-        assertThat(learningItemSqlTableInterfaceEuropean.readAll(), empty());
-        assertThat(learningItemSqlTableInterfaceAsian.readAll(), hasItems(asianLearningItems()));
+        assertThat(euroLearningItemRecordStore.readAll(), empty());
+        assertThat(asianLearningItemRecordStore.readAll(), hasItems(asianLearningItems));
     }
-
-    private LearningItem[] asianLearningItems() {
-        ArrayList<LearningItem> learningItemsAsian = new ArrayList<>();
-        learningItemsAsian.add(new LearningItem("frog", "gemba"));
-        learningItemsAsian.add(new LearningItem("phone", "machine brain"));
-        learningItemsAsian.add(new LearningItem("good", "dee"));
-        return learningItemsAsian.toArray(new LearningItem[0]);
-    }
-
-    private LearningItem[] europeanLearningItems() {
-        ArrayList<LearningItem> learningItemsEuropean = new ArrayList<>();
-        learningItemsEuropean.add(new LearningItem("der", "the"));
-        learningItemsEuropean.add(new LearningItem("gamarjoba", "hello"));
-        learningItemsEuropean.add(new LearningItem("sans", "without"));
-        return learningItemsEuropean.toArray(new LearningItem[0]);
-    }
-
 }
