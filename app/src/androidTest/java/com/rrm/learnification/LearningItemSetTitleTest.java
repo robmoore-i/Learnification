@@ -23,6 +23,6 @@ public class LearningItemSetTitleTest {
 
     @Test
     public void theTitleIsDisplayed() {
-        onView(allOf(withId(R.id.learning_item_set_name_textbox), withText("random-name-123"))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.learning_item_set_name_textbox), withText("default"))).check(matches(isDisplayed()));
     }
 }

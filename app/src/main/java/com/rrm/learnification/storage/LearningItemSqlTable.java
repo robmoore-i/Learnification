@@ -82,4 +82,13 @@ final class LearningItemSqlTable implements BaseColumns {
         cursor.close();
         return numberOfDistinctLearningItemSets;
     }
+
+    static String mostPopulousLearningItemSetName(SQLiteDatabase readableDatabase) {
+        String viewName = "numberOfDistinctLearningItemSets";
+        Cursor cursor = readableDatabase.rawQuery("SELECT " + COLUMN_NAME_LEARNING_ITEM_SET + ",(COUNT(DISTINCT " + COLUMN_NAME_LEARNING_ITEM_SET + ")) AS " + viewName + " FROM " + TABLE_NAME, null);
+        cursor.moveToFirst();
+        String mostPopulousLearningItemSetName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_LEARNING_ITEM_SET));
+        cursor.close();
+        return mostPopulousLearningItemSetName;
+    }
 }

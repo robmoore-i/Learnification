@@ -50,6 +50,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learningitemseteditor);
 
+        LearningItemSetEditorActivityBundle activityStartupParameters = LearningItemSetEditorActivityBundle.fromBundle(this.getIntent().getExtras());
+
         // Create some objects, in the order in which they have relevance in the view
 
         LearningItemSetEditorView learningItemSetEditorView = new LearningItemSetEditorView(logger, this);
@@ -82,7 +84,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
 
-        learningItemSetEditorView.setTitle("random-name-123");
+        learningItemSetEditorView.setTitle(activityStartupParameters.learningItemSetName);
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));

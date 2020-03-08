@@ -13,10 +13,6 @@ public class LearningItemSqlTableClient {
         this.learnificationAppDatabase = learnificationAppDatabase;
     }
 
-    public int numberOfDistinctLearningItemSets() {
-        return LearningItemSqlTable.numberOfDistinctLearningItemSets(learnificationAppDatabase.getReadableDatabase());
-    }
-
     public ArrayList<LearningItem> allRecords() {
         Cursor cursor = LearningItemSqlTable.all(learnificationAppDatabase.getReadableDatabase());
         ArrayList<LearningItem> learningItems = new ArrayList<>();
@@ -29,5 +25,13 @@ public class LearningItemSqlTableClient {
 
     public void clearEverything() {
         LearningItemSqlTable.deleteAll(learnificationAppDatabase.getWritableDatabase());
+    }
+
+    public int numberOfDistinctLearningItemSets() {
+        return LearningItemSqlTable.numberOfDistinctLearningItemSets(learnificationAppDatabase.getReadableDatabase());
+    }
+
+    public String mostPopulousLearningItemSetName() {
+        return LearningItemSqlTable.mostPopulousLearningItemSetName(learnificationAppDatabase.getReadableDatabase());
     }
 }
