@@ -40,7 +40,7 @@ public class AndroidTestObjectFactory {
     }
 
     public PersistentItemStore<LearningItem> getLearningItemStorage() {
-        return new SqlPersistentLearningItemStore(logger(), new LearningItemSqlRecordStore(new LearnificationAppDatabase(activity)));
+        return new SqlPersistentLearningItemStore(logger(), new LearningItemSqlRecordStore(new LearnificationAppDatabase(activity), "default"));
     }
 
     public ItemRepository<LearningItem> getLearningItemRepository() {

@@ -14,6 +14,7 @@ import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
 import com.rrm.learnification.storage.LearningItemSqlRecordStore;
+import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.storage.LearningItemUpdateBroker;
 import com.rrm.learnification.storage.PersistentItemStore;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
@@ -33,8 +34,16 @@ public class LearnificationPublishingService extends JobService {
 
     private boolean publishNewLearnification() {
         logger.v(LOG_TAG, "Job started");
-        PersistentItemStore<LearningItem> learningPersistentItemStore = new SqlPersistentLearningItemStore(logger, new LearningItemSqlRecordStore(new LearnificationAppDatabase(this)));
+        LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
+
+        // Change this, so that the recordStore is taking from all the available learning items
+        // The whole strategy here needs rethinking perhaps. Look at the transient usages if the itemRepository. It is used only
+        //   for reading its items, yet the object is capable of so much more.
+        String learningItemSetName = new LearningItemSqlTableClient(learnificationAppDatabase).mostPopulousLearningItemSetName();
+        LearningItemSqlRecordStore recordStore = new LearningItemSqlRecordStore(learnificationAppDatabase, learningItemSetName);
+        PersistentItemStore<LearningItem> learningPersistentItemStore = new SqlPersistentLearningItemStore(logger, recordStore);
         ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, learningPersistentItemStore, new LearningItemUpdateBroker());
+
         List<LearningItem> learningItems = itemRepository.items();
         for (LearningItem learningItem : learningItems) {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");

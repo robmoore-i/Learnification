@@ -51,6 +51,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learningitemseteditor);
 
         LearningItemSetEditorActivityBundle activityStartupParameters = LearningItemSetEditorActivityBundle.fromBundle(this.getIntent().getExtras());
+        String learningItemSetName = activityStartupParameters.learningItemSetName;
 
         // Create some objects, in the order in which they have relevance in the view
 
@@ -61,7 +62,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         LearningItemList learningItemList = new LearningItemList(logger, learningItemSetEditorView);
 
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlPersistentLearningItemStore(logger, new LearningItemSqlRecordStore(new LearnificationAppDatabase(this))), new LearningItemUpdateBroker());
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlPersistentLearningItemStore(logger, new LearningItemSqlRecordStore(new LearnificationAppDatabase(this), learningItemSetName)), new LearningItemUpdateBroker());
         UpdatedLearningItemSaver updatedLearningItemSaver = new UpdatedLearningItemSaver(logger, learningItemRepository);
         UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, learningItemSetEditorView, updatedLearningItemSaver);
 
@@ -84,7 +85,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
 
-        learningItemSetEditorView.setTitle(activityStartupParameters.learningItemSetName);
+        learningItemSetEditorView.setTitle(learningItemSetName);
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));

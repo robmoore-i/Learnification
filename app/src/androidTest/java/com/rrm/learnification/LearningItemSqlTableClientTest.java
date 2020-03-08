@@ -51,4 +51,10 @@ public class LearningItemSqlTableClientTest {
     public void canCountTheNumberOfLearningItemSetsWhenIts1() {
         assertThat(learningItemSqlTableClient.numberOfDistinctLearningItemSets(), equalTo(1));
     }
+
+    @Test
+    public void returnsDefaultAsTheMostPopulousLearningItemSetNameIfThereAreNoLearningItems() {
+        learningItemSqlTableClient.clearEverything();
+        assertThat(learningItemSqlTableClient.mostPopulousLearningItemSetName(), equalTo("default"));
+    }
 }

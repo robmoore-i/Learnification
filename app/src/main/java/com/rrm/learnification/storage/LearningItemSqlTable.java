@@ -89,6 +89,10 @@ final class LearningItemSqlTable implements BaseColumns {
         cursor.moveToFirst();
         String mostPopulousLearningItemSetName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_LEARNING_ITEM_SET));
         cursor.close();
-        return mostPopulousLearningItemSetName;
+        if (mostPopulousLearningItemSetName == null) {
+            return "default";
+        } else {
+            return mostPopulousLearningItemSetName;
+        }
     }
 }

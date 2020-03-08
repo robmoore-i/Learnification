@@ -17,10 +17,6 @@ public class LearningItemSqlRecordStore implements SqlRecordStore<LearningItem> 
         this.learningItemSetName = learningItemSetName;
     }
 
-    public LearningItemSqlRecordStore(LearnificationAppDatabase learnificationAppDatabase) {
-        this(learnificationAppDatabase, "default");
-    }
-
     @Override
     public List<LearningItem> readAll() {
         Cursor cursor = LearningItemSqlTable.all(learnificationAppDatabase.getReadableDatabase(), learningItemSetName);
