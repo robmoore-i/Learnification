@@ -5,7 +5,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.publication.LearnificationTextGenerator;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
 import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.ItemSupplier;
 
 import java.io.FileNotFoundException;
 import java.util.Collections;
@@ -77,7 +77,7 @@ public class SettingsRepository {
         }
     }
 
-    public LearnificationTextGenerator learnificationTextGenerator(ItemRepository<LearningItem> itemRepository) {
-        return readLearnificationPromptStrategy().toLearnificationTextGenerator(itemRepository);
+    public LearnificationTextGenerator learnificationTextGenerator(ItemSupplier<LearningItem> itemSupplier) {
+        return readLearnificationPromptStrategy().toLearnificationTextGenerator(itemSupplier);
     }
 }

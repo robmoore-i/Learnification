@@ -4,7 +4,7 @@ import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.publication.LearnificationTextGenerator;
 import com.rrm.learnification.random.JavaRandomiser;
 import com.rrm.learnification.random.Randomiser;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.ItemSupplier;
 
 public interface LearnificationPromptStrategy {
     Randomiser randomiser = new JavaRandomiser();
@@ -22,7 +22,7 @@ public interface LearnificationPromptStrategy {
 
     String name();
 
-    LearnificationTextGenerator toLearnificationTextGenerator(ItemRepository<LearningItem> itemRepository);
+    LearnificationTextGenerator toLearnificationTextGenerator(ItemSupplier<LearningItem> itemSupplier);
 
     class LeftToRightLearnificationPromptStrategy implements LearnificationPromptStrategy {
         private final Randomiser randomiser;
@@ -37,8 +37,8 @@ public interface LearnificationPromptStrategy {
         }
 
         @Override
-        public LearnificationTextGenerator toLearnificationTextGenerator(ItemRepository<LearningItem> itemRepository) {
-            return () -> randomiser.randomLeftToRightLearnificationQuestion(itemRepository.itemsOrThrowIfEmpty());
+        public LearnificationTextGenerator toLearnificationTextGenerator(ItemSupplier<LearningItem> itemSupplier) {
+            return () -> randomiser.randomLeftToRightLearnificationQuestion(itemSupplier.itemsOrThrowIfEmpty());
         }
     }
 
@@ -55,8 +55,8 @@ public interface LearnificationPromptStrategy {
         }
 
         @Override
-        public LearnificationTextGenerator toLearnificationTextGenerator(ItemRepository<LearningItem> itemRepository) {
-            return () -> randomiser.randomRightToLeftLearnificationQuestion(itemRepository.itemsOrThrowIfEmpty());
+        public LearnificationTextGenerator toLearnificationTextGenerator(ItemSupplier<LearningItem> itemSupplier) {
+            return () -> randomiser.randomRightToLeftLearnificationQuestion(itemSupplier.itemsOrThrowIfEmpty());
         }
     }
 
@@ -73,8 +73,8 @@ public interface LearnificationPromptStrategy {
         }
 
         @Override
-        public LearnificationTextGenerator toLearnificationTextGenerator(ItemRepository<LearningItem> itemRepository) {
-            return () -> randomiser.randomMixedLearnificationQuestion(itemRepository.itemsOrThrowIfEmpty());
+        public LearnificationTextGenerator toLearnificationTextGenerator(ItemSupplier<LearningItem> itemSupplier) {
+            return () -> randomiser.randomMixedLearnificationQuestion(itemSupplier.itemsOrThrowIfEmpty());
         }
     }
 }

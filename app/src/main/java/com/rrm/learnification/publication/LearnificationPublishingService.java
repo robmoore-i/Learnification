@@ -11,14 +11,9 @@ import com.rrm.learnification.notification.PendingIntentRequestCodeGenerator;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.ItemSupplier;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlRecordStore;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
-import com.rrm.learnification.storage.LearningItemUpdateBroker;
-import com.rrm.learnification.storage.PersistentItemStore;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.storage.SqlPersistentLearningItemStore;
 
 import java.util.List;
 
@@ -36,22 +31,16 @@ public class LearnificationPublishingService extends JobService {
         logger.v(LOG_TAG, "Job started");
         LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
 
-        // Change this, so that the recordStore is taking from all the available learning items
-        // The whole strategy here needs rethinking perhaps. Look at the transient usages if the itemRepository. It is used only
-        //   for reading its items, yet the object is capable of so much more.
-        String learningItemSetName = new LearningItemSqlTableClient(learnificationAppDatabase).mostPopulousLearningItemSetName();
-        LearningItemSqlRecordStore recordStore = new LearningItemSqlRecordStore(learnificationAppDatabase, learningItemSetName);
-        PersistentItemStore<LearningItem> learningPersistentItemStore = new SqlPersistentLearningItemStore(logger, recordStore);
-        ItemRepository<LearningItem> itemRepository = new PersistentLearningItemRepository(logger, learningPersistentItemStore, new LearningItemUpdateBroker());
+        ItemSupplier<LearningItem> itemSupplier = new LearningItemSqlTableClient(learnificationAppDatabase);
 
-        List<LearningItem> learningItems = itemRepository.items();
+        List<LearningItem> learningItems = itemSupplier.items();
         for (LearningItem learningItem : learningItems) {
             logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
         }
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         SettingsRepository settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
-        LearnificationTextGenerator learnificationTextGenerator = settingsRepository.learnificationTextGenerator(itemRepository);
+        LearnificationTextGenerator learnificationTextGenerator = settingsRepository.learnificationTextGenerator(itemSupplier);
 
         NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator = PendingIntentRequestCodeGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);

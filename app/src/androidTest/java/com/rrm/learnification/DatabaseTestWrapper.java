@@ -24,7 +24,7 @@ class DatabaseTestWrapper {
         LearningItemSqlTableClient learningItemSqlTableClient = new LearningItemSqlTableClient(androidTestObjectFactory.getLearnificationAppDatabase());
 
         learningPersistentItemStore = androidTestObjectFactory.getLearningItemStorage();
-        originalLearningItems = learningItemSqlTableClient.allRecords();
+        originalLearningItems = learningItemSqlTableClient.items();
         learningItemSqlTableClient.clearEverything();
     }
 
