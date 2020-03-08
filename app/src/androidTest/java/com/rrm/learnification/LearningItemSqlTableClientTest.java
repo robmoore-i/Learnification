@@ -3,8 +3,9 @@ package com.rrm.learnification;
 import android.support.test.rule.ActivityTestRule;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
-import com.rrm.learnification.storage.LearningItemSqlRecordStore;
+import com.rrm.learnification.storage.LearningItemSetSqlRecordStore;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
@@ -25,14 +26,17 @@ public class LearningItemSqlTableClientTest {
     private DatabaseTestWrapper databaseTestWrapper;
 
     private LearningItemSqlTableClient learningItemSqlTableClient;
+    private AndroidLogger logger = new AndroidLogger();
+    private LearningItemSetSqlRecordStore learningItemSetSqlRecordStore;
+    private AndroidTestObjectFactory androidTestObjectFactory;
 
     @Before
     public void before() {
         databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
         databaseTestWrapper.beforeEach();
-        AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        LearningItemSqlRecordStore learningItemSqlRecordStore = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), "default");
-        learningItemSqlRecordStore.writeAll(Arrays.asList(
+        androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
+        learningItemSetSqlRecordStore = recordStore("default");
+        learningItemSetSqlRecordStore.writeAll(Arrays.asList(
                 new LearningItem("1", "a"),
                 new LearningItem("2", "b"),
                 new LearningItem("3", "c"),
@@ -56,5 +60,22 @@ public class LearningItemSqlTableClientTest {
     public void returnsDefaultAsTheMostPopulousLearningItemSetNameIfThereAreNoLearningItems() {
         learningItemSqlTableClient.clearEverything();
         assertThat(learningItemSqlTableClient.mostPopulousLearningItemSetName(), equalTo("default"));
+    }
+
+    @Test
+    public void returnsThaiAsTheMostPopulousIfItIsTheOnlySet() {
+        learningItemSqlTableClient.clearEverything();
+        learningItemSetSqlRecordStore = recordStore("Thai");
+        learningItemSetSqlRecordStore.writeAll(Arrays.asList(
+                new LearningItem("sa-wad-dee-kab", "hello"),
+                new LearningItem("aroi", "delicious"),
+                new LearningItem("ayam", "ayam")
+        ));
+
+        assertThat(learningItemSqlTableClient.mostPopulousLearningItemSetName(), equalTo("Thai"));
+    }
+
+    private LearningItemSetSqlRecordStore recordStore(String learningItemSetName) {
+        return new LearningItemSetSqlRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), learningItemSetName);
     }
 }

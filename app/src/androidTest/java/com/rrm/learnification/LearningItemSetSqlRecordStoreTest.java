@@ -3,8 +3,9 @@ package com.rrm.learnification;
 import android.support.test.rule.ActivityTestRule;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
-import com.rrm.learnification.storage.LearningItemSqlRecordStore;
+import com.rrm.learnification.storage.LearningItemSetSqlRecordStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -22,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
-public class LearningItemSqlRecordStoreTest {
+public class LearningItemSetSqlRecordStoreTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -31,16 +32,17 @@ public class LearningItemSqlRecordStoreTest {
     private static final String LEARNING_ITEM_SET_DEFAULT = "default";
     private static final String LEARNING_ITEM_SET_EUROPEAN = "european";
 
-    private LearningItemSqlRecordStore learningItemSqlTableInterfaceEuropean;
-    private LearningItemSqlRecordStore learningItemSqlTableInterfaceAsian;
+    private final AndroidLogger logger = new AndroidLogger();
+    private LearningItemSetSqlRecordStore learningItemSqlTableInterfaceEuropean;
+    private LearningItemSetSqlRecordStore learningItemSqlTableInterfaceAsian;
 
     @Before
     public void beforeEach() {
         databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
         databaseTestWrapper.beforeEach();
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        learningItemSqlTableInterfaceAsian = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
-        learningItemSqlTableInterfaceEuropean = new LearningItemSqlRecordStore(androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
+        learningItemSqlTableInterfaceAsian = new LearningItemSetSqlRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
+        learningItemSqlTableInterfaceEuropean = new LearningItemSetSqlRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
         learningItemSqlTableInterfaceAsian.writeAll(Arrays.asList(asianLearningItems()));
         learningItemSqlTableInterfaceEuropean.writeAll(Arrays.asList(europeanLearningItems()));
     }

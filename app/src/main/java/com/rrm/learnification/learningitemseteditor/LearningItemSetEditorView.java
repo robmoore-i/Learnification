@@ -29,8 +29,6 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
     private final AndroidLogger logger;
     private final LearningItemSetEditorActivity activity;
 
-    private final LearningItemSetTitle learningItemSetTitle;
-
     LearningItemSetEditorView(AndroidLogger logger, LearningItemSetEditorActivity activity) {
         this.logger = logger;
         this.activity = activity;
@@ -41,8 +39,6 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
         setLearningItemListInterItemPadding();
         setLearningItemListViewBounds();
         setToolbarTitle("Learnification");
-
-        learningItemSetTitle = new LearningItemSetTitle(logger, this, activity.findViewById(R.id.learning_item_set_name_textbox), activity.findViewById(R.id.learning_item_set_name_change_icon));
     }
 
     private void setLearningItemListInterItemPadding() {
@@ -166,10 +162,6 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
             }
         };
         thread.start();
-    }
-
-    void setTitle(String learningItemSetTitle) {
-        this.learningItemSetTitle.setLearningItemSetName(learningItemSetTitle);
     }
 
     private void setToolbarTitle(String title) {

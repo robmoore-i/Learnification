@@ -13,7 +13,7 @@ import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlRecordStore;
+import com.rrm.learnification.storage.LearningItemSetSqlRecordStore;
 import com.rrm.learnification.storage.LearningItemUpdateBroker;
 import com.rrm.learnification.storage.PersistentItemStore;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
@@ -40,7 +40,8 @@ public class AndroidTestObjectFactory {
     }
 
     public PersistentItemStore<LearningItem> getLearningItemStorage() {
-        return new SqlPersistentLearningItemStore(logger(), new LearningItemSqlRecordStore(new LearnificationAppDatabase(activity), "default"));
+        AndroidLogger logger = logger();
+        return new SqlPersistentLearningItemStore(logger, new LearningItemSetSqlRecordStore(logger, new LearnificationAppDatabase(activity), "default"));
     }
 
     public ItemRepository<LearningItem> getLearningItemRepository() {

@@ -25,7 +25,7 @@ import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlRecordStore;
+import com.rrm.learnification.storage.LearningItemSetSqlRecordStore;
 import com.rrm.learnification.storage.LearningItemUpdateBroker;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlPersistentLearningItemStore;
@@ -57,12 +57,15 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         LearningItemSetEditorView learningItemSetEditorView = new LearningItemSetEditorView(logger, this);
 
+        LearningItemSetSqlRecordStore learningItemRecordStore = new LearningItemSetSqlRecordStore(logger, new LearnificationAppDatabase(this), learningItemSetName);
+        LearningItemSetTitle learningItemSetTitle = new LearningItemSetTitle(logger, learningItemRecordStore, learningItemSetEditorView, this.findViewById(R.id.learning_item_set_name_textbox), this.findViewById(R.id.learning_item_set_name_change_icon));
+
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(learningItemSetEditorView);
         AddLearningItemButton addLearningItemButton = new AddLearningItemButton(logger, learningItemSetEditorView);
 
         LearningItemList learningItemList = new LearningItemList(logger, learningItemSetEditorView);
 
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlPersistentLearningItemStore(logger, new LearningItemSqlRecordStore(new LearnificationAppDatabase(this), learningItemSetName)), new LearningItemUpdateBroker());
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, new SqlPersistentLearningItemStore(logger, learningItemRecordStore), new LearningItemUpdateBroker());
         UpdatedLearningItemSaver updatedLearningItemSaver = new UpdatedLearningItemSaver(logger, learningItemRepository);
         UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, learningItemSetEditorView, updatedLearningItemSaver);
 
@@ -85,7 +88,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
 
-        learningItemSetEditorView.setTitle(learningItemSetName);
+        learningItemSetTitle.setLearningItemSetName(learningItemSetName);
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));
@@ -100,6 +103,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         );
 
         updateLearningItemButton.addOnClickHandler(learningItemRepository::replace);
+
+        // Schedule a learnification
 
         androidNotificationFacade.createNotificationChannel(AndroidNotificationFacade.CHANNEL_ID);
         learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);

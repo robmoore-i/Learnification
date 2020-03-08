@@ -95,4 +95,12 @@ final class LearningItemSqlTable implements BaseColumns {
             return mostPopulousLearningItemSetName;
         }
     }
+
+    static void updateSetName(SQLiteDatabase writableDatabase, String learningItemSetName, String newLearningItemSetName) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NAME_LEARNING_ITEM_SET, newLearningItemSetName);
+        String whereClause = COLUMN_NAME_LEARNING_ITEM_SET + " LIKE ?";
+        String[] whereArgs = {learningItemSetName};
+        writableDatabase.update(TABLE_NAME, contentValues, whereClause, whereArgs);
+    }
 }

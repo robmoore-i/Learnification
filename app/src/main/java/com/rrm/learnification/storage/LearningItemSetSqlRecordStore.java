@@ -4,15 +4,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LearningItemSqlRecordStore implements SqlRecordStore<LearningItem> {
-    private final LearnificationAppDatabase learnificationAppDatabase;
-    private final String learningItemSetName;
+public class LearningItemSetSqlRecordStore implements SqlRecordStore<LearningItem> {
+    private static final String LOG_TAG = "LearningItemSetSqlRecordStore";
+    private final AndroidLogger logger;
 
-    public LearningItemSqlRecordStore(LearnificationAppDatabase learnificationAppDatabase, String learningItemSetName) {
+    private final LearnificationAppDatabase learnificationAppDatabase;
+
+    private String learningItemSetName;
+
+    public LearningItemSetSqlRecordStore(AndroidLogger logger, LearnificationAppDatabase learnificationAppDatabase, String learningItemSetName) {
+        this.logger = logger;
         this.learnificationAppDatabase = learnificationAppDatabase;
         this.learningItemSetName = learningItemSetName;
     }
@@ -60,5 +66,11 @@ public class LearningItemSqlRecordStore implements SqlRecordStore<LearningItem> 
     @Override
     public void replace(LearningItem target, LearningItem replacement) {
         LearningItemSqlTable.replace(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, target, replacement);
+    }
+
+    public void renameSet(String newLearningItemSetName) {
+        logger.v(LOG_TAG, "renaming learning item set from '" + learningItemSetName + "' to '" + newLearningItemSetName + "'");
+        LearningItemSqlTable.updateSetName(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, newLearningItemSetName);
+        learningItemSetName = newLearningItemSetName;
     }
 }

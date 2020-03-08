@@ -13,8 +13,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class LearningItemSetTitleTest {
@@ -23,6 +21,6 @@ public class LearningItemSetTitleTest {
 
     @Test
     public void theTitleIsDisplayed() {
-        onView(allOf(withId(R.id.learning_item_set_name_textbox), withText("default"))).check(matches(isDisplayed()));
+        onView(withId(R.id.learning_item_set_name_textbox)).check(matches(isDisplayed()));
     }
 }
