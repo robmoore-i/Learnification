@@ -5,11 +5,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 
 public class SaveSettingsButton extends AndroidButton {
     public SaveSettingsButton(AndroidLogger logger, SaveSettingsView saveSettingsView) {
-        super(logger, saveSettingsView.saveSettingsButton());
+        super(logger, saveSettingsView.saveSettingsButton(), true);
     }
 
-    @Override
-    public boolean enabledInitially() {
-        return true;
-    }
 }

@@ -10,13 +10,8 @@ class UpdateLearningItemButton extends AndroidButton {
     private final UpdatedLearningItemSaver updatedLearningItemSaver;
 
     UpdateLearningItemButton(AndroidLogger logger, UpdateLearningItemView view, UpdatedLearningItemSaver updatedLearningItemSaver) {
-        super(logger, view.updateLearningItemButton());
+        super(logger, view.updateLearningItemButton(), false);
         this.updatedLearningItemSaver = updatedLearningItemSaver;
-    }
-
-    @Override
-    public boolean enabledInitially() {
-        return false;
     }
 
     /**

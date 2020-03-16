@@ -139,11 +139,6 @@ public class SetButtonStatusOnTextChangeListenerTest {
         private Boolean active;
 
         @Override
-        public boolean enabledInitially() {
-            return false;
-        }
-
-        @Override
         public void addOnClickHandler(OnClickCommand onClickCommand) {
         }
 
