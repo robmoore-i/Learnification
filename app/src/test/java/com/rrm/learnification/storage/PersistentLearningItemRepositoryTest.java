@@ -19,12 +19,11 @@ import static org.mockito.Mockito.when;
 public class PersistentLearningItemRepositoryTest {
     private final AndroidLogger androidLogger = mock(AndroidLogger.class);
     private final LearningItemUpdateBroker dummyItemUpdateBroker = mock(LearningItemUpdateBroker.class);
-    @SuppressWarnings("unchecked")
-    private final PersistentItemStore<LearningItem> stubLearningPersistentItemStore = mock(PersistentItemStore.class);
+    private final SqlLearningItemSetRecordStore stubLearningPersistentItemStore = mock(SqlLearningItemSetRecordStore.class);
 
     @Test
     public void canAddLearningItems() {
-        when(stubLearningPersistentItemStore.read()).thenReturn(new ArrayList<>());
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(new ArrayList<>());
         PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         persistentLearnificationRepository.add(new LearningItem("L", "R"));
@@ -37,7 +36,7 @@ public class PersistentLearningItemRepositoryTest {
 
     @Test
     public void returnsLearningItemsWithLatestEntryFirst() {
-        when(stubLearningPersistentItemStore.read()).thenReturn(new ArrayList<>());
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(new ArrayList<>());
         PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         persistentLearnificationRepository.add(new LearningItem("L1", "R1"));
@@ -51,7 +50,7 @@ public class PersistentLearningItemRepositoryTest {
 
     @Test
     public void removesItemCorrespondingToIndexInReturnedList() {
-        when(stubLearningPersistentItemStore.read()).thenReturn(new ArrayList<>(Arrays.asList(
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(new ArrayList<>(Arrays.asList(
                 new LearningItem("a", "a"),
                 new LearningItem("b", "b"),
                 new LearningItem("c", "c"),
@@ -80,7 +79,7 @@ public class PersistentLearningItemRepositoryTest {
                 new LearningItem("c", "c"),
                 new LearningItem("d", "d")
         ));
-        when(stubLearningPersistentItemStore.read()).thenReturn(learningItems);
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(learningItems);
         PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         List<LearningItem> items = persistentLearnificationRepository.items();
@@ -102,7 +101,7 @@ public class PersistentLearningItemRepositoryTest {
                 new LearningItem("c", "c"),
                 new LearningItem("d", "d")
         ));
-        when(stubLearningPersistentItemStore.read()).thenReturn(learningItems);
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(learningItems);
         PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         persistentLearnificationRepository.replace(new LearningItem("c", "c"), new LearningItem("e", "e"));

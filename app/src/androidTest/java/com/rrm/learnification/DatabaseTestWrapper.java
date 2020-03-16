@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
-import com.rrm.learnification.storage.PersistentItemStore;
+import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 class DatabaseTestWrapper {
     private final AppCompatActivity activity;
 
-    private PersistentItemStore<LearningItem> learningPersistentItemStore;
+    private SqlLearningItemSetRecordStore learningPersistentItemStore;
     private List<LearningItem> originalLearningItems;
 
     DatabaseTestWrapper(AppCompatActivity activity) {
@@ -23,12 +23,13 @@ class DatabaseTestWrapper {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activity);
         LearningItemSqlTableClient learningItemSqlTableClient = new LearningItemSqlTableClient(androidTestObjectFactory.getLearnificationAppDatabase());
 
-        learningPersistentItemStore = androidTestObjectFactory.getLearningItemStorage();
+        learningPersistentItemStore = androidTestObjectFactory.getDefaultSqlLearningItemSetRecordStore();
         originalLearningItems = learningItemSqlTableClient.items();
         learningItemSqlTableClient.clearEverything();
     }
 
     void afterEach() {
-        learningPersistentItemStore.rewrite(originalLearningItems);
+        learningPersistentItemStore.deleteAll();
+        learningPersistentItemStore.writeAll(originalLearningItems);
     }
 }

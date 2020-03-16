@@ -7,20 +7,20 @@ import android.widget.ImageView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.LearningItemSetSqlRecordStore;
+import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 
-class LearningItemSetTitle {
+class AndroidLearningItemSetTitle {
     private static final String LOG_TAG = "LearningItemSetTitle";
 
     private final AndroidLogger logger;
 
-    private final LearningItemSetSqlRecordStore recordStore;
+    private final SqlLearningItemSetRecordStore recordStore;
     private final SoftKeyboardView softKeyboardView;
 
     private final EditText textBox;
     private final ImageView changeIcon;
 
-    LearningItemSetTitle(AndroidLogger logger, LearningItemSetSqlRecordStore recordStore, SoftKeyboardView softKeyboardView, EditText textBox, ImageView changeIcon) {
+    AndroidLearningItemSetTitle(AndroidLogger logger, SqlLearningItemSetRecordStore recordStore, SoftKeyboardView softKeyboardView, EditText textBox, ImageView changeIcon) {
         this.logger = logger;
         this.recordStore = recordStore;
         this.softKeyboardView = softKeyboardView;
@@ -30,7 +30,7 @@ class LearningItemSetTitle {
         disableEditing();
     }
 
-    void setLearningItemSetName(String learningItemSetName) {
+    public void set(String learningItemSetName) {
         textBox.setText(learningItemSetName);
     }
 
@@ -45,7 +45,7 @@ class LearningItemSetTitle {
         changeIcon.setImageResource(R.drawable.edit_pencil_icon);
         changeIcon.setOnClickListener(v -> {
             logger.v(LOG_TAG, "learning item set title clicked to edit");
-            LearningItemSetTitle.this.startEditing();
+            AndroidLearningItemSetTitle.this.startEditing();
         });
         softKeyboardView.hideSoftKeyboard();
     }
@@ -61,7 +61,7 @@ class LearningItemSetTitle {
         changeIcon.setImageResource(R.drawable.save_icon);
         changeIcon.setOnClickListener(v -> {
             logger.v(LOG_TAG, "learning item set title clicked to save");
-            LearningItemSetTitle.this.save();
+            AndroidLearningItemSetTitle.this.save();
         });
         softKeyboardView.showSoftKeyboard();
     }

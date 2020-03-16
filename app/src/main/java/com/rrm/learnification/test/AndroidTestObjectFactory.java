@@ -13,11 +13,10 @@ import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSetSqlRecordStore;
+import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.storage.LearningItemUpdateBroker;
-import com.rrm.learnification.storage.PersistentItemStore;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.storage.SqlPersistentLearningItemStore;
+import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.time.AndroidClock;
 
 public class AndroidTestObjectFactory {
@@ -39,13 +38,12 @@ public class AndroidTestObjectFactory {
         return new AndroidInternalStorageAdaptor(logger(), activity);
     }
 
-    public PersistentItemStore<LearningItem> getLearningItemStorage() {
-        AndroidLogger logger = logger();
-        return new SqlPersistentLearningItemStore(logger, new LearningItemSetSqlRecordStore(logger, new LearnificationAppDatabase(activity), "default"));
+    public SqlLearningItemSetRecordStore getDefaultSqlLearningItemSetRecordStore() {
+        return new SqlLearningItemSetRecordStore(logger(), new LearnificationAppDatabase(activity), "default");
     }
 
     public ItemRepository<LearningItem> getLearningItemRepository() {
-        return new PersistentLearningItemRepository(logger(), getLearningItemStorage(), new LearningItemUpdateBroker());
+        return new PersistentLearningItemRepository(logger(), getDefaultSqlLearningItemSetRecordStore(), new LearningItemUpdateBroker());
     }
 
     public JobScheduler getJobScheduler() {
@@ -62,5 +60,9 @@ public class AndroidTestObjectFactory {
 
     public LearnificationAppDatabase getLearnificationAppDatabase() {
         return new LearnificationAppDatabase(activity);
+    }
+
+    public LearningItemSqlTableClient getLearningItemSqlTableClient() {
+        return new LearningItemSqlTableClient(getLearnificationAppDatabase());
     }
 }

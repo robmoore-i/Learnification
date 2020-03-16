@@ -9,7 +9,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LearningItemSetSqlRecordStore implements SqlRecordStore<LearningItem> {
+public class SqlLearningItemSetRecordStore implements SqlRecordStore<LearningItem> {
     private static final String LOG_TAG = "LearningItemSetSqlRecordStore";
     private final AndroidLogger logger;
 
@@ -17,7 +17,7 @@ public class LearningItemSetSqlRecordStore implements SqlRecordStore<LearningIte
 
     private String learningItemSetName;
 
-    public LearningItemSetSqlRecordStore(AndroidLogger logger, LearnificationAppDatabase learnificationAppDatabase, String learningItemSetName) {
+    public SqlLearningItemSetRecordStore(AndroidLogger logger, LearnificationAppDatabase learnificationAppDatabase, String learningItemSetName) {
         this.logger = logger;
         this.learnificationAppDatabase = learnificationAppDatabase;
         this.learningItemSetName = learningItemSetName;

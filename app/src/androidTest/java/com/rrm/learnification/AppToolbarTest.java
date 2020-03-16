@@ -31,7 +31,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.rrm.learnification.LearnificationAppAssumption.assumeThatThereAreLearningItems;
+import static com.rrm.learnification.LearnificationAppAssumption.assumeThatThereAreAnyLearningItems;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -139,7 +139,7 @@ public class AppToolbarTest {
 
     @Test
     public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() throws InterruptedException {
-        assumeThatThereAreLearningItems(activityTestRule);
+        assumeThatThereAreAnyLearningItems(activityTestRule);
         waitACoupleOfSeconds();
 
         onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(is("Learnification ready"))));

@@ -5,7 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.storage.PersistentItemStore;
+import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -29,7 +29,7 @@ public class LearningPersistentItemStoreTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
-    private PersistentItemStore<LearningItem> learningItemStorage;
+    private SqlLearningItemSetRecordStore learningItemStorage;
     private DatabaseTestWrapper databaseTestWrapper;
 
     @Before
@@ -37,7 +37,7 @@ public class LearningPersistentItemStoreTest {
         LearningItemSetEditorActivity activity = activityTestRule.getActivity();
         databaseTestWrapper = new DatabaseTestWrapper(activity);
         databaseTestWrapper.beforeEach();
-        learningItemStorage = new AndroidTestObjectFactory(activity).getLearningItemStorage();
+        learningItemStorage = new AndroidTestObjectFactory(activity).getDefaultSqlLearningItemSetRecordStore();
     }
 
     @After
@@ -49,7 +49,7 @@ public class LearningPersistentItemStoreTest {
     public void canWriteThenReadLearningItem() {
         learningItemStorage.write(a);
 
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.readAll();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
@@ -60,7 +60,7 @@ public class LearningPersistentItemStoreTest {
         learningItemStorage.write(a);
         learningItemStorage.write(b);
 
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.readAll();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
@@ -71,10 +71,10 @@ public class LearningPersistentItemStoreTest {
 
     @Test
     public void canReadThenWriteAnotherLearningItem() {
-        learningItemStorage.read();
+        learningItemStorage.readAll();
         learningItemStorage.write(a);
 
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.readAll();
 
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
@@ -83,14 +83,14 @@ public class LearningPersistentItemStoreTest {
     @Test
     public void canWriteThenReadThenDeleteThenReadToCheckItsGoneForASingleLearningItem() {
         learningItemStorage.write(a);
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.readAll();
 
         assertThat(learningItems.size(), equalTo(1));
         LearningItem learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
 
-        learningItemStorage.remove(learningItems.get(0));
-        learningItems = learningItemStorage.read();
+        learningItemStorage.delete(learningItems.get(0));
+        learningItems = learningItemStorage.readAll();
         assertThat(learningItems.size(), equalTo(0));
     }
 
@@ -98,7 +98,7 @@ public class LearningPersistentItemStoreTest {
     public void canWriteTwoLearningItemsThenReadThemThenDeleteTheSecondThenReadAgain() {
         learningItemStorage.write(a);
         learningItemStorage.write(b);
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.readAll();
 
         assertThat(learningItems.size(), equalTo(2));
         LearningItem learningItem = learningItems.get(0);
@@ -106,8 +106,8 @@ public class LearningPersistentItemStoreTest {
         learningItem = learningItems.get(1);
         assertThat(learningItem, equalTo(b));
 
-        learningItemStorage.remove(learningItems.get(1));
-        learningItems = learningItemStorage.read();
+        learningItemStorage.delete(learningItems.get(1));
+        learningItems = learningItemStorage.readAll();
         assertThat(learningItems.size(), equalTo(1));
         learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(a));
@@ -117,7 +117,7 @@ public class LearningPersistentItemStoreTest {
     public void canWriteTwoLearningItemsThenReadThemThenDeleteTheFirstThenReadAgain() {
         learningItemStorage.write(a);
         learningItemStorage.write(b);
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.readAll();
 
         assertThat(learningItems.size(), equalTo(2));
         LearningItem learningItem = learningItems.get(0);
@@ -125,8 +125,8 @@ public class LearningPersistentItemStoreTest {
         learningItem = learningItems.get(1);
         assertThat(learningItem, equalTo(b));
 
-        learningItemStorage.remove(learningItems.get(0));
-        learningItems = learningItemStorage.read();
+        learningItemStorage.delete(learningItems.get(0));
+        learningItems = learningItemStorage.readAll();
         assertThat(learningItems.size(), equalTo(1));
         learningItem = learningItems.get(0);
         assertThat(learningItem, equalTo(b));
@@ -139,7 +139,7 @@ public class LearningPersistentItemStoreTest {
         learningItemStorage.write(c);
 
         learningItemStorage.replace(b, bMod);
-        List<LearningItem> learningItems = learningItemStorage.read();
+        List<LearningItem> learningItems = learningItemStorage.readAll();
         LearningItem learningItem = learningItems.get(1);
         assertThat(learningItem, equalTo(bMod));
     }
