@@ -6,7 +6,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.textlist.EditableTextListViewAdaptor;
 import com.rrm.learnification.textlist.ListViewItemSaver;
@@ -28,9 +28,9 @@ class LearningItemList {
         recyclerView = view.learningItemsList();
     }
 
-    void bindTo(ItemRepository<LearningItem> itemRepository) {
+    void bindTo(PersistentLearningItemRepository itemRepository) {
         logger.v(LOG_TAG, "populating learning-item list");
-        List<String> learningItemsAsTextEntries = itemRepository.items().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
+        List<String> learningItemsAsTextEntries = itemRepository.items().stream().map(LearningItem::toDisplayString).collect(Collectors.toList());
         LearningItemListViewAdaptor adapter = new LearningItemListViewAdaptor(logger, learningItemsAsTextEntries);
         recyclerView.setAdapter(adapter);
         this.adapter = adapter;

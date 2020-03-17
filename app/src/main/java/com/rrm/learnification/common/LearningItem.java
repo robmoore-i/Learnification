@@ -8,6 +8,7 @@ public class LearningItem {
     public final String left;
     public final String right;
 
+    // TODO: Add learningItemSetName as third parameter here. Deal with the consequences. Reap the rewards.
     public LearningItem(String left, String right) {
         if (left == null || right == null) {
             throw new IllegalArgumentException();
@@ -16,13 +17,22 @@ public class LearningItem {
         this.right = right;
     }
 
-    public String asSingleString() {
-        return left + " - " + right;
-    }
-
     public static LearningItem fromSingleString(String s) {
         String[] split = s.split("-");
         return new LearningItem(split[0].trim(), split[1].trim());
+    }
+
+    public String toDisplayString() {
+        return left + " - " + right;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "LearningItem{" +
+                "left='" + left + '\'' +
+                ", right='" + right + '\'' +
+                '}';
     }
 
     @Override
@@ -36,14 +46,5 @@ public class LearningItem {
     @Override
     public int hashCode() {
         return Objects.hash(left, right);
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "LearningItem{" +
-                "left='" + left + '\'' +
-                ", right='" + right + '\'' +
-                '}';
     }
 }

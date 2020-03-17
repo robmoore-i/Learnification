@@ -3,7 +3,7 @@ package com.rrm.learnification.textinput;
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
 
     public static final Function<HashMap<String, String>, Boolean> noneEmpty = texts -> texts.values().stream().map(String::trim).noneMatch(""::equals);
 
-    public static Function<HashMap<String, String>, Boolean> unpersistedValidLearningItemSingleTextEntries(AndroidLogger logger, ItemRepository<LearningItem> learningItemRepository) {
+    public static Function<HashMap<String, String>, Boolean> unpersistedLearningItemSingleTextEntriesAreValid(AndroidLogger logger, PersistentLearningItemRepository learningItemRepository) {
         return new Function<HashMap<String, String>, Boolean>() {
             private final String LOG_TAG = SetButtonStatusOnTextChangeListener.LOG_TAG + ".unpersistedValidLearningItemSingleTextEntries";
 
@@ -33,7 +33,7 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
             }
 
             private boolean allCandidateTextEntriesAreAlreadyStored(Collection<String> textEntries) {
-                List<String> stored = learningItemRepository.items().stream().map(LearningItem::asSingleString).collect(Collectors.toList());
+                List<String> stored = learningItemRepository.items().stream().map(LearningItem::toDisplayString).collect(Collectors.toList());
                 boolean result = stored.containsAll(textEntries);
                 logger.v(LOG_TAG, "all candidate text entries are " + (result ? "" : "not") + " already stored");
                 return result;

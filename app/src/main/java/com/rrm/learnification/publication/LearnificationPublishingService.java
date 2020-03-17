@@ -11,9 +11,9 @@ import com.rrm.learnification.notification.PendingIntentRequestCodeGenerator;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.ItemSupplier;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
+import com.rrm.learnification.storage.LearningItemSupplier;
 
 import java.util.List;
 
@@ -31,16 +31,16 @@ public class LearnificationPublishingService extends JobService {
         logger.v(LOG_TAG, "Job started");
         LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
 
-        ItemSupplier<LearningItem> itemSupplier = new LearningItemSqlTableClient(learnificationAppDatabase);
+        LearningItemSupplier learningItemSupplier = new LearningItemSqlTableClient(learnificationAppDatabase);
 
-        List<LearningItem> learningItems = itemSupplier.items();
+        List<LearningItem> learningItems = learningItemSupplier.items();
         for (LearningItem learningItem : learningItems) {
-            logger.v(LOG_TAG, "using learning item '" + learningItem.asSingleString() + "'");
+            logger.v(LOG_TAG, "using learning item '" + learningItem.toDisplayString() + "'");
         }
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         SettingsRepository settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
-        LearnificationTextGenerator learnificationTextGenerator = settingsRepository.learnificationTextGenerator(itemSupplier);
+        LearnificationTextGenerator learnificationTextGenerator = settingsRepository.learnificationTextGenerator(learningItemSupplier);
 
         NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator = PendingIntentRequestCodeGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);

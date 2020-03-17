@@ -31,13 +31,13 @@ import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
 import com.rrm.learnification.textinput.SimulateButtonClickOnSubmitTextCommand;
-import com.rrm.learnification.textlist.RemoveItemOnSwipeCommand;
+import com.rrm.learnification.textlist.RemoveLearningItemOnSwipeCommand;
 import com.rrm.learnification.time.AndroidClock;
 import com.rrm.learnification.toolbar.FastForwardScheduleButton;
 import com.rrm.learnification.toolbar.LearnificationScheduleStatusUpdate;
 
 import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.noneEmpty;
-import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.unpersistedValidLearningItemSingleTextEntries;
+import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.unpersistedLearningItemSingleTextEntriesAreValid;
 
 public class LearningItemSetEditorActivity extends AppCompatActivity {
     private final AndroidLogger logger = new AndroidLogger();
@@ -95,9 +95,9 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
         learningItemList.bindTo(learningItemRepository);
-        learningItemList.setOnSwipeCommand(new RemoveItemOnSwipeCommand(learningItemRepository));
+        learningItemList.setOnSwipeCommand(new RemoveLearningItemOnSwipeCommand(learningItemRepository));
         learningItemList.setEntryUpdateHandlers(
-                new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, unpersistedValidLearningItemSingleTextEntries(logger, learningItemRepository)),
+                new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, unpersistedLearningItemSingleTextEntriesAreValid(logger, learningItemRepository)),
                 updatedLearningItemSaver
         );
 

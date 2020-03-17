@@ -9,7 +9,7 @@ public class LearningItemTest {
     public void hyphenSeparatedInSingleStringForm() {
         LearningItem learningItem = new LearningItem("left", "right");
 
-        assertEquals(learningItem.asSingleString(), "left - right");
+        assertEquals(learningItem.toDisplayString(), "left - right");
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -49,7 +49,7 @@ public class UpdateLearningItemTest {
 
     @After
     public void afterEach() {
-        ItemRepository<LearningItem> learningItemRepository = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemRepository();
+        PersistentLearningItemRepository learningItemRepository = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemRepository();
         learningItemRepository.remove(new LearningItem(left, initialRight));
         learningItemRepository.remove(new LearningItem(left, updatedRight));
     }

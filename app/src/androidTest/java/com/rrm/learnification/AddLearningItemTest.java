@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -44,7 +44,7 @@ public class AddLearningItemTest {
 
     @After
     public void afterEach() {
-        ItemRepository<LearningItem> learningItemRepository = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemRepository();
+        PersistentLearningItemRepository learningItemRepository = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemRepository();
         List<LearningItem> learningItems = learningItemRepository.items();
         for (int i = 0; i < learningItems.size(); i++) {
             LearningItem learningItem = learningItems.get(i);

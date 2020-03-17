@@ -2,14 +2,14 @@ package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 class AddLearningItemOnClickCommand implements OnClickCommand {
     private final LearningItemTextInput learningItemTextInput;
-    private final ItemRepository<LearningItem> itemRepository;
+    private final PersistentLearningItemRepository itemRepository;
     private final LearningItemList learningItemList;
 
-    AddLearningItemOnClickCommand(LearningItemTextInput learningItemTextInput, ItemRepository<LearningItem> itemRepository, LearningItemList learningItemList) {
+    AddLearningItemOnClickCommand(LearningItemTextInput learningItemTextInput, PersistentLearningItemRepository itemRepository, LearningItemList learningItemList) {
         this.learningItemTextInput = learningItemTextInput;
         this.itemRepository = itemRepository;
         this.learningItemList = learningItemList;
@@ -20,7 +20,7 @@ class AddLearningItemOnClickCommand implements OnClickCommand {
         try {
             LearningItem learningItem = learningItemTextInput.getLearningItem();
             itemRepository.add(learningItem);
-            learningItemList.addTextEntry(learningItem.asSingleString());
+            learningItemList.addTextEntry(learningItem.toDisplayString());
         } catch (Exception e) {
             throw new CantAddLearningItemException(e);
         }

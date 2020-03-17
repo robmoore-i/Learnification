@@ -2,9 +2,8 @@ package com.rrm.learnification.textinput;
 
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.noneEmpty;
-import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.unpersistedValidLearningItemSingleTextEntries;
+import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.unpersistedLearningItemSingleTextEntriesAreValid;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -77,10 +76,9 @@ public class SetButtonStatusOnTextChangeListenerTest {
     }
 
     private Function<HashMap<String, String>, Boolean> updatedLearningItemValidator() {
-        @SuppressWarnings("unchecked")
-        ItemRepository<LearningItem> stubLearningItemRepository = mock(ItemRepository.class);
+        PersistentLearningItemRepository stubLearningItemRepository = mock(PersistentLearningItemRepository.class);
         when(stubLearningItemRepository.items()).thenReturn(Collections.emptyList());
-        return unpersistedValidLearningItemSingleTextEntries(dummyLogger, stubLearningItemRepository);
+        return unpersistedLearningItemSingleTextEntriesAreValid(dummyLogger, stubLearningItemRepository);
     }
 
     @Test

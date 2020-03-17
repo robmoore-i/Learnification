@@ -1,7 +1,7 @@
 package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.storage.ItemRepository;
+import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +15,7 @@ import static org.mockito.Mockito.when;
 public class AddLearningItemOnClickCommandTest {
     private final LearningItem testLearningItem = new LearningItem("left", "right");
     private LearningItemTextInput stubInput = mock(LearningItemTextInput.class);
-    @SuppressWarnings("unchecked")
-    private ItemRepository<LearningItem> mockRepository = mock(ItemRepository.class);
+    private PersistentLearningItemRepository mockRepository = mock(PersistentLearningItemRepository.class);
     private LearningItemList mockList = mock(LearningItemList.class);
 
     @Before
@@ -41,7 +40,7 @@ public class AddLearningItemOnClickCommandTest {
 
         addLearningItemOnClickCommand.onClick();
 
-        verify(mockList, times(1)).addTextEntry(testLearningItem.asSingleString());
+        verify(mockList, times(1)).addTextEntry(testLearningItem.toDisplayString());
     }
 
     @Test(expected = CantAddLearningItemException.class)

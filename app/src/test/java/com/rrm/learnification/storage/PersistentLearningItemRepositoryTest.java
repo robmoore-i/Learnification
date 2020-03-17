@@ -110,4 +110,9 @@ public class PersistentLearningItemRepositoryTest {
         assertThat(items, hasItem(new LearningItem("e", "e")));
         assertThat(items, not(hasItem(new LearningItem("c", "c"))));
     }
+
+    @Test
+    public void canGetLearningItemFromLearningItemText() {
+
+    }
 }

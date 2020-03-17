@@ -1,11 +1,10 @@
 package com.rrm.learnification.settings;
 
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.publication.LearnificationTextGenerator;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
 import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.ItemSupplier;
+import com.rrm.learnification.storage.LearningItemSupplier;
 
 import java.io.FileNotFoundException;
 import java.util.Collections;
@@ -77,7 +76,7 @@ public class SettingsRepository {
         }
     }
 
-    public LearnificationTextGenerator learnificationTextGenerator(ItemSupplier<LearningItem> itemSupplier) {
-        return readLearnificationPromptStrategy().toLearnificationTextGenerator(itemSupplier);
+    public LearnificationTextGenerator learnificationTextGenerator(LearningItemSupplier learningItemSupplier) {
+        return readLearnificationPromptStrategy().toLearnificationTextGenerator(learningItemSupplier);
     }
 }

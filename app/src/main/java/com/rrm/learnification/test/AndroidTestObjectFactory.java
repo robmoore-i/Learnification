@@ -2,7 +2,6 @@ package com.rrm.learnification.test;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
@@ -11,7 +10,6 @@ import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.PendingIntentRequestCodeGenerator;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.ItemRepository;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.storage.LearningItemUpdateBroker;
@@ -42,7 +40,7 @@ public class AndroidTestObjectFactory {
         return new SqlLearningItemSetRecordStore(logger(), new LearnificationAppDatabase(activity), "default");
     }
 
-    public ItemRepository<LearningItem> getLearningItemRepository() {
+    public PersistentLearningItemRepository getLearningItemRepository() {
         return new PersistentLearningItemRepository(logger(), getDefaultSqlLearningItemSetRecordStore(), new LearningItemUpdateBroker());
     }
 
