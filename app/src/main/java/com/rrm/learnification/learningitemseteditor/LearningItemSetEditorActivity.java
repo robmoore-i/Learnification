@@ -65,8 +65,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         LearningItemList learningItemList = new LearningItemList(logger, learningItemSetEditorView);
 
         PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, sqlLearningItemSetRecordStore, new LearningItemUpdateBroker());
-        UpdatedLearningItemSaver updatedLearningItemSaver = new UpdatedLearningItemSaver(logger, learningItemRepository);
-        UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, learningItemSetEditorView, updatedLearningItemSaver);
+        UpdatableLearningItemDisplayStash learningItemDisplayStash = new UpdatableLearningItemDisplayStash(logger, learningItemRepository);
+        UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, learningItemSetEditorView, learningItemDisplayStash);
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
@@ -95,11 +95,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
         learningItemList.bindTo(learningItemRepository);
+        learningItemList.useStash(new LearningItemStash(logger, new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, unpersistedLearningItemSingleTextEntriesAreValid(logger, learningItemRepository)), learningItemDisplayStash));
         learningItemList.setOnSwipeCommand(new RemoveLearningItemOnSwipeCommand(learningItemRepository));
-        learningItemList.setEntryUpdateHandlers(
-                new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, unpersistedLearningItemSingleTextEntriesAreValid(logger, learningItemRepository)),
-                updatedLearningItemSaver
-        );
 
         updateLearningItemButton.addOnClickHandler(learningItemRepository::replace);
 

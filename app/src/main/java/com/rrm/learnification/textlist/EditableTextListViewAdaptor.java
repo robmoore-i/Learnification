@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.rrm.learnification.learningitemseteditor.LearningItemStash;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.textinput.AndroidTextWatcher;
 import com.rrm.learnification.textinput.OnTextChangeListener;
 
 import java.util.List;
@@ -20,7 +20,8 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
     private final List<String> textEntries;
 
     private OnTextChangeListener onEntryTextChangeListener = OnTextChangeListener.doNothing;
-    private ListViewItemSaver listItemViewSaver = ListViewItemSaver.noSave;
+    private LearningItemDisplayStash listItemViewSaver = LearningItemDisplayStash.noSave;
+    private LearningItemStash learningItemStash;
 
     public EditableTextListViewAdaptor(AndroidLogger logger, String LOG_TAG, List<String> textEntries, int viewHolderId) {
         this.textEntries = textEntries;
@@ -55,12 +56,11 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         EditText v = (EditText) LayoutInflater.from(parent.getContext()).inflate(viewHolderId, parent, false);
-        return new ViewHolder(logger, LOG_TAG, v, onEntryTextChangeListener, listItemViewSaver);
+        return new ViewHolder(v, learningItemStash);
     }
 
-    public void setEntryUpdateHandlers(OnTextChangeListener onEntryTextChangeListener, ListViewItemSaver listViewItemSaver) {
-        this.onEntryTextChangeListener = onEntryTextChangeListener;
-        this.listItemViewSaver = listViewItemSaver;
+    public void useStash(LearningItemStash learningItemStash) {
+        this.learningItemStash = learningItemStash;
     }
 
     // Provide a reference to the views for each data item
@@ -69,37 +69,23 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final String textSourceId = "focused-edit-text";
 
-        private final AndroidLogger logger;
-        private final String LOG_TAG;
-
         private final EditText listItemView;
-        private final OnTextChangeListener onTextChangeListener;
+        private final LearningItemStash learningItemStash;
 
-        ViewHolder(AndroidLogger logger, String PARENT_LOG_TAG, EditText listItemView, OnTextChangeListener onTextChangeListener, ListViewItemSaver listViewItemSaver) {
+        ViewHolder(EditText listItemView, LearningItemStash learningItemStash) {
             super(listItemView);
-            this.logger = logger;
-            this.LOG_TAG = PARENT_LOG_TAG + ".ViewHolder";
             this.listItemView = listItemView;
-            this.onTextChangeListener = onTextChangeListener;
-
-            configureListItemSaver(listViewItemSaver);
+            this.learningItemStash = learningItemStash;
+            configureListItemSaver();
         }
 
-        private void configureListItemSaver(ListViewItemSaver listViewItemSaver) {
+        private void configureListItemSaver() {
             listItemView.setOnFocusChangeListener((v, hasFocus) -> {
                 String viewText = ((EditText) v).getText().toString();
                 if (hasFocus) {
-                    logger.v(LOG_TAG, "focus acquired on list item with text '" + viewText + "'");
-                    // Set update button to update the learning item based on viewText with the text of listItemView
-                    listViewItemSaver.saveText(new AndroidTextSource(listItemView), viewText);
-                    // Set the currently focused text source as the active one
-                    onTextChangeListener.addTextSource(new AndroidTextWatcher(textSourceId, listItemView));
+                    learningItemStash.stash(listItemView, viewText, textSourceId);
                 } else {
-                    logger.v(LOG_TAG, "focus lost on list item with text '" + viewText + "'");
-                    // Reload text content from storage
-                    setText(listViewItemSaver.savedText());
-                    // Reset anything listening to the text of the no-longer-focused view
-                    onTextChangeListener.removeTextSource(textSourceId);
+                    learningItemStash.pop(listItemView, viewText, textSourceId);
                 }
             });
         }

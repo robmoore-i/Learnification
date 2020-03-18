@@ -5,13 +5,14 @@ import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 class UpdateLearningItemButton extends AndroidButton {
-    private final UpdatedLearningItemSaver updatedLearningItemSaver;
+    private final UpdatableLearningItemDisplayStash updatableLearningItemDisplayStash;
 
-    UpdateLearningItemButton(AndroidLogger logger, UpdateLearningItemView view, UpdatedLearningItemSaver updatedLearningItemSaver) {
+    UpdateLearningItemButton(AndroidLogger logger, UpdateLearningItemView view, UpdatableLearningItemDisplayStash updatableLearningItemDisplayStash) {
         super(logger, view.updateLearningItemButton(), false);
-        this.updatedLearningItemSaver = updatedLearningItemSaver;
+        this.updatableLearningItemDisplayStash = updatableLearningItemDisplayStash;
     }
 
     /**
@@ -19,7 +20,7 @@ class UpdateLearningItemButton extends AndroidButton {
      *                             The first argument is the LearningItem object representing the initial state (before updates)
      *                             The second argument is the LearningItem object representing the final state (after updates)
      */
-    void addOnClickHandler(BiConsumer<LearningItem, LearningItem> learningItemConsumer) {
-        addOnClickHandler(() -> updatedLearningItemSaver.updateUsing(learningItemConsumer));
+    void addOnClickHandler(BiConsumer<LearningItem, Function<String, LearningItem>> learningItemConsumer) {
+        addOnClickHandler(() -> updatableLearningItemDisplayStash.commit(learningItemConsumer));
     }
 }

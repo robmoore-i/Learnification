@@ -7,9 +7,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.textlist.EditableTextListViewAdaptor;
-import com.rrm.learnification.textlist.ListViewItemSaver;
 import com.rrm.learnification.textlist.OnSwipeCommand;
 
 import java.util.List;
@@ -68,7 +66,7 @@ class LearningItemList {
         adapter.add(textEntry);
     }
 
-    void setEntryUpdateHandlers(OnTextChangeListener onTextChangeListener, ListViewItemSaver listItemViewSaver) {
-        adapter.setEntryUpdateHandlers(onTextChangeListener, listItemViewSaver);
+    void useStash(LearningItemStash learningItemStash) {
+        adapter.useStash(learningItemStash);
     }
 }

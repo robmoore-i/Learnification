@@ -13,6 +13,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -101,18 +102,31 @@ public class PersistentLearningItemRepositoryTest {
                 new LearningItem("c", "c"),
                 new LearningItem("d", "d")
         ));
+        LearningItem replacementLearningItem = new LearningItem("e", "e");
+        when(stubLearningPersistentItemStore.applySet(any())).thenReturn(replacementLearningItem);
         when(stubLearningPersistentItemStore.readAll()).thenReturn(learningItems);
         PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
-        persistentLearnificationRepository.replace(new LearningItem("c", "c"), new LearningItem("e", "e"));
+        persistentLearnificationRepository.replace(new LearningItem("c", "c"), (setName) -> new LearningItem("e", "e", setName));
 
         List<LearningItem> items = persistentLearnificationRepository.items();
-        assertThat(items, hasItem(new LearningItem("e", "e")));
+        assertThat(items, hasItem(replacementLearningItem));
         assertThat(items, not(hasItem(new LearningItem("c", "c"))));
     }
 
     @Test
     public void canGetLearningItemFromLearningItemText() {
+        ArrayList<LearningItem> learningItems = new ArrayList<>(Arrays.asList(
+                new LearningItem("a", "a"),
+                new LearningItem("b", "b"),
+                new LearningItem("c", "c"),
+                new LearningItem("d", "d")
+        ));
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(learningItems);
+        PersistentLearningItemRepository repository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
+        LearningItem learningItem = repository.get(item -> item.left.equals("b"));
+
+        assertThat(learningItem, equalTo(new LearningItem("b", "b")));
     }
 }

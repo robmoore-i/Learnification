@@ -1,7 +1,7 @@
 package com.rrm.learnification.textlist;
 
-public interface ListViewItemSaver {
-    ListViewItemSaver noSave = new ListViewItemSaver() {
+public interface LearningItemDisplayStash {
+    LearningItemDisplayStash noSave = new LearningItemDisplayStash() {
         private TextSource textSource;
 
         @Override

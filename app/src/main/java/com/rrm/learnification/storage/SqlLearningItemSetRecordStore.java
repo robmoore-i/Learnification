@@ -8,8 +8,9 @@ import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
-public class SqlLearningItemSetRecordStore implements SqlRecordStore<LearningItem> {
+public class SqlLearningItemSetRecordStore {
     private static final String LOG_TAG = "LearningItemSetSqlRecordStore";
     private final AndroidLogger logger;
 
@@ -23,7 +24,6 @@ public class SqlLearningItemSetRecordStore implements SqlRecordStore<LearningIte
         this.learningItemSetName = learningItemSetName;
     }
 
-    @Override
     public List<LearningItem> readAll() {
         Cursor cursor = LearningItemSqlTable.all(learnificationAppDatabase.getReadableDatabase(), learningItemSetName);
         ArrayList<LearningItem> learningItems = new ArrayList<>();
@@ -34,12 +34,10 @@ public class SqlLearningItemSetRecordStore implements SqlRecordStore<LearningIte
         return learningItems;
     }
 
-    @Override
     public void deleteAll() {
         LearningItemSqlTable.deleteAll(learnificationAppDatabase.getWritableDatabase(), learningItemSetName);
     }
 
-    @Override
     public void writeAll(List<LearningItem> items) {
         SQLiteDatabase writableDatabase = learnificationAppDatabase.getWritableDatabase();
         writableDatabase.beginTransaction();
@@ -53,17 +51,14 @@ public class SqlLearningItemSetRecordStore implements SqlRecordStore<LearningIte
         }
     }
 
-    @Override
     public void write(LearningItem item) {
         learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(learningItemSetName, item));
     }
 
-    @Override
     public void delete(LearningItem item) {
         LearningItemSqlTable.delete(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, item);
     }
 
-    @Override
     public void replace(LearningItem target, LearningItem replacement) {
         LearningItemSqlTable.replace(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, target, replacement);
     }
@@ -72,5 +67,9 @@ public class SqlLearningItemSetRecordStore implements SqlRecordStore<LearningIte
         logger.v(LOG_TAG, "renaming learning item set from '" + learningItemSetName + "' to '" + newLearningItemSetName + "'");
         LearningItemSqlTable.updateSetName(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, newLearningItemSetName);
         learningItemSetName = newLearningItemSetName;
+    }
+
+    LearningItem applySet(Function<String, LearningItem> replacementFunction) {
+        return replacementFunction.apply(learningItemSetName);
     }
 }

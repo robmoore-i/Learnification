@@ -6,6 +6,9 @@ import com.rrm.learnification.logger.AndroidLogger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class PersistentLearningItemRepository implements LearningItemSupplier {
     private static final String LOG_TAG = "PersistentLearningItemRepository";
@@ -14,9 +17,9 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     private final SqlLearningItemSetRecordStore learningItemStore;
     private final List<LearningItem> learningItems;
 
-    private final ItemUpdateBroker<LearningItem> itemUpdateBroker;
+    private final LearningItemUpdateBroker itemUpdateBroker;
 
-    public PersistentLearningItemRepository(AndroidLogger logger, SqlLearningItemSetRecordStore learningItemStore, ItemUpdateBroker<LearningItem> itemUpdateBroker) {
+    public PersistentLearningItemRepository(AndroidLogger logger, SqlLearningItemSetRecordStore learningItemStore, LearningItemUpdateBroker itemUpdateBroker) {
         this.logger = logger;
         this.learningItemStore = learningItemStore;
         this.learningItems = learningItemStore.readAll();
@@ -64,8 +67,8 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
         learningItems.remove(item);
     }
 
-    public void replace(LearningItem target, LearningItem replacement) {
-        logger.v(LOG_TAG, "replacing '" + target.toDisplayString() + "' with '" + replacement.toDisplayString() + "'");
+    public void replace(LearningItem target, Function<String, LearningItem> partialLearningItem) {
+        LearningItem replacement = learningItemStore.applySet(partialLearningItem);
 
         itemUpdateBroker.sendUpdate(target, replacement);
 
@@ -76,8 +79,16 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
         });
     }
 
-    public void subscribeToModifications(LearningItem item, ItemUpdateListener<LearningItem> itemUpdateListener) {
+    public void subscribeToModifications(LearningItem item, LearningItemUpdateListener itemUpdateListener) {
         logger.v(LOG_TAG, "assigning change listener to item '" + item.toDisplayString() + "'");
         itemUpdateBroker.put(item, itemUpdateListener);
+    }
+
+    public LearningItem get(Predicate<LearningItem> learningItemPredicate) {
+        Optional<LearningItem> optional = learningItems.stream().filter(learningItemPredicate).findFirst();
+        if (!optional.isPresent()) {
+            throw new IllegalStateException("No learning item matches the predicate '" + learningItemPredicate + "'");
+        }
+        return optional.get();
     }
 }

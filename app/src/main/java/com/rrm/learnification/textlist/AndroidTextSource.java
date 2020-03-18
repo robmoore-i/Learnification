@@ -2,10 +2,10 @@ package com.rrm.learnification.textlist;
 
 import android.widget.EditText;
 
-class AndroidTextSource implements TextSource {
+public class AndroidTextSource implements TextSource {
     private final EditText editText;
 
-    AndroidTextSource(EditText editText) {
+    public AndroidTextSource(EditText editText) {
         this.editText = editText;
     }
 
