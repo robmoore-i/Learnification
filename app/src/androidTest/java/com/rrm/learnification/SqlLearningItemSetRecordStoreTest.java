@@ -3,6 +3,7 @@ package com.rrm.learnification;
 import android.support.test.rule.ActivityTestRule;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
@@ -15,6 +16,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -24,19 +26,22 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
 public class SqlLearningItemSetRecordStoreTest {
+    private static final String LEARNING_ITEM_SET_DEFAULT = "default";
+    private static final String LEARNING_ITEM_SET_EUROPEAN = "european";
+
     private final LearningItem[] asianLearningItems = {
-            new LearningItem("frog", "gemba"),
-            new LearningItem("phone", "machine brain"),
-            new LearningItem("good", "dee")
+            new LearningItem("frog", "gemba", LEARNING_ITEM_SET_DEFAULT),
+            new LearningItem("phone", "machine brain", LEARNING_ITEM_SET_DEFAULT),
+            new LearningItem("good", "dee", LEARNING_ITEM_SET_DEFAULT)
     };
     private final LearningItem[] europeanLearningItems = {
-            new LearningItem("der", "the"),
-            new LearningItem("gamarjoba", "hello"),
-            new LearningItem("sans", "without")
+            new LearningItem("der", "the", LEARNING_ITEM_SET_EUROPEAN),
+            new LearningItem("gamarjoba", "hello", LEARNING_ITEM_SET_EUROPEAN),
+            new LearningItem("sans", "without", LEARNING_ITEM_SET_EUROPEAN)
     };
-    private final LearningItem deletedLearningItem = new LearningItem("l-test-replace", "r-test-replace");
-    private final LearningItem replacementLearningItem = new LearningItem("l-test-replacement", "r-test-replacement");
-    private final LearningItem writtenLearningItem = new LearningItem("l-test-write", "r-test-write");
+    private final LearningItem deletedLearningItem = new LearningItem("l-test-replace-delete", "r-test-replace-delete", "default");
+    private final LearningItem replacementLearningItem = new LearningItem("l-test-replacement", "r-test-replacement", LEARNING_ITEM_SET_EUROPEAN);
+    private final LearningItem writtenLearningItem = new LearningItem("l-test-write", "r-test-write", "default");
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -44,9 +49,6 @@ public class SqlLearningItemSetRecordStoreTest {
     private DatabaseTestWrapper databaseTestWrapper;
 
     private final AndroidLogger logger = new AndroidLogger();
-
-    private static final String LEARNING_ITEM_SET_DEFAULT = "default";
-    private static final String LEARNING_ITEM_SET_EUROPEAN = "european";
 
     private SqlLearningItemSetRecordStore asianLearningItemRecordStore;
     private SqlLearningItemSetRecordStore euroLearningItemRecordStore;
@@ -58,8 +60,8 @@ public class SqlLearningItemSetRecordStoreTest {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
         asianLearningItemRecordStore = new SqlLearningItemSetRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
         euroLearningItemRecordStore = new SqlLearningItemSetRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
-        asianLearningItemRecordStore.writeAll(Arrays.asList(asianLearningItems));
-        euroLearningItemRecordStore.writeAll(Arrays.asList(europeanLearningItems));
+        asianLearningItemRecordStore.writeAll(Arrays.stream(asianLearningItems).map(LearningItem::toDisplayString).collect(Collectors.toList()));
+        euroLearningItemRecordStore.writeAll(Arrays.stream(europeanLearningItems).map(LearningItem::toDisplayString).collect(Collectors.toList()));
     }
 
     @After
@@ -72,8 +74,8 @@ public class SqlLearningItemSetRecordStoreTest {
         toCleanUp.add(replacementLearningItem);
         toCleanUp.add(writtenLearningItem);
         for (LearningItem learningItem : toCleanUp) {
-            asianLearningItemRecordStore.delete(learningItem);
-            euroLearningItemRecordStore.delete(learningItem);
+            asianLearningItemRecordStore.delete(learningItem.toDisplayString());
+            euroLearningItemRecordStore.delete(learningItem.toDisplayString());
         }
     }
 
@@ -84,21 +86,22 @@ public class SqlLearningItemSetRecordStoreTest {
 
     @Test
     public void itWritesALearningItemOnlyInTheAssociatedSet() {
-        LearningItem additionalLearningItem = writtenLearningItem;
+        LearningItemText additionalLearningItem = writtenLearningItem.toDisplayString();
+
         euroLearningItemRecordStore.write(additionalLearningItem);
 
         assertThat(asianLearningItemRecordStore.readAll(), allOf(hasItems(asianLearningItems), not(hasItems(europeanLearningItems))));
-        assertThat(euroLearningItemRecordStore.readAll(), allOf(hasItems(europeanLearningItems), hasItems(additionalLearningItem), not(hasItems(asianLearningItems))));
+        assertThat(euroLearningItemRecordStore.readAll(), allOf(hasItems(europeanLearningItems), hasItems(additionalLearningItem.withSet(LEARNING_ITEM_SET_EUROPEAN)), not(hasItems(asianLearningItems))));
     }
 
     @Test
     public void itReplacesALearningItemOnlyInTheAssociatedSet() {
         LearningItem replaced = deletedLearningItem;
         LearningItem replacement = replacementLearningItem;
-        asianLearningItemRecordStore.write(replaced);
-        euroLearningItemRecordStore.write(replaced);
+        asianLearningItemRecordStore.write(replaced.toDisplayString());
+        euroLearningItemRecordStore.write(replaced.toDisplayString());
 
-        euroLearningItemRecordStore.replace(replaced, replacement);
+        euroLearningItemRecordStore.replace(replaced.toDisplayString(), replacement.toDisplayString());
 
         assertThat(asianLearningItemRecordStore.readAll(), hasItem(replaced));
         assertThat(euroLearningItemRecordStore.readAll(), hasItem(replacement));
@@ -106,14 +109,14 @@ public class SqlLearningItemSetRecordStoreTest {
 
     @Test
     public void itDeletesALearningItemOnlyInTheAssociatedSet() {
-        LearningItem deleted = deletedLearningItem;
+        LearningItemText deleted = deletedLearningItem.toDisplayString();
         asianLearningItemRecordStore.write(deleted);
         euroLearningItemRecordStore.write(deleted);
 
         asianLearningItemRecordStore.delete(deleted);
 
-        assertThat(asianLearningItemRecordStore.readAll(), not(hasItem(deleted)));
-        assertThat(euroLearningItemRecordStore.readAll(), hasItem(deleted));
+        assertThat(asianLearningItemRecordStore.readAll(), not(hasItem(deleted.withSet(LEARNING_ITEM_SET_DEFAULT))));
+        assertThat(euroLearningItemRecordStore.readAll(), hasItem(deleted.withSet(LEARNING_ITEM_SET_EUROPEAN)));
     }
 
     @Test

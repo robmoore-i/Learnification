@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.textinput.AndroidTextWatcher;
 import com.rrm.learnification.textinput.OnSubmitTextCommand;
@@ -82,10 +82,10 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
     }
 
     @Override
-    public LearningItem addLearningItemTextInput() {
-        return new LearningItem(
-                (leftEditText()).getText().toString().trim(),
-                (rightEditText()).getText().toString().trim());
+    public LearningItemText addLearningItemTextInput() {
+        return new LearningItemText(
+                leftEditText().getText().toString().trim(),
+                rightEditText().getText().toString().trim());
     }
 
     @Override

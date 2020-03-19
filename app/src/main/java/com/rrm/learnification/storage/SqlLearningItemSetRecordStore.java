@@ -4,11 +4,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class SqlLearningItemSetRecordStore {
     private static final String LOG_TAG = "LearningItemSetSqlRecordStore";
@@ -38,11 +38,11 @@ public class SqlLearningItemSetRecordStore {
         LearningItemSqlTable.deleteAll(learnificationAppDatabase.getWritableDatabase(), learningItemSetName);
     }
 
-    public void writeAll(List<LearningItem> items) {
+    public void writeAll(List<LearningItemText> items) {
         SQLiteDatabase writableDatabase = learnificationAppDatabase.getWritableDatabase();
         writableDatabase.beginTransaction();
         try {
-            for (LearningItem item : items) {
+            for (LearningItemText item : items) {
                 write(item);
             }
             writableDatabase.setTransactionSuccessful();
@@ -51,16 +51,17 @@ public class SqlLearningItemSetRecordStore {
         }
     }
 
-    public void write(LearningItem item) {
-        learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(learningItemSetName, item));
+    public void write(LearningItemText item) {
+        learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(item.withSet(learningItemSetName)));
     }
 
-    public void delete(LearningItem item) {
-        LearningItemSqlTable.delete(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, item);
+    public void delete(LearningItemText item) {
+        logger.v(LOG_TAG, "deleting record '" + item + "'");
+        LearningItemSqlTable.delete(learnificationAppDatabase.getWritableDatabase(), item.withSet(learningItemSetName));
     }
 
-    public void replace(LearningItem target, LearningItem replacement) {
-        LearningItemSqlTable.replace(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, target, replacement);
+    public void replace(LearningItemText target, LearningItemText replacement) {
+        LearningItemSqlTable.replace(learnificationAppDatabase.getWritableDatabase(), target.withSet(learningItemSetName), replacement.withSet(learningItemSetName));
     }
 
     public void renameSet(String newLearningItemSetName) {
@@ -69,7 +70,7 @@ public class SqlLearningItemSetRecordStore {
         learningItemSetName = newLearningItemSetName;
     }
 
-    LearningItem applySet(Function<String, LearningItem> replacementFunction) {
-        return replacementFunction.apply(learningItemSetName);
+    LearningItem applySet(LearningItemText learningItemText) {
+        return learningItemText.withSet(learningItemSetName);
     }
 }

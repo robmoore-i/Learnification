@@ -5,7 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 
-import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 
 import org.junit.After;
@@ -50,7 +50,7 @@ public class DeleteLearningItemTest {
 
     @After
     public void afterEach() {
-        activityTestRule.getActivity().androidTestObjectFactory().getDefaultSqlLearningItemSetRecordStore().delete(new LearningItem(left, right));
+        activityTestRule.getActivity().androidTestObjectFactory().getDefaultSqlLearningItemSetRecordStore().delete(new LearningItemText(left, right));
     }
 
     @Test

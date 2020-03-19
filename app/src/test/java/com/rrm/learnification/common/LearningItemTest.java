@@ -7,18 +7,18 @@ import static org.junit.Assert.assertEquals;
 public class LearningItemTest {
     @Test
     public void hyphenSeparatedInSingleStringForm() {
-        LearningItem learningItem = new LearningItem("left", "right");
+        LearningItem learningItem = new LearningItem("left", "right", "default");
 
-        assertEquals(learningItem.toDisplayString(), "left - right");
+        assertEquals(learningItem.toDisplayString().toString(), "left - right");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void ifNullIsPassedAsLeftItThrowsIllegalArgumentException() {
-        new LearningItem(null, "right");
+        new LearningItem(null, "right", "default");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void ifNullIsPassedAsRightItThrowsIllegalArgumentException() {
-        new LearningItem("left", null);
+        new LearningItem("left", null, "default");
     }
 }

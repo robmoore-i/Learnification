@@ -1,6 +1,7 @@
 package com.rrm.learnification.storage;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.rrm.learnification.common.LearningItem;
 
@@ -44,5 +45,22 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
 
     public String mostPopulousLearningItemSetName() {
         return LearningItemSqlTable.mostPopulousLearningItemSetName(learnificationAppDatabase.getReadableDatabase());
+    }
+
+    public void writeAll(List<LearningItem> items) {
+        SQLiteDatabase writableDatabase = learnificationAppDatabase.getWritableDatabase();
+        writableDatabase.beginTransaction();
+        try {
+            for (LearningItem item : items) {
+                write(item);
+            }
+            writableDatabase.setTransactionSuccessful();
+        } finally {
+            writableDatabase.endTransaction();
+        }
+    }
+
+    public void write(LearningItem item) {
+        learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(item));
     }
 }

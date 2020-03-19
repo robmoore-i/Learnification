@@ -1,14 +1,15 @@
 package com.rrm.learnification.storage;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class PersistentLearningItemRepository implements LearningItemSupplier {
     private static final String LOG_TAG = "PersistentLearningItemRepository";
@@ -17,13 +18,13 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     private final SqlLearningItemSetRecordStore learningItemStore;
     private final List<LearningItem> learningItems;
 
-    private final LearningItemUpdateBroker itemUpdateBroker;
+    private final LearningItemTextUpdateBroker itemTextUpdateBroker;
 
-    public PersistentLearningItemRepository(AndroidLogger logger, SqlLearningItemSetRecordStore learningItemStore, LearningItemUpdateBroker itemUpdateBroker) {
+    public PersistentLearningItemRepository(AndroidLogger logger, SqlLearningItemSetRecordStore learningItemStore, LearningItemTextUpdateBroker itemTextUpdateBroker) {
         this.logger = logger;
         this.learningItemStore = learningItemStore;
         this.learningItems = learningItemStore.readAll();
-        this.itemUpdateBroker = itemUpdateBroker;
+        this.itemTextUpdateBroker = itemTextUpdateBroker;
 
         for (LearningItem learningItem : learningItems) {
             logger.v(LOG_TAG, "using learning item '" + learningItem.toDisplayString() + "'");
@@ -49,46 +50,62 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
         return learningItems;
     }
 
-    public void add(LearningItem item) {
-        logger.v(LOG_TAG, "adding a learning item '" + item.toDisplayString() + "'");
-        learningItemStore.write(item);
+    public void add(LearningItemText learningItemText) {
+        LearningItem item = learningItemStore.applySet(learningItemText);
+        logger.v(LOG_TAG, "adding a learning item '" + learningItemText + "'");
+        learningItemStore.write(learningItemText);
         learningItems.add(item);
     }
 
     public void removeAt(int index) {
         int reversedIndex = learningItems.size() - index - 1;
         logger.v(LOG_TAG, "removing a learning item at index " + index + " in the view, which corresponds to index " + reversedIndex + " in storage");
-        remove(learningItems.get(reversedIndex));
+        LearningItem learningItem = learningItems.get(reversedIndex);
+        remove(learningItem);
     }
 
-    public void remove(LearningItem item) {
-        logger.v(LOG_TAG, "removing learning item '" + item.toDisplayString() + "'");
-        learningItemStore.delete(item);
-        learningItems.remove(item);
+    public void remove(LearningItemText learningItemText) {
+        LearningItem learningItem = get(learningItemText);
+        remove(learningItem);
     }
 
-    public void replace(LearningItem target, Function<String, LearningItem> partialLearningItem) {
-        LearningItem replacement = learningItemStore.applySet(partialLearningItem);
+    private void remove(LearningItem learningItem) {
+        logger.v(LOG_TAG, "removing learning item '" + learningItem.toDisplayString() + "'");
+        learningItemStore.delete(learningItem.toDisplayString());
+        learningItems.remove(learningItem);
+    }
 
-        itemUpdateBroker.sendUpdate(target, replacement);
+    public void replace(LearningItemText targetText, LearningItemText replacementText) {
+        LearningItem target = learningItemStore.applySet(targetText);
+        LearningItem replacement = learningItemStore.applySet(replacementText);
 
-        learningItemStore.replace(target, replacement);
+        itemTextUpdateBroker.sendUpdate(targetText, replacementText);
+
+        learningItemStore.replace(targetText, replacementText);
         learningItems.replaceAll(learningItem -> {
             if (learningItem.equals(target)) return replacement;
             return learningItem;
         });
     }
 
-    public void subscribeToModifications(LearningItem item, LearningItemUpdateListener itemUpdateListener) {
-        logger.v(LOG_TAG, "assigning change listener to item '" + item.toDisplayString() + "'");
-        itemUpdateBroker.put(item, itemUpdateListener);
+    public void subscribeToModifications(LearningItemText itemText, LearningItemTextUpdateListener itemUpdateListener) {
+        logger.v(LOG_TAG, "assigning change listener to item '" + itemText + "'");
+        itemTextUpdateBroker.put(itemText, itemUpdateListener);
     }
 
-    public LearningItem get(Predicate<LearningItem> learningItemPredicate) {
-        Optional<LearningItem> optional = learningItems.stream().filter(learningItemPredicate).findFirst();
+    public LearningItem get(LearningItemText displayString) {
+        Optional<LearningItem> optional = learningItems.stream().filter(learningItem -> displayString.equals(learningItem.toDisplayString())).findFirst();
         if (!optional.isPresent()) {
-            throw new IllegalStateException("No learning item matches the predicate '" + learningItemPredicate + "'");
+            throw new IllegalStateException("No learning item matches the display string '" + displayString.toString() + "'");
         }
         return optional.get();
+    }
+
+    public List<LearningItemText> textEntries() {
+        return learningItems.stream().map(LearningItem::toDisplayString).collect(Collectors.toList());
+    }
+
+    public boolean containsTextEntries(Collection<String> textEntries) {
+        return learningItems.stream().map(learningItem -> learningItem.toDisplayString().toString()).collect(Collectors.toList()).containsAll(textEntries);
     }
 }

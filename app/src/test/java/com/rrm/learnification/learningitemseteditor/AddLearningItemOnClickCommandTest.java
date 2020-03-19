@@ -1,6 +1,7 @@
 package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import org.junit.Before;
@@ -13,7 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class AddLearningItemOnClickCommandTest {
-    private final LearningItem testLearningItem = new LearningItem("left", "right");
+    private final LearningItem testLearningItem = new LearningItem("left", "right", "default");
     private LearningItemTextInput stubInput = mock(LearningItemTextInput.class);
     private PersistentLearningItemRepository mockRepository = mock(PersistentLearningItemRepository.class);
     private LearningItemList mockList = mock(LearningItemList.class);
@@ -25,17 +26,20 @@ public class AddLearningItemOnClickCommandTest {
 
     @Test
     public void savesLearningItemFromTheTextInputIntoTheRepository() {
-        when(stubInput.getLearningItem()).thenReturn(testLearningItem);
+        LearningItemText testLearningItemText = testLearningItem.toDisplayString();
+        when(stubInput.getText()).thenReturn(testLearningItemText);
+        when(mockRepository.get(testLearningItemText)).thenReturn(testLearningItem);
         AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(stubInput, mockRepository, mockList);
 
         addLearningItemOnClickCommand.onClick();
 
-        verify(mockRepository, times(1)).add(testLearningItem);
+        verify(mockRepository, times(1)).add(testLearningItemText);
     }
 
     @Test
     public void addsLearningItemSingleStringFormIntoTheList() {
-        when(stubInput.getLearningItem()).thenReturn(testLearningItem);
+        when(stubInput.getText()).thenReturn(testLearningItem.toDisplayString());
+        when(mockRepository.get(testLearningItem.toDisplayString())).thenReturn(testLearningItem);
         AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(stubInput, mockRepository, mockList);
 
         addLearningItemOnClickCommand.onClick();
@@ -45,7 +49,7 @@ public class AddLearningItemOnClickCommandTest {
 
     @Test(expected = CantAddLearningItemException.class)
     public void ifInputThrowsExceptionThenItThrowsARuntimeException() {
-        when(stubInput.getLearningItem()).thenThrow(new IllegalArgumentException());
+        when(stubInput.getText()).thenThrow(new IllegalArgumentException());
         AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(stubInput, mockRepository, mockList);
 
         addLearningItemOnClickCommand.onClick();

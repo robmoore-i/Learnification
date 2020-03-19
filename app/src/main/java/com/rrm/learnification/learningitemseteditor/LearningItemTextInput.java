@@ -1,6 +1,6 @@
 package com.rrm.learnification.learningitemseteditor;
 
-import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.textinput.OnSubmitTextCommand;
 import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.textinput.TextInput;
@@ -27,7 +27,7 @@ class LearningItemTextInput implements TextInput {
         addLearningItemView.addLearningItemClearTextInput();
     }
 
-    LearningItem getLearningItem() {
+    public LearningItemText getText() {
         return addLearningItemView.addLearningItemTextInput();
     }
 }

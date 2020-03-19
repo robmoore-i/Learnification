@@ -1,15 +1,12 @@
 package com.rrm.learnification.textinput;
 
 import com.rrm.learnification.button.ConfigurableButton;
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 
@@ -33,8 +30,7 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
             }
 
             private boolean allCandidateTextEntriesAreAlreadyStored(Collection<String> textEntries) {
-                List<String> stored = learningItemRepository.items().stream().map(LearningItem::toDisplayString).collect(Collectors.toList());
-                boolean result = stored.containsAll(textEntries);
+                boolean result = learningItemRepository.containsTextEntries(textEntries);
                 logger.v(LOG_TAG, "all candidate text entries are " + (result ? "" : "not") + " already stored");
                 return result;
             }

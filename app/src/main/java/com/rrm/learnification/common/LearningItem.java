@@ -3,17 +3,11 @@ package com.rrm.learnification.common;
 import android.support.annotation.NonNull;
 
 import java.util.Objects;
-import java.util.function.Function;
 
 public class LearningItem {
     public final String left;
     public final String right;
-    private final String learningItemSetName;
-
-    // TODO: Add learningItemSetName as third parameter here. Deal with the consequences. Reap the rewards.
-    public LearningItem(String left, String right) {
-        this(left, right, "default");
-    }
+    public final String learningItemSetName;
 
     public LearningItem(String left, String right, String learningItemSetName) {
         if (left == null || right == null || learningItemSetName == null) {
@@ -24,13 +18,8 @@ public class LearningItem {
         this.learningItemSetName = learningItemSetName;
     }
 
-    public static Function<String, LearningItem> fromSingleString(String s) {
-        String[] split = s.split("-");
-        return learningItemSetName -> new LearningItem(split[0].trim(), split[1].trim(), learningItemSetName);
-    }
-
-    public String toDisplayString() {
-        return left + " - " + right;
+    public LearningItemText toDisplayString() {
+        return new LearningItemText(left, right);
     }
 
     @NonNull

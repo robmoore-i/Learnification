@@ -4,7 +4,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
@@ -50,8 +50,11 @@ public class UpdateLearningItemTest {
     @After
     public void afterEach() {
         PersistentLearningItemRepository learningItemRepository = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemRepository();
-        learningItemRepository.remove(new LearningItem(left, initialRight));
-        learningItemRepository.remove(new LearningItem(left, updatedRight));
+        try {
+            learningItemRepository.remove(new LearningItemText(left, initialRight));
+            learningItemRepository.remove(new LearningItemText(left, updatedRight));
+        } catch (IllegalStateException ignored) {
+        }
     }
 
     @Test

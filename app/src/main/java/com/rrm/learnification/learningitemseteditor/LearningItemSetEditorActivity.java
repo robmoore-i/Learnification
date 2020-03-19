@@ -25,7 +25,7 @@ import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemUpdateBroker;
+import com.rrm.learnification.storage.LearningItemTextUpdateBroker;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
@@ -64,8 +64,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         LearningItemList learningItemList = new LearningItemList(logger, learningItemSetEditorView);
 
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, sqlLearningItemSetRecordStore, new LearningItemUpdateBroker());
-        UpdatableLearningItemDisplayStash learningItemDisplayStash = new UpdatableLearningItemDisplayStash(logger, learningItemRepository);
+        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, sqlLearningItemSetRecordStore, new LearningItemTextUpdateBroker());
+        UpdatableLearningItemTextDisplayStash learningItemDisplayStash = new UpdatableLearningItemTextDisplayStash(logger, learningItemRepository);
         UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, learningItemSetEditorView, learningItemDisplayStash);
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);

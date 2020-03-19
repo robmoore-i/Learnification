@@ -12,7 +12,7 @@ import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
-import com.rrm.learnification.storage.LearningItemUpdateBroker;
+import com.rrm.learnification.storage.LearningItemTextUpdateBroker;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.time.AndroidClock;
@@ -41,7 +41,7 @@ public class AndroidTestObjectFactory {
     }
 
     public PersistentLearningItemRepository getLearningItemRepository() {
-        return new PersistentLearningItemRepository(logger(), getDefaultSqlLearningItemSetRecordStore(), new LearningItemUpdateBroker());
+        return new PersistentLearningItemRepository(logger(), getDefaultSqlLearningItemSetRecordStore(), new LearningItemTextUpdateBroker());
     }
 
     public JobScheduler getJobScheduler() {

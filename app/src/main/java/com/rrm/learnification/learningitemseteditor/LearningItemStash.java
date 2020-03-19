@@ -10,10 +10,10 @@ import com.rrm.learnification.textlist.AndroidTextSource;
 public class LearningItemStash {
     private static final String LOG_TAG = "LearningItemListCache";
     private final OnTextChangeListener onTextChangeListener;
-    private final UpdatableLearningItemDisplayStash updatableLearningItemDisplayCache;
+    private final UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache;
     private AndroidLogger logger;
 
-    LearningItemStash(AndroidLogger logger, OnTextChangeListener onTextChangeListener, UpdatableLearningItemDisplayStash updatableLearningItemDisplayCache) {
+    LearningItemStash(AndroidLogger logger, OnTextChangeListener onTextChangeListener, UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache) {
         this.logger = logger;
         this.onTextChangeListener = onTextChangeListener;
         this.updatableLearningItemDisplayCache = updatableLearningItemDisplayCache;

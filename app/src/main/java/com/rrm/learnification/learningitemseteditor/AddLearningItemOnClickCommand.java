@@ -1,7 +1,7 @@
 package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.button.OnClickCommand;
-import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 class AddLearningItemOnClickCommand implements OnClickCommand {
@@ -18,9 +18,9 @@ class AddLearningItemOnClickCommand implements OnClickCommand {
     @Override
     public void onClick() {
         try {
-            LearningItem learningItem = learningItemTextInput.getLearningItem();
-            itemRepository.add(learningItem);
-            learningItemList.addTextEntry(learningItem.toDisplayString());
+            LearningItemText displayText = learningItemTextInput.getText();
+            itemRepository.add(displayText);
+            learningItemList.addTextEntry(displayText);
         } catch (Exception e) {
             throw new CantAddLearningItemException(e);
         }

@@ -4,14 +4,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.textlist.EditableTextListViewAdaptor;
 import com.rrm.learnification.textlist.OnSwipeCommand;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 class LearningItemList {
     private static final String LOG_TAG = "LearningItemList";
@@ -28,7 +27,7 @@ class LearningItemList {
 
     void bindTo(PersistentLearningItemRepository itemRepository) {
         logger.v(LOG_TAG, "populating learning-item list");
-        List<String> learningItemsAsTextEntries = itemRepository.items().stream().map(LearningItem::toDisplayString).collect(Collectors.toList());
+        List<LearningItemText> learningItemsAsTextEntries = itemRepository.textEntries();
         LearningItemListViewAdaptor adapter = new LearningItemListViewAdaptor(logger, learningItemsAsTextEntries);
         recyclerView.setAdapter(adapter);
         this.adapter = adapter;
@@ -61,9 +60,9 @@ class LearningItemList {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    void addTextEntry(String textEntry) {
-        logger.v(LOG_TAG, "adding a text entry to the learning-item list '" + textEntry + "'");
-        adapter.add(textEntry);
+    void addTextEntry(LearningItemText learningItemText) {
+        logger.v(LOG_TAG, "adding a text entry to the learning-item list '" + learningItemText + "'");
+        adapter.add(learningItemText.toString());
     }
 
     void useStash(LearningItemStash learningItemStash) {

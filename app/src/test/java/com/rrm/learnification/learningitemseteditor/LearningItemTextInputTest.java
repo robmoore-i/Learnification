@@ -43,7 +43,7 @@ public class LearningItemTextInputTest {
     public void itDelegatesToTheUnderlyingViewWhenGettingLearningItem() {
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(mockView);
 
-        learningItemTextInput.getLearningItem();
+        learningItemTextInput.getText();
 
         verify(mockView, times(1)).addLearningItemTextInput();
     }

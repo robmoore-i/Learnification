@@ -2,7 +2,7 @@ package com.rrm.learnification;
 
 import android.support.test.rule.ActivityTestRule;
 
-import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
@@ -22,12 +22,12 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LearningItemSqlTableClientTest {
-    private final List<LearningItem> thaiLearningItems = Arrays.asList(
-            new LearningItem("sa-wad-dee-kab", "hello"),
-            new LearningItem("aroi", "delicious"),
-            new LearningItem("ayam", "ayam")
+    private final List<LearningItemText> thaiLearningItems = Arrays.asList(
+            new LearningItemText("sa-wad-dee-kab", "hello"),
+            new LearningItemText("aroi", "delicious"),
+            new LearningItemText("ayam", "ayam")
     );
-    private final List<LearningItem> oneAndTwo = Arrays.asList(new LearningItem("1", "a"), new LearningItem("2", "b"));
+    private final List<LearningItemText> oneAndTwo = Arrays.asList(new LearningItemText("1", "a"), new LearningItemText("2", "b"));
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -52,14 +52,17 @@ public class LearningItemSqlTableClientTest {
     @After
     public void afterEach() {
         databaseTestWrapper.afterEach();
-        ArrayList<LearningItem> toCleanUp = new ArrayList<>();
+        ArrayList<LearningItemText> toCleanUp = new ArrayList<>();
         toCleanUp.addAll(oneAndTwo);
         toCleanUp.addAll(thaiLearningItems);
         String[] setNames = {"default", "Chinese", "Thai"};
         for (String setName : setNames) {
             sqlLearningItemSetRecordStore = recordStore(setName);
-            for (LearningItem learningItem : toCleanUp) {
-                sqlLearningItemSetRecordStore.delete(learningItem);
+            for (LearningItemText learningItemText : toCleanUp) {
+                try {
+                    sqlLearningItemSetRecordStore.delete(learningItemText);
+                } catch (AssertionError ignored) {
+                }
             }
         }
     }
@@ -90,6 +93,7 @@ public class LearningItemSqlTableClientTest {
     @Test
     public void returnsThaiAsTheMostPopulousIfItIsTheOnlySet() {
         sqlLearningItemSetRecordStore = recordStore("Thai");
+
         sqlLearningItemSetRecordStore.writeAll(thaiLearningItems);
 
         assertThat(learningItemSqlTableClient.mostPopulousLearningItemSetName(), equalTo("Thai"));

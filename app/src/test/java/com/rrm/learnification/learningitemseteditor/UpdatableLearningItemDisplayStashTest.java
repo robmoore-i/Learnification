@@ -1,6 +1,7 @@
 package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.textlist.TextSource;
@@ -20,41 +21,41 @@ public class UpdatableLearningItemDisplayStashTest {
 
     @Test
     public void revertsUnpersistedChanges() {
-        UpdatableLearningItemDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemDisplayStash(dummyLogger, mockLearningItemRepository);
+        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger, mockLearningItemRepository);
         LearningItem savedLearningItem = new LearningItem("a", "b", "default");
         LearningItem updatedLearningItem = new LearningItem("a", "c", "default");
         when(mockLearningItemRepository.get(any())).thenReturn(savedLearningItem);
 
-        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(updatedLearningItem.toDisplayString()), savedLearningItem.toDisplayString());
+        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(updatedLearningItem.toDisplayString().toString()), savedLearningItem.toDisplayString().toString());
 
-        assertThat(updatableLearningItemDisplayCache.savedText(), equalTo(savedLearningItem.toDisplayString()));
+        assertThat(updatableLearningItemDisplayCache.savedText(), equalTo(savedLearningItem.toDisplayString().toString()));
     }
 
     @Test
     public void savesPersistedChanges() {
-        UpdatableLearningItemDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemDisplayStash(dummyLogger, mockLearningItemRepository);
+        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger, mockLearningItemRepository);
         LearningItem savedLearningItem = new LearningItem("a", "b", "default");
-        LearningItem updatedLearningItem = new LearningItem("a", "c", "default");
+        LearningItemText updatedLearningItemText = new LearningItemText("a", "c");
         when(mockLearningItemRepository.get(any())).thenReturn(savedLearningItem);
 
-        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(updatedLearningItem.toDisplayString()), savedLearningItem.toDisplayString());
-        updatableLearningItemDisplayCache.onItemChange(updatedLearningItem);
+        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(updatedLearningItemText.toString()), savedLearningItem.toDisplayString().toString());
+        updatableLearningItemDisplayCache.onItemChange(updatedLearningItemText);
 
-        assertThat(updatableLearningItemDisplayCache.savedText(), equalTo(updatedLearningItem.toDisplayString()));
+        assertThat(updatableLearningItemDisplayCache.savedText(), equalTo(updatedLearningItemText.toString()));
     }
 
     @Test
     public void revertsUnpersistedChangesAfterASave() {
-        UpdatableLearningItemDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemDisplayStash(dummyLogger, mockLearningItemRepository);
+        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger, mockLearningItemRepository);
         LearningItem savedLearningItem = new LearningItem("a", "b", "default");
-        LearningItem updatedLearningItem = new LearningItem("a", "c", "default");
+        LearningItemText updatedLearningItemText = new LearningItemText("a", "c");
         String nextUpdatedTextEntry = "q - w";
         when(mockLearningItemRepository.get(any())).thenReturn(savedLearningItem);
 
-        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(nextUpdatedTextEntry), savedLearningItem.toDisplayString());
-        updatableLearningItemDisplayCache.onItemChange(updatedLearningItem);
+        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(nextUpdatedTextEntry), savedLearningItem.toDisplayString().toString());
+        updatableLearningItemDisplayCache.onItemChange(updatedLearningItemText);
 
-        assertThat(updatableLearningItemDisplayCache.savedText(), equalTo(updatedLearningItem.toDisplayString()));
+        assertThat(updatableLearningItemDisplayCache.savedText(), equalTo(updatedLearningItemText.toString()));
     }
 
     @Test
@@ -63,16 +64,16 @@ public class UpdatableLearningItemDisplayStashTest {
         LearningItem savedLearningItem = new LearningItem("a", "b", "default");
         LearningItem updatedLearningItem = new LearningItem("a", "c", "Chinese");
         when(mockLearningItemRepository.get(any())).thenReturn(savedLearningItem);
-        UpdatableLearningItemDisplayStash stash = new UpdatableLearningItemDisplayStash(dummyLogger, mockLearningItemRepository);
+        UpdatableLearningItemTextDisplayStash stash = new UpdatableLearningItemTextDisplayStash(dummyLogger, mockLearningItemRepository);
 
         // The text source tells that the text has been updated
-        TextSource.StableTextSource textSource = new TextSource.StableTextSource(updatedLearningItem.toDisplayString());
-        stash.saveText(textSource, savedLearningItem.toDisplayString());
+        TextSource.StableTextSource textSource = new TextSource.StableTextSource(updatedLearningItem.toDisplayString().toString());
+        stash.saveText(textSource, savedLearningItem.toDisplayString().toString());
 
         // We commit the stashed value using our custom updater, which runs assertions on the stash contents.
         stash.commit((target, replacement) -> {
-            assertThat(target, equalTo(savedLearningItem));
-            assertThat(replacement.apply("Chinese"), equalTo(updatedLearningItem));
+            assertThat(target, equalTo(savedLearningItem.toDisplayString()));
+            assertThat(replacement, equalTo(updatedLearningItem.toDisplayString()));
             mock.run();
         });
         verify(mock).run();
@@ -84,16 +85,16 @@ public class UpdatableLearningItemDisplayStashTest {
         LearningItem savedLearningItem = new LearningItem("a", "b", "Thai");
         LearningItem updatedLearningItem = new LearningItem("a", "c", "Chinese");
         when(mockLearningItemRepository.get(any())).thenReturn(savedLearningItem);
-        UpdatableLearningItemDisplayStash stash = new UpdatableLearningItemDisplayStash(dummyLogger, mockLearningItemRepository);
+        UpdatableLearningItemTextDisplayStash stash = new UpdatableLearningItemTextDisplayStash(dummyLogger, mockLearningItemRepository);
 
         // The text source tells that the text has been updated
-        TextSource.StableTextSource textSource = new TextSource.StableTextSource(updatedLearningItem.toDisplayString());
-        stash.saveText(textSource, savedLearningItem.toDisplayString());
+        TextSource.StableTextSource textSource = new TextSource.StableTextSource(updatedLearningItem.toDisplayString().toString());
+        stash.saveText(textSource, savedLearningItem.toDisplayString().toString());
 
         // We commit the stashed value using our custom updater, which runs assertions on the stash contents.
         stash.commit((target, replacement) -> {
-            assertThat(target, equalTo(savedLearningItem));
-            assertThat(replacement.apply("Chinese"), equalTo(updatedLearningItem));
+            assertThat(target, equalTo(savedLearningItem.toDisplayString()));
+            assertThat(replacement, equalTo(updatedLearningItem.toDisplayString()));
             mock.run();
         });
         verify(mock).run();
