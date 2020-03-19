@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 if [[ $1 != "androidTest" && $1 != "main" && $1 != "test" ]]
 then
