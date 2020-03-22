@@ -25,6 +25,7 @@ import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.LearnificationAppDatabase;
+import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.storage.LearningItemTextUpdateBroker;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
@@ -56,8 +57,11 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         LearningItemSetEditorView learningItemSetEditorView = new LearningItemSetEditorView(logger, this);
 
-        SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore = new SqlLearningItemSetRecordStore(logger, new LearnificationAppDatabase(this), learningItemSetName);
-        AndroidLearningItemSetTitle androidLearningItemSetTitle = new AndroidLearningItemSetTitle(logger, sqlLearningItemSetRecordStore, learningItemSetEditorView, this.findViewById(R.id.learning_item_set_name_textbox), this.findViewById(R.id.learning_item_set_name_change_icon));
+        LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
+        SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore = new SqlLearningItemSetRecordStore(logger, learnificationAppDatabase, learningItemSetName);
+        final LearningItemSqlTableClient learningItemSqlTableClient = new LearningItemSqlTableClient(learnificationAppDatabase);
+        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(learningItemSetEditorView, new LearningItemSetSelectorAdaptor(logger, this, sqlLearningItemSetRecordStore, learningItemSqlTableClient, learningItemSqlTableClient.orderedLearningItemSetNames()));
+        LearningItemSetTitle learningItemSetTitle = new LearningItemSetTitle(logger, sqlLearningItemSetRecordStore, learningItemSetEditorView);
 
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(learningItemSetEditorView);
         AddLearningItemButton addLearningItemButton = new AddLearningItemButton(logger, learningItemSetEditorView);
@@ -87,7 +91,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
 
-        androidLearningItemSetTitle.set(learningItemSetName);
+        learningItemSetTitle.set(learningItemSetName);
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));

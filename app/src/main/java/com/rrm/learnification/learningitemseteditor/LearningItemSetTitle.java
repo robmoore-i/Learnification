@@ -9,7 +9,7 @@ import com.rrm.learnification.R;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 
-class AndroidLearningItemSetTitle {
+class LearningItemSetTitle {
     private static final String LOG_TAG = "LearningItemSetTitle";
 
     private final AndroidLogger logger;
@@ -20,12 +20,12 @@ class AndroidLearningItemSetTitle {
     private final EditText textBox;
     private final ImageView changeIcon;
 
-    AndroidLearningItemSetTitle(AndroidLogger logger, SqlLearningItemSetRecordStore recordStore, SoftKeyboardView softKeyboardView, EditText textBox, ImageView changeIcon) {
+    LearningItemSetTitle(AndroidLogger logger, SqlLearningItemSetRecordStore recordStore, LearningItemSetTitleView learningItemSetTitleView) {
         this.logger = logger;
         this.recordStore = recordStore;
-        this.softKeyboardView = softKeyboardView;
-        this.textBox = textBox;
-        this.changeIcon = changeIcon;
+        this.softKeyboardView = learningItemSetTitleView;
+        this.textBox = learningItemSetTitleView.textBox();
+        this.changeIcon = learningItemSetTitleView.changeIcon();
         setTextBoxStyle();
         disableEditing();
     }
@@ -45,7 +45,7 @@ class AndroidLearningItemSetTitle {
         changeIcon.setImageResource(R.drawable.edit_pencil_icon);
         changeIcon.setOnClickListener(v -> {
             logger.v(LOG_TAG, "learning item set title clicked to edit");
-            AndroidLearningItemSetTitle.this.startEditing();
+            LearningItemSetTitle.this.startEditing();
         });
         softKeyboardView.hideSoftKeyboard();
     }
@@ -61,7 +61,7 @@ class AndroidLearningItemSetTitle {
         changeIcon.setImageResource(R.drawable.save_icon);
         changeIcon.setOnClickListener(v -> {
             logger.v(LOG_TAG, "learning item set title clicked to save");
-            AndroidLearningItemSetTitle.this.save();
+            LearningItemSetTitle.this.save();
         });
         softKeyboardView.showSoftKeyboard();
     }

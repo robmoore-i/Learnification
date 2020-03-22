@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class ZResetSettingsTest {
+public class ZResetSettingsToDefaultsTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 

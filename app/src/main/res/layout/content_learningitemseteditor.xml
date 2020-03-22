@@ -18,6 +18,11 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Spinner
+            android:id="@+id/learning_item_set_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <ImageView
             android:id="@+id/learning_item_set_name_change_icon"
             android:layout_width="wrap_content"
@@ -74,13 +79,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_learning_item_button_text"
-        app:layout_constraintBottom_toTopOf="@+id/learningitem_list"
+        app:layout_constraintBottom_toTopOf="@+id/learning_item_list"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_fields" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/learningitem_list"
+        android:id="@+id/learning_item_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
@@ -95,6 +100,6 @@
         android:text="@string/update_learning_item_button_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/learningitem_list" />
+        app:layout_constraintTop_toBottomOf="@+id/learning_item_list" />
 
 </android.support.constraint.ConstraintLayout>

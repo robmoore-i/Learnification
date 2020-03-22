@@ -2,6 +2,7 @@ package com.rrm.learnification;
 
 import android.support.test.rule.ActivityTestRule;
 
+import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class LearningItemSqlTableClientTest {
     private final List<LearningItemText> thaiLearningItems = Arrays.asList(
@@ -28,6 +30,14 @@ public class LearningItemSqlTableClientTest {
             new LearningItemText("ayam", "ayam")
     );
     private final List<LearningItemText> oneAndTwo = Arrays.asList(new LearningItemText("1", "a"), new LearningItemText("2", "b"));
+    private final List<LearningItem> mixedLearningItems = Arrays.asList(
+            new LearningItem("ni", "you", "Chinese"),
+            new LearningItem("wo", "me", "Chinese"),
+            new LearningItem("ka", "ka", "Thai"),
+            new LearningItem("krab", "krab", "Thai"),
+            new LearningItem("dee", "good", "Thai"),
+            new LearningItem("a", "b", "default")
+    );
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -65,6 +75,7 @@ public class LearningItemSqlTableClientTest {
                 }
             }
         }
+        learningItemSqlTableClient.deleteAll(mixedLearningItems);
     }
 
     @Test
@@ -97,6 +108,22 @@ public class LearningItemSqlTableClientTest {
         sqlLearningItemSetRecordStore.writeAll(thaiLearningItems);
 
         assertThat(learningItemSqlTableClient.mostPopulousLearningItemSetName(), equalTo("Thai"));
+    }
+
+    @Test
+    public void canCountThreeDistinctLearningItemSets() {
+        learningItemSqlTableClient.writeAll(mixedLearningItems);
+
+        assertEquals(3, learningItemSqlTableClient.numberOfDistinctLearningItemSets());
+    }
+
+    @Test
+    public void returnsTheListOfLearningItemSetsOrderedBySize() {
+        learningItemSqlTableClient.writeAll(mixedLearningItems);
+
+        List<String> learningItemSetNames = learningItemSqlTableClient.orderedLearningItemSetNames();
+
+        assertThat(learningItemSetNames, equalTo(Arrays.asList("Thai", "Chinese", "default")));
     }
 
     private SqlLearningItemSetRecordStore recordStore(String learningItemSetName) {

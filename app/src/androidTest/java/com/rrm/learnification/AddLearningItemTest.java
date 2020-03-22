@@ -6,7 +6,8 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
+import com.rrm.learnification.storage.LearningItemSqlTableClient;
+import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.List;
+import java.util.Collections;
 import java.util.UUID;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
@@ -33,26 +34,26 @@ public class AddLearningItemTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
+    private DatabaseTestWrapper databaseTestWrapper;
+    private LearningItemSqlTableClient learningItemSqlTableClient;
+
     private String left;
     private String right;
 
     @Before
     public void beforeEach() {
+        databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
+        databaseTestWrapper.beforeEach();
         left = UUID.randomUUID().toString().substring(0, 6);
         right = UUID.randomUUID().toString().substring(0, 6);
+        AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
+        learningItemSqlTableClient = androidTestObjectFactory.getLearningItemSqlTableClient();
     }
 
     @After
     public void afterEach() {
-        PersistentLearningItemRepository learningItemRepository = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemRepository();
-        List<LearningItem> learningItems = learningItemRepository.items();
-        for (int i = 0; i < learningItems.size(); i++) {
-            LearningItem learningItem = learningItems.get(i);
-            if (learningItem.left.equals(left) && learningItem.right.equals(right)) {
-                learningItemRepository.removeAt(i);
-                return;
-            }
-        }
+        learningItemSqlTableClient.deleteAll(Collections.singletonList(new LearningItem(left, right, "default")));
+        databaseTestWrapper.afterEach();
     }
 
     @Test
@@ -62,6 +63,6 @@ public class AddLearningItemTest {
         onView(withId(R.id.add_learning_item_button)).perform(click());
         closeSoftKeyboard();
 
-        onView(allOf(withParent(withId(R.id.learningitem_list)), withText(left + " - " + right))).check(matches(isDisplayed()));
+        onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + right))).check(matches(isDisplayed()));
     }
 }

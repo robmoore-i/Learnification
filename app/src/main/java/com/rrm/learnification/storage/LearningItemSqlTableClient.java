@@ -63,4 +63,20 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
     public void write(LearningItem item) {
         learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(item));
     }
+
+    public void deleteAll(List<LearningItem> learningItems) {
+        for (LearningItem learningItem : learningItems) {
+            LearningItemSqlTable.delete(learnificationAppDatabase.getWritableDatabase(), learningItem);
+        }
+    }
+
+    public List<String> orderedLearningItemSetNames() {
+        Cursor cursor = LearningItemSqlTable.learningItemSetNamesOrderedBySetSize(learnificationAppDatabase.getReadableDatabase());
+        ArrayList<String> learningItemSetNames = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            learningItemSetNames.add(LearningItemSqlTable.learningItemSetNameFrom(cursor));
+        }
+        cursor.close();
+        return learningItemSetNames;
+    }
 }

@@ -11,6 +11,8 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.rrm.learnification.R;
@@ -23,7 +25,7 @@ import com.rrm.learnification.toolbar.ToolbarView;
 import com.rrm.learnification.toolbar.ToolbarViewParameters;
 import com.rrm.learnification.toolbar.ToolbarViewUpdate;
 
-class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, LearningItemListView, UpdateLearningItemView, SoftKeyboardView {
+class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorView, LearningItemSetTitleView, AddLearningItemView, LearningItemListView, UpdateLearningItemView, SoftKeyboardView {
     private static final String LOG_TAG = "LearningItemSetEditorView";
 
     private final AndroidLogger logger;
@@ -82,6 +84,21 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
     }
 
     @Override
+    public Spinner learningItemSetSelector() {
+        return activity.findViewById(R.id.learning_item_set_selector);
+    }
+
+    @Override
+    public EditText textBox() {
+        return activity.findViewById(R.id.learning_item_set_name_textbox);
+    }
+
+    @Override
+    public ImageView changeIcon() {
+        return activity.findViewById(R.id.learning_item_set_name_change_icon);
+    }
+
+    @Override
     public LearningItemText addLearningItemTextInput() {
         return new LearningItemText(
                 leftEditText().getText().toString().trim(),
@@ -121,7 +138,7 @@ class LearningItemSetEditorView implements ToolbarView, AddLearningItemView, Lea
 
     @Override
     public RecyclerView learningItemsList() {
-        return activity.findViewById(R.id.learningitem_list);
+        return activity.findViewById(R.id.learning_item_list);
     }
 
     @Override
