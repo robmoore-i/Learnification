@@ -1,4 +1,4 @@
-package com.rrm.learnification;
+package com.rrm.learnification.integration;
 
 import android.support.test.rule.ActivityTestRule;
 
@@ -7,6 +7,7 @@ import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
+import com.rrm.learnification.support.DatabaseTestWrapper;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;

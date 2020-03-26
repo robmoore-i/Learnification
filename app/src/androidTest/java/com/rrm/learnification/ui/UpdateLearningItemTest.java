@@ -1,12 +1,14 @@
-package com.rrm.learnification;
+package com.rrm.learnification.ui;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
+import com.rrm.learnification.support.DatabaseTestWrapper;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;

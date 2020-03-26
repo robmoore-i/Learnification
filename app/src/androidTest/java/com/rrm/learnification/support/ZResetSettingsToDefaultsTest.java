@@ -1,4 +1,4 @@
-package com.rrm.learnification;
+package com.rrm.learnification.support;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;

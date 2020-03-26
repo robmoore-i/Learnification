@@ -1,4 +1,4 @@
-package com.rrm.learnification;
+package com.rrm.learnification.support;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -9,7 +9,7 @@ import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import java.util.List;
 
-class DatabaseTestWrapper {
+public class DatabaseTestWrapper {
     private static final String LOG_TAG = "DatabaseTestWrapper";
 
     private final AppCompatActivity activity;
@@ -18,11 +18,11 @@ class DatabaseTestWrapper {
     private LearningItemSqlTableClient learningItemSqlTableClient;
     private AndroidLogger logger;
 
-    DatabaseTestWrapper(AppCompatActivity activity) {
+    public DatabaseTestWrapper(AppCompatActivity activity) {
         this.activity = activity;
     }
 
-    void beforeEach() {
+    public void beforeEach() {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activity);
         logger = androidTestObjectFactory.getLogger();
         learningItemSqlTableClient = new LearningItemSqlTableClient(new AndroidLogger(), androidTestObjectFactory.getLearnificationAppDatabase());
@@ -31,7 +31,7 @@ class DatabaseTestWrapper {
         logger.v(LOG_TAG, "==== TEST START ====");
     }
 
-    void afterEach() {
+    public void afterEach() {
         logger.v(LOG_TAG, "==== TEST FINISH ====");
         learningItemSqlTableClient.clearEverything();
         learningItemSqlTableClient.writeAll(originalLearningItems);

@@ -1,10 +1,13 @@
-package com.rrm.learnification;
+package com.rrm.learnification.ui;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
+import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
+import com.rrm.learnification.support.DatabaseTestWrapper;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -52,8 +55,7 @@ public class LearningItemSetSelectorTest {
     public void whenTheCurrentLearningItemIsRenamedTheSelectorShowsTheUpdatedName() {
         String updatedLearningItemSetName = "Thai";
 
-        // Click the 'edit' icon. Type in the new set name. Click the 'save' icon.
-        onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
+        onView(ViewMatchers.withId(R.id.learning_item_set_name_change_icon)).perform(click());
         onView(withId(R.id.learning_item_set_name_textbox)).perform(clearText(), typeText(updatedLearningItemSetName));
         onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
 

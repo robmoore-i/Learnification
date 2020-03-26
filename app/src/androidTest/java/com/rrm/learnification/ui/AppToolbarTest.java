@@ -1,8 +1,9 @@
-package com.rrm.learnification;
+package com.rrm.learnification.ui;
 
 import android.app.Notification;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.BoundedMatcher;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.NotificationManagerCompat;
@@ -13,12 +14,14 @@ import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
+import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -31,7 +34,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.rrm.learnification.LearnificationAppAssumption.assumeThatThereAreAnyLearningItems;
+import static com.rrm.learnification.support.LearnificationAppAssumption.assumeThatThereAreAnyLearningItems;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -50,7 +53,7 @@ public class AppToolbarTest {
 
     @Test
     public void theFastForwardButtonIsDisplayed() {
-        onView(allOf(withId(R.id.toolbar_button), withText(">>"))).check(matches(isDisplayed()));
+        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.toolbar_button), withText(">>"))).check(matches(isDisplayed()));
     }
 
     @Test

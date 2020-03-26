@@ -1,4 +1,4 @@
-package com.rrm.learnification;
+package com.rrm.learnification.integration;
 
 import android.app.Notification;
 import android.support.test.rule.ActivityTestRule;

@@ -1,4 +1,4 @@
-package com.rrm.learnification;
+package com.rrm.learnification.support;
 
 import android.support.test.rule.ActivityTestRule;
 
@@ -11,8 +11,8 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assume.assumeThat;
 
-class LearnificationAppAssumption {
-    static void assumeThatThereAreAnyLearningItems(ActivityTestRule<LearningItemSetEditorActivity> activityTestRule) {
+public class LearnificationAppAssumption {
+    public static void assumeThatThereAreAnyLearningItems(ActivityTestRule<LearningItemSetEditorActivity> activityTestRule) {
         List<LearningItem> learningItems = activityTestRule.getActivity().androidTestObjectFactory().getLearningItemSqlTableClient().items();
         assumeThat(learningItems, not(empty()));
     }
