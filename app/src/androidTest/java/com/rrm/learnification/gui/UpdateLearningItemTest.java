@@ -1,4 +1,4 @@
-package com.rrm.learnification.ui;
+package com.rrm.learnification.gui;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;

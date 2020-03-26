@@ -1,4 +1,4 @@
-package com.rrm.learnification.ui;
+package com.rrm.learnification.gui;
 
 import android.app.Notification;
 import android.support.test.InstrumentationRegistry;
