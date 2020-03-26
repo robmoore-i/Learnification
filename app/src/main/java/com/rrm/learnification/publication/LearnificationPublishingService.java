@@ -31,7 +31,7 @@ public class LearnificationPublishingService extends JobService {
         logger.v(LOG_TAG, "Job started");
         LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
 
-        LearningItemSupplier learningItemSupplier = new LearningItemSqlTableClient(learnificationAppDatabase);
+        LearningItemSupplier learningItemSupplier = new LearningItemSqlTableClient(logger, learnificationAppDatabase);
 
         List<LearningItem> learningItems = learningItemSupplier.items();
         for (LearningItem learningItem : learningItems) {

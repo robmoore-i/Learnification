@@ -81,15 +81,6 @@ final class LearningItemSqlTable implements BaseColumns {
         writableDatabase.delete(LearningItemSqlTable.TABLE_NAME, null, null);
     }
 
-    static int numberOfDistinctLearningItemSets(SQLiteDatabase readableDatabase) {
-        String viewName = "numberOfDistinctLearningItemSets";
-        Cursor cursor = readableDatabase.rawQuery("SELECT (COUNT(DISTINCT " + COLUMN_NAME_LEARNING_ITEM_SET_NAME + ")) AS " + viewName + " FROM " + TABLE_NAME, null);
-        cursor.moveToFirst();
-        int numberOfDistinctLearningItemSets = cursor.getInt(cursor.getColumnIndex(viewName));
-        cursor.close();
-        return numberOfDistinctLearningItemSets;
-    }
-
     static String mostPopulousLearningItemSetName(SQLiteDatabase readableDatabase) {
         String viewName = "numberOfDistinctLearningItemSets";
         Cursor cursor = readableDatabase.rawQuery("SELECT " + COLUMN_NAME_LEARNING_ITEM_SET_NAME + ",(COUNT(DISTINCT " + COLUMN_NAME_LEARNING_ITEM_SET_NAME + ")) AS " + viewName + " FROM " + TABLE_NAME, null);

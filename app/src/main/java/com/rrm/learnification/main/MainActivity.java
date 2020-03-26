@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = new Intent(this, LearningItemSetEditorActivity.class);
-        String learningItemSetName = new LearningItemSqlTableClient(new LearnificationAppDatabase(this)).mostPopulousLearningItemSetName();
+        String learningItemSetName = new LearningItemSqlTableClient(logger, new LearnificationAppDatabase(this)).mostPopulousLearningItemSetName();
         logger.v(LOG_TAG, "initial learning item set name is being set to " + learningItemSetName);
         intent.putExtras(new LearningItemSetEditorActivityBundle(learningItemSetName).toBundle());
         startActivity(intent);

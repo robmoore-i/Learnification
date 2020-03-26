@@ -61,6 +61,10 @@ public class AndroidTestObjectFactory {
     }
 
     public LearningItemSqlTableClient getLearningItemSqlTableClient() {
-        return new LearningItemSqlTableClient(getLearnificationAppDatabase());
+        return new LearningItemSqlTableClient(logger(), getLearnificationAppDatabase());
+    }
+
+    public AndroidLogger getLogger() {
+        return logger();
     }
 }

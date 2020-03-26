@@ -32,9 +32,7 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
 
     @Override
     public int getCount() {
-        int count = learningItemSqlTableClient.numberOfDistinctLearningItemSets();
-        logger.v(LOG_TAG, "count for learning-item-set-selector is " + count);
-        return count;
+        return learningItemSqlTableClient.numberOfDistinctLearningItemSets();
     }
 
     @Override
@@ -48,6 +46,7 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        logger.v(LOG_TAG, "getting view at position " + position + " when count is " + getCount());
         return super.getView(position, convertView, parent);
     }
 }

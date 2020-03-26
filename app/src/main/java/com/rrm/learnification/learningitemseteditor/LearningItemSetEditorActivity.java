@@ -59,8 +59,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
         SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore = new SqlLearningItemSetRecordStore(logger, learnificationAppDatabase, learningItemSetName);
-        final LearningItemSqlTableClient learningItemSqlTableClient = new LearningItemSqlTableClient(learnificationAppDatabase);
-        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(learningItemSetEditorView, new LearningItemSetSelectorAdaptor(logger, this, sqlLearningItemSetRecordStore, learningItemSqlTableClient, learningItemSqlTableClient.orderedLearningItemSetNames()));
+        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(learningItemSetEditorView, new LearningItemSetSelectorAdaptor(logger, this, sqlLearningItemSetRecordStore, new LearningItemSqlTableClient(logger, learnificationAppDatabase), new LearningItemSqlTableClient(logger, learnificationAppDatabase).orderedLearningItemSetNames()));
         LearningItemSetTitle learningItemSetTitle = new LearningItemSetTitle(logger, sqlLearningItemSetRecordStore, learningItemSetEditorView);
 
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(learningItemSetEditorView);

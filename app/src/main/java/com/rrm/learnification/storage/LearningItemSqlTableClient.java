@@ -4,14 +4,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LearningItemSqlTableClient implements LearningItemSupplier {
+    private static final String LOG_TAG = "LearningItemSqlTableClient";
+    private final AndroidLogger logger;
+
     private final LearnificationAppDatabase learnificationAppDatabase;
 
-    public LearningItemSqlTableClient(LearnificationAppDatabase learnificationAppDatabase) {
+    public LearningItemSqlTableClient(AndroidLogger logger, LearnificationAppDatabase learnificationAppDatabase) {
+        this.logger = logger;
         this.learnificationAppDatabase = learnificationAppDatabase;
     }
 
@@ -36,11 +41,12 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
     }
 
     public void clearEverything() {
+        logger.v(LOG_TAG, "clearing everything");
         LearningItemSqlTable.deleteAll(learnificationAppDatabase.getWritableDatabase());
     }
 
     public int numberOfDistinctLearningItemSets() {
-        return LearningItemSqlTable.numberOfDistinctLearningItemSets(learnificationAppDatabase.getReadableDatabase());
+        return orderedLearningItemSetNames().size();
     }
 
     public String mostPopulousLearningItemSetName() {
@@ -58,16 +64,19 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
         } finally {
             writableDatabase.endTransaction();
         }
+        logger.v(LOG_TAG, "wrote learning items '" + items.toString() + "'");
     }
 
     public void write(LearningItem item) {
         learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(item));
+        logger.v(LOG_TAG, "wrote learning item " + item.toString());
     }
 
     public void deleteAll(List<LearningItem> learningItems) {
         for (LearningItem learningItem : learningItems) {
             LearningItemSqlTable.delete(learnificationAppDatabase.getWritableDatabase(), learningItem);
         }
+        logger.v(LOG_TAG, "deleted learning items '" + learningItems.toString() + "'");
     }
 
     public List<String> orderedLearningItemSetNames() {
@@ -77,6 +86,8 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
             learningItemSetNames.add(LearningItemSqlTable.learningItemSetNameFrom(cursor));
         }
         cursor.close();
+        if (learningItemSetNames.size() == 0) learningItemSetNames.add("default");
+        logger.v(LOG_TAG, "ordered learning item set names '" + learningItemSetNames.toString() + "'");
         return learningItemSetNames;
     }
 }

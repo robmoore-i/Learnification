@@ -17,9 +17,12 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -30,11 +33,12 @@ public class LearningItemSqlTableClientTest {
             new LearningItemText("ayam", "ayam")
     );
     private final List<LearningItemText> oneAndTwo = Arrays.asList(new LearningItemText("1", "a"), new LearningItemText("2", "b"));
+    private final LearningItem krabLearningItem = new LearningItem("krab", "krab", "Thai");
     private final List<LearningItem> mixedLearningItems = Arrays.asList(
             new LearningItem("ni", "you", "Chinese"),
             new LearningItem("wo", "me", "Chinese"),
             new LearningItem("ka", "ka", "Thai"),
-            new LearningItem("krab", "krab", "Thai"),
+            krabLearningItem,
             new LearningItem("dee", "good", "Thai"),
             new LearningItem("a", "b", "default")
     );
@@ -55,7 +59,7 @@ public class LearningItemSqlTableClientTest {
         databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
         databaseTestWrapper.beforeEach();
         androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        learningItemSqlTableClient = new LearningItemSqlTableClient(androidTestObjectFactory.getLearnificationAppDatabase());
+        learningItemSqlTableClient = new LearningItemSqlTableClient(logger, androidTestObjectFactory.getLearnificationAppDatabase());
         learningItemSqlTableClient.clearEverything();
     }
 
@@ -124,6 +128,23 @@ public class LearningItemSqlTableClientTest {
         List<String> learningItemSetNames = learningItemSqlTableClient.orderedLearningItemSetNames();
 
         assertThat(learningItemSetNames, equalTo(Arrays.asList("Thai", "Chinese", "default")));
+    }
+
+    @Test
+    public void alwaysIncludesDefaultInTheListOfLearningItemSetsIfThereAreOtherwiseNone() {
+        assertThat(learningItemSqlTableClient.numberOfDistinctLearningItemSets(), equalTo(1));
+        assertThat(learningItemSqlTableClient.orderedLearningItemSetNames(), hasItem("default"));
+        assertThat(learningItemSqlTableClient.orderedLearningItemSetNames().size(), equalTo(1));
+    }
+
+    @Test
+    public void defaultIsNotIncludedIfThereAreOtherLearningItemSets() {
+        learningItemSqlTableClient.writeAll(Collections.singletonList(krabLearningItem));
+
+        assertThat(learningItemSqlTableClient.numberOfDistinctLearningItemSets(), equalTo(1));
+        assertThat(learningItemSqlTableClient.orderedLearningItemSetNames(), not(hasItem("default")));
+        assertThat(learningItemSqlTableClient.orderedLearningItemSetNames().size(), equalTo(1));
+        assertThat(learningItemSqlTableClient.orderedLearningItemSetNames(), equalTo(Collections.singletonList("Thai")));
     }
 
     private SqlLearningItemSetRecordStore recordStore(String learningItemSetName) {
