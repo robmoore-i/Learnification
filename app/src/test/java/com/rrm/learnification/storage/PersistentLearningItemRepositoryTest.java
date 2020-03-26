@@ -10,20 +10,30 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PersistentLearningItemRepositoryTest {
-    private final AndroidLogger androidLogger = mock(AndroidLogger.class);
+    private final AndroidLogger dummyLogger = mock(AndroidLogger.class);
     private final LearningItemTextUpdateBroker dummyItemUpdateBroker = mock(LearningItemTextUpdateBroker.class);
     private final SqlLearningItemSetRecordStore stubLearningPersistentItemStore = mock(SqlLearningItemSetRecordStore.class);
+
+    private final ArrayList<LearningItem> defaultLearningItems = new ArrayList<>(Arrays.asList(
+            new LearningItem("a", "a", "default"),
+            new LearningItem("b", "b", "default"),
+            new LearningItem("c", "c", "default"),
+            new LearningItem("d", "d", "default")
+    ));
 
     @Before
     public void beforeEach() {
@@ -34,7 +44,7 @@ public class PersistentLearningItemRepositoryTest {
     public void canAddLearningItems() {
         LearningItemText newLearningItemText = new LearningItemText("L", "R");
         when(stubLearningPersistentItemStore.readAll()).thenReturn(new ArrayList<>());
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         persistentLearnificationRepository.add(newLearningItemText);
 
@@ -47,7 +57,7 @@ public class PersistentLearningItemRepositoryTest {
     @Test
     public void returnsLearningItemsWithLatestEntryFirst() {
         when(stubLearningPersistentItemStore.readAll()).thenReturn(new ArrayList<>());
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         persistentLearnificationRepository.add(new LearningItemText("L1", "R1"));
         persistentLearnificationRepository.add(new LearningItemText("L2", "R2"));
@@ -60,18 +70,8 @@ public class PersistentLearningItemRepositoryTest {
 
     @Test
     public void removesItemCorrespondingToIndexInReturnedList() {
-        when(stubLearningPersistentItemStore.readAll()).thenReturn(new ArrayList<>(Arrays.asList(
-                new LearningItem("a", "a", "default"),
-                new LearningItem("b", "b", "default"),
-                new LearningItem("c", "c", "default"),
-                new LearningItem("d", "d", "default")
-        )));
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(new AndroidLogger() {
-            @Override
-            public void v(String tag, String message) {
-                System.out.println(tag + " - " + message);
-            }
-        }, stubLearningPersistentItemStore, dummyItemUpdateBroker);
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(defaultLearningItems);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         List<LearningItem> items = persistentLearnificationRepository.items();
         int removalIndex = 2;
@@ -83,36 +83,24 @@ public class PersistentLearningItemRepositoryTest {
 
     @Test
     public void gettingItemsTwiceDoesntChangeThem() {
-        ArrayList<LearningItem> learningItems = new ArrayList<>(Arrays.asList(
-                new LearningItem("a", "a", "default"),
-                new LearningItem("b", "b", "default"),
-                new LearningItem("c", "c", "default"),
-                new LearningItem("d", "d", "default")
-        ));
-        when(stubLearningPersistentItemStore.readAll()).thenReturn(learningItems);
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(defaultLearningItems);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         List<LearningItem> items = persistentLearnificationRepository.items();
-        for (LearningItem learningItem : learningItems) {
+        for (LearningItem learningItem : defaultLearningItems) {
             assertThat(items, hasItem(learningItem));
         }
 
         List<LearningItem> itemsAgain = persistentLearnificationRepository.items();
-        for (LearningItem learningItem : learningItems) {
+        for (LearningItem learningItem : defaultLearningItems) {
             assertThat(itemsAgain, hasItem(learningItem));
         }
     }
 
     @Test
     public void replacingALearningItemUpdatesItWhenYouReadAllItems() {
-        ArrayList<LearningItem> learningItems = new ArrayList<>(Arrays.asList(
-                new LearningItem("a", "a", "default"),
-                new LearningItem("b", "b", "default"),
-                new LearningItem("c", "c", "default"),
-                new LearningItem("d", "d", "default")
-        ));
-        when(stubLearningPersistentItemStore.readAll()).thenReturn(learningItems);
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(defaultLearningItems);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         persistentLearnificationRepository.replace(new LearningItemText("c", "c"), new LearningItemText("e", "e"));
 
@@ -123,17 +111,20 @@ public class PersistentLearningItemRepositoryTest {
 
     @Test
     public void canGetLearningItemFromLearningItemDisplayString() {
-        ArrayList<LearningItem> learningItems = new ArrayList<>(Arrays.asList(
-                new LearningItem("a", "a", "default"),
-                new LearningItem("b", "b", "default"),
-                new LearningItem("c", "c", "default"),
-                new LearningItem("d", "d", "default")
-        ));
-        when(stubLearningPersistentItemStore.readAll()).thenReturn(learningItems);
-        PersistentLearningItemRepository repository = new PersistentLearningItemRepository(androidLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(defaultLearningItems);
+        PersistentLearningItemRepository repository = new PersistentLearningItemRepository(dummyLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
 
         LearningItem learningItem = repository.get(new LearningItemText("b", "b"));
 
         assertEquals(new LearningItem("b", "b", "default"), learningItem);
+    }
+
+    @Test
+    public void canCheckIfAllTextEntriesAreContained() {
+        when(stubLearningPersistentItemStore.readAll()).thenReturn(defaultLearningItems);
+        PersistentLearningItemRepository repository = new PersistentLearningItemRepository(dummyLogger, stubLearningPersistentItemStore, dummyItemUpdateBroker);
+
+        assertFalse(repository.containsTextEntries(Collections.singletonList("a - b")));
+        assertTrue(repository.containsTextEntries(Arrays.asList("a - a", "b - b", "c - c", "d - d")));
     }
 }

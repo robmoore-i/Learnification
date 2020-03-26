@@ -64,11 +64,6 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
         remove(learningItem);
     }
 
-    public void remove(LearningItemText learningItemText) {
-        LearningItem learningItem = get(learningItemText);
-        remove(learningItem);
-    }
-
     private void remove(LearningItem learningItem) {
         logger.v(LOG_TAG, "removing learning item '" + learningItem.toDisplayString() + "'");
         learningItemStore.delete(learningItem.toDisplayString());
@@ -106,6 +101,8 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     }
 
     public boolean containsTextEntries(Collection<String> textEntries) {
-        return learningItems.stream().map(learningItem -> learningItem.toDisplayString().toString()).collect(Collectors.toList()).containsAll(textEntries);
+        List<String> learningItems = this.learningItems.stream().map(learningItem -> learningItem.toDisplayString().toString()).collect(Collectors.toList());
+        logger.v(LOG_TAG, "checking if the stored items '" + learningItems.toString() + "' contains all the text entries '" + textEntries.toString() + "'");
+        return learningItems.containsAll(textEntries);
     }
 }
