@@ -41,6 +41,8 @@ import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListen
 import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
 
 public class LearningItemSetEditorActivity extends AppCompatActivity {
+    private static final String LOG_TAG = "LearningItemSetEditorActivity";
+
     private final AndroidLogger logger = new AndroidLogger();
     private final AndroidClock clock = new AndroidClock();
     private final AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(this);
@@ -135,6 +137,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            logger.u(LOG_TAG, "selected settings menu item");
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
