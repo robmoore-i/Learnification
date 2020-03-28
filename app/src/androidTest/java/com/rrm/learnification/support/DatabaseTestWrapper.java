@@ -28,11 +28,11 @@ public class DatabaseTestWrapper {
         learningItemSqlTableClient = new LearningItemSqlTableClient(new AndroidLogger(), androidTestObjectFactory.getLearnificationAppDatabase());
         originalLearningItems = learningItemSqlTableClient.items();
         learningItemSqlTableClient.clearEverything();
-        logger.v(LOG_TAG, "==== TEST START ====");
+        logger.i(LOG_TAG, "==== TEST START ====");
     }
 
     public void afterEach() {
-        logger.v(LOG_TAG, "==== TEST FINISH ====");
+        logger.i(LOG_TAG, "==== TEST FINISH ====");
         learningItemSqlTableClient.clearEverything();
         learningItemSqlTableClient.writeAll(originalLearningItems);
     }

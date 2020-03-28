@@ -41,7 +41,7 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
     }
 
     public void clearEverything() {
-        logger.v(LOG_TAG, "clearing everything");
+        logger.i(LOG_TAG, "clearing everything");
         LearningItemSqlTable.deleteAll(learnificationAppDatabase.getWritableDatabase());
     }
 
@@ -64,19 +64,19 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
         } finally {
             writableDatabase.endTransaction();
         }
-        logger.v(LOG_TAG, "wrote learning items '" + items.toString() + "'");
+        logger.i(LOG_TAG, "wrote learning items '" + items.toString() + "'");
     }
 
     public void write(LearningItem item) {
         learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(item));
-        logger.v(LOG_TAG, "wrote learning item " + item.toString());
+        logger.i(LOG_TAG, "wrote learning item " + item.toString());
     }
 
     public void deleteAll(List<LearningItem> learningItems) {
         for (LearningItem learningItem : learningItems) {
             LearningItemSqlTable.delete(learnificationAppDatabase.getWritableDatabase(), learningItem);
         }
-        logger.v(LOG_TAG, "deleted learning items '" + learningItems.toString() + "'");
+        logger.i(LOG_TAG, "deleted learning items '" + learningItems.toString() + "'");
     }
 
     public List<String> orderedLearningItemSetNames() {

@@ -23,14 +23,14 @@ public class DelayPicker {
 
     @SuppressWarnings("SameParameterValue")
     public void setInputRangeInMinutes(int min, int max) {
-        logger.v(LOG_TAG, "setting delay picker input range to between " + min + " and " + max + " minutes.");
+        logger.i(LOG_TAG, "setting delay picker input range to between " + min + " and " + max + " minutes.");
 
         delayPicker.setMinValue(min);
         delayPicker.setMaxValue(max);
     }
 
     public void setOnValuePickedListener(OnValuePickedCommand onValuePickedCommand) {
-        logger.v(LOG_TAG, "setting delay onChangeListener");
+        logger.i(LOG_TAG, "setting delay onChangeListener");
 
         delayPicker.setOnScrollListener((view, scrollState) -> {
             if (scrollState == NumberPicker.OnScrollListener.SCROLL_STATE_IDLE) {
@@ -54,7 +54,7 @@ public class DelayPicker {
     }
 
     public void setChoiceFormatter() {
-        logger.v(LOG_TAG, "setting the formatter for the choices on the number picker to say 'x minutes' for all x");
+        logger.i(LOG_TAG, "setting the formatter for the choices on the number picker to say 'x minutes' for all x");
 
         delayPicker.setFormatter(i -> i + " minute" + (i == 1 ? "" : "s"));
         delayPicker.setWrapSelectorWheel(false);
@@ -72,7 +72,7 @@ public class DelayPicker {
     }
 
     public void setToValue(int pickerValue) {
-        logger.v(LOG_TAG, "setting the picker to value " + pickerValue);
+        logger.i(LOG_TAG, "setting the picker to value " + pickerValue);
 
         delayPicker.setValue(pickerValue);
     }

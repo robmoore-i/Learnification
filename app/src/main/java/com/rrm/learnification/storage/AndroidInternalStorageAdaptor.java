@@ -27,14 +27,14 @@ public class AndroidInternalStorageAdaptor implements FileStorageAdaptor {
 
     @Override
     public boolean doesFileExist(String fileName) {
-        logger.v(LOG_TAG, "checking if file exists '" + fileName + "'");
+        logger.i(LOG_TAG, "checking if file exists '" + fileName + "'");
 
         return new File(contextWrapper.getFilesDir(), fileName).exists();
     }
 
     @Override
     public void appendLines(String fileName, List<String> lines) throws IOException {
-        logger.v(LOG_TAG, "appending lines to '" + fileName + "'");
+        logger.i(LOG_TAG, "appending lines to '" + fileName + "'");
         FileOutputStream fileOutputStream = contextWrapper.openFileOutput(fileName, Context.MODE_APPEND | Context.MODE_PRIVATE);
         String fileContent = String.join("\n", lines) + "\n";
         fileOutputStream.write(fileContent.getBytes());
@@ -43,14 +43,14 @@ public class AndroidInternalStorageAdaptor implements FileStorageAdaptor {
 
     @Override
     public List<String> readLines(String fileName) throws IOException {
-        logger.v(LOG_TAG, "reading lines from '" + fileName + "'");
+        logger.i(LOG_TAG, "reading lines from '" + fileName + "'");
         FileInputStream fileInputStream = contextWrapper.openFileInput(fileName);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
 
         ArrayList<String> lines = new ArrayList<>();
         String line = bufferedReader.readLine();
         while (line != null) {
-            logger.v(LOG_TAG, "read line from file '" + line + "'");
+            logger.i(LOG_TAG, "read line from file '" + line + "'");
             lines.add(line);
             line = bufferedReader.readLine();
         }
@@ -60,13 +60,13 @@ public class AndroidInternalStorageAdaptor implements FileStorageAdaptor {
 
     @Override
     public void deleteFile(String fileName) {
-        logger.v(LOG_TAG, "deleting file '" + fileName + "'");
+        logger.i(LOG_TAG, "deleting file '" + fileName + "'");
 
         File file = new File(contextWrapper.getFilesDir(), fileName);
         if (file.exists()) {
             boolean success = file.delete();
             if (!success) {
-                logger.v(LOG_TAG, "file.delete() returned false for file '" + fileName + "'");
+                logger.i(LOG_TAG, "file.delete() returned false for file '" + fileName + "'");
             }
         }
     }

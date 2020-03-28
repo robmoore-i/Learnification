@@ -77,7 +77,7 @@ public class LearnificationSchedulerTest {
 
         learnificationScheduler.scheduleJob(serviceClass);
 
-        verify(mockLogger, times(1)).v(anyString(), eq("scheduling learnification for tomorrow at around 09:00:00"));
+        verify(mockLogger, times(1)).i(anyString(), eq("scheduling learnification for tomorrow at around 09:00:00"));
     }
 
     @Test

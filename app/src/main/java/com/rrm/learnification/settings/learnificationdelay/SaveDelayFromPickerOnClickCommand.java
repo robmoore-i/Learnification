@@ -20,7 +20,7 @@ public class SaveDelayFromPickerOnClickCommand implements OnClickCommand {
     @Override
     public void onClick() {
         int newDelayInSeconds = delayPicker.currentValueInSeconds();
-        logger.v(LOG_TAG, "onValuePicked called with new value " + newDelayInSeconds + " (" + (newDelayInSeconds / 60) + " minutes)");
+        logger.i(LOG_TAG, "onValuePicked called with new value " + newDelayInSeconds + " (" + (newDelayInSeconds / 60) + " minutes)");
         settingsRepository.writeDelay(newDelayInSeconds);
     }
 }

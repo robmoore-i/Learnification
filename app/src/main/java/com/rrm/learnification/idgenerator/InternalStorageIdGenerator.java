@@ -62,7 +62,7 @@ public class InternalStorageIdGenerator implements IdGenerator {
             List<String> lines = fileStorageAdaptor.readLines(fileName);
             return Integer.parseInt(lines.get(0));
         } catch (IOException e) {
-            logger.v(LOG_TAG, "couldn't get latest generated id from file '" + fileName + "'");
+            logger.i(LOG_TAG, "couldn't get latest generated id from file '" + fileName + "'");
             logger.e(LOG_TAG, e);
             throw e;
         }
@@ -70,10 +70,10 @@ public class InternalStorageIdGenerator implements IdGenerator {
 
     private void saveToStorage(int idToSave) {
         try {
-            logger.v(LOG_TAG, "saving id " + idToSave + " into storage");
+            logger.i(LOG_TAG, "saving id " + idToSave + " into storage");
             fileStorageAdaptor.overwriteLines(fileName, Collections.singletonList(String.valueOf(idToSave)));
         } catch (IOException e) {
-            logger.v(LOG_TAG, "couldn't write next generated id from file '" + fileName + "'");
+            logger.i(LOG_TAG, "couldn't write next generated id from file '" + fileName + "'");
             logger.e(LOG_TAG, e);
         }
     }

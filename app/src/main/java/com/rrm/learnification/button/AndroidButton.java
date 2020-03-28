@@ -79,7 +79,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     private void bindClickListeners() {
         ArrayList<OnClickCommand> onClickCommands = new ArrayList<>(this.onClickCommands);
         if (lastExecutedOnClickCommand != null) {
-            logger.v(logTag(), "last executed on click command is set");
+            logger.i(logTag(), "last executed on click command is set");
             onClickCommands.add(lastExecutedOnClickCommand);
         }
         bindClickListeners(onClickCommands);
@@ -91,7 +91,7 @@ public abstract class AndroidButton implements ConfigurableButton {
 
     private void bindClickListeners(List<OnClickCommand> onClickCommands) {
         button.setOnClickListener(view -> {
-            logger.v(logTag(), "clicked");
+            logger.i(logTag(), "clicked");
             onClickCommands.forEach(OnClickCommand::onClick);
         });
     }

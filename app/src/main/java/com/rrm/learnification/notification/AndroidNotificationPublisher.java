@@ -20,7 +20,7 @@ class AndroidNotificationPublisher {
 
     void publish(Notification notification) {
         int nextId = notificationIdGenerator.next();
-        logger.v(LOG_TAG, "publishing notification with id " + nextId);
+        logger.i(LOG_TAG, "publishing notification with id " + nextId);
         notificationManager.notify(nextId, notification);
     }
 }

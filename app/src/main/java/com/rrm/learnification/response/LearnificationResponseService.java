@@ -32,7 +32,7 @@ public class LearnificationResponseService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         AndroidLearnificationResponseIntent responseIntent = new AndroidLearnificationResponseIntent(new AndroidIntent(intent));
-        logger.v(LOG_TAG, "handling learnification response intent: " + responseIntent.toString());
+        logger.i(LOG_TAG, "handling learnification response intent: " + responseIntent.toString());
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
@@ -52,6 +52,6 @@ public class LearnificationResponseService extends IntentService {
         responseIntent
                 .handler(logger, learnificationScheduler, responseContentGenerator, responseNotificationCorrespondent)
                 .handle(responseIntent);
-        logger.v(LOG_TAG, "handled response");
+        logger.i(LOG_TAG, "handled response");
     }
 }

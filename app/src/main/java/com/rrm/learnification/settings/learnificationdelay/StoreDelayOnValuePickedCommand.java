@@ -15,7 +15,7 @@ public class StoreDelayOnValuePickedCommand implements OnValuePickedCommand {
 
     @Override
     public void onValuePicked(int newDelayInSeconds) {
-        logger.v(LOG_TAG, "onValuePicked called with new value " + newDelayInSeconds + " (" + (newDelayInSeconds / 60) + " minutes)");
+        logger.i(LOG_TAG, "onValuePicked called with new value " + newDelayInSeconds + " (" + (newDelayInSeconds / 60) + " minutes)");
 
         settingsRepository.writeDelay(newDelayInSeconds);
     }

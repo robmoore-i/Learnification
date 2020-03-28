@@ -33,7 +33,7 @@ public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
     private void logChangeInToolbarViewParameters(ToolbarViewParameters toolbarViewParameters) {
         if (!this.toolbarViewParameters.equals(toolbarViewParameters)) {
             this.toolbarViewParameters = toolbarViewParameters;
-            logger.v(LOG_TAG, "updating activity toolbar using learnification status '" + toolbarViewParameters.getName() + "'");
+            logger.i(LOG_TAG, "updating activity toolbar using learnification status '" + toolbarViewParameters.getName() + "'");
         }
     }
 
@@ -45,7 +45,7 @@ public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
             if (optionalSeconds.isPresent()) {
                 int seconds = optionalSeconds.get();
                 if (!"scheduled".equals(toolbarViewParameters.getName())) {
-                    logger.v(LOG_TAG, "next learnification will trigger in " + seconds + " seconds");
+                    logger.i(LOG_TAG, "next learnification will trigger in " + seconds + " seconds");
                 }
                 return new ToolbarViewParameters.LearnificationScheduled(learnificationScheduler, seconds);
             } else {

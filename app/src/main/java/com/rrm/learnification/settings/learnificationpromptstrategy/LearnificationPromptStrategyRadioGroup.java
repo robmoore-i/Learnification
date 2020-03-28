@@ -28,7 +28,7 @@ public class LearnificationPromptStrategyRadioGroup {
 
     public void setValue(LearnificationPromptStrategy learnificationPromptStrategy) {
         int radioButtonViewId = radioGroupMappings.viewIdOfOption(learnificationPromptStrategy);
-        logger.v(LOG_TAG, "checking radio button for learnification prompt strategy '" + learnificationPromptStrategy.name() + "', with view id '" + radioButtonViewId + "'");
+        logger.i(LOG_TAG, "checking radio button for learnification prompt strategy '" + learnificationPromptStrategy.name() + "', with view id '" + radioButtonViewId + "'");
         view.checkOption(radioButtonViewId);
     }
 
@@ -40,6 +40,6 @@ public class LearnificationPromptStrategyRadioGroup {
     }
 
     private void logRadioButtonClick(LearnificationPromptStrategy learnificationPromptStrategy) {
-        logger.v(LOG_TAG, "setting learnification prompt strategy to '" + learnificationPromptStrategy.name() + "'");
+        logger.i(LOG_TAG, "setting learnification prompt strategy to '" + learnificationPromptStrategy.name() + "'");
     }
 }

@@ -44,7 +44,7 @@ class LearningItemSetTitle {
         textBox.setFocusable(false);
         changeIcon.setImageResource(R.drawable.edit_pencil_icon);
         changeIcon.setOnClickListener(v -> {
-            logger.v(LOG_TAG, "learning item set title clicked to edit");
+            logger.i(LOG_TAG, "learning item set title clicked to edit");
             LearningItemSetTitle.this.startEditing();
         });
         softKeyboardView.hideSoftKeyboard();
@@ -60,7 +60,7 @@ class LearningItemSetTitle {
         textBox.requestFocus();
         changeIcon.setImageResource(R.drawable.save_icon);
         changeIcon.setOnClickListener(v -> {
-            logger.v(LOG_TAG, "learning item set title clicked to save");
+            logger.i(LOG_TAG, "learning item set title clicked to save");
             LearningItemSetTitle.this.save();
         });
         softKeyboardView.showSoftKeyboard();

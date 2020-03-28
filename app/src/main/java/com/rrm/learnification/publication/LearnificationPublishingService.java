@@ -28,14 +28,14 @@ public class LearnificationPublishingService extends JobService {
     }
 
     private boolean publishNewLearnification() {
-        logger.v(LOG_TAG, "Job started");
+        logger.i(LOG_TAG, "Job started");
         LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
 
         LearningItemSupplier learningItemSupplier = new LearningItemSqlTableClient(logger, learnificationAppDatabase);
 
         List<LearningItem> learningItems = learningItemSupplier.items();
         for (LearningItem learningItem : learningItems) {
-            logger.v(LOG_TAG, "using learning item '" + learningItem.toDisplayString() + "'");
+            logger.i(LOG_TAG, "using learning item '" + learningItem.toDisplayString() + "'");
         }
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
@@ -58,7 +58,7 @@ public class LearnificationPublishingService extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        logger.v(LOG_TAG, "Job stopped");
+        logger.i(LOG_TAG, "Job stopped");
         return false;
     }
 }

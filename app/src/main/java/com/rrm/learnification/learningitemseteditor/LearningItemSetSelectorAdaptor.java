@@ -24,7 +24,7 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
     LearningItemSetSelectorAdaptor(AndroidLogger logger, Context context, SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore, LearningItemSqlTableClient learningItemSqlTableClient, List<String> learningItemSetNames) {
         super(context, R.layout.learning_item_set_selector_entry, R.id.learning_item_set_selector_text_entry, learningItemSetNames);
         this.learningItemSetNames = learningItemSetNames;
-        logger.v(LOG_TAG, "initial learning-item-set-names are " + learningItemSetNames.toString());
+        logger.i(LOG_TAG, "initial learning-item-set-names are " + learningItemSetNames.toString());
         this.logger = logger;
         this.learningItemSqlTableClient = learningItemSqlTableClient;
         sqlLearningItemSetRecordStore.addRenameListener(this);
@@ -37,10 +37,10 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
 
     @Override
     public void onLearningItemSetNameChange(String target, String replacement) {
-        logger.v(LOG_TAG, "replacing '" + target + "' with '" + replacement + "'");
+        logger.i(LOG_TAG, "replacing '" + target + "' with '" + replacement + "'");
         this.remove(target);
         this.add(replacement);
-        logger.v(LOG_TAG, "spinner list is now " + learningItemSetNames.toString());
+        logger.i(LOG_TAG, "spinner list is now " + learningItemSetNames.toString());
         notifyDataSetChanged();
     }
 

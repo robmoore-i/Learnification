@@ -52,12 +52,12 @@ public class SettingsRepository {
     }
 
     private void writeFile(String fileName, String key, String value) {
-        logger.v(LOG_TAG, "writing '" + key + "' as '" + value + "' in file '" + fileName + "'");
+        logger.i(LOG_TAG, "writing '" + key + "' as '" + value + "' in file '" + fileName + "'");
 
         try {
             fileStorageAdaptor.overwriteLines(fileName, Collections.singletonList(key + "=" + value));
         } catch (Exception e) {
-            logger.v(LOG_TAG, "failed to write value '" + value + "' to file '" + fileName + "'");
+            logger.i(LOG_TAG, "failed to write value '" + value + "' to file '" + fileName + "'");
             logger.e(LOG_TAG, e);
         }
     }
@@ -67,11 +67,11 @@ public class SettingsRepository {
             List<String> lines = fileStorageAdaptor.readLines(fileName).stream().filter(line -> !line.isEmpty()).collect(Collectors.toList());
             return function.apply(lines.get(0).split("=")[1]);
         } catch (FileNotFoundException e) {
-            logger.v(LOG_TAG, "file '" + fileName + "' wasn't found. returning default value '" + defaultValue + "'");
+            logger.i(LOG_TAG, "file '" + fileName + "' wasn't found. returning default value '" + defaultValue + "'");
             return defaultValue;
         } catch (Exception e) {
             logger.e(LOG_TAG, e);
-            logger.v(LOG_TAG, "returning default value '" + defaultValue + "'");
+            logger.i(LOG_TAG, "returning default value '" + defaultValue + "'");
             return defaultValue;
         }
     }

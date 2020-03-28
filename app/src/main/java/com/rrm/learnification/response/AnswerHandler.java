@@ -21,13 +21,13 @@ class AnswerHandler implements LearnificationResponseHandler {
 
     @Override
     public void handle(LearnificationResponseIntent responseIntent) {
-        logger.v(LOG_TAG, "learnification response was 'answer'");
+        logger.i(LOG_TAG, "learnification response was 'answer'");
         String actual = responseIntent.actualUserResponse();
         String expected = responseIntent.expectedUserResponse();
         NotificationTextContent responseContent = responseContentGenerator.getResponseNotificationTextContent(expected, actual);
-        logger.v(LOG_TAG, "replying with response content: " + responseContent.toString());
+        logger.i(LOG_TAG, "replying with response content: " + responseContent.toString());
         responseNotificationCorrespondent.updateLatestWithReply(responseContent);
-        logger.v(LOG_TAG, "replied to learnification response of '" + actual + "' for expected value '" + expected + "'");
+        logger.i(LOG_TAG, "replied to learnification response of '" + actual + "' for expected value '" + expected + "'");
         learnificationScheduler.scheduleJob(LearnificationPublishingService.class);
     }
 }

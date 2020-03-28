@@ -46,12 +46,12 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
 
             private boolean allCandidateTextEntriesAreAlreadyPresent(Collection<String> textEntries) {
                 boolean result = textEntryList.containsTextEntries(textEntries);
-                logger.v(LOG_TAG, "all candidate text entries are " + (result ? "" : "not") + " already stored");
+                logger.i(LOG_TAG, "all candidate text entries are " + (result ? "" : "not") + " already stored");
                 return result;
             }
 
             private boolean areAllTextEntriesValidLearningItems(Collection<String> textEntries) {
-                logger.v(LOG_TAG, "checking that all text entries are valid learning items. they are '" + collectionToString(textEntries) + "'");
+                logger.i(LOG_TAG, "checking that all text entries are valid learning items. they are '" + collectionToString(textEntries) + "'");
                 return textEntries.stream().map(String::trim).allMatch(entry -> {
                     String[] split = entry.split("-");
                     if (split.length != 2) return false;
@@ -68,26 +68,26 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
     @Override
     public void onTextChange(IdentifiedTextSource identifiedTextSource) {
         texts.put(identifiedTextSource.identity(), identifiedTextSource.latestText());
-        logger.v(LOG_TAG, "text sources read '" + texts.toString() + "'");
+        logger.i(LOG_TAG, "text sources read '" + texts.toString() + "'");
         setButtonStatusBasedOnTexts();
     }
 
     @Override
     public void addTextSource(IdentifiedTextSource identifiedTextSource) {
-        logger.v(LOG_TAG, "adding text source '" + identifiedTextSource.identity() + "' with current text '" + identifiedTextSource.latestText() + "'");
+        logger.i(LOG_TAG, "adding text source '" + identifiedTextSource.identity() + "' with current text '" + identifiedTextSource.latestText() + "'");
         identifiedTextSource.addTextSink(this);
         texts.put(identifiedTextSource.identity(), identifiedTextSource.latestText());
     }
 
     @Override
     public void removeTextSource(String textSourceId) {
-        logger.v(LOG_TAG, "removing text source '" + textSourceId + "'");
+        logger.i(LOG_TAG, "removing text source '" + textSourceId + "'");
         texts.remove(textSourceId);
         setButtonStatusBasedOnTexts();
     }
 
     private void setButtonStatus(boolean shouldBeEnabled) {
-        logger.v(LOG_TAG, "setting button status to " + shouldBeEnabled);
+        logger.i(LOG_TAG, "setting button status to " + shouldBeEnabled);
         if (shouldBeEnabled) {
             configurableButton.enable();
         } else {
@@ -98,7 +98,7 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
     private void setButtonStatusBasedOnTexts() {
         boolean buttonShouldBeEnabled = true;
         boolean textsAreValid = textsValidation.apply(texts);
-        logger.v(LOG_TAG, "that the button should be enabled is deemed " + textsAreValid + " for texts '" + texts.toString() + "'");
+        logger.i(LOG_TAG, "that the button should be enabled is deemed " + textsAreValid + " for texts '" + texts.toString() + "'");
         if (!textsAreValid) {
             buttonShouldBeEnabled = false;
         }

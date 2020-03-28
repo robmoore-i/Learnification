@@ -35,7 +35,7 @@ public class AndroidNotificationFactory {
         String learningItemPrompt = learnificationText.given;
         String subHeading = learnificationText.subHeading;
         String expectedUserResponse = learnificationText.expected;
-        logger.v(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
+        logger.i(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
         return buildNotification(
                 learningItemPrompt,

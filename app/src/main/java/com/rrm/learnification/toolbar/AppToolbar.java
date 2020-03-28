@@ -14,7 +14,7 @@ public class AppToolbar {
     }
 
     public void setTitle(String title) {
-        logger.v(LOG_TAG, "setting toolbar title to '" + title + "'");
+        logger.i(LOG_TAG, "setting toolbar title to '" + title + "'");
 
         simpleToolbarView.updateToolbar(title);
     }

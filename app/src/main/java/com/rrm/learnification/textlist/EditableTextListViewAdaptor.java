@@ -29,13 +29,13 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
     }
 
     public void add(String textEntry) {
-        logger.v(LOG_TAG, "adding a text entry to the list '" + textEntry + "'");
+        logger.i(LOG_TAG, "adding a text entry to the list '" + textEntry + "'");
         textEntries.add(0, textEntry);
         this.notifyDataSetChanged();
     }
 
     void remove(int index) {
-        logger.v(LOG_TAG, "removing a text entry from the list at index " + index);
+        logger.i(LOG_TAG, "removing a text entry from the list at index " + index);
         textEntries.remove(index);
         this.notifyDataSetChanged();
     }
@@ -48,7 +48,7 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
     }
 
     public boolean containsTextEntries(Collection<String> textEntries) {
-        logger.v(LOG_TAG, "checking if the displayed items '" + this.textEntries.toString() + "' contains all the text entries '" + textEntries.toString() + "'");
+        logger.i(LOG_TAG, "checking if the displayed items '" + this.textEntries.toString() + "' contains all the text entries '" + textEntries.toString() + "'");
         return this.textEntries.containsAll(textEntries);
     }
 

@@ -27,7 +27,7 @@ class LearningItemList implements TextEntryList {
     }
 
     void bindTo(PersistentLearningItemRepository itemRepository) {
-        logger.v(LOG_TAG, "populating learning-item list");
+        logger.i(LOG_TAG, "populating learning-item list");
         LearningItemListViewAdaptor adapter = new LearningItemListViewAdaptor(logger, itemRepository.textEntries());
         recyclerView.setAdapter(adapter);
         this.adapter = adapter;
@@ -38,7 +38,7 @@ class LearningItemList implements TextEntryList {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int listViewIndex = viewHolder.getAdapterPosition();
-                logger.v(LOG_TAG, "learning-item swiped at position " + listViewIndex + " to the " + swipeDirectionToString(swipeDir));
+                logger.i(LOG_TAG, "learning-item swiped at position " + listViewIndex + " to the " + swipeDirectionToString(swipeDir));
                 onSwipeCommand.onSwipe(adapter, listViewIndex);
             }
 
@@ -61,7 +61,7 @@ class LearningItemList implements TextEntryList {
     }
 
     void addTextEntry(LearningItemText learningItemText) {
-        logger.v(LOG_TAG, "adding a text entry to the learning-item list '" + learningItemText + "'");
+        logger.i(LOG_TAG, "adding a text entry to the learning-item list '" + learningItemText + "'");
         adapter.add(learningItemText.toString());
     }
 

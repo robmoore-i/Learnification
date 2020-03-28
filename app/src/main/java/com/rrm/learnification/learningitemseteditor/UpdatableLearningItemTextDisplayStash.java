@@ -25,14 +25,14 @@ public class UpdatableLearningItemTextDisplayStash implements LearningItemDispla
 
     @Override
     public void saveText(TextSource textSource, String savedText) {
-        logger.v(LOG_TAG, "saving text '" + savedText + "' from text source with current value '" + textSource.get() + "'");
+        logger.i(LOG_TAG, "saving text '" + savedText + "' from text source with current value '" + textSource.get() + "'");
         this.textSource = textSource;
         saveLearningItem(LearningItemText.fromSingleString(savedText));
     }
 
     @Override
     public String savedText() {
-        logger.v(LOG_TAG, "returning saved text '" + savedLearningItemText + "'");
+        logger.i(LOG_TAG, "returning saved text '" + savedLearningItemText + "'");
         return savedLearningItemText.toString();
 
     }
@@ -51,7 +51,7 @@ public class UpdatableLearningItemTextDisplayStash implements LearningItemDispla
             LearningItemText target = savedLearningItemText;
             LearningItemText replacement = liveLearningItemText();
             learningItemTextConsumer.accept(target, replacement);
-            logger.v(LOG_TAG, "committed learning item from '" + target.toString() + "' to '" + replacement.toString() + "'");
+            logger.i(LOG_TAG, "committed learning item from '" + target.toString() + "' to '" + replacement.toString() + "'");
         }
     }
 
@@ -62,6 +62,6 @@ public class UpdatableLearningItemTextDisplayStash implements LearningItemDispla
     private void saveLearningItem(LearningItemText learningItemText) {
         this.savedLearningItemText = learningItemText;
         learningItemRepository.subscribeToModifications(learningItemText, this);
-        logger.v(LOG_TAG, "updated a learning item to '" + learningItemText + "'");
+        logger.i(LOG_TAG, "updated a learning item to '" + learningItemText + "'");
     }
 }

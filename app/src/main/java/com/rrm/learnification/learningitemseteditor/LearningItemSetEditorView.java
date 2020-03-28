@@ -63,10 +63,10 @@ class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorV
         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int maxHeight = displayMetrics.heightPixels;
-        logger.v(LOG_TAG, "window height is " + maxHeight);
+        logger.i(LOG_TAG, "window height is " + maxHeight);
 
         int halfTheScreenVertically = maxHeight / 2;
-        logger.v(LOG_TAG, "setting learning item list view height to " + halfTheScreenVertically);
+        logger.i(LOG_TAG, "setting learning item list view height to " + halfTheScreenVertically);
 
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
         params.height = halfTheScreenVertically;
@@ -119,9 +119,9 @@ class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorV
     @Override
     public void addLearningItemOnSubmitTextCommand(OnSubmitTextCommand onSubmitTextCommand) {
         TextView.OnEditorActionListener onEditorActionListener = (textView, actionId, event) -> {
-            logger.v(LOG_TAG, "learning item text input received an action with id '" + actionId + "'");
+            logger.i(LOG_TAG, "learning item text input received an action with id '" + actionId + "'");
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                logger.v(LOG_TAG, "learning item submitted via the virtual keyboard");
+                logger.i(LOG_TAG, "learning item submitted via the virtual keyboard");
                 onSubmitTextCommand.onSubmit();
             }
             return true;

@@ -36,7 +36,7 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public void schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass) {
-        logger.v(LOG_TAG, "scheduling job for serviceClass " + serviceClass.getName() + " in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
+        logger.i(LOG_TAG, "scheduling job for serviceClass " + serviceClass.getName() + " in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
         JobInfo.Builder builder = new JobInfo.Builder(jobIdGenerator.next(), new ComponentName(context, serviceClass))
                 .setMinimumLatency(earliestStartTimeDelayMs)
                 .setOverrideDeadline(latestStartTimeDelayMs)
@@ -47,7 +47,7 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public boolean hasPendingJob(Class<?> serviceClass, int maxDelayTimeMs) {
-        logger.v(LOG_TAG, "checking for pending job with serviceClass " + serviceClass.getName() + " occurring in the next " + maxDelayTimeMs + "ms");
+        logger.i(LOG_TAG, "checking for pending job with serviceClass " + serviceClass.getName() + " occurring in the next " + maxDelayTimeMs + "ms");
         return pendingJobs().anyMatch(job -> job.willTriggerService(serviceClass) && job.hasDelayTimeNoMoreThan(maxDelayTimeMs));
     }
 
@@ -70,13 +70,13 @@ public class AndroidJobScheduler implements JobScheduler {
     public void triggerNext(Class<?> serviceClass) {
         Optional<PendingJob> pendingJob = nextJob();
         if (pendingJob.isPresent()) {
-            logger.v(LOG_TAG, "triggering next job");
+            logger.i(LOG_TAG, "triggering next job");
             int id = pendingJob.get().id;
             systemJobScheduler.cancel(id);
             DelayRange imminentDelayRange = getImminentDelayRange();
             schedule(imminentDelayRange.earliestStartTimeDelayMs, imminentDelayRange.latestStartTimeDelayMs, serviceClass);
         } else {
-            logger.v(LOG_TAG, "didn't trigger next job because there isn't one");
+            logger.i(LOG_TAG, "didn't trigger next job because there isn't one");
         }
     }
 

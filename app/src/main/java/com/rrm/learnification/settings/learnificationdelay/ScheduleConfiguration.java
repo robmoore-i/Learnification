@@ -18,7 +18,7 @@ public class ScheduleConfiguration {
     }
 
     public DelayRange getDelayRange() {
-        logger.v(LOG_TAG, "getting learnification delay range from settings repository");
+        logger.i(LOG_TAG, "getting learnification delay range from settings repository");
 
         int delayInSeconds = settingsRepository.readDelaySeconds();
         int delayInMs = delayInSeconds * 1000;

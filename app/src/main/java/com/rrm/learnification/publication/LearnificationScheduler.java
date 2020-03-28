@@ -42,14 +42,14 @@ public class LearnificationScheduler {
         int latestStartTimeDelayMs = delayRange.latestStartTimeDelayMs;
 
         if (upcomingLearnificationScheduled(serviceClass)) {
-            logger.v(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");
+            logger.i(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");
             return;
         } else if (learnificationAvailable()) {
-            logger.v(LOG_TAG, "ignoring learnification scheduling request because responseNotificationCorrespondent reports that there is one active");
+            logger.i(LOG_TAG, "ignoring learnification scheduling request because responseNotificationCorrespondent reports that there is one active");
             return;
         }
 
-        logger.v(LOG_TAG, "scheduling learnification in the next " + earliestStartTimeDelayMs + " to " + latestStartTimeDelayMs + "ms");
+        logger.i(LOG_TAG, "scheduling learnification in the next " + earliestStartTimeDelayMs + " to " + latestStartTimeDelayMs + "ms");
         jobScheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
 
         if (!jobScheduler.isAnythingScheduledForTomorrow()) {
@@ -59,7 +59,7 @@ public class LearnificationScheduler {
 
     private void scheduleTomorrow(Class<?> serviceClass) {
         Time firstLearnificationTime = scheduleConfiguration.getFirstLearnificationTime();
-        logger.v(LOG_TAG, "scheduling learnification for tomorrow at around " + firstLearnificationTime.toString());
+        logger.i(LOG_TAG, "scheduling learnification for tomorrow at around " + firstLearnificationTime.toString());
         int earliestStartTimeDelayMs = delayCalculator.millisBetween(androidClock.now(), firstLearnificationTime);
         int latestStartTimeDelayMs = earliestStartTimeDelayMs + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS);
         jobScheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);

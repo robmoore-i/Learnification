@@ -57,7 +57,7 @@ public class SqlLearningItemSetRecordStore {
     }
 
     public void delete(LearningItemText item) {
-        logger.v(LOG_TAG, "deleting record '" + item + "'");
+        logger.i(LOG_TAG, "deleting record '" + item + "'");
         LearningItemSqlTable.delete(learnificationAppDatabase.getWritableDatabase(), item.withSet(learningItemSetName));
     }
 
@@ -66,7 +66,7 @@ public class SqlLearningItemSetRecordStore {
     }
 
     public void renameSet(String newLearningItemSetName) {
-        logger.v(LOG_TAG, "renaming learning item set from '" + learningItemSetName + "' to '" + newLearningItemSetName + "'");
+        logger.i(LOG_TAG, "renaming learning item set from '" + learningItemSetName + "' to '" + newLearningItemSetName + "'");
         LearningItemSqlTable.updateSetName(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, newLearningItemSetName);
         renameListeners.forEach(listener -> listener.onLearningItemSetNameChange(learningItemSetName, newLearningItemSetName));
         learningItemSetName = newLearningItemSetName;

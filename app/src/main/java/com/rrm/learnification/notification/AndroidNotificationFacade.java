@@ -37,7 +37,7 @@ public class AndroidNotificationFacade {
     }
 
     public void createNotificationChannel(String channelId) {
-        logger.v(LOG_TAG, "Creating notification channel");
+        logger.i(LOG_TAG, "Creating notification channel");
 
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -52,7 +52,7 @@ public class AndroidNotificationFacade {
             context.getNotificationManager().createNotificationChannel(channel);
         }
 
-        logger.v(LOG_TAG, "Created notification channel");
+        logger.i(LOG_TAG, "Created notification channel");
     }
 
     public Notification createLearnification(LearnificationText learnificationText) {

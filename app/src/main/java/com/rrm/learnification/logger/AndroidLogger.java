@@ -7,6 +7,10 @@ public class AndroidLogger {
     public AndroidLogger() {
     }
 
+    public void i(String tag, String message) {
+        Log.i(tag, message);
+    }
+
     public void v(String tag, String message) {
         Log.v(tag, message);
     }

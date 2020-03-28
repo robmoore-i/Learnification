@@ -37,7 +37,7 @@ public class LearnificationScheduleStatusUpdateTest {
         learnificationScheduleStatusUpdate.update(mockToolbarView);
         learnificationScheduleStatusUpdate.update(mockToolbarView);
 
-        verify(mockLogger, times(1)).v(anyString(), contains("'ready'"));
+        verify(mockLogger, times(1)).i(anyString(), contains("'ready'"));
     }
 
     @Test
@@ -49,8 +49,8 @@ public class LearnificationScheduleStatusUpdateTest {
         learnificationScheduleStatusUpdate.update(mockToolbarView);
         learnificationScheduleStatusUpdate.update(mockToolbarView);
 
-        verify(mockLogger, times(1)).v(anyString(), contains("'scheduled'"));
-        verify(mockLogger, times(1)).v(anyString(), contains("'not scheduled'"));
+        verify(mockLogger, times(1)).i(anyString(), contains("'scheduled'"));
+        verify(mockLogger, times(1)).i(anyString(), contains("'not scheduled'"));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class LearnificationScheduleStatusUpdateTest {
         learnificationScheduleStatusUpdate.update(mockToolbarView);
         learnificationScheduleStatusUpdate.update(mockToolbarView);
 
-        verify(mockLogger, times(1)).v(anyString(), contains("'scheduled'"));
+        verify(mockLogger, times(1)).i(anyString(), contains("'scheduled'"));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class LearnificationScheduleStatusUpdateTest {
         learnificationScheduleStatusUpdate.update(mockToolbarView);
         learnificationScheduleStatusUpdate.update(mockToolbarView);
 
-        verify(mockLogger, times(1)).v(anyString(), contains("'not scheduled'"));
+        verify(mockLogger, times(1)).i(anyString(), contains("'not scheduled'"));
     }
 
     @Test
@@ -86,6 +86,6 @@ public class LearnificationScheduleStatusUpdateTest {
         learnificationScheduleStatusUpdate.update(mockToolbarView);
         learnificationScheduleStatusUpdate.update(mockToolbarView);
 
-        verify(mockLogger, times(1)).v(anyString(), contains("next learnification will trigger in"));
+        verify(mockLogger, times(1)).i(anyString(), contains("next learnification will trigger in"));
     }
 }

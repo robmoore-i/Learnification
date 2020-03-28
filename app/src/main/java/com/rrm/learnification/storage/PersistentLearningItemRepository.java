@@ -5,7 +5,6 @@ import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
         this.itemTextUpdateBroker = itemTextUpdateBroker;
 
         for (LearningItem learningItem : learningItems) {
-            logger.v(LOG_TAG, "using learning item '" + learningItem.toDisplayString() + "'");
+            logger.i(LOG_TAG, "using learning item '" + learningItem.toDisplayString() + "'");
         }
     }
 
@@ -52,20 +51,20 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
 
     public void add(LearningItemText learningItemText) {
         LearningItem item = learningItemStore.applySet(learningItemText);
-        logger.v(LOG_TAG, "adding a learning item '" + learningItemText + "'");
+        logger.i(LOG_TAG, "adding a learning item '" + learningItemText + "'");
         learningItemStore.write(learningItemText);
         learningItems.add(item);
     }
 
     public void removeAt(int index) {
         int reversedIndex = learningItems.size() - index - 1;
-        logger.v(LOG_TAG, "removing a learning item at index " + index + " in the view, which corresponds to index " + reversedIndex + " in storage");
+        logger.i(LOG_TAG, "removing a learning item at index " + index + " in the view, which corresponds to index " + reversedIndex + " in storage");
         LearningItem learningItem = learningItems.get(reversedIndex);
         remove(learningItem);
     }
 
     private void remove(LearningItem learningItem) {
-        logger.v(LOG_TAG, "removing learning item '" + learningItem.toDisplayString() + "'");
+        logger.i(LOG_TAG, "removing learning item '" + learningItem.toDisplayString() + "'");
         learningItemStore.delete(learningItem.toDisplayString());
         learningItems.remove(learningItem);
     }
@@ -84,7 +83,7 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     }
 
     public void subscribeToModifications(LearningItemText itemText, LearningItemTextUpdateListener itemUpdateListener) {
-        logger.v(LOG_TAG, "assigning change listener to item '" + itemText + "'");
+        logger.i(LOG_TAG, "assigning change listener to item '" + itemText + "'");
         itemTextUpdateBroker.put(itemText, itemUpdateListener);
     }
 
@@ -98,11 +97,5 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
 
     public List<LearningItemText> textEntries() {
         return learningItems.stream().map(LearningItem::toDisplayString).collect(Collectors.toList());
-    }
-
-    public boolean containsTextEntries(Collection<String> textEntries) {
-        List<String> learningItems = this.learningItems.stream().map(learningItem -> learningItem.toDisplayString().toString()).collect(Collectors.toList());
-        logger.v(LOG_TAG, "checking if the stored items '" + learningItems.toString() + "' contains all the text entries '" + textEntries.toString() + "'");
-        return learningItems.containsAll(textEntries);
     }
 }

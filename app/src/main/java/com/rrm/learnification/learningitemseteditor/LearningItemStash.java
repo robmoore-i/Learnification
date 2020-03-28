@@ -20,7 +20,7 @@ public class LearningItemStash {
     }
 
     public void stash(EditText listItemView, String viewText, String textSourceId) {
-        logger.v(LOG_TAG, "focus acquired on list item with text '" + viewText + "'");
+        logger.i(LOG_TAG, "focus acquired on list item with text '" + viewText + "'");
         // Set update button to update the learning item based on viewText with the text of listItemView
         updatableLearningItemDisplayCache.saveText(new AndroidTextSource(listItemView), viewText);
         // Set the currently focused text source as the active one
@@ -28,7 +28,7 @@ public class LearningItemStash {
     }
 
     public void pop(EditText listItemView, String viewText, String textSourceId) {
-        logger.v(LOG_TAG, "focus lost on list item with text '" + viewText + "'");
+        logger.i(LOG_TAG, "focus lost on list item with text '" + viewText + "'");
         // Reload text content from storage
         listItemView.setText(updatableLearningItemDisplayCache.savedText());
         // Reset anything listening to the text of the no-longer-focused view

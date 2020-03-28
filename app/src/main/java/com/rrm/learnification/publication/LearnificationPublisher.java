@@ -27,7 +27,7 @@ class LearnificationPublisher {
 
             androidNotificationFacade.publish(notification);
         } catch (IllegalStateException e) {
-            logger.v(LOG_TAG, "didn't publish a learnification because '" + e.getMessage() + "'");
+            logger.i(LOG_TAG, "didn't publish a learnification because '" + e.getMessage() + "'");
         } catch (Exception e) {
             logger.e(LOG_TAG, e);
         }
