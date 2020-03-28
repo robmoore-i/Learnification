@@ -38,9 +38,10 @@ class LearningItemList implements TextEntryList {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int listViewIndex = viewHolder.getAdapterPosition();
+                String deletedLearningItemText = adapter.itemAtPosition(listViewIndex);
                 logger.i(LOG_TAG, "learning-item swiped at position " + listViewIndex + " to the " + swipeDirectionToString(swipeDir));
                 onSwipeCommand.onSwipe(adapter, listViewIndex);
-                logger.u(LOG_TAG, "removed learning item '" + adapter.itemAtPosition(listViewIndex) + "'");
+                logger.u(LOG_TAG, "removed learning item '" + deletedLearningItemText + "'");
             }
 
             private String swipeDirectionToString(int swipeDir) {
