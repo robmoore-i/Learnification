@@ -2,6 +2,6 @@ package com.rrm.learnification.learningitemseteditor;
 
 import android.widget.Spinner;
 
-public interface LearningItemSetSelectorView {
+interface LearningItemSetSelectorView {
     Spinner learningItemSetSelector();
 }

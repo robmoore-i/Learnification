@@ -24,10 +24,11 @@ public class LearnificationPublishingService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        return publishNewLearnification();
+        publishNewLearnification();
+        return false;
     }
 
-    private boolean publishNewLearnification() {
+    private void publishNewLearnification() {
         logger.i(LOG_TAG, "Job started");
         LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
 
@@ -52,8 +53,6 @@ public class LearnificationPublishingService extends JobService {
         );
 
         learnificationPublisher.publishLearnification();
-
-        return false;
     }
 
     @Override

@@ -11,7 +11,7 @@ public class LearningItemStash {
     private static final String LOG_TAG = "LearningItemListCache";
     private final OnTextChangeListener onTextChangeListener;
     private final UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache;
-    private AndroidLogger logger;
+    private final AndroidLogger logger;
 
     LearningItemStash(AndroidLogger logger, OnTextChangeListener onTextChangeListener, UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache) {
         this.logger = logger;

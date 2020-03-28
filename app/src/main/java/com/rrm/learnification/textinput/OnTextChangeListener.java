@@ -5,19 +5,5 @@ public interface OnTextChangeListener {
 
     void addTextSource(IdentifiedTextSource identifiedTextSource);
 
-    OnTextChangeListener doNothing = new OnTextChangeListener() {
-        @Override
-        public void onTextChange(IdentifiedTextSource identifiedTextSource) {
-        }
-
-        @Override
-        public void addTextSource(IdentifiedTextSource identifiedTextSource) {
-        }
-
-        @Override
-        public void removeTextSource(String textSourceId) {
-        }
-    };
-
     void removeTextSource(String textSourceId);
 }

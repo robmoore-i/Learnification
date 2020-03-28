@@ -21,7 +21,7 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
 
     private LearningItemStash learningItemStash;
 
-    public EditableTextListViewAdaptor(AndroidLogger logger, String LOG_TAG, List<String> textEntries, int viewHolderId) {
+    protected EditableTextListViewAdaptor(AndroidLogger logger, String LOG_TAG, List<String> textEntries, int viewHolderId) {
         this.textEntries = textEntries;
         this.logger = logger;
         this.LOG_TAG = LOG_TAG;

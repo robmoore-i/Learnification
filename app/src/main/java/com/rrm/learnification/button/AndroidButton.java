@@ -20,7 +20,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     private boolean enabled;
     private OnClickCommand lastExecutedOnClickCommand;
 
-    public AndroidButton(AndroidLogger logger, Button button, boolean enabledInitially) {
+    protected AndroidButton(AndroidLogger logger, Button button, boolean enabledInitially) {
         this.logger = logger;
         this.button = button;
         setOnFocusHandler();

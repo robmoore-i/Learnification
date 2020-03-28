@@ -67,7 +67,7 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
         logger.i(LOG_TAG, "wrote learning items '" + items.toString() + "'");
     }
 
-    public void write(LearningItem item) {
+    private void write(LearningItem item) {
         learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(item));
         logger.i(LOG_TAG, "wrote learning item " + item.toString());
     }

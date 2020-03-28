@@ -14,7 +14,7 @@ public class AndroidPendingIntentBuilder {
 
     private final Context packageContext;
     private final Intent intent;
-    private PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator;
+    private final PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator;
 
     AndroidPendingIntentBuilder(Context packageContext, String expectedUserResponse, String learningItemPrompt, LearnificationResponseType learnificationResponseType, PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator) {
         this.packageContext = packageContext;

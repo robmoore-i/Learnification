@@ -7,10 +7,10 @@ import com.rrm.learnification.publication.LearnificationScheduler;
 
 class AnswerHandler implements LearnificationResponseHandler {
     private static final String LOG_TAG = "AnswerHandler";
-    private AndroidLogger logger;
-    private LearnificationResponseContentGenerator responseContentGenerator;
-    private ResponseNotificationCorrespondent responseNotificationCorrespondent;
-    private LearnificationScheduler learnificationScheduler;
+    private final AndroidLogger logger;
+    private final LearnificationResponseContentGenerator responseContentGenerator;
+    private final ResponseNotificationCorrespondent responseNotificationCorrespondent;
+    private final LearnificationScheduler learnificationScheduler;
 
     AnswerHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
         this.logger = logger;

@@ -7,9 +7,9 @@ import com.rrm.learnification.publication.LearnificationScheduler;
 
 class ShowMeHandler implements LearnificationResponseHandler {
     private static final String LOG_TAG = "ShowMeHandler";
-    private AndroidLogger logger;
-    private ResponseNotificationCorrespondent responseNotificationCorrespondent;
-    private LearnificationScheduler learnificationScheduler;
+    private final AndroidLogger logger;
+    private final ResponseNotificationCorrespondent responseNotificationCorrespondent;
+    private final LearnificationScheduler learnificationScheduler;
 
     ShowMeHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
         this.logger = logger;

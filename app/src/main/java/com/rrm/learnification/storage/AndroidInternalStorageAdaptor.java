@@ -26,13 +26,6 @@ public class AndroidInternalStorageAdaptor implements FileStorageAdaptor {
     }
 
     @Override
-    public boolean doesFileExist(String fileName) {
-        logger.i(LOG_TAG, "checking if file exists '" + fileName + "'");
-
-        return new File(contextWrapper.getFilesDir(), fileName).exists();
-    }
-
-    @Override
     public void appendLines(String fileName, List<String> lines) throws IOException {
         logger.i(LOG_TAG, "appending lines to '" + fileName + "'");
         FileOutputStream fileOutputStream = contextWrapper.openFileOutput(fileName, Context.MODE_APPEND | Context.MODE_PRIVATE);

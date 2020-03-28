@@ -6,8 +6,8 @@ import com.rrm.learnification.publication.LearnificationScheduler;
 
 class FallthroughHandler implements LearnificationResponseHandler {
     private static final String LOG_TAG = "FallthroughHandler";
-    private AndroidLogger logger;
-    private LearnificationScheduler learnificationScheduler;
+    private final AndroidLogger logger;
+    private final LearnificationScheduler learnificationScheduler;
 
     FallthroughHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler) {
         this.logger = logger;

@@ -6,7 +6,7 @@ import com.rrm.learnification.storage.FileStorageAdaptor;
 public abstract class PersistentIdGenerator {
     private final IdGenerator idGenerator;
 
-    public PersistentIdGenerator(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor, String idType) {
+    protected PersistentIdGenerator(AndroidLogger logger, FileStorageAdaptor fileStorageAdaptor, String idType) {
         idGenerator = new InternalStorageIdGenerator(logger, fileStorageAdaptor, idType);
     }
 

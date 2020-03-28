@@ -41,6 +41,7 @@ public interface LearnificationPromptStrategy {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     class RightToLeftLearnificationPromptStrategy implements LearnificationPromptStrategy {
         private final Randomiser randomiser;
 
