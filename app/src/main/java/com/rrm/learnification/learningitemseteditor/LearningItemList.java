@@ -40,6 +40,7 @@ class LearningItemList implements TextEntryList {
                 int listViewIndex = viewHolder.getAdapterPosition();
                 logger.i(LOG_TAG, "learning-item swiped at position " + listViewIndex + " to the " + swipeDirectionToString(swipeDir));
                 onSwipeCommand.onSwipe(adapter, listViewIndex);
+                logger.u(LOG_TAG, "removed learning item '" + adapter.itemAtPosition(listViewIndex) + "'");
             }
 
             private String swipeDirectionToString(int swipeDir) {

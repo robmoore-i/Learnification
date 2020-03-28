@@ -73,12 +73,14 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
         this.learningItemStash = learningItemStash;
     }
 
+    public String itemAtPosition(int listViewIndex) {
+        return textEntries.get(listViewIndex);
+    }
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private final String textSourceId = "focused-edit-text";
-
         private final EditText listItemView;
         private final LearningItemStash learningItemStash;
 
@@ -90,6 +92,7 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
         }
 
         private void configureListItemSaver() {
+            String textSourceId = "focused-edit-text";
             listItemView.setOnFocusChangeListener((v, hasFocus) -> {
                 String viewText = ((EditText) v).getText().toString();
                 if (hasFocus) {

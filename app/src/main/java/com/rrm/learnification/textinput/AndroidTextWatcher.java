@@ -4,13 +4,18 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+import com.rrm.learnification.logger.AndroidLogger;
+
 public class AndroidTextWatcher implements IdentifiedTextSource, TextWatcher {
+    private final AndroidLogger logger;
+
     private final String identity;
 
     private String latestText = "";
     private OnTextChangeListener onTextChangeListener;
 
-    public AndroidTextWatcher(String identity, EditText editText) {
+    public AndroidTextWatcher(AndroidLogger logger, String identity, EditText editText) {
+        this.logger = logger;
         this.identity = identity;
         editText.addTextChangedListener(this);
     }
@@ -25,8 +30,13 @@ public class AndroidTextWatcher implements IdentifiedTextSource, TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
+        logger.u(logTag(), "text written");
         latestText = s.toString();
         onTextChangeListener.onTextChange(this);
+    }
+
+    private String logTag() {
+        return "AndroidTextWatcher(" + identity + ")";
     }
 
     @Override

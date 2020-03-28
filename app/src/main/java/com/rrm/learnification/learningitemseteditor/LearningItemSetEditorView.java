@@ -112,8 +112,8 @@ class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorV
 
     @Override
     public void addLearningItemOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
-        onTextChangeListener.addTextSource(new AndroidTextWatcher("left", leftEditText()));
-        onTextChangeListener.addTextSource(new AndroidTextWatcher("right", rightEditText()));
+        onTextChangeListener.addTextSource(new AndroidTextWatcher(logger, "left", leftEditText()));
+        onTextChangeListener.addTextSource(new AndroidTextWatcher(logger, "right", rightEditText()));
     }
 
     @Override

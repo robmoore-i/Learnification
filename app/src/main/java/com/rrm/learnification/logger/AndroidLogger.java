@@ -18,4 +18,8 @@ public class AndroidLogger {
     public void e(String tag, Throwable e) {
         Log.e(tag, e.getMessage(), e);
     }
+
+    public void u(String tag, String message) {
+        i(tag, "USER ACTION - " + message);
+    }
 }

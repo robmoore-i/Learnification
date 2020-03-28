@@ -24,7 +24,7 @@ public class LearningItemStash {
         // Set update button to update the learning item based on viewText with the text of listItemView
         updatableLearningItemDisplayCache.saveText(new AndroidTextSource(listItemView), viewText);
         // Set the currently focused text source as the active one
-        onTextChangeListener.addTextSource(new AndroidTextWatcher(textSourceId, listItemView));
+        onTextChangeListener.addTextSource(new AndroidTextWatcher(logger, textSourceId, listItemView));
     }
 
     public void pop(EditText listItemView, String viewText, String textSourceId) {
