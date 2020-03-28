@@ -8,8 +8,8 @@ import android.widget.EditText;
 
 import com.rrm.learnification.learningitemseteditor.LearningItemStash;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.textinput.OnTextChangeListener;
 
+import java.util.Collection;
 import java.util.List;
 
 public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<EditableTextListViewAdaptor.ViewHolder> {
@@ -19,8 +19,6 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
     private final int viewHolderId;
     private final List<String> textEntries;
 
-    private OnTextChangeListener onEntryTextChangeListener = OnTextChangeListener.doNothing;
-    private LearningItemDisplayStash listItemViewSaver = LearningItemDisplayStash.noSave;
     private LearningItemStash learningItemStash;
 
     public EditableTextListViewAdaptor(AndroidLogger logger, String LOG_TAG, List<String> textEntries, int viewHolderId) {
@@ -40,6 +38,18 @@ public abstract class EditableTextListViewAdaptor extends RecyclerView.Adapter<E
         logger.v(LOG_TAG, "removing a text entry from the list at index " + index);
         textEntries.remove(index);
         this.notifyDataSetChanged();
+    }
+
+    public void replace(String targetText, String replacementText) {
+        textEntries.replaceAll((textEntry) -> {
+            if (textEntry.equals(targetText)) return replacementText;
+            return textEntry;
+        });
+    }
+
+    public boolean containsTextEntries(Collection<String> textEntries) {
+        logger.v(LOG_TAG, "checking if the displayed items '" + this.textEntries.toString() + "' contains all the text entries '" + textEntries.toString() + "'");
+        return this.textEntries.containsAll(textEntries);
     }
 
     @Override

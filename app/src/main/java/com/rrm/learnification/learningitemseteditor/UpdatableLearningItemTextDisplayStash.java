@@ -10,7 +10,7 @@ import com.rrm.learnification.textlist.TextSource;
 import java.util.function.BiConsumer;
 
 public class UpdatableLearningItemTextDisplayStash implements LearningItemDisplayStash, LearningItemTextUpdateListener {
-    private static final String LOG_TAG = "UpdatedLearningItemSaver";
+    private static final String LOG_TAG = "UpdatableLearningItemTextDisplayStash";
 
     private final AndroidLogger logger;
     private final PersistentLearningItemRepository learningItemRepository;

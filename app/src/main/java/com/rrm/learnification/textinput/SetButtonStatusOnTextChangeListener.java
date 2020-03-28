@@ -2,7 +2,6 @@ package com.rrm.learnification.textinput;
 
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,18 +18,34 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
 
     public static final Function<HashMap<String, String>, Boolean> noneEmpty = texts -> texts.values().stream().map(String::trim).noneMatch(""::equals);
 
-    public static Function<HashMap<String, String>, Boolean> unpersistedLearningItemSingleTextEntriesAreValid(AndroidLogger logger, PersistentLearningItemRepository learningItemRepository) {
+    /**
+     * @param logger             Logger
+     * @param configurableButton ConfigurableButton
+     * @param textsValidation    This is a function which accepts a mapping from text source id to
+     *                           text. The text is the text within one of the listened-to text sources.
+     *                           So the values of the map are the text entries you'll likely want to
+     *                           check for validity.
+     */
+    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton, Function<HashMap<String, String>, Boolean> textsValidation) {
+        this.logger = logger;
+        this.configurableButton = configurableButton;
+        this.textsValidation = textsValidation;
+        // Reevaluate button status onclick
+        configurableButton.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
+    }
+
+    public static Function<HashMap<String, String>, Boolean> textsValidationForDisplayedLearningItems(AndroidLogger logger, TextEntryList textEntryList) {
         return new Function<HashMap<String, String>, Boolean>() {
             private final String LOG_TAG = SetButtonStatusOnTextChangeListener.LOG_TAG + ".unpersistedValidLearningItemSingleTextEntries";
 
             @Override
             public Boolean apply(HashMap<String, String> texts) {
                 Collection<String> textEntries = texts.values();
-                return areAllTextEntriesValidLearningItems(textEntries) && !allCandidateTextEntriesAreAlreadyStored(textEntries);
+                return areAllTextEntriesValidLearningItems(textEntries) && !allCandidateTextEntriesAreAlreadyPresent(textEntries);
             }
 
-            private boolean allCandidateTextEntriesAreAlreadyStored(Collection<String> textEntries) {
-                boolean result = learningItemRepository.containsTextEntries(textEntries);
+            private boolean allCandidateTextEntriesAreAlreadyPresent(Collection<String> textEntries) {
+                boolean result = textEntryList.containsTextEntries(textEntries);
                 logger.v(LOG_TAG, "all candidate text entries are " + (result ? "" : "not") + " already stored");
                 return result;
             }
@@ -48,21 +63,6 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
                 return asList(textEntries.toArray(new String[0])).toString();
             }
         };
-    }
-
-    /**
-     * @param logger             Logger
-     * @param configurableButton ConfigurableButton
-     * @param textsValidation    This is a function which accepts a mapping from text source id to
-     *                           text. The text is the text within one of the listened-to text sources.
-     *                           So the values of the map are the text entries you'll likely want to
-     */
-    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton, Function<HashMap<String, String>, Boolean> textsValidation) {
-        this.logger = logger;
-        this.configurableButton = configurableButton;
-        this.textsValidation = textsValidation;
-        // Reevaluate button status onclick
-        configurableButton.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
     }
 
     @Override

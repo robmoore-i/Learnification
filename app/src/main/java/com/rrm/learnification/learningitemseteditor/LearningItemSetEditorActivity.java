@@ -38,7 +38,7 @@ import com.rrm.learnification.toolbar.FastForwardScheduleButton;
 import com.rrm.learnification.toolbar.LearnificationScheduleStatusUpdate;
 
 import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.noneEmpty;
-import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.unpersistedLearningItemSingleTextEntriesAreValid;
+import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
 
 public class LearningItemSetEditorActivity extends AppCompatActivity {
     private final AndroidLogger logger = new AndroidLogger();
@@ -98,10 +98,13 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
         learningItemList.bindTo(learningItemRepository);
-        learningItemList.useStash(new LearningItemStash(logger, new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, unpersistedLearningItemSingleTextEntriesAreValid(logger, learningItemRepository)), learningItemDisplayStash));
+        learningItemList.useStash(new LearningItemStash(logger, new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton, textsValidationForDisplayedLearningItems(logger, learningItemList)), learningItemDisplayStash));
         learningItemList.setOnSwipeCommand(new RemoveLearningItemOnSwipeCommand(learningItemRepository));
 
-        updateLearningItemButton.addOnClickHandler(learningItemRepository::replace);
+        updateLearningItemButton.addOnClickHandler((targetText, replacementText) -> {
+            learningItemRepository.replace(targetText, replacementText);
+            learningItemList.replace(targetText, replacementText);
+        });
 
         // Schedule a learnification
 

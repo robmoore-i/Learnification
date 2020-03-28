@@ -114,13 +114,14 @@ public abstract class AndroidButton implements ConfigurableButton {
         });
     }
 
-    private static class ButtonColour {
-        private static final int READY_TO_BE_CLICKED = Color.parseColor("#32CD32");
-        private static final int GRAYED_OUT = Color.GRAY;
-        private static final int FINGER_DOWN = Color.GREEN;
+    public static class ButtonColour {
+        public static final int READY_TO_BE_CLICKED = Color.parseColor("#32CD32");
+        public static final int GRAYED_OUT = Color.GRAY;
+        static final int FINGER_DOWN = Color.GREEN;
 
         private static void setColour(View view, int colour) {
             view.getBackground().setColorFilter(colour, PorterDuff.Mode.MULTIPLY);
+            view.setTag(colour);
         }
     }
 }

@@ -7,12 +7,13 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
+import com.rrm.learnification.textinput.TextEntryList;
 import com.rrm.learnification.textlist.EditableTextListViewAdaptor;
 import com.rrm.learnification.textlist.OnSwipeCommand;
 
-import java.util.List;
+import java.util.Collection;
 
-class LearningItemList {
+class LearningItemList implements TextEntryList {
     private static final String LOG_TAG = "LearningItemList";
 
     private final RecyclerView recyclerView;
@@ -27,8 +28,7 @@ class LearningItemList {
 
     void bindTo(PersistentLearningItemRepository itemRepository) {
         logger.v(LOG_TAG, "populating learning-item list");
-        List<LearningItemText> learningItemsAsTextEntries = itemRepository.textEntries();
-        LearningItemListViewAdaptor adapter = new LearningItemListViewAdaptor(logger, learningItemsAsTextEntries);
+        LearningItemListViewAdaptor adapter = new LearningItemListViewAdaptor(logger, itemRepository.textEntries());
         recyclerView.setAdapter(adapter);
         this.adapter = adapter;
     }
@@ -67,5 +67,14 @@ class LearningItemList {
 
     void useStash(LearningItemStash learningItemStash) {
         adapter.useStash(learningItemStash);
+    }
+
+    void replace(LearningItemText targetText, LearningItemText replacementText) {
+        adapter.replace(targetText.toString(), replacementText.toString());
+    }
+
+    @Override
+    public boolean containsTextEntries(Collection<String> textEntries) {
+        return adapter.containsTextEntries(textEntries);
     }
 }

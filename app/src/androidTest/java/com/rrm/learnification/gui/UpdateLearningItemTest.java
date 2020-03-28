@@ -5,6 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.button.AndroidButton;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
@@ -31,6 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.rrm.learnification.support.AndroidButtonAssertion.assertButtonHasColour;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.startsWith;
 
@@ -77,11 +79,14 @@ public class UpdateLearningItemTest {
         closeSoftKeyboard();
 
         // Click the button
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
         onView(withId(R.id.update_learning_item_button)).perform(click());
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
 
         // When you change focus, check that the text stays there
         onView(ViewMatchers.withId(R.id.left_input)).perform(click());
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + updatedRight))).check(matches(isDisplayed()));
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
     }
 
     @Test

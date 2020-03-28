@@ -3,19 +3,18 @@ package com.rrm.learnification.textinput;
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.Function;
 
 import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.noneEmpty;
-import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.unpersistedLearningItemSingleTextEntriesAreValid;
+import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -75,31 +74,31 @@ public class SetButtonStatusOnTextChangeListenerTest {
         assertFalse(mockButton.active);
     }
 
-    private Function<HashMap<String, String>, Boolean> updatedLearningItemValidator() {
-        PersistentLearningItemRepository stubLearningItemRepository = mock(PersistentLearningItemRepository.class);
-        when(stubLearningItemRepository.items()).thenReturn(Collections.emptyList());
-        return unpersistedLearningItemSingleTextEntriesAreValid(dummyLogger, stubLearningItemRepository);
+    private Function<HashMap<String, String>, Boolean> updatedLearningItemValidatorWhereNewLearningItemIsntInList() {
+        TextEntryList stubTextEntryList = mock(TextEntryList.class);
+        when(stubTextEntryList.containsTextEntries(any())).thenReturn(false);
+        return textsValidationForDisplayedLearningItems(dummyLogger, stubTextEntryList);
     }
 
     @Test
     public void emptyRightValueIsInvalidSingleTextEntryLearningItem() {
         HashMap<String, String> invalid = new HashMap<>();
         invalid.put("id", "hello - ");
-        assertFalse(updatedLearningItemValidator().apply(invalid));
+        assertFalse(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
     }
 
     @Test
     public void emptyLeftValueIsInvalidSingleTextEntryLearningItem() {
         HashMap<String, String> invalid = new HashMap<>();
         invalid.put("id", "- hello");
-        assertFalse(updatedLearningItemValidator().apply(invalid));
+        assertFalse(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
     }
 
     @Test
     public void nonsenseIsInvalidSingleTextEntryLearningItem() {
         HashMap<String, String> invalid = new HashMap<>();
         invalid.put("id", "asdf");
-        assertFalse(updatedLearningItemValidator().apply(invalid));
+        assertFalse(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
     }
 
     @Test
@@ -107,7 +106,7 @@ public class SetButtonStatusOnTextChangeListenerTest {
         HashMap<String, String> invalid = new HashMap<>();
         invalid.put("id", "blah");
         invalid.put("id2", "something else");
-        assertFalse(updatedLearningItemValidator().apply(invalid));
+        assertFalse(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
     }
 
     @Test
@@ -115,14 +114,14 @@ public class SetButtonStatusOnTextChangeListenerTest {
         HashMap<String, String> invalid = new HashMap<>();
         invalid.put("id", "a - b");
         invalid.put("id2", "something else");
-        assertFalse(updatedLearningItemValidator().apply(invalid));
+        assertFalse(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
     }
 
     @Test
     public void aGoodunIsValidSingleTextEntryLearningItem() {
         HashMap<String, String> invalid = new HashMap<>();
         invalid.put("id", "a - b");
-        assertTrue(updatedLearningItemValidator().apply(invalid));
+        assertTrue(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
     }
 
     @Test
@@ -130,7 +129,7 @@ public class SetButtonStatusOnTextChangeListenerTest {
         HashMap<String, String> invalid = new HashMap<>();
         invalid.put("id", "a - b");
         invalid.put("id2", "hello - mate");
-        assertTrue(updatedLearningItemValidator().apply(invalid));
+        assertTrue(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
     }
 
     private static class MockAndroidButton implements ConfigurableButton {
