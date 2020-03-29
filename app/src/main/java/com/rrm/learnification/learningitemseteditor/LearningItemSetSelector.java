@@ -2,19 +2,20 @@ package com.rrm.learnification.learningitemseteditor;
 
 import android.widget.Spinner;
 
-import com.rrm.learnification.storage.LearningItemSetNameChangeListener;
+import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 
-class LearningItemSetSelector implements LearningItemSetNameChangeListener {
+class LearningItemSetSelector {
     private final LearningItemSetSelectorAdaptor adapter;
+    private final Spinner spinner;
 
-    LearningItemSetSelector(LearningItemSetSelectorView learningItemSetSelectorView, LearningItemSetSelectorAdaptor adapter) {
+    LearningItemSetSelector(LearningItemSetSelectorView learningItemSetSelectorView, SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore, LearningItemSetSelectorAdaptor adapter) {
         this.adapter = adapter;
-        Spinner spinner = learningItemSetSelectorView.learningItemSetSelector();
+        spinner = learningItemSetSelectorView.learningItemSetSelector();
         spinner.setAdapter(adapter);
+        sqlLearningItemSetRecordStore.addLearningItemSetRenameListener(adapter);
     }
 
-    @Override
-    public void onLearningItemSetNameChange(String target, String replacement) {
-        adapter.onLearningItemSetNameChange(target, replacement);
+    void select(String learningItemSetName) {
+        spinner.setSelection(adapter.getPosition(learningItemSetName));
     }
 }

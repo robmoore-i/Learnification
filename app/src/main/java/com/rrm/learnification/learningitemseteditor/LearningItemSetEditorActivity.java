@@ -62,9 +62,9 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
         SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore = new SqlLearningItemSetRecordStore(logger, learnificationAppDatabase, learningItemSetName);
         LearningItemSqlTableClient learningItemSqlTableClient = new LearningItemSqlTableClient(logger, learnificationAppDatabase);
-        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(learningItemSetEditorView, new LearningItemSetSelectorAdaptor(logger, this, learningItemSqlTableClient.orderedLearningItemSetNames()));
+
+        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(learningItemSetEditorView, sqlLearningItemSetRecordStore, new LearningItemSetSelectorAdaptor(logger, this, learningItemSqlTableClient.orderedLearningItemSetNames()));
         LearningItemSetTitle learningItemSetTitle = new LearningItemSetTitle(logger, sqlLearningItemSetRecordStore, learningItemSetEditorView);
-        sqlLearningItemSetRecordStore.addLearningItemSetRenameListener(learningItemSetSelector);
 
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(learningItemSetEditorView);
         AddLearningItemButton addLearningItemButton = new AddLearningItemButton(logger, learningItemSetEditorView);
@@ -94,6 +94,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
 
+        learningItemSetSelector.select(learningItemSetName);
         learningItemSetTitle.set(learningItemSetName);
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty));
