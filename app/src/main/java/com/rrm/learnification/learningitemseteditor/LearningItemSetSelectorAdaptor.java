@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter;
 import com.rrm.learnification.R;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.LearningItemSetNameChangeListener;
-import com.rrm.learnification.storage.LearningItemSqlTableClient;
-import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 
 import java.util.List;
 
@@ -18,29 +16,28 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
 
     private final AndroidLogger logger;
 
-    private final LearningItemSqlTableClient learningItemSqlTableClient;
-    private final List<String> learningItemSetNames;
+    private final List<String> learningItemSetNamesReference;
 
-    LearningItemSetSelectorAdaptor(AndroidLogger logger, Context context, SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore, LearningItemSqlTableClient learningItemSqlTableClient, List<String> learningItemSetNames) {
+    LearningItemSetSelectorAdaptor(AndroidLogger logger, Context context, List<String> learningItemSetNames) {
         super(context, R.layout.learning_item_set_selector_entry, R.id.learning_item_set_selector_text_entry, learningItemSetNames);
-        this.learningItemSetNames = learningItemSetNames;
+        this.learningItemSetNamesReference = learningItemSetNames;
         logger.i(LOG_TAG, "initial learning-item-set-names are " + learningItemSetNames.toString());
         this.logger = logger;
-        this.learningItemSqlTableClient = learningItemSqlTableClient;
-        sqlLearningItemSetRecordStore.addRenameListener(this);
     }
 
     @Override
     public int getCount() {
-        return learningItemSqlTableClient.numberOfDistinctLearningItemSets();
+        return learningItemSetNamesReference.size();
     }
 
     @Override
     public void onLearningItemSetNameChange(String target, String replacement) {
-        logger.i(LOG_TAG, "replacing '" + target + "' with '" + replacement + "'");
-        this.remove(target);
-        this.add(replacement);
-        logger.i(LOG_TAG, "spinner list is now " + learningItemSetNames.toString());
+        logger.i(LOG_TAG, "replacing '" + target + "' with '" + replacement + "' in spinner list of " + learningItemSetNamesReference.toString());
+        learningItemSetNamesReference.remove(target);
+        if (!learningItemSetNamesReference.contains(replacement)) {
+            learningItemSetNamesReference.add(replacement);
+        }
+        logger.i(LOG_TAG, "spinner list is now " + learningItemSetNamesReference.toString());
         notifyDataSetChanged();
     }
 

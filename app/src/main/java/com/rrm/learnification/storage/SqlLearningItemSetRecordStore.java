@@ -67,8 +67,8 @@ public class SqlLearningItemSetRecordStore {
 
     public void renameSet(String newLearningItemSetName) {
         logger.i(LOG_TAG, "renaming learning item set from '" + learningItemSetName + "' to '" + newLearningItemSetName + "'");
-        LearningItemSqlTable.updateSetName(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, newLearningItemSetName);
         renameListeners.forEach(listener -> listener.onLearningItemSetNameChange(learningItemSetName, newLearningItemSetName));
+        LearningItemSqlTable.updateSetName(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, newLearningItemSetName);
         learningItemSetName = newLearningItemSetName;
     }
 
@@ -76,7 +76,7 @@ public class SqlLearningItemSetRecordStore {
         return learningItemText.withSet(learningItemSetName);
     }
 
-    public void addRenameListener(LearningItemSetNameChangeListener listener) {
+    public void addLearningItemSetRenameListener(LearningItemSetNameChangeListener listener) {
         this.renameListeners.add(listener);
     }
 }

@@ -61,8 +61,10 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
         SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore = new SqlLearningItemSetRecordStore(logger, learnificationAppDatabase, learningItemSetName);
-        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(learningItemSetEditorView, new LearningItemSetSelectorAdaptor(logger, this, sqlLearningItemSetRecordStore, new LearningItemSqlTableClient(logger, learnificationAppDatabase), new LearningItemSqlTableClient(logger, learnificationAppDatabase).orderedLearningItemSetNames()));
+        LearningItemSqlTableClient learningItemSqlTableClient = new LearningItemSqlTableClient(logger, learnificationAppDatabase);
+        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(learningItemSetEditorView, new LearningItemSetSelectorAdaptor(logger, this, learningItemSqlTableClient.orderedLearningItemSetNames()));
         LearningItemSetTitle learningItemSetTitle = new LearningItemSetTitle(logger, sqlLearningItemSetRecordStore, learningItemSetEditorView);
+        sqlLearningItemSetRecordStore.addLearningItemSetRenameListener(learningItemSetSelector);
 
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(learningItemSetEditorView);
         AddLearningItemButton addLearningItemButton = new AddLearningItemButton(logger, learningItemSetEditorView);
@@ -96,7 +98,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton, noneEmpty));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));
-        addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(learningItemTextInput, learningItemRepository, learningItemList));
+        addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(logger, learningItemTextInput, learningItemRepository, learningItemList));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
         learningItemList.bindTo(learningItemRepository);

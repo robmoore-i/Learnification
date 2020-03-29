@@ -30,7 +30,6 @@ public class AndroidTextWatcher implements IdentifiedTextSource, TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        logger.u(logTag(), "text written");
         latestText = s.toString();
         onTextChangeListener.onTextChange(this);
     }

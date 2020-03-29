@@ -4,18 +4,13 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.support.DatabaseTestWrapper;
-import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Collections;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -35,15 +30,14 @@ public class LearningItemSetSelectorTest {
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private DatabaseTestWrapper databaseTestWrapper;
+    private String updatedLearningItemSetName;
 
     @Before
     public void beforeEach() {
         LearningItemSetEditorActivity activity = activityTestRule.getActivity();
         databaseTestWrapper = new DatabaseTestWrapper(activity);
         databaseTestWrapper.beforeEach();
-        AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activity);
-        LearningItemSqlTableClient learningItemSqlTableClient = androidTestObjectFactory.getLearningItemSqlTableClient();
-        learningItemSqlTableClient.writeAll(Collections.singletonList(new LearningItem("a", "b", "default")));
+        updatedLearningItemSetName = "Thai";
     }
 
     @After
@@ -52,9 +46,33 @@ public class LearningItemSetSelectorTest {
     }
 
     @Test
-    public void whenTheCurrentLearningItemIsRenamedTheSelectorShowsTheUpdatedName() {
-        String updatedLearningItemSetName = "Thai";
+    public void whenTheCurrentLearningItemIsRenamedFromDefaultValueTheSelectorShowsTheUpdatedName() {
+        String oldLearningItemSetName = "default";
+        // Set up old name
+        onView(ViewMatchers.withId(R.id.learning_item_set_name_change_icon)).perform(click());
+        onView(withId(R.id.learning_item_set_name_textbox)).perform(clearText(), typeText(oldLearningItemSetName));
+        onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
 
+        // Update to new name
+        onView(ViewMatchers.withId(R.id.learning_item_set_name_change_icon)).perform(click());
+        onView(withId(R.id.learning_item_set_name_textbox)).perform(clearText(), typeText(updatedLearningItemSetName));
+        onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
+
+        int spinnerId = R.id.learning_item_set_selector;
+        onView(withId(spinnerId)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is(updatedLearningItemSetName))).perform(click());
+        onView(withId(spinnerId)).check(matches(withSpinnerText(containsString(updatedLearningItemSetName))));
+    }
+
+    @Test
+    public void whenTheCurrentLearningItemIsRenamedFromNonDefaultValueTheSelectorShowsTheUpdatedName() {
+        String oldLearningItemSetName = "Chinese";
+        // Set up old name
+        onView(ViewMatchers.withId(R.id.learning_item_set_name_change_icon)).perform(click());
+        onView(withId(R.id.learning_item_set_name_textbox)).perform(clearText(), typeText(oldLearningItemSetName));
+        onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
+
+        // Update to new name
         onView(ViewMatchers.withId(R.id.learning_item_set_name_change_icon)).perform(click());
         onView(withId(R.id.learning_item_set_name_textbox)).perform(clearText(), typeText(updatedLearningItemSetName));
         onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());

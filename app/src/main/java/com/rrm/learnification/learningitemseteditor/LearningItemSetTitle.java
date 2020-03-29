@@ -60,14 +60,16 @@ class LearningItemSetTitle {
         textBox.requestFocus();
         changeIcon.setImageResource(R.drawable.save_icon);
         changeIcon.setOnClickListener(v -> {
+            String updatedLearningItemSetTitle = textBox.getText().toString();
+            logger.u(LOG_TAG, "renamed learning item set to '" + updatedLearningItemSetTitle + "'");
             logger.i(LOG_TAG, "learning item set title clicked to save");
-            LearningItemSetTitle.this.save();
+            LearningItemSetTitle.this.save(updatedLearningItemSetTitle);
         });
         softKeyboardView.showSoftKeyboard();
     }
 
-    private void save() {
+    private void save(String updatedLearningItemSetTitle) {
         disableEditing();
-        recordStore.renameSet(textBox.getText().toString());
+        recordStore.renameSet(updatedLearningItemSetTitle);
     }
 }

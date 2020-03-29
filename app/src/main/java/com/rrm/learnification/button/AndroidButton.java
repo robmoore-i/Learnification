@@ -91,7 +91,7 @@ public abstract class AndroidButton implements ConfigurableButton {
 
     private void bindClickListeners(List<OnClickCommand> onClickCommands) {
         button.setOnClickListener(view -> {
-            logger.u(logTag(), "button clicked");
+            logger.i(logTag(), "clicked");
             onClickCommands.forEach(OnClickCommand::onClick);
         });
     }

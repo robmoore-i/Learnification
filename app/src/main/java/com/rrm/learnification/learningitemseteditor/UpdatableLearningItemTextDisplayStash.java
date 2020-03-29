@@ -51,7 +51,7 @@ public class UpdatableLearningItemTextDisplayStash implements LearningItemDispla
             LearningItemText target = savedLearningItemText;
             LearningItemText replacement = liveLearningItemText();
             learningItemTextConsumer.accept(target, replacement);
-            logger.i(LOG_TAG, "committed learning item from '" + target.toString() + "' to '" + replacement.toString() + "'");
+            logger.u(LOG_TAG, "updated learning item from '" + target.toString() + "' to '" + replacement.toString() + "'");
         }
     }
 
