@@ -7,5 +7,7 @@
     <TextView
         android:id="@+id/learning_item_set_selector_text_entry"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:textSize="20sp" />
 </LinearLayout>
