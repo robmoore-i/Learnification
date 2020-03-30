@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.FileStorageAdaptor;
+import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +19,8 @@ public class ResetSettingsToDefaultsTest {
 
     @Test
     public void resetSettings() {
-        FileStorageAdaptor fileStorageAdaptor = activityTestRule.getActivity().androidTestObjectFactory().getFileStorageAdaptor();
+        AndroidTestObjectFactory androidTestObjectFactory = activityTestRule.getActivity().androidTestObjectFactory();
+        FileStorageAdaptor fileStorageAdaptor = androidTestObjectFactory.getFileStorageAdaptor();
         fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_DELAY_FILE_NAME);
         fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME);
     }

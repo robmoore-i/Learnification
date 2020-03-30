@@ -20,9 +20,11 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
 
     LearningItemSetSelectorAdaptor(AndroidLogger logger, Context context, List<String> learningItemSetNames) {
         super(context, R.layout.learning_item_set_selector_entry, R.id.learning_item_set_selector_text_entry, learningItemSetNames);
-        this.learningItemSetNamesReference = learningItemSetNames;
-        logger.i(LOG_TAG, "initial learning-item-set-names are " + learningItemSetNames.toString());
         this.logger = logger;
+        this.learningItemSetNamesReference = learningItemSetNames;
+        appendAddNewSetButton();
+
+        logger.i(LOG_TAG, "initial learning-item-set-names are " + learningItemSetNames.toString());
     }
 
     @Override
@@ -37,6 +39,7 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
         if (!learningItemSetNamesReference.contains(replacement)) {
             learningItemSetNamesReference.add(replacement);
         }
+        appendAddNewSetButton();
         logger.i(LOG_TAG, "spinner list is now " + learningItemSetNamesReference.toString());
         notifyDataSetChanged();
     }
@@ -45,5 +48,11 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
     public View getView(int position, View convertView, ViewGroup parent) {
         logger.v(LOG_TAG, "getting view at position " + position + " when count is " + getCount());
         return super.getView(position, convertView, parent);
+    }
+
+    private void appendAddNewSetButton() {
+        String addNewLearningItemSetOption = "Add new group";
+        learningItemSetNamesReference.remove(addNewLearningItemSetOption);
+        learningItemSetNamesReference.add(addNewLearningItemSetOption);
     }
 }

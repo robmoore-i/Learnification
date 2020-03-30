@@ -21,7 +21,8 @@
         <Spinner
             android:id="@+id/learning_item_set_selector"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog" />
 
         <ImageView
             android:id="@+id/learning_item_set_name_change_icon"
