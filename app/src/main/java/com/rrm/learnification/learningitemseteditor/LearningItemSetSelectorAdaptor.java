@@ -7,12 +7,13 @@ import android.widget.ArrayAdapter;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.LearningItemSetNameChangeListener;
 
 import java.util.List;
 
-public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> implements LearningItemSetNameChangeListener {
+public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> {
     private static final String LOG_TAG = "LearningItemSetSelectorAdaptor";
+
+    final String addNewSetOptionText = "Add new group";
 
     private final AndroidLogger logger;
 
@@ -22,8 +23,7 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
         super(context, R.layout.learning_item_set_selector_entry, R.id.learning_item_set_selector_text_entry, learningItemSetNames);
         this.logger = logger;
         this.learningItemSetNamesReference = learningItemSetNames;
-        appendAddNewSetButton();
-
+        appendAddNewSetOptionToSpinnerList(learningItemSetNamesReference);
         logger.i(LOG_TAG, "initial learning-item-set-names are " + learningItemSetNames.toString());
     }
 
@@ -33,26 +33,31 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> impleme
     }
 
     @Override
-    public void onLearningItemSetNameChange(String target, String replacement) {
-        logger.i(LOG_TAG, "replacing '" + target + "' with '" + replacement + "' in spinner list of " + learningItemSetNamesReference.toString());
-        learningItemSetNamesReference.remove(target);
-        if (!learningItemSetNamesReference.contains(replacement)) {
-            learningItemSetNamesReference.add(replacement);
-        }
-        appendAddNewSetButton();
-        logger.i(LOG_TAG, "spinner list is now " + learningItemSetNamesReference.toString());
-        notifyDataSetChanged();
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         logger.v(LOG_TAG, "getting view at position " + position + " when count is " + getCount());
         return super.getView(position, convertView, parent);
     }
 
-    private void appendAddNewSetButton() {
-        String addNewLearningItemSetOption = "Add new group";
-        learningItemSetNamesReference.remove(addNewLearningItemSetOption);
-        learningItemSetNamesReference.add(addNewLearningItemSetOption);
+    void renameLearningItemSet(String target, String replacement) {
+        logger.i(LOG_TAG, "replacing '" + target + "' with '" + replacement + "' in spinner list of " + learningItemSetNamesReference.toString());
+        learningItemSetNamesReference.remove(target);
+        if (!learningItemSetNamesReference.contains(replacement)) {
+            learningItemSetNamesReference.add(replacement);
+        }
+        appendAddNewSetOptionToSpinnerList(learningItemSetNamesReference);
+        logger.i(LOG_TAG, "spinner list is now " + learningItemSetNamesReference.toString());
+        notifyDataSetChanged();
+    }
+
+    private void appendAddNewSetOptionToSpinnerList(List<String> spinnerOptions) {
+        String optionText = "Add new group";
+        spinnerOptions.remove(optionText);
+        spinnerOptions.add(optionText);
+    }
+
+    String createNewLearningItemSet() {
+        String randomNewLearningItemSetName = "new set 1";
+        learningItemSetNamesReference.add(randomNewLearningItemSetName);
+        return randomNewLearningItemSetName;
     }
 }

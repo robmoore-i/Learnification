@@ -58,6 +58,7 @@ class LearningItemSetTitle {
         textBox.setEnabled(true);
         textBox.setFocusableInTouchMode(true);
         textBox.requestFocus();
+        textBox.selectAll();
         changeIcon.setImageResource(R.drawable.save_icon);
         changeIcon.setOnClickListener(v -> {
             String updatedLearningItemSetTitle = textBox.getText().toString();
@@ -71,5 +72,11 @@ class LearningItemSetTitle {
     private void save(String updatedLearningItemSetTitle) {
         disableEditing();
         recordStore.renameSet(updatedLearningItemSetTitle);
+    }
+
+    void setNewTitle(String newLearningItemSetName) {
+        set(newLearningItemSetName);
+        recordStore.newSet(newLearningItemSetName);
+        startEditing();
     }
 }

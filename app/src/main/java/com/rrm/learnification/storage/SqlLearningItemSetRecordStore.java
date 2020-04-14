@@ -79,4 +79,8 @@ public class SqlLearningItemSetRecordStore {
     public void addLearningItemSetRenameListener(LearningItemSetNameChangeListener listener) {
         this.renameListeners.add(listener);
     }
+
+    public void newSet(String newLearningItemSetName) {
+        learningItemSetName = newLearningItemSetName;
+    }
 }
