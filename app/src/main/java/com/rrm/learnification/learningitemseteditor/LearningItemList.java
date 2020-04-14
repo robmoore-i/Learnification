@@ -4,33 +4,29 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.textinput.TextEntryList;
-import com.rrm.learnification.textlist.EditableTextListViewAdaptor;
 import com.rrm.learnification.textlist.OnSwipeCommand;
 
 import java.util.Collection;
+import java.util.List;
 
-class LearningItemList implements TextEntryList {
+class LearningItemList implements TextEntryList, LearningItemSetChangeListener {
     private static final String LOG_TAG = "LearningItemList";
 
     private final RecyclerView recyclerView;
     private final AndroidLogger logger;
 
-    private EditableTextListViewAdaptor adapter;
+    private LearningItemListViewAdaptor adapter;
 
-    LearningItemList(AndroidLogger logger, LearningItemListView view) {
+    LearningItemList(AndroidLogger logger, LearningItemListView view, LearningItemListViewAdaptor adapter, LearningItemSetSelector learningItemSetSelector) {
         this.logger = logger;
-        recyclerView = view.learningItemsList();
-    }
-
-    void bindTo(PersistentLearningItemRepository itemRepository) {
-        logger.i(LOG_TAG, "populating learning-item list");
-        LearningItemListViewAdaptor adapter = new LearningItemListViewAdaptor(logger, itemRepository.textEntries());
-        recyclerView.setAdapter(adapter);
         this.adapter = adapter;
+        recyclerView = view.learningItemsList();
+        recyclerView.setAdapter(adapter);
+        learningItemSetSelector.registerForSetChanges(this);
     }
 
     void setOnSwipeCommand(OnSwipeCommand onSwipeCommand) {
@@ -67,10 +63,6 @@ class LearningItemList implements TextEntryList {
         adapter.add(learningItemText.toString());
     }
 
-    void useStash(LearningItemStash learningItemStash) {
-        adapter.useStash(learningItemStash);
-    }
-
     void replace(LearningItemText targetText, LearningItemText replacementText) {
         adapter.replace(targetText.toString(), replacementText.toString());
     }
@@ -78,5 +70,10 @@ class LearningItemList implements TextEntryList {
     @Override
     public boolean containsTextEntries(Collection<String> textEntries) {
         return adapter.containsTextEntries(textEntries);
+    }
+
+    @Override
+    public void refresh(List<LearningItem> newLearningItems) {
+        adapter.refresh(newLearningItems);
     }
 }

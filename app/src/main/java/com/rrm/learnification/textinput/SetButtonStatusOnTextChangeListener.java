@@ -11,27 +11,30 @@ import static java.util.Arrays.asList;
 
 public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
     private static final String LOG_TAG = "SetButtonStatusOnTextChangeListener";
+
+    // By default, a text entry list is valid as long as none of the constituent entries are empty.
+    private Function<HashMap<String, String>, Boolean> textsValidation = entries -> entries.values().stream().map(String::trim).noneMatch(""::equals);
+
     private final ConfigurableButton configurableButton;
     private final AndroidLogger logger;
-    private final Function<HashMap<String, String>, Boolean> textsValidation;
     private final HashMap<String, String> texts = new HashMap<>();
 
-    public static final Function<HashMap<String, String>, Boolean> noneEmpty = texts -> texts.values().stream().map(String::trim).noneMatch(""::equals);
 
-    /**
-     * @param logger             Logger
-     * @param configurableButton ConfigurableButton
-     * @param textsValidation    This is a function which accepts a mapping from text source id to
-     *                           text. The text is the text within one of the listened-to text sources.
-     *                           So the values of the map are the text entries you'll likely want to
-     *                           check for validity.
-     */
-    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton, Function<HashMap<String, String>, Boolean> textsValidation) {
+    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton) {
         this.logger = logger;
         this.configurableButton = configurableButton;
-        this.textsValidation = textsValidation;
         // Reevaluate button status onclick
         configurableButton.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
+    }
+
+    /**
+     * @param textsValidation This is a function which accepts a mapping from text source id to
+     *                        text. The text is the text within one of the listened-to text sources.
+     *                        So the values of the map are the text entries you'll likely want to
+     *                        check for validity.
+     */
+    public void useTextValidation(Function<HashMap<String, String>, Boolean> textsValidation) {
+        this.textsValidation = textsValidation;
     }
 
     public static Function<HashMap<String, String>, Boolean> textsValidationForDisplayedLearningItems(AndroidLogger logger, TextEntryList textEntryList) {

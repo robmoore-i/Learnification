@@ -10,7 +10,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.function.Function;
 
-import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.noneEmpty;
 import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +28,7 @@ public class SetButtonStatusOnTextChangeListenerTest {
     @Before
     public void beforeEach() {
         mockButton = new MockAndroidButton();
-        setButtonStatusOnTextChangeListener = new SetButtonStatusOnTextChangeListener(dummyLogger, mockButton, noneEmpty);
+        setButtonStatusOnTextChangeListener = new SetButtonStatusOnTextChangeListener(dummyLogger, mockButton);
     }
 
     @Test

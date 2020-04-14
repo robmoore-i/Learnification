@@ -80,7 +80,7 @@ public class SqlLearningItemSetRecordStore {
         this.renameListeners.add(listener);
     }
 
-    public void newSet(String newLearningItemSetName) {
+    public void useSet(String newLearningItemSetName) {
         learningItemSetName = newLearningItemSetName;
     }
 }

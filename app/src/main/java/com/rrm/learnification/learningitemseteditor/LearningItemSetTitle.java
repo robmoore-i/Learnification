@@ -76,7 +76,6 @@ class LearningItemSetTitle {
 
     void setNewTitle(String newLearningItemSetName) {
         set(newLearningItemSetName);
-        recordStore.newSet(newLearningItemSetName);
         startEditing();
     }
 }

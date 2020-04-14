@@ -1,7 +1,9 @@
 package com.rrm.learnification.gui;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
@@ -22,6 +24,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 public class AddLearningItemSetTest {
@@ -68,5 +72,19 @@ public class AddLearningItemSetTest {
         onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
 
         onView(withId(R.id.learning_item_set_selector)).check(matches(withSpinnerText("Thai")));
+    }
+
+    @Test
+    public void newLearningItemSetHasNoLearningItems() {
+        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText("left"));
+        onView(withId(R.id.right_input)).perform(typeText("right"));
+        onView(withId(R.id.add_learning_item_button)).perform(click());
+        onView(withId(R.id.learning_item_set_selector)).perform(click());
+        onView(withText("Add new group")).perform(click());
+
+        assertThat(activityTestRule.getActivity()
+                        .<RecyclerView>findViewById(R.id.learning_item_list)
+                        .getChildCount(),
+                equalTo(0));
     }
 }

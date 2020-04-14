@@ -13,36 +13,44 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
 
     private final AndroidLogger logger;
 
-    private final LearningItemSetSelectorAdaptor adapter;
     private final Spinner spinner;
+    private final LearningItemSetSelectorAdaptor adapter;
     private final LearningItemSetTitle learningItemSetTitle;
+    private final SqlLearningItemSetRecordStore recordStore;
 
-    LearningItemSetSelector(AndroidLogger logger, LearningItemSetSelectorView learningItemSetSelectorView, SqlLearningItemSetRecordStore sqlLearningItemSetRecordStore, LearningItemSetSelectorAdaptor adapter, LearningItemSetTitle learningItemSetTitle) {
+    private LearningItemSetChangeListener setChangeListener;
+
+    LearningItemSetSelector(AndroidLogger logger, LearningItemSetSelectorView learningItemSetSelectorView, LearningItemSetSelectorAdaptor adapter, LearningItemSetTitle learningItemSetTitle, SqlLearningItemSetRecordStore recordStore) {
         this.logger = logger;
         this.adapter = adapter;
         this.spinner = learningItemSetSelectorView.learningItemSetSelector();
         this.learningItemSetTitle = learningItemSetTitle;
+        this.recordStore = recordStore;
 
-        spinner.setAdapter(adapter);
         configureSpinner(spinner);
-        sqlLearningItemSetRecordStore.addLearningItemSetRenameListener(this);
+        recordStore.addLearningItemSetRenameListener(this);
     }
 
     void select(String learningItemSetName) {
         spinner.setSelection(adapter.getPosition(learningItemSetName));
+        recordStore.useSet(learningItemSetName);
+        setChangeListener.refresh(recordStore.readAll());
     }
 
     private void configureSpinner(Spinner spinner) {
+        spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedOptionText = adapter.getItem(position);
                 if (adapter.addNewSetOptionText.equals(selectedOptionText)) {
                     logger.u(LOG_TAG, "created new learning item set");
-                    createNewLearningItemSet();
+                    String newLearningItemSetName = adapter.createNewLearningItemSet();
+                    learningItemSetTitle.setNewTitle(newLearningItemSetName);
+                    select(newLearningItemSetName);
                 } else {
                     logger.u(LOG_TAG, "selected learning item set '" + selectedOptionText + "'");
-                    spinner.setSelection(position);
+                    select(selectedOptionText);
                 }
             }
 
@@ -53,15 +61,13 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
         });
     }
 
-    private void createNewLearningItemSet() {
-        String newLearningItemSet = adapter.createNewLearningItemSet();
-        select(newLearningItemSet);
-        learningItemSetTitle.setNewTitle(newLearningItemSet);
-    }
-
     @Override
     public void onLearningItemSetNameChange(String target, String replacement) {
         adapter.renameLearningItemSet(target, replacement);
         select(replacement);
+    }
+
+    void registerForSetChanges(LearningItemSetChangeListener setChangeListener) {
+        this.setChangeListener = setChangeListener;
     }
 }

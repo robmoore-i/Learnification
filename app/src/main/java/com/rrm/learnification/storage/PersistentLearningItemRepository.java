@@ -14,8 +14,9 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     private static final String LOG_TAG = "PersistentLearningItemRepository";
 
     private final AndroidLogger logger;
-    private final SqlLearningItemSetRecordStore learningItemStore;
     private final List<LearningItem> learningItems;
+
+    private SqlLearningItemSetRecordStore learningItemStore;
 
     private final LearningItemTextUpdateBroker itemTextUpdateBroker;
 
@@ -97,5 +98,10 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
 
     public List<LearningItemText> textEntries() {
         return learningItems.stream().map(LearningItem::toDisplayString).collect(Collectors.toList());
+    }
+
+    public void refresh(List<LearningItem> newLearningItems) {
+        learningItems.clear();
+        learningItems.addAll(newLearningItems);
     }
 }
