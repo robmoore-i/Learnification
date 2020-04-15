@@ -64,7 +64,7 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
     @Override
     public void onLearningItemSetNameChange(String target, String replacement) {
         adapter.renameLearningItemSet(target, replacement);
-        select(replacement);
+        spinner.setSelection(adapter.getPosition(replacement));
     }
 
     void registerForSetChanges(LearningItemSetChangeListener setChangeListener) {
