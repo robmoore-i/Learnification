@@ -32,7 +32,6 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
     }
 
     void select(String learningItemSetName) {
-        spinner.setSelection(adapter.getPosition(learningItemSetName));
         recordStore.useSet(learningItemSetName);
         setChangeListener.refresh(recordStore.readAll());
     }
@@ -50,6 +49,7 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
                     select(newLearningItemSetName);
                 } else {
                     logger.u(LOG_TAG, "selected learning item set '" + selectedOptionText + "'");
+                    learningItemSetTitle.set(selectedOptionText);
                     select(selectedOptionText);
                 }
             }

@@ -30,21 +30,24 @@ class LearningItemSetTitle {
         disableEditing();
     }
 
-    public void set(String learningItemSetName) {
+    void set(String learningItemSetName) {
+        logger.i(LOG_TAG, "setting title to '" + learningItemSetName + "'");
+        disableEditing();
         textBox.setText(learningItemSetName);
     }
 
-    private void setTextBoxStyle() {
-        textBox.setTextColor(Color.BLACK);
-        textBox.setTypeface(Typeface.DEFAULT_BOLD);
-        textBox.setBackgroundResource(android.R.color.transparent);
+    void setNewTitle(String newLearningItemSetName) {
+        logger.i(LOG_TAG, "adding new title '" + newLearningItemSetName + "'");
+        textBox.setText(newLearningItemSetName);
+        startEditing();
     }
 
     private void disableEditing() {
         textBox.setFocusable(false);
         changeIcon.setImageResource(R.drawable.edit_pencil_icon);
+        changeIcon.setTag("disabled");
         changeIcon.setOnClickListener(v -> {
-            logger.i(LOG_TAG, "learning item set title clicked to edit");
+            logger.u(LOG_TAG, "learning item set title clicked to edit");
             LearningItemSetTitle.this.startEditing();
         });
         softKeyboardView.hideSoftKeyboard();
@@ -60,6 +63,7 @@ class LearningItemSetTitle {
         textBox.requestFocus();
         textBox.selectAll();
         changeIcon.setImageResource(R.drawable.save_icon);
+        changeIcon.setTag("enabled");
         changeIcon.setOnClickListener(v -> {
             String updatedLearningItemSetTitle = textBox.getText().toString();
             logger.u(LOG_TAG, "renamed learning item set to '" + updatedLearningItemSetTitle + "'");
@@ -70,12 +74,14 @@ class LearningItemSetTitle {
     }
 
     private void save(String updatedLearningItemSetTitle) {
+        logger.i(LOG_TAG, "saving title to be '" + updatedLearningItemSetTitle + "'");
         disableEditing();
         recordStore.renameSet(updatedLearningItemSetTitle);
     }
 
-    void setNewTitle(String newLearningItemSetName) {
-        set(newLearningItemSetName);
-        startEditing();
+    private void setTextBoxStyle() {
+        textBox.setTextColor(Color.BLACK);
+        textBox.setTypeface(Typeface.DEFAULT_BOLD);
+        textBox.setBackgroundResource(android.R.color.transparent);
     }
 }
