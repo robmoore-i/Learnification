@@ -3,21 +3,14 @@ package com.rrm.learnification.learningitemseteditor;
 import com.rrm.learnification.textinput.OnSubmitTextCommand;
 import com.rrm.learnification.textinput.OnTextChangeListener;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class LearningItemTextInputTest {
-    private final AddLearningItemView mockView = mock(AddLearningItemView.class);
-
-    @Before
-    public void beforeEach() {
-        reset(mockView);
-    }
+    private final AddLearningItemTextInputView mockView = mock(AddLearningItemTextInputView.class);
 
     @Test
     public void itDelegatesToTheUnderlyingViewWhenSettingOnTextChangeListener() {

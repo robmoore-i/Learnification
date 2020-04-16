@@ -31,15 +31,6 @@ public class LearningItemSqlTableClient implements LearningItemSupplier {
         return learningItems;
     }
 
-    @Override
-    public List<LearningItem> itemsOrThrowIfEmpty() {
-        List<LearningItem> learningItems = items();
-        if (learningItems.isEmpty()) {
-            throw new IllegalStateException("there are no learning items");
-        }
-        return learningItems;
-    }
-
     public void clearEverything() {
         logger.i(LOG_TAG, "clearing everything");
         LearningItemSqlTable.deleteAll(learnificationAppDatabase.getWritableDatabase());

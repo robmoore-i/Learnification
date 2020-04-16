@@ -6,9 +6,9 @@ import com.rrm.learnification.textinput.OnTextChangeListener;
 import com.rrm.learnification.textinput.TextInput;
 
 class LearningItemTextInput implements TextInput {
-    private final AddLearningItemView addLearningItemView;
+    private final AddLearningItemTextInputView addLearningItemView;
 
-    LearningItemTextInput(AddLearningItemView addLearningItemView) {
+    LearningItemTextInput(AddLearningItemTextInputView addLearningItemView) {
         this.addLearningItemView = addLearningItemView;
     }
 

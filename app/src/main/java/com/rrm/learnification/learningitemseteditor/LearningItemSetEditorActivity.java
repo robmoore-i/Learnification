@@ -94,7 +94,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         // Set them up where necessary, again in the order in which they have relevance in the view
 
-        learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
+        learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, LearnificationPublishingService.class, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
 
         learningItemSetSelector.select(learningItemSetName);
         learningItemSetTitle.set(learningItemSetName);

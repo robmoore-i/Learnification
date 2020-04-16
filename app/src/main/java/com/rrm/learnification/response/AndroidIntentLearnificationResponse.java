@@ -1,9 +1,6 @@
 package com.rrm.learnification.response;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-
-import com.rrm.learnification.intent.AndroidIntent;
+import com.rrm.learnification.intent.ResponseIntent;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
 import com.rrm.learnification.publication.LearnificationScheduler;
@@ -15,19 +12,17 @@ import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.RE
 import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
 import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
 
-class AndroidLearnificationResponseIntent implements LearnificationResponseIntent {
-    private final AndroidIntent intent;
-    private final Bundle remoteInputBundle;
+class AndroidIntentLearnificationResponse implements LearnificationResponse {
+    private final ResponseIntent intent;
 
-    AndroidLearnificationResponseIntent(AndroidIntent intent) {
+    AndroidIntentLearnificationResponse(ResponseIntent intent) {
         this.intent = intent;
-        this.remoteInputBundle = intent.getRemoteInputBundle();
     }
 
     @Override
     public String actualUserResponse() {
         if (!hasRemoteInput()) return null;
-        CharSequence replyText = remoteInputBundle.getCharSequence(REPLY_TEXT);
+        CharSequence replyText = intent.getRemoteInputText(REPLY_TEXT);
         if (replyText == null) return null;
         return replyText.toString();
     }
@@ -55,7 +50,6 @@ class AndroidLearnificationResponseIntent implements LearnificationResponseInten
         }
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "AndroidLearnificationResponseIntent{" +
@@ -79,6 +73,6 @@ class AndroidLearnificationResponseIntent implements LearnificationResponseInten
     }
 
     private boolean hasRemoteInput() {
-        return remoteInputBundle != null;
+        return intent.hasRemoteInput();
     }
 }

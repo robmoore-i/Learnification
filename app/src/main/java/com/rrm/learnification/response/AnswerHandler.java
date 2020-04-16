@@ -20,10 +20,10 @@ class AnswerHandler implements LearnificationResponseHandler {
     }
 
     @Override
-    public void handle(LearnificationResponseIntent responseIntent) {
+    public void handle(LearnificationResponse learnificationResponse) {
         logger.i(LOG_TAG, "learnification response was 'answer'");
-        String actual = responseIntent.actualUserResponse();
-        String expected = responseIntent.expectedUserResponse();
+        String actual = learnificationResponse.actualUserResponse();
+        String expected = learnificationResponse.expectedUserResponse();
         NotificationTextContent responseContent = responseContentGenerator.getResponseNotificationTextContent(expected, actual);
         logger.i(LOG_TAG, "replying with response content: " + responseContent.toString());
         responseNotificationCorrespondent.updateLatestWithReply(responseContent);

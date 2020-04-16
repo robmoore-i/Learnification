@@ -82,7 +82,7 @@ public class SqlLearningItemSetRecordStoreTest {
 
     @Test
     public void itReadsOnlyFromTheAssociatedSet() {
-        assertThat(asianLearningItemRecordStore.readAll(), allOf(hasItems(asianLearningItems), not(hasItems(europeanLearningItems))));
+        assertThat(asianLearningItemRecordStore.items(), allOf(hasItems(asianLearningItems), not(hasItems(europeanLearningItems))));
     }
 
     @Test
@@ -91,8 +91,8 @@ public class SqlLearningItemSetRecordStoreTest {
 
         euroLearningItemRecordStore.write(additionalLearningItem);
 
-        assertThat(asianLearningItemRecordStore.readAll(), allOf(hasItems(asianLearningItems), not(hasItems(europeanLearningItems))));
-        assertThat(euroLearningItemRecordStore.readAll(), allOf(hasItems(europeanLearningItems), hasItems(additionalLearningItem.withSet(LEARNING_ITEM_SET_EUROPEAN)), not(hasItems(asianLearningItems))));
+        assertThat(asianLearningItemRecordStore.items(), allOf(hasItems(asianLearningItems), not(hasItems(europeanLearningItems))));
+        assertThat(euroLearningItemRecordStore.items(), allOf(hasItems(europeanLearningItems), hasItems(additionalLearningItem.withSet(LEARNING_ITEM_SET_EUROPEAN)), not(hasItems(asianLearningItems))));
     }
 
     @Test
@@ -104,8 +104,8 @@ public class SqlLearningItemSetRecordStoreTest {
 
         euroLearningItemRecordStore.replace(replaced.toDisplayString(), replacement.toDisplayString());
 
-        assertThat(asianLearningItemRecordStore.readAll(), hasItem(replaced));
-        assertThat(euroLearningItemRecordStore.readAll(), hasItem(replacement));
+        assertThat(asianLearningItemRecordStore.items(), hasItem(replaced));
+        assertThat(euroLearningItemRecordStore.items(), hasItem(replacement));
     }
 
     @Test
@@ -116,15 +116,15 @@ public class SqlLearningItemSetRecordStoreTest {
 
         asianLearningItemRecordStore.delete(deleted);
 
-        assertThat(asianLearningItemRecordStore.readAll(), not(hasItem(deleted.withSet(LEARNING_ITEM_SET_DEFAULT))));
-        assertThat(euroLearningItemRecordStore.readAll(), hasItem(deleted.withSet(LEARNING_ITEM_SET_EUROPEAN)));
+        assertThat(asianLearningItemRecordStore.items(), not(hasItem(deleted.withSet(LEARNING_ITEM_SET_DEFAULT))));
+        assertThat(euroLearningItemRecordStore.items(), hasItem(deleted.withSet(LEARNING_ITEM_SET_EUROPEAN)));
     }
 
     @Test
     public void itDeletesAllLearningItemsOnlyInTheAssociatedSet() {
         euroLearningItemRecordStore.deleteAll();
 
-        assertThat(euroLearningItemRecordStore.readAll(), empty());
-        assertThat(asianLearningItemRecordStore.readAll(), hasItems(asianLearningItems));
+        assertThat(euroLearningItemRecordStore.items(), empty());
+        assertThat(asianLearningItemRecordStore.items(), hasItems(asianLearningItems));
     }
 }

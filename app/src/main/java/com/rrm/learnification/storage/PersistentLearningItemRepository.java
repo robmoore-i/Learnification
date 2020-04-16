@@ -12,18 +12,16 @@ import java.util.stream.Collectors;
 
 public class PersistentLearningItemRepository implements LearningItemSupplier {
     private static final String LOG_TAG = "PersistentLearningItemRepository";
-
     private final AndroidLogger logger;
+
     private final List<LearningItem> learningItems;
-
-    private SqlLearningItemSetRecordStore learningItemStore;
-
+    private final LearningItemRecordStore learningItemStore;
     private final LearningItemTextUpdateBroker itemTextUpdateBroker;
 
-    public PersistentLearningItemRepository(AndroidLogger logger, SqlLearningItemSetRecordStore learningItemStore, LearningItemTextUpdateBroker itemTextUpdateBroker) {
+    public PersistentLearningItemRepository(AndroidLogger logger, LearningItemRecordStore learningItemStore, LearningItemTextUpdateBroker itemTextUpdateBroker) {
         this.logger = logger;
         this.learningItemStore = learningItemStore;
-        this.learningItems = learningItemStore.readAll();
+        this.learningItems = learningItemStore.items();
         this.itemTextUpdateBroker = itemTextUpdateBroker;
 
         for (LearningItem learningItem : learningItems) {
@@ -39,15 +37,6 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
             reversed.add(li.previous());
         }
         return reversed;
-    }
-
-    @Override
-    public List<LearningItem> itemsOrThrowIfEmpty() {
-        List<LearningItem> learningItems = items();
-        if (learningItems.isEmpty()) {
-            throw new IllegalStateException("there are no learning items");
-        }
-        return learningItems;
     }
 
     public void add(LearningItemText learningItemText) {

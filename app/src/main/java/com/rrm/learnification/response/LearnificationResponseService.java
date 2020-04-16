@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.rrm.learnification.intent.AndroidIntent;
+import com.rrm.learnification.intent.AndroidResponseIntent;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -31,8 +31,8 @@ public class LearnificationResponseService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        AndroidLearnificationResponseIntent responseIntent = new AndroidLearnificationResponseIntent(new AndroidIntent(intent));
-        logger.i(LOG_TAG, "handling learnification response intent: " + responseIntent.toString());
+        AndroidIntentLearnificationResponse learnificationResponse = new AndroidIntentLearnificationResponse(new AndroidResponseIntent(intent));
+        logger.i(LOG_TAG, "handling learnification response: " + learnificationResponse.toString());
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
@@ -49,9 +49,9 @@ public class LearnificationResponseService extends IntentService {
                 scheduleConfiguration,
                 responseNotificationCorrespondent);
 
-        responseIntent
+        learnificationResponse
                 .handler(logger, learnificationScheduler, responseContentGenerator, responseNotificationCorrespondent)
-                .handle(responseIntent);
+                .handle(learnificationResponse);
         logger.i(LOG_TAG, "handled response");
     }
 }

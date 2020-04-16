@@ -18,10 +18,10 @@ class NextHandler implements LearnificationResponseHandler {
     }
 
     @Override
-    public void handle(LearnificationResponseIntent responseIntent) {
+    public void handle(LearnificationResponse learnificationResponse) {
         logger.i(LOG_TAG, "learnification response was 'next'");
-        String given = responseIntent.givenPrompt();
-        String expected = responseIntent.expectedUserResponse();
+        String given = learnificationResponse.givenPrompt();
+        String expected = learnificationResponse.expectedUserResponse();
         NotificationTextContent responseContent = new NotificationTextContent(given + " -> " + expected, "Showing answer for last learnification");
         logger.i(LOG_TAG, "replying with response content: " + responseContent.toString());
         responseNotificationCorrespondent.updateLatestWithReply(responseContent);

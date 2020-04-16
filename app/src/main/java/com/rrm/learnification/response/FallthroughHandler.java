@@ -15,7 +15,7 @@ class FallthroughHandler implements LearnificationResponseHandler {
     }
 
     @Override
-    public void handle(LearnificationResponseIntent responseIntent) {
+    public void handle(LearnificationResponse learnificationResponse) {
         logger.e(LOG_TAG, new IllegalArgumentException("There was unexpectedly no remote input on a learnification response"));
         learnificationScheduler.scheduleJob(LearnificationPublishingService.class);
     }

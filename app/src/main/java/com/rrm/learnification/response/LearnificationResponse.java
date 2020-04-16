@@ -4,7 +4,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
 import com.rrm.learnification.publication.LearnificationScheduler;
 
-interface LearnificationResponseIntent {
+interface LearnificationResponse {
     String actualUserResponse();
 
     String expectedUserResponse();
