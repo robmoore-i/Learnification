@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
@@ -55,8 +54,8 @@ public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningIt
         return this.textEntries.containsAll(textEntries);
     }
 
-    void refresh(List<LearningItem> newLearningItems) {
-        learningItemRepository.refresh(newLearningItems);
+    void refresh() {
+        learningItemRepository.refresh();
         textEntries.clear();
         textEntries.addAll(learningItemRepository.textEntries().stream().map(LearningItemText::toString).collect(Collectors.toList()));
         this.notifyDataSetChanged();

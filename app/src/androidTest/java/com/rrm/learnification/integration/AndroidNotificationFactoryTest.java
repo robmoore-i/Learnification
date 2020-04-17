@@ -9,6 +9,7 @@ import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivit
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.response.NotificationTextContent;
+import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,7 +34,8 @@ public class AndroidNotificationFactoryTest {
 
     @Before
     public void beforeEach() {
-        androidNotificationFactory = activityTestRule.getActivity().androidTestObjectFactory().getAndroidNotificationFactory();
+        AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
+        androidNotificationFactory = androidTestObjectFactory.getAndroidNotificationFactory();
     }
 
     @Test

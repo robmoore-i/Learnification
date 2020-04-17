@@ -29,7 +29,6 @@ import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.storage.LearningItemTextUpdateBroker;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
-import com.rrm.learnification.test.AndroidTestObjectFactory;
 import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
 import com.rrm.learnification.textinput.SimulateButtonClickOnSubmitTextCommand;
 import com.rrm.learnification.time.AndroidClock;
@@ -43,7 +42,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
     private final AndroidLogger logger = new AndroidLogger();
     private final AndroidClock clock = new AndroidClock();
-    private final AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(this);
+    private LearningItemList learningItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         SetButtonStatusOnTextChangeListener learningItemTextChangeListener = new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton);
         LearningItemStash learningItemStash = new LearningItemStash(logger, learningItemTextChangeListener, learningItemDisplayStash);
-        LearningItemList learningItemList = new LearningItemList(logger, learningItemSetEditorView, new LearningItemListViewAdaptor(logger, learningItemStash, learningItemRepository), learningItemSetSelector);
+        learningItemList = new LearningItemList(logger, learningItemSetEditorView, new LearningItemListViewAdaptor(logger, learningItemStash, learningItemRepository), learningItemSetSelector);
         learningItemTextChangeListener.useTextValidation(textsValidationForDisplayedLearningItems(logger, learningItemList));
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
@@ -139,16 +138,16 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_action_settings) {
             logger.u(LOG_TAG, "selected settings menu item");
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
+        if (id == R.id.menu_action_refresh) {
+            logger.u(LOG_TAG, "refreshed learning item list");
+            learningItemList.refresh();
+        }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public AndroidTestObjectFactory androidTestObjectFactory() {
-        return androidTestObjectFactory;
     }
 }

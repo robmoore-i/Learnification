@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:factory="com.rrm.learnification.main.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_action_refresh"
+        android:orderInCategory="100"
+        android:title="@string/refresh_learning_item_list"
         app:showAsAction="never" />
 </menu>

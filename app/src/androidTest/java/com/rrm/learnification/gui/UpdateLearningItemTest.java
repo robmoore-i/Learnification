@@ -9,7 +9,7 @@ import com.rrm.learnification.button.AndroidButton;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
-import com.rrm.learnification.support.DatabaseTestWrapper;
+import com.rrm.learnification.support.GuiTestWrapper;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -41,7 +41,7 @@ public class UpdateLearningItemTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
-    private DatabaseTestWrapper databaseTestWrapper;
+    private GuiTestWrapper guiTestWrapper;
     private LearningItemSqlTableClient learningItemSqlTableClient;
 
     private String left;
@@ -51,8 +51,8 @@ public class UpdateLearningItemTest {
 
     @Before
     public void beforeEach() {
-        databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
-        databaseTestWrapper.beforeEach();
+        guiTestWrapper = new GuiTestWrapper(activityTestRule.getActivity());
+        guiTestWrapper.beforeEach();
         left = UUID.randomUUID().toString().substring(0, 6);
         initialRight = UUID.randomUUID().toString().substring(0, 6);
         updatedRight = initialRight + extraText;
@@ -63,7 +63,7 @@ public class UpdateLearningItemTest {
     @After
     public void afterEach() {
         learningItemSqlTableClient.deleteAll(Arrays.asList(new LearningItem(left, initialRight, "default"), new LearningItem(left, updatedRight, "default")));
-        databaseTestWrapper.afterEach();
+        guiTestWrapper.afterEach();
     }
 
     @Test

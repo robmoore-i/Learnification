@@ -33,7 +33,7 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
 
     void select(String learningItemSetName) {
         recordStore.useSet(learningItemSetName);
-        setChangeListener.refresh(recordStore.items());
+        setChangeListener.refresh();
     }
 
     private void configureSpinner(Spinner spinner) {

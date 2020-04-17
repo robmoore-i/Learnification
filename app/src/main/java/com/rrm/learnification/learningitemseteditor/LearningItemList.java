@@ -4,14 +4,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.textinput.TextEntryList;
 import com.rrm.learnification.textlist.OnSwipeCommand;
 
 import java.util.Collection;
-import java.util.List;
 
 class LearningItemList implements TextEntryList, LearningItemSetChangeListener {
     private static final String LOG_TAG = "LearningItemList";
@@ -73,7 +71,7 @@ class LearningItemList implements TextEntryList, LearningItemSetChangeListener {
     }
 
     @Override
-    public void refresh(List<LearningItem> newLearningItems) {
-        adapter.refresh(newLearningItems);
+    public void refresh() {
+        adapter.refresh();
     }
 }

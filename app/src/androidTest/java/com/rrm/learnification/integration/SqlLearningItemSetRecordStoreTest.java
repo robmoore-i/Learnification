@@ -7,7 +7,7 @@ import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
-import com.rrm.learnification.support.DatabaseTestWrapper;
+import com.rrm.learnification.support.IntegrationTestWrapper;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -47,7 +47,7 @@ public class SqlLearningItemSetRecordStoreTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private DatabaseTestWrapper databaseTestWrapper;
+    private IntegrationTestWrapper guiTestWrapper;
 
     private final AndroidLogger logger = new AndroidLogger();
 
@@ -56,8 +56,8 @@ public class SqlLearningItemSetRecordStoreTest {
 
     @Before
     public void beforeEach() {
-        databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
-        databaseTestWrapper.beforeEach();
+        guiTestWrapper = new IntegrationTestWrapper(activityTestRule.getActivity());
+        guiTestWrapper.beforeEach();
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
         asianLearningItemRecordStore = new SqlLearningItemSetRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
         euroLearningItemRecordStore = new SqlLearningItemSetRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
@@ -67,7 +67,7 @@ public class SqlLearningItemSetRecordStoreTest {
 
     @After
     public void afterEach() {
-        databaseTestWrapper.afterEach();
+        guiTestWrapper.afterEach();
         ArrayList<LearningItem> toCleanUp = new ArrayList<>();
         toCleanUp.addAll(Arrays.asList(asianLearningItems));
         toCleanUp.addAll(Arrays.asList(europeanLearningItems));

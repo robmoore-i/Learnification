@@ -8,7 +8,7 @@ import android.widget.Spinner;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.support.DatabaseTestWrapper;
+import com.rrm.learnification.support.GuiTestWrapper;
 
 import org.junit.After;
 import org.junit.Before;
@@ -36,17 +36,17 @@ public class AddLearningItemSetTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
-    private DatabaseTestWrapper databaseTestWrapper;
+    private GuiTestWrapper guiTestWrapper;
 
     @Before
     public void beforeEach() {
-        databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
-        databaseTestWrapper.beforeEach();
+        guiTestWrapper = new GuiTestWrapper(activityTestRule.getActivity());
+        guiTestWrapper.beforeEach();
     }
 
     @After
     public void afterEach() {
-        databaseTestWrapper.afterEach();
+        guiTestWrapper.afterEach();
     }
 
     @Test

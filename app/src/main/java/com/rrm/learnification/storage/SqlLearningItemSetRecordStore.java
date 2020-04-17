@@ -38,7 +38,7 @@ public class SqlLearningItemSetRecordStore implements LearningItemRecordStore {
 
     @Override
     public void write(LearningItemText item) {
-        learnificationAppDatabase.getWritableDatabase().insert(LearningItemSqlTable.TABLE_NAME, null, LearningItemSqlTable.from(item.withSet(learningItemSetName)));
+        LearningItemSqlTable.insert(learnificationAppDatabase.getWritableDatabase(), item.withSet(learningItemSetName));
     }
 
     @Override
@@ -77,8 +77,9 @@ public class SqlLearningItemSetRecordStore implements LearningItemRecordStore {
     public void renameSet(String newLearningItemSetName) {
         logger.i(LOG_TAG, "renaming learning item set from '" + learningItemSetName + "' to '" + newLearningItemSetName + "'");
         renameListeners.forEach(listener -> listener.onLearningItemSetNameChange(learningItemSetName, newLearningItemSetName));
-        LearningItemSqlTable.updateSetName(learnificationAppDatabase.getWritableDatabase(), learningItemSetName, newLearningItemSetName);
+        LearningItemSqlTable.updateSetName(logger, learnificationAppDatabase.getWritableDatabase(), learningItemSetName, newLearningItemSetName);
         learningItemSetName = newLearningItemSetName;
+        logger.i(LOG_TAG, "updated learning items are '" + items().toString() + "'");
     }
 
     public void addLearningItemSetRenameListener(LearningItemSetNameChangeListener listener) {

@@ -8,6 +8,7 @@ import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.publication.LearnificationPublishingService;
+import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,9 +34,10 @@ public class JobSchedulerTest {
     @Before
     public void beforeEach() {
         LearningItemSetEditorActivity activity = activityTestRule.getActivity();
-        jobScheduler = activity.androidTestObjectFactory().getJobScheduler();
+        AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activity);
+        jobScheduler = androidTestObjectFactory.getJobScheduler();
         systemJobScheduler = activity.getSystemService(android.app.job.JobScheduler.class);
-        jobIdGenerator = activity.androidTestObjectFactory().getJobIdGenerator();
+        jobIdGenerator = androidTestObjectFactory.getJobIdGenerator();
         jobIdGenerator.reset();
     }
 

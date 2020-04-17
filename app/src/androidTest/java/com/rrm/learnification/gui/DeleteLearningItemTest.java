@@ -9,7 +9,7 @@ import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
-import com.rrm.learnification.support.DatabaseTestWrapper;
+import com.rrm.learnification.support.GuiTestWrapper;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -39,7 +39,7 @@ public class DeleteLearningItemTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
-    private DatabaseTestWrapper databaseTestWrapper;
+    private GuiTestWrapper guiTestWrapper;
     private LearningItemSqlTableClient learningItemSqlTableClient;
 
     private String left;
@@ -47,8 +47,8 @@ public class DeleteLearningItemTest {
 
     @Before
     public void beforeEach() {
-        databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
-        databaseTestWrapper.beforeEach();
+        guiTestWrapper = new GuiTestWrapper(activityTestRule.getActivity());
+        guiTestWrapper.beforeEach();
         left = UUID.randomUUID().toString().substring(0, 6);
         right = UUID.randomUUID().toString().substring(0, 6);
 
@@ -64,7 +64,7 @@ public class DeleteLearningItemTest {
     @After
     public void afterEach() {
         learningItemSqlTableClient.deleteAll(Collections.singletonList(new LearningItem(left, right, "default")));
-        databaseTestWrapper.afterEach();
+        guiTestWrapper.afterEach();
     }
 
     @Test

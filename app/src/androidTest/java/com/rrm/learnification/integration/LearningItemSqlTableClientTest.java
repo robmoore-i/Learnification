@@ -8,7 +8,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
-import com.rrm.learnification.support.DatabaseTestWrapper;
+import com.rrm.learnification.support.IntegrationTestWrapper;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -47,7 +47,7 @@ public class LearningItemSqlTableClientTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private DatabaseTestWrapper databaseTestWrapper;
+    private IntegrationTestWrapper guiTestWrapper;
 
     private AndroidLogger logger = new AndroidLogger();
 
@@ -57,8 +57,8 @@ public class LearningItemSqlTableClientTest {
 
     @Before
     public void before() {
-        databaseTestWrapper = new DatabaseTestWrapper(activityTestRule.getActivity());
-        databaseTestWrapper.beforeEach();
+        guiTestWrapper = new IntegrationTestWrapper(activityTestRule.getActivity());
+        guiTestWrapper.beforeEach();
         androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
         learningItemSqlTableClient = new LearningItemSqlTableClient(logger, androidTestObjectFactory.getLearnificationAppDatabase());
         learningItemSqlTableClient.clearEverything();
@@ -66,7 +66,7 @@ public class LearningItemSqlTableClientTest {
 
     @After
     public void afterEach() {
-        databaseTestWrapper.afterEach();
+        guiTestWrapper.afterEach();
         ArrayList<LearningItemText> toCleanUp = new ArrayList<>();
         toCleanUp.addAll(oneAndTwo);
         toCleanUp.addAll(thaiLearningItems);

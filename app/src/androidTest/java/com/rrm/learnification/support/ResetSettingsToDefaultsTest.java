@@ -19,7 +19,7 @@ public class ResetSettingsToDefaultsTest {
 
     @Test
     public void resetSettings() {
-        AndroidTestObjectFactory androidTestObjectFactory = activityTestRule.getActivity().androidTestObjectFactory();
+        AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
         FileStorageAdaptor fileStorageAdaptor = androidTestObjectFactory.getFileStorageAdaptor();
         fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_DELAY_FILE_NAME);
         fileStorageAdaptor.deleteFile(SettingsRepository.LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME);

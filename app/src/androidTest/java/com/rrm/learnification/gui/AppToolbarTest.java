@@ -20,6 +20,7 @@ import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivit
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.publication.LearnificationPublishingService;
+import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
@@ -45,9 +46,12 @@ public class AppToolbarTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
+    private AndroidTestObjectFactory androidTestObjectFactory;
+
     @Before
     public void beforeEach() {
-        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(new AndroidLogger(), activityTestRule.getActivity().androidTestObjectFactory().getFileStorageAdaptor());
+        androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
+        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(new AndroidLogger(), androidTestObjectFactory.getFileStorageAdaptor());
         notificationIdGenerator.reset();
     }
 
@@ -73,7 +77,7 @@ public class AppToolbarTest {
 
         waitACoupleOfSeconds();
 
-        Notification learnification = activityTestRule.getActivity().androidTestObjectFactory().getAndroidNotificationFactory().createLearnification(new LearnificationText("a", "b"));
+        Notification learnification = androidTestObjectFactory.getAndroidNotificationFactory().createLearnification(new LearnificationText("a", "b"));
         NotificationManagerCompat.from(activityTestRule.getActivity()).notify(0, learnification);
 
         waitACoupleOfSeconds();
@@ -87,7 +91,7 @@ public class AppToolbarTest {
 
         waitACoupleOfSeconds();
 
-        activityTestRule.getActivity().androidTestObjectFactory().getJobScheduler().schedule(10000, 20000, LearnificationPublishingService.class);
+        androidTestObjectFactory.getJobScheduler().schedule(10000, 20000, LearnificationPublishingService.class);
 
         waitACoupleOfSeconds();
 

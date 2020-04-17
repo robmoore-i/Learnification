@@ -7,6 +7,7 @@ import com.rrm.learnification.idgenerator.InternalStorageIdGenerator;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.FileStorageAdaptor;
+import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,7 +31,7 @@ public class InternalStorageIdGeneratorTest {
 
     @Before
     public void beforeEach() {
-        fileStorageAdaptor = activityTestRule.getActivity().androidTestObjectFactory().getFileStorageAdaptor();
+        fileStorageAdaptor = new AndroidTestObjectFactory(activityTestRule.getActivity()).getFileStorageAdaptor();
         generator = new InternalStorageIdGenerator(logger, fileStorageAdaptor, "test");
         generator.reset();
     }

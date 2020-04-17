@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.storage.FileStorageAdaptor;
+import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,7 +33,8 @@ public class FileStorageAdaptorTest {
 
     @Before
     public void beforeEach() {
-        fileStorageAdaptor = activityTestRule.getActivity().androidTestObjectFactory().getFileStorageAdaptor();
+        AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
+        fileStorageAdaptor = androidTestObjectFactory.getFileStorageAdaptor();
     }
 
     @After

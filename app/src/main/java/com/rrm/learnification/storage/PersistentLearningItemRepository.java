@@ -15,13 +15,13 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     private final AndroidLogger logger;
 
     private final List<LearningItem> learningItems;
-    private final LearningItemRecordStore learningItemStore;
+    private final LearningItemRecordStore learningItemRecordStore;
     private final LearningItemTextUpdateBroker itemTextUpdateBroker;
 
-    public PersistentLearningItemRepository(AndroidLogger logger, LearningItemRecordStore learningItemStore, LearningItemTextUpdateBroker itemTextUpdateBroker) {
+    public PersistentLearningItemRepository(AndroidLogger logger, LearningItemRecordStore learningItemRecordStore, LearningItemTextUpdateBroker itemTextUpdateBroker) {
         this.logger = logger;
-        this.learningItemStore = learningItemStore;
-        this.learningItems = learningItemStore.items();
+        this.learningItemRecordStore = learningItemRecordStore;
+        this.learningItems = learningItemRecordStore.items();
         this.itemTextUpdateBroker = itemTextUpdateBroker;
 
         for (LearningItem learningItem : learningItems) {
@@ -40,9 +40,9 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     }
 
     public void add(LearningItemText learningItemText) {
-        LearningItem item = learningItemStore.applySet(learningItemText);
+        LearningItem item = learningItemRecordStore.applySet(learningItemText);
         logger.i(LOG_TAG, "adding a learning item '" + learningItemText + "'");
-        learningItemStore.write(learningItemText);
+        learningItemRecordStore.write(learningItemText);
         learningItems.add(item);
     }
 
@@ -55,17 +55,17 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
 
     private void remove(LearningItem learningItem) {
         logger.i(LOG_TAG, "removing learning item '" + learningItem.toDisplayString() + "'");
-        learningItemStore.delete(learningItem.toDisplayString());
+        learningItemRecordStore.delete(learningItem.toDisplayString());
         learningItems.remove(learningItem);
     }
 
     public void replace(LearningItemText targetText, LearningItemText replacementText) {
-        LearningItem target = learningItemStore.applySet(targetText);
-        LearningItem replacement = learningItemStore.applySet(replacementText);
+        LearningItem target = learningItemRecordStore.applySet(targetText);
+        LearningItem replacement = learningItemRecordStore.applySet(replacementText);
 
         itemTextUpdateBroker.sendUpdate(targetText, replacementText);
 
-        learningItemStore.replace(targetText, replacementText);
+        learningItemRecordStore.replace(targetText, replacementText);
         learningItems.replaceAll(learningItem -> {
             if (learningItem.equals(target)) return replacement;
             return learningItem;
@@ -89,8 +89,8 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
         return learningItems.stream().map(LearningItem::toDisplayString).collect(Collectors.toList());
     }
 
-    public void refresh(List<LearningItem> newLearningItems) {
+    public void refresh() {
         learningItems.clear();
-        learningItems.addAll(newLearningItems);
+        learningItems.addAll(learningItemRecordStore.items());
     }
 }

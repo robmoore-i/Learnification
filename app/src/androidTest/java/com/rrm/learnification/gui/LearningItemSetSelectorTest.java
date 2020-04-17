@@ -5,7 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.support.DatabaseTestWrapper;
+import com.rrm.learnification.support.GuiTestWrapper;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,20 +29,20 @@ public class LearningItemSetSelectorTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
-    private DatabaseTestWrapper databaseTestWrapper;
+    private GuiTestWrapper guiTestWrapper;
     private String updatedLearningItemSetName;
 
     @Before
     public void beforeEach() {
         LearningItemSetEditorActivity activity = activityTestRule.getActivity();
-        databaseTestWrapper = new DatabaseTestWrapper(activity);
-        databaseTestWrapper.beforeEach();
+        guiTestWrapper = new GuiTestWrapper(activity);
+        guiTestWrapper.beforeEach();
         updatedLearningItemSetName = "Thai";
     }
 
     @After
     public void afterEach() {
-        databaseTestWrapper.afterEach();
+        guiTestWrapper.afterEach();
     }
 
     @Test

@@ -6,11 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import com.rrm.learnification.common.LearningItem;
+import com.rrm.learnification.logger.AndroidLogger;
 
 import static com.rrm.learnification.assertion.Assert.assertTrue;
 
 final class LearningItemSqlTable implements BaseColumns {
-    static final String TABLE_NAME = "learningitem";
+    private static final String LOG_TAG = "LearningItemSqlTable";
+
+    private static final String TABLE_NAME = "learningitem";
     private static final String COLUMN_NAME_LEARNING_ITEM_SET_NAME = "learning_item_set";
     private static final String COLUMN_NAME_LEFT = "left";
     private static final String COLUMN_NAME_RIGHT = "right";
@@ -28,14 +31,6 @@ final class LearningItemSqlTable implements BaseColumns {
 
     static String deleteTable() {
         return "DROP TABLE IF EXISTS " + TABLE_NAME;
-    }
-
-    static ContentValues from(LearningItem learningItem) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_NAME_LEARNING_ITEM_SET_NAME, learningItem.learningItemSetName);
-        contentValues.put(COLUMN_NAME_LEFT, learningItem.left);
-        contentValues.put(COLUMN_NAME_RIGHT, learningItem.right);
-        return contentValues;
     }
 
     static Cursor all(SQLiteDatabase readableDatabase, String learningItemSetName) {
@@ -56,6 +51,10 @@ final class LearningItemSqlTable implements BaseColumns {
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_RIGHT)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_LEARNING_ITEM_SET_NAME))
         );
+    }
+
+    static void insert(SQLiteDatabase writableDatabase, LearningItem item) {
+        writableDatabase.insert(LearningItemSqlTable.TABLE_NAME, null, from(item));
     }
 
     static void delete(SQLiteDatabase writableDatabase, LearningItem learningItemToRemove) {
@@ -103,15 +102,24 @@ final class LearningItemSqlTable implements BaseColumns {
                 " ORDER BY count DESC", null);
     }
 
-    static void updateSetName(SQLiteDatabase writableDatabase, String learningItemSetName, String newLearningItemSetName) {
+    static void updateSetName(AndroidLogger logger, SQLiteDatabase writableDatabase, String learningItemSetName, String newLearningItemSetName) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME_LEARNING_ITEM_SET_NAME, newLearningItemSetName);
         String whereClause = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ?";
         String[] whereArgs = {learningItemSetName};
-        writableDatabase.update(TABLE_NAME, contentValues, whereClause, whereArgs);
+        int numberOfRowsAffected = writableDatabase.update(TABLE_NAME, contentValues, whereClause, whereArgs);
+        logger.i(LOG_TAG, "updated learning item set name for " + numberOfRowsAffected + " items, from '" + learningItemSetName + "' to '" + newLearningItemSetName + "'");
     }
 
     static String learningItemSetNameFrom(Cursor cursor) {
         return cursor.getString(cursor.getColumnIndex(COLUMN_NAME_LEARNING_ITEM_SET_NAME));
+    }
+
+    private static ContentValues from(LearningItem learningItem) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NAME_LEARNING_ITEM_SET_NAME, learningItem.learningItemSetName);
+        contentValues.put(COLUMN_NAME_LEFT, learningItem.left);
+        contentValues.put(COLUMN_NAME_RIGHT, learningItem.right);
+        return contentValues;
     }
 }

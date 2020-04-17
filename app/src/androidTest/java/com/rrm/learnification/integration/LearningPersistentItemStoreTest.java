@@ -4,9 +4,9 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearningItem;
-import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
+import com.rrm.learnification.main.MainActivity;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
-import com.rrm.learnification.support.DatabaseTestWrapper;
+import com.rrm.learnification.support.IntegrationTestWrapper;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -28,22 +28,22 @@ public class LearningPersistentItemStoreTest {
     private final LearningItem c = new LearningItem("vanity", "fair", "default");
 
     @Rule
-    public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
+    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     private SqlLearningItemSetRecordStore learningItemStorage;
-    private DatabaseTestWrapper databaseTestWrapper;
+    private IntegrationTestWrapper guiTestWrapper;
 
     @Before
     public void beforeEach() {
-        LearningItemSetEditorActivity activity = activityTestRule.getActivity();
-        databaseTestWrapper = new DatabaseTestWrapper(activity);
-        databaseTestWrapper.beforeEach();
+        MainActivity activity = activityTestRule.getActivity();
+        guiTestWrapper = new IntegrationTestWrapper(activity);
+        guiTestWrapper.beforeEach();
         learningItemStorage = new AndroidTestObjectFactory(activity).getDefaultSqlLearningItemSetRecordStore();
     }
 
     @After
     public void afterEach() {
-        databaseTestWrapper.afterEach();
+        guiTestWrapper.afterEach();
     }
 
     @Test
