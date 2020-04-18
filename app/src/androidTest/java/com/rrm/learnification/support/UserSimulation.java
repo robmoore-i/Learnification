@@ -22,8 +22,6 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -37,6 +35,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * app. Of course, this is a very limited set of what they are capable of, however, it can grow
  * as those assumptions become invalidated
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class UserSimulation {
 
     // ANDROID
@@ -78,6 +77,10 @@ public class UserSimulation {
 
     // ADD LEARNING ITEM
 
+    public static void focusLeftInputForNewLearningItem() {
+        onView(ViewMatchers.withId(R.id.left_input)).perform(click());
+    }
+
     public static void typeOutNewLearningItemIntoTextFields(String left, String right) {
         onView(ViewMatchers.withId(R.id.left_input)).perform(typeText(left));
         onView(withId(R.id.right_input)).perform(typeText(right));
@@ -101,12 +104,23 @@ public class UserSimulation {
         closeSoftKeyboard();
     }
 
+    public static void typeOutLearningItemListEntryUpdate(String oldLeft, String oldRight, String extraText) {
+        onView(allOf(withParent(withId(R.id.learning_item_list)), withText(oldLeft + " - " + oldRight)))
+                .perform(typeText(extraText));
+        closeSoftKeyboard();
+    }
+
     public static void pressUpdateLearningItemButton() {
         onView(withId(R.id.update_learning_item_button)).perform(click());
     }
 
     public static void updateLearningItem(String oldLeft, String oldRight, String newLeft, String newRight) {
         typeOutLearningItemListEntryUpdate(oldLeft, oldRight, newLeft, newRight);
+        pressUpdateLearningItemButton();
+    }
+
+    public static void updateLearningItem(String oldLeft, String oldRight, String extraText) {
+        typeOutLearningItemListEntryUpdate(oldLeft, oldRight, extraText);
         pressUpdateLearningItemButton();
     }
 
@@ -142,17 +156,17 @@ public class UserSimulation {
 
     public static void selectPromptStrategyOption(String rightToLeft_leftToRight_or_mixed) {
         if ("rightToLeft".equals(rightToLeft_leftToRight_or_mixed)) {
-            onView(withId(R.id.right_to_left)).check(matches(isChecked()));
+            onView(withId(R.id.right_to_left)).perform(click());
         } else if ("leftToRight".equals(rightToLeft_leftToRight_or_mixed)) {
-            onView(withId(R.id.left_to_right)).check(matches(isChecked()));
+            onView(withId(R.id.left_to_right)).perform(click());
         } else if ("mixed".equals(rightToLeft_leftToRight_or_mixed)) {
-            onView(withId(R.id.mixed_left_and_right)).check(matches(isChecked()));
+            onView(withId(R.id.mixed_left_and_right)).perform(click());
         } else {
             throw new IllegalArgumentException("Expected one of 'rightToLeft', 'leftToRight' or 'mixed'");
         }
     }
 
-    public static void pressSaveSettingsButton() {
+    public static void saveSettingsAndReturnToSetEditor() {
         onView(withId(R.id.save_settings_button)).perform(click());
     }
 
@@ -214,5 +228,15 @@ public class UserSimulation {
         pressLearningItemSetSelectorOption("Add new group");
         typeOutNewLearningItemSetTitleName(newSetName);
         pressLearningItemSetTitleChangeIcon();
+    }
+
+    // WAITING
+
+    public static void waitACoupleOfSeconds() throws InterruptedException {
+        Thread.sleep(2000);
+    }
+
+    public static void waitSomeSeconds() throws InterruptedException {
+        Thread.sleep(4000);
     }
 }

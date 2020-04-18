@@ -1,16 +1,13 @@
 package com.rrm.learnification.gui;
 
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.button.AndroidButton;
-import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.support.GuiTestWrapper;
-import com.rrm.learnification.test.AndroidTestObjectFactory;
+import com.rrm.learnification.support.UserSimulation;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,14 +15,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
 import java.util.UUID;
 
-import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -34,7 +26,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.rrm.learnification.support.CustomAssertion.assertButtonHasColour;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.startsWith;
 
 @RunWith(AndroidJUnit4.class)
 public class UpdateLearningItemTest {
@@ -42,88 +33,81 @@ public class UpdateLearningItemTest {
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private GuiTestWrapper guiTestWrapper;
-    private LearningItemSqlTableClient learningItemSqlTableClient;
 
-    private String left;
-    private String initialRight;
-    private String updatedRight;
     private String extraText = "_foo";
+    private String left = UUID.randomUUID().toString().substring(0, 6);
+    private String initialRight = UUID.randomUUID().toString().substring(0, 6);
+    private String updatedRight = initialRight + extraText;
 
     @Before
     public void beforeEach() {
         guiTestWrapper = new GuiTestWrapper(activityTestRule.getActivity());
         guiTestWrapper.beforeEach();
-        left = UUID.randomUUID().toString().substring(0, 6);
-        initialRight = UUID.randomUUID().toString().substring(0, 6);
-        updatedRight = initialRight + extraText;
-        AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        learningItemSqlTableClient = androidTestObjectFactory.getLearningItemSqlTableClient();
     }
 
     @After
     public void afterEach() {
-        learningItemSqlTableClient.deleteAll(Arrays.asList(new LearningItem(left, initialRight, "default"), new LearningItem(left, updatedRight, "default")));
         guiTestWrapper.afterEach();
     }
 
     @Test
-    public void editingALearningItemAndPressingUpdateCausesItToStayWhenUnfocused() {
-        // Add the learning item
-        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText(left));
-        onView(withId(R.id.right_input)).perform(typeText(initialRight));
-        onView(withId(R.id.add_learning_item_button)).perform(click());
-        closeSoftKeyboard();
+    public void updateLearningItemButtonChangesColourWhenReadyToBeClicked() {
+        UserSimulation.addLearningItem(left, initialRight);
 
-        // Update the learning item
-        onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + initialRight))).perform(typeText(extraText));
-        closeSoftKeyboard();
+        UserSimulation.typeOutLearningItemListEntryUpdate(left, initialRight, extraText);
 
-        // Click the button
         assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
-        onView(withId(R.id.update_learning_item_button)).perform(click());
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
+    }
 
-        // When you change focus, check that the text stays there
-        onView(ViewMatchers.withId(R.id.left_input)).perform(click());
+    @Test
+    public void updateLearningItemButtonBecomesDisabledAfterBeingClicked() {
+        UserSimulation.addLearningItem(left, initialRight);
+
+        UserSimulation.updateLearningItem(left, initialRight, extraText);
+
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
+    }
+
+    @Test
+    public void editingALearningItemAndPressingUpdateCausesItToStayWhenUnfocused() {
+        UserSimulation.addLearningItem(left, initialRight);
+
+        UserSimulation.updateLearningItem(left, initialRight, extraText);
+        UserSimulation.focusLeftInputForNewLearningItem();
+
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + updatedRight))).check(matches(isDisplayed()));
         assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
     }
 
     @Test
     public void editingALearningItemUnfocusingCausesTheValueToRevert() {
-        // Add the learning item
-        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText(left));
-        onView(withId(R.id.right_input)).perform(typeText(initialRight));
-        onView(withId(R.id.add_learning_item_button)).perform(click());
-        closeSoftKeyboard();
+        UserSimulation.addLearningItem(left, initialRight);
 
-        // Update the learning item
-        onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + initialRight))).perform(typeText(extraText));
-        closeSoftKeyboard();
+        UserSimulation.typeOutLearningItemListEntryUpdate(left, initialRight, extraText);
+        UserSimulation.focusLeftInputForNewLearningItem();
 
-        // When you change focus, check that the text is reverted
-        onView(ViewMatchers.withId(R.id.left_input)).perform(click());
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + initialRight))).check(matches(isDisplayed()));
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + updatedRight))).check(doesNotExist());
     }
 
     @Test
-    public void deletingALearningItemMidEditCausesTheUpdateButtonToBecomeDisabled() {
-        // Add the learning item
-        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText(left));
-        onView(withId(R.id.right_input)).perform(typeText(initialRight));
-        onView(withId(R.id.add_learning_item_button)).perform(click());
-        closeSoftKeyboard();
+    public void deletingALearningItemMidEditCausesTheUpdateButtonToGreyOut() {
+        UserSimulation.addLearningItem(left, initialRight);
 
-        // Update the learning item
-        onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + initialRight))).perform(typeText(extraText));
-        closeSoftKeyboard();
+        UserSimulation.typeOutLearningItemListEntryUpdate(left, initialRight, extraText);
+        UserSimulation.deleteLearningItem(left, updatedRight);
 
-        // Delete the learning item
-        onView(withText(startsWith(left))).perform(swipeLeft());
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
+    }
 
-        // When you click the button, the app doesn't break, and the item is gone
-        onView(withId(R.id.update_learning_item_button)).perform(click());
+    @Test
+    public void deletingALearningItemMidEditCausesTheLearningItemToBeGone() {
+        UserSimulation.addLearningItem(left, initialRight);
+
+        UserSimulation.typeOutLearningItemListEntryUpdate(left, initialRight, extraText);
+        UserSimulation.deleteLearningItem(left, updatedRight);
+        UserSimulation.pressUpdateLearningItemButton();
+
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + initialRight))).check(doesNotExist());
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + updatedRight))).check(doesNotExist());
     }
