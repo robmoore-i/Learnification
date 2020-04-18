@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_settings">
 
     <LinearLayout
-        android:id="@+id/periodicity_input"
+        android:id="@+id/learnification_delay_input"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -20,11 +20,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/periodicity_input_text_prompt"
+            android:id="@+id/learnification_delay_input_text_prompt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/periodicity_input_text_prompt"
+            android:text="@string/learnification_delay_input_text_prompt"
             android:textSize="15sp" />
 
         <NumberPicker
@@ -42,7 +42,7 @@
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/periodicity_input">
+        app:layout_constraintTop_toBottomOf="@+id/learnification_delay_input">
 
         <TextView
             android:id="@+id/learnification_prompt_strategy_input_text_prompt"

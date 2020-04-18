@@ -1,6 +1,5 @@
 package com.rrm.learnification.gui;
 
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -21,14 +20,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class SetLearnificationPromptStrategyTest {
+public class SettingsActivityTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     @Test
     public void settingTheLearnificationPromptSavesItAndIsStillSetIfYouGoInAndOutOfTheSettingsScreen() {
         goToSettings();
-        onView(ViewMatchers.withId(R.id.right_to_left)).perform(click());
+        onView(withId(R.id.right_to_left)).perform(click());
         onView(withId(R.id.save_settings_button)).perform(click());
         goToSettings();
         onView(withId(R.id.right_to_left)).check(matches(isChecked()));

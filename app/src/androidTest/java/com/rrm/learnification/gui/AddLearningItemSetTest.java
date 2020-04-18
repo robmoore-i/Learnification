@@ -1,6 +1,5 @@
 package com.rrm.learnification.gui;
 
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +8,7 @@ import android.widget.Spinner;
 import com.rrm.learnification.R;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.support.GuiTestWrapper;
+import com.rrm.learnification.support.UserSimulation;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,9 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.clearText;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -52,10 +49,10 @@ public class AddLearningItemSetTest {
     @Test
     public void afterAddingNewLearningItemSetTheSetListHasTheNewItem() {
         String initialLearningItemSetName = activityTestRule.getActivity().<Spinner>findViewById(R.id.learning_item_set_selector).getSelectedItem().toString();
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
-        onView(withText("Add new group")).perform(click());
 
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
+        UserSimulation.addNewLearningItemSet();
+        UserSimulation.pressLearningItemSetSelector();
+
         onView(withText("Add new group")).check(matches(isDisplayed()));
         onView(withText(initialLearningItemSetName)).check(matches(isDisplayed()));
         onView(withText("new set 1")).check(matches(isDisplayed()));
@@ -63,8 +60,7 @@ public class AddLearningItemSetTest {
 
     @Test
     public void afterAddingNewLearningItemSetTheSetTitleIsUpdated() {
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
-        onView(withText("Add new group")).perform(click());
+        UserSimulation.addNewLearningItemSet();
 
         onView(withId(R.id.learning_item_set_name_textbox)).check(matches(withText("new set 1")));
         onView(withId(R.id.learning_item_set_name_change_icon)).check(matches(withTagValue(equalTo("enabled"))));
@@ -72,68 +68,65 @@ public class AddLearningItemSetTest {
 
     @Test
     public void afterAddingNewLearningItemSetTheSetTitleCanBeChanged() {
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
-        onView(withText("Add new group")).perform(click());
-        onView(withId(R.id.learning_item_set_name_textbox)).perform(clearText(), typeText("Thai"));
-        onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
+        UserSimulation.addNewLearningItemSet("Thai");
 
         onView(withId(R.id.learning_item_set_selector)).check(matches(withSpinnerText("Thai")));
     }
 
     @Test
     public void newLearningItemSetHasNoLearningItems() {
-        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText("left"));
-        onView(withId(R.id.right_input)).perform(typeText("right"));
-        onView(withId(R.id.add_learning_item_button)).perform(click());
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
-        onView(withText("Add new group")).perform(click());
+        UserSimulation.addLearningItem("right", "left");
+        UserSimulation.addNewLearningItemSet();
 
         assertLearningItemListHasSize(activityTestRule.getActivity(), 0);
     }
 
     @Test
-    public void switchingBetweenExistingSetsCausesTheDisplayedLearningItemsToChange() {
-        // Dutch set
+    public void learningItemsAddedEitherSideOfARenameStayInView() {
         int expectedNumberOfDutchLearningItems = activityTestRule.getActivity().<RecyclerView>findViewById(R.id.learning_item_list).getChildCount() + 2;
-        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText("du"));
-        onView(withId(R.id.right_input)).perform(typeText("tch"));
-        onView(withId(R.id.add_learning_item_button)).perform(click());
-        onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
-        onView(withId(R.id.learning_item_set_name_textbox)).perform(clearText(), typeText("Dutch"));
-        onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
-        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText("holla"));
-        onView(withId(R.id.right_input)).perform(typeText("ndish"));
-        onView(withId(R.id.add_learning_item_button)).perform(click());
+
+        UserSimulation.addLearningItem("du", "tch");
+        UserSimulation.renameLearningItemSet("Dutch");
+        UserSimulation.addLearningItem("holla", "ndish");
+
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText("du - tch"))).check(matches(isDisplayed()));
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText("holla - ndish"))).check(matches(isDisplayed()));
         assertLearningItemListHasSize(activityTestRule.getActivity(), expectedNumberOfDutchLearningItems);
+    }
 
-        // Navajo set
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
-        onView(withText("Add new group")).perform(click());
-        onView(withId(R.id.learning_item_set_name_textbox)).perform(clearText(), typeText("Navajo"));
-        onView(withId(R.id.learning_item_set_name_change_icon)).perform(click());
-        onView(ViewMatchers.withId(R.id.left_input)).perform(typeText("nav"));
-        onView(withId(R.id.right_input)).perform(typeText("ajo"));
-        onView(withId(R.id.add_learning_item_button)).perform(click());
+    @Test
+    public void canAddLearningItemsInANewSetAfterARename() {
+        UserSimulation.addLearningItem("du", "tch");
+        UserSimulation.renameLearningItemSet("Dutch");
+        UserSimulation.addLearningItem("holla", "ndish");
+
+        UserSimulation.addNewLearningItemSet("Navajo");
+        UserSimulation.addLearningItem("nav", "ajo");
+
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText("nav - ajo"))).check(matches(isDisplayed()));
         assertLearningItemListHasSize(activityTestRule.getActivity(), 1);
+    }
 
-        // Switch back
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
-        onView(withText("Dutch")).perform(click());
+    @Test
+    public void renamingASetThenMakingANewOneThenSwitchingBackToTheOldOneResultsInTheOldOnesItemsBeingPreserved() {
+        int expectedNumberOfDutchLearningItems = activityTestRule.getActivity().<RecyclerView>findViewById(R.id.learning_item_list).getChildCount() + 1;
+        UserSimulation.addLearningItem("du", "tch");
+        UserSimulation.renameLearningItemSet("Dutch");
+        UserSimulation.addNewLearningItemSet("Navajo");
+        UserSimulation.addLearningItem("nav", "ajo");
+
+        UserSimulation.switchToLearningItemSet("Dutch");
+
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText("du - tch"))).check(matches(isDisplayed()));
-        onView(allOf(withParent(withId(R.id.learning_item_list)), withText("holla - ndish"))).check(matches(isDisplayed()));
         assertLearningItemListHasSize(activityTestRule.getActivity(), expectedNumberOfDutchLearningItems);
     }
 
     @Test
     public void whenAddingANewLearningItemSetThenSwitchingToAnExistingOneTheTitleStaysUpToDate() {
         String initialLearningItemSetName = activityTestRule.getActivity().<Spinner>findViewById(R.id.learning_item_set_selector).getSelectedItem().toString();
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
-        onView(withText("Add new group")).perform(click());
-        onView(withId(R.id.learning_item_set_selector)).perform(click());
-        onView(withText(initialLearningItemSetName)).perform(click());
+
+        UserSimulation.addNewLearningItemSet();
+        UserSimulation.switchToLearningItemSet(initialLearningItemSetName);
 
         onView(withId(R.id.learning_item_set_name_textbox)).check(matches(withText(initialLearningItemSetName)));
         onView(withId(R.id.learning_item_set_name_change_icon)).check(matches(withTagValue(equalTo("disabled"))));

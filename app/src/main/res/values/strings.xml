@@ -5,7 +5,7 @@
     <string name="channel_description">notification_channel_for_learnification</string>
     <string name="right_input_hint">Right-side value</string>
     <string name="left_input_hint">Left-side value</string>
-    <string name="periodicity_input_text_prompt">How many minutes between each notification?</string>
+    <string name="learnification_delay_input_text_prompt">How many minutes between each notification?</string>
     <string name="add_learning_item_button_text">Add Learning Item</string>
     <string name="save_settings">Save</string>
     <string name="left_to_right">Left</string>
