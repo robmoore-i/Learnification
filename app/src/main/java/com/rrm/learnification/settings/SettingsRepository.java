@@ -51,6 +51,10 @@ public class SettingsRepository {
         writeFile(LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME, "learnificationPromptStrategy", learnificationPromptStrategy.name());
     }
 
+    public LearnificationTextGenerator learnificationTextGenerator(LearningItemSupplier learningItemSupplier) {
+        return readLearnificationPromptStrategy().toLearnificationTextGenerator(learningItemSupplier);
+    }
+
     private void writeFile(String fileName, String key, String value) {
         logger.i(LOG_TAG, "writing '" + key + "' as '" + value + "' in file '" + fileName + "'");
 
@@ -74,9 +78,5 @@ public class SettingsRepository {
             logger.i(LOG_TAG, "returning default value '" + defaultValue + "'");
             return defaultValue;
         }
-    }
-
-    public LearnificationTextGenerator learnificationTextGenerator(LearningItemSupplier learningItemSupplier) {
-        return readLearnificationPromptStrategy().toLearnificationTextGenerator(learningItemSupplier);
     }
 }

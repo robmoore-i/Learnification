@@ -9,6 +9,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_action_dump_logs"
+        android:orderInCategory="100"
+        android:title="@string/dump_logs"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_action_refresh"
         android:orderInCategory="100"
         android:title="@string/refresh_learning_item_list"

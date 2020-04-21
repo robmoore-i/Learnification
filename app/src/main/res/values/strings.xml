@@ -17,4 +17,5 @@
     <string name="learning_item_set_name_textbox_hint">Learning item set name</string>
     <string name="change_icon">change_icon</string>
     <string name="refresh_learning_item_list">Refresh</string>
+    <string name="dump_logs">Dump Logs</string>
 </resources>

@@ -12,6 +12,8 @@ import com.rrm.learnification.R;
 import com.rrm.learnification.button.ClearTextInputOnClickCommand;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
+import com.rrm.learnification.logdump.LogDumpActivity;
+import com.rrm.learnification.logdump.LogDumpActivityBundle;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
@@ -42,6 +44,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
     private final AndroidLogger logger = new AndroidLogger();
     private final AndroidClock clock = new AndroidClock();
+
     private LearningItemList learningItemList;
 
     @Override
@@ -133,9 +136,6 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         if (id == R.id.menu_action_settings) {
@@ -143,8 +143,15 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
+        if (id == R.id.menu_action_dump_logs) {
+            logger.u(LOG_TAG, "selected log dump menu item");
+            Intent intent = new Intent(this, LogDumpActivity.class);
+            intent.putExtras(new LogDumpActivityBundle(logger.dump()).toBundle());
+            startActivity(intent);
+            return true;
+        }
         if (id == R.id.menu_action_refresh) {
-            logger.u(LOG_TAG, "refreshed learning item list");
+            logger.u(LOG_TAG, "selected refresh menu item");
             learningItemList.refresh();
         }
 

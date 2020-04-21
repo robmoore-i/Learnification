@@ -2,8 +2,9 @@ package com.rrm.learnification.logger;
 
 import android.util.Log;
 
-public class AndroidLogger {
+import java.util.ArrayList;
 
+public class AndroidLogger {
     public AndroidLogger() {
     }
 
@@ -25,5 +26,11 @@ public class AndroidLogger {
 
     public void u(String tag, String message) {
         i(wrapTag(tag), "USER ACTION - " + message);
+    }
+
+    public ArrayList<String> dump() {
+        ArrayList<String> logs = new ArrayList<>();
+        logs.add("some log");
+        return logs;
     }
 }

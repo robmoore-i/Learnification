@@ -29,6 +29,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".logdump.LogDumpActivity" />
 
         <service
             android:name=".publication.LearnificationPublishingService"
