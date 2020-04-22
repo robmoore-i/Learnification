@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningItemListViewAdaptor.ViewHolder> {
-    private static final String LOG_TAG = "EditableTextListViewAdaptor";
+    private static final String LOG_TAG = "LearningItemListViewAdaptor";
     private final AndroidLogger logger;
 
     private final List<String> textEntries;
@@ -83,9 +83,6 @@ public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningIt
         return textEntries.get(listViewIndex);
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final EditText listItemView;
         private final LearningItemStash learningItemStash;

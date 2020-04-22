@@ -30,7 +30,10 @@ public class AndroidLogger {
 
     public ArrayList<String> dump() {
         ArrayList<String> logs = new ArrayList<>();
-        logs.add("some log");
+        logs.add("some log 1");
+        logs.add("some log 2");
+        logs.add("some log 3");
+        logs.add("some log 4");
         return logs;
     }
 }
