@@ -7,6 +7,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.Function;
 
@@ -121,6 +122,14 @@ public class SetButtonStatusOnTextChangeListenerTest {
         HashMap<String, String> invalid = new HashMap<>();
         invalid.put("id", "a - b");
         assertTrue(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
+    }
+
+    @Test
+    public void learningItemTextValidationRespectsTheIsolationOfTheHyphen() {
+        Function<HashMap<String, String>, Boolean> validate = textsValidationForDisplayedLearningItems(dummyLogger, textEntries -> false);
+        assertFalse(validate.apply(new HashMap<>(Collections.singletonMap("text-id", "abra -kadabra"))));
+        assertFalse(validate.apply(new HashMap<>(Collections.singletonMap("text-id", "abra- kadabra"))));
+        assertTrue(validate.apply(new HashMap<>(Collections.singletonMap("text-id", "abra - kadabra"))));
     }
 
     @Test

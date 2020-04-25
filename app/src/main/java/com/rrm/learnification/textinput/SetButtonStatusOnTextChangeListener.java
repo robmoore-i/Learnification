@@ -58,7 +58,8 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
                 return textEntries.stream().map(String::trim).allMatch(entry -> {
                     String[] split = entry.split("-");
                     if (split.length != 2) return false;
-                    return !"".equals(split[0].trim()) && !"".equals(split[1].trim());
+                    return !"".equals(split[0].trim()) && !"".equals(split[1].trim()) // Not empty
+                            && split[0].endsWith(" ") && split[1].startsWith(" ");    // Not immediately adjacent to the central hyphen
                 });
             }
 
