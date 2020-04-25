@@ -134,6 +134,17 @@ public class UserSimulation {
         swipeLearningItem(left, right);
     }
 
+    // LOG DUMP
+
+    public static void switchToLogDumpScreen() {
+        pressOptionMenu();
+        pressLogDumpOptionOnOptionMenu();
+    }
+
+    public static void pressLogDumpOptionOnOptionMenu() {
+        onView(withText(R.string.dump_logs)).perform(click());
+    }
+
     // SETTINGS
 
     public static void pressOptionMenu() {

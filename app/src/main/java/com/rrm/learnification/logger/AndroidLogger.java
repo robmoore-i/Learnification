@@ -2,10 +2,14 @@ package com.rrm.learnification.logger;
 
 import android.util.Log;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class AndroidLogger {
+
+    private final LogStore logStore;
+
     public AndroidLogger() {
+        logStore = new LogStore();
     }
 
     private String wrapTag(String tag) {
@@ -14,26 +18,25 @@ public class AndroidLogger {
 
     public void i(String tag, String message) {
         Log.i(wrapTag(tag), message);
+        logStore.i(tag, message);
     }
 
     public void v(String tag, String message) {
         Log.v(wrapTag(tag), message);
+        logStore.v(tag, message);
     }
 
     public void e(String tag, Throwable e) {
         Log.e(wrapTag(tag), e.getMessage(), e);
+        logStore.e(tag, e.getMessage());
     }
 
     public void u(String tag, String message) {
-        i(wrapTag(tag), "USER ACTION - " + message);
+        Log.i(wrapTag(tag), "USER ACTION - " + message);
+        logStore.u(tag, message);
     }
 
-    public ArrayList<String> dump() {
-        ArrayList<String> logs = new ArrayList<>();
-        logs.add("some log 1");
-        logs.add("some log 2");
-        logs.add("some log 3");
-        logs.add("some log 4");
-        return logs;
+    public List<String> dump() {
+        return logStore.dump();
     }
 }
