@@ -16,12 +16,8 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.startsWith;
 
 @RunWith(AndroidJUnit4.class)
 public class LogDumpTest {
@@ -45,6 +41,6 @@ public class LogDumpTest {
     public void showsLogLinesInListView() {
         UserSimulation.switchToLogDumpScreen();
 
-        onView(allOf(withParent(withId(R.id.log_line_list)), withText(startsWith("[INFO] (LearningItemSetEditorView) window height")))).check(matches(isDisplayed()));
+        onView(withId(R.id.log_line_list)).check(matches(hasMinimumChildCount(4)));
     }
 }

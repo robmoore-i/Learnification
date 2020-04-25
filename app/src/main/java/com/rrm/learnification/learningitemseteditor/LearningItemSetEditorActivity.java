@@ -13,7 +13,6 @@ import com.rrm.learnification.button.ClearTextInputOnClickCommand;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.logdump.LogDumpActivity;
-import com.rrm.learnification.logdump.LogDumpActivityBundle;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
@@ -145,9 +144,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         }
         if (id == R.id.menu_action_dump_logs) {
             logger.u(LOG_TAG, "selected log dump menu item");
-            Intent intent = new Intent(this, LogDumpActivity.class);
-            intent.putExtras(new LogDumpActivityBundle(logger.dump()).toBundle());
-            startActivity(intent);
+            startActivity(new Intent(this, LogDumpActivity.class));
             return true;
         }
         if (id == R.id.menu_action_refresh) {

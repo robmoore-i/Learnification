@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.logger.AndroidLogStore;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.logger.LogcatLogParser;
 
 import java.util.ArrayList;
 
@@ -19,13 +21,10 @@ public class LogDumpActivity extends AppCompatActivity implements LogLineListVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logdump);
 
-        LogDumpActivityBundle activityStartupParameters = LogDumpActivityBundle.fromBundle(this.getIntent().getExtras());
-        ArrayList<String> logs = activityStartupParameters.logs;
+        ArrayList<String> logs = new ArrayList<>(new AndroidLogStore(new LogcatLogParser()).dump());
 
         LogLineList logLineList = new LogLineList(logger, this, logs);
 
-        // Todo: Set up a RecyclerView where each element is a log line. The view should be
-        //       scrollable and you should be able to filter by log level.
         setLogLineListInterItemPadding();
     }
 
