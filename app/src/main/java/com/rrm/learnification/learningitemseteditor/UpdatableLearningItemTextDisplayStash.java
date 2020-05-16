@@ -4,8 +4,6 @@ import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.LearningItemTextUpdateListener;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.textlist.LearningItemDisplayStash;
-import com.rrm.learnification.textlist.TextSource;
 
 import java.util.function.BiConsumer;
 

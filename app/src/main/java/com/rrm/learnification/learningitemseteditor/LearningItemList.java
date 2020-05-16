@@ -6,8 +6,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.textinput.TextEntryList;
-import com.rrm.learnification.textlist.OnSwipeCommand;
 
 import java.util.Collection;
 

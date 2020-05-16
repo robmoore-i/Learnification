@@ -1,7 +1,7 @@
-package com.rrm.learnification.textinput;
+package com.rrm.learnification.learningitemseteditor;
 
 import java.util.Collection;
 
-public interface TextEntryList {
+interface TextEntryList {
     boolean containsTextEntries(Collection<String> textEntries);
 }

@@ -1,7 +1,6 @@
 package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.button.ConfigurableButton;
-import com.rrm.learnification.textinput.SimulateButtonClickOnSubmitTextCommand;
 
 import org.junit.Test;
 

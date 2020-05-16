@@ -1,4 +1,4 @@
-package com.rrm.learnification.textinput;
+package com.rrm.learnification.learningitemseteditor;
 
 public interface TextInput {
     void setOnTextChangeListener(OnTextChangeListener onTextChangeListener);

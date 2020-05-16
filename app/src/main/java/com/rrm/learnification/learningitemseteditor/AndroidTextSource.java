@@ -1,11 +1,11 @@
-package com.rrm.learnification.textlist;
+package com.rrm.learnification.learningitemseteditor;
 
 import android.widget.EditText;
 
-public class AndroidTextSource implements TextSource {
+class AndroidTextSource implements TextSource {
     private final EditText editText;
 
-    public AndroidTextSource(EditText editText) {
+    AndroidTextSource(EditText editText) {
         this.editText = editText;
     }
 

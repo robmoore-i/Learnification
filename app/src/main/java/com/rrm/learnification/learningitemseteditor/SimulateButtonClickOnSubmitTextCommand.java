@@ -1,11 +1,11 @@
-package com.rrm.learnification.textinput;
+package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.button.ConfigurableButton;
 
-public class SimulateButtonClickOnSubmitTextCommand implements OnSubmitTextCommand {
+class SimulateButtonClickOnSubmitTextCommand implements OnSubmitTextCommand {
     private final ConfigurableButton button;
 
-    public SimulateButtonClickOnSubmitTextCommand(ConfigurableButton button) {
+    SimulateButtonClickOnSubmitTextCommand(ConfigurableButton button) {
         this.button = button;
     }
 

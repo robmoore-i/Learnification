@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.button.FinishActivityOnClickCommand;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.settings.learnificationdelay.DelayPicker;
 import com.rrm.learnification.settings.learnificationdelay.SaveDelayFromPickerOnClickCommand;

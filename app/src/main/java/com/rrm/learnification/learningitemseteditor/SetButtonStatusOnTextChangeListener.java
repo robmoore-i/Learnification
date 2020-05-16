@@ -1,4 +1,4 @@
-package com.rrm.learnification.textinput;
+package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 import static java.util.Arrays.asList;
 
-public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
+class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
     private static final String LOG_TAG = "SetButtonStatusOnTextChangeListener";
 
     // By default, a text entry list is valid as long as none of the constituent entries are empty.
@@ -20,24 +20,14 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
     private final HashMap<String, String> texts = new HashMap<>();
 
 
-    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton) {
+    SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton) {
         this.logger = logger;
         this.configurableButton = configurableButton;
         // Reevaluate button status onclick
         configurableButton.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
     }
 
-    /**
-     * @param textsValidation This is a function which accepts a mapping from text source id to
-     *                        text. The text is the text within one of the listened-to text sources.
-     *                        So the values of the map are the text entries you'll likely want to
-     *                        check for validity.
-     */
-    public void useTextValidation(Function<HashMap<String, String>, Boolean> textsValidation) {
-        this.textsValidation = textsValidation;
-    }
-
-    public static Function<HashMap<String, String>, Boolean> textsValidationForDisplayedLearningItems(AndroidLogger logger, TextEntryList textEntryList) {
+    static Function<HashMap<String, String>, Boolean> textsValidationForDisplayedLearningItems(AndroidLogger logger, TextEntryList textEntryList) {
         return new Function<HashMap<String, String>, Boolean>() {
             private final String LOG_TAG = SetButtonStatusOnTextChangeListener.LOG_TAG + ".unpersistedValidLearningItemSingleTextEntries";
 
@@ -67,6 +57,16 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
                 return asList(textEntries.toArray(new String[0])).toString();
             }
         };
+    }
+
+    /**
+     * @param textsValidation This is a function which accepts a mapping from text source id to
+     *                        text. The text is the text within one of the listened-to text sources.
+     *                        So the values of the map are the text entries you'll likely want to
+     *                        check for validity.
+     */
+    void useTextValidation(Function<HashMap<String, String>, Boolean> textsValidation) {
+        this.textsValidation = textsValidation;
     }
 
     @Override

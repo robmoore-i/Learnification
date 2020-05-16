@@ -1,6 +1,6 @@
-package com.rrm.learnification.textinput;
+package com.rrm.learnification.learningitemseteditor;
 
-public interface IdentifiedTextSource {
+interface IdentifiedTextSource {
     String identity();
 
     /**

@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.button.ClearTextInputOnClickCommand;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.logdump.LogDumpActivity;
@@ -30,13 +29,11 @@ import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.storage.LearningItemTextUpdateBroker;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
-import com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener;
-import com.rrm.learnification.textinput.SimulateButtonClickOnSubmitTextCommand;
 import com.rrm.learnification.time.AndroidClock;
 import com.rrm.learnification.toolbar.FastForwardScheduleButton;
 import com.rrm.learnification.toolbar.LearnificationScheduleStatusUpdate;
 
-import static com.rrm.learnification.textinput.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
+import static com.rrm.learnification.learningitemseteditor.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
 
 public class LearningItemSetEditorActivity extends AppCompatActivity {
     private static final String LOG_TAG = "LearningItemSetEditorActivity";

@@ -4,7 +4,6 @@ import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.textlist.TextSource;
 
 import org.junit.Test;
 

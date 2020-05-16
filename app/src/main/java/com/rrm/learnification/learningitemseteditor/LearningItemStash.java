@@ -3,9 +3,6 @@ package com.rrm.learnification.learningitemseteditor;
 import android.widget.EditText;
 
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.textinput.AndroidTextWatcher;
-import com.rrm.learnification.textinput.OnTextChangeListener;
-import com.rrm.learnification.textlist.AndroidTextSource;
 
 class LearningItemStash {
     private static final String LOG_TAG = "LearningItemListCache";

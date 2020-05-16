@@ -1,6 +1,4 @@
-package com.rrm.learnification.button;
-
-import com.rrm.learnification.textinput.TextInput;
+package com.rrm.learnification.learningitemseteditor;
 
 import org.junit.Test;
 

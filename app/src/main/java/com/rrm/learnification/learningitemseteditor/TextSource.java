@@ -1,6 +1,6 @@
-package com.rrm.learnification.textlist;
+package com.rrm.learnification.learningitemseteditor;
 
-public interface TextSource {
+interface TextSource {
     String get();
 
     boolean isEmpty();
@@ -8,7 +8,7 @@ public interface TextSource {
     class StableTextSource implements TextSource {
         private final String s;
 
-        public StableTextSource(String s) {
+        StableTextSource(String s) {
             this.s = s;
         }
 
