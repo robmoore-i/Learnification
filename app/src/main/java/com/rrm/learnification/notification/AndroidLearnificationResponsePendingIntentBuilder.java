@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import com.rrm.learnification.response.LearnificationResponseService;
 
-public class AndroidPendingIntentBuilder {
+public class AndroidLearnificationResponsePendingIntentBuilder {
     public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
     public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
 
@@ -14,11 +14,11 @@ public class AndroidPendingIntentBuilder {
 
     private final Context packageContext;
     private final Intent intent;
-    private final PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator;
+    private final PendingIntentIdGenerator pendingIntentIdGenerator;
 
-    AndroidPendingIntentBuilder(Context packageContext, String expectedUserResponse, String learningItemPrompt, LearnificationResponseType learnificationResponseType, PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator) {
+    AndroidLearnificationResponsePendingIntentBuilder(Context packageContext, String learningItemPrompt, String expectedUserResponse, LearnificationResponseType learnificationResponseType, PendingIntentIdGenerator pendingIntentIdGenerator) {
         this.packageContext = packageContext;
-        this.pendingIntentRequestCodeGenerator = pendingIntentRequestCodeGenerator;
+        this.pendingIntentIdGenerator = pendingIntentIdGenerator;
         intent = new Intent(packageContext, LearnificationResponseService.class);
         intent.putExtra(RESPONSE_TYPE_EXTRA, learnificationResponseType.name());
         intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
@@ -28,7 +28,7 @@ public class AndroidPendingIntentBuilder {
     PendingIntent build() {
         return PendingIntent.getService(
                 packageContext,
-                pendingIntentRequestCodeGenerator.next(),
+                pendingIntentIdGenerator.next(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );

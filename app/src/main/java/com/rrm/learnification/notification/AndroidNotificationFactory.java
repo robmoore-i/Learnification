@@ -14,8 +14,6 @@ import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.response.NotificationTextContent;
 
-import java.util.List;
-
 public class AndroidNotificationFactory {
     public static final String NOTIFICATION_TYPE = "notificationType";
     private static final String LOG_TAG = "AndroidNotificationFactory";
@@ -25,7 +23,7 @@ public class AndroidNotificationFactory {
     private final AndroidNotificationActionFactory notificationActionFactory;
 
 
-    public AndroidNotificationFactory(AndroidLogger logger, Context packageContext, PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator) {
+    public AndroidNotificationFactory(AndroidLogger logger, Context packageContext, PendingIntentIdGenerator pendingIntentRequestCodeGenerator) {
         this.logger = logger;
         this.packageContext = packageContext;
         this.notificationActionFactory = new AndroidNotificationActionFactory(packageContext, pendingIntentRequestCodeGenerator);
@@ -37,20 +35,16 @@ public class AndroidNotificationFactory {
         String expectedUserResponse = learnificationText.expected;
         logger.i(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
-        return buildNotification(
-                learningItemPrompt,
-                subHeading,
-                notificationActionFactory.learnificationActions(learningItemPrompt, expectedUserResponse));
+        NotificationCompat.Builder builder = appNotificationTemplate(learningItemPrompt, subHeading, NotificationType.LEARNIFICATION);
+        notificationActionFactory.learnificationActions(learningItemPrompt, expectedUserResponse)
+                .forEach(builder::addAction);
+        return builder.build();
     }
 
-    public Notification createLearnificationResponse(NotificationTextContent notificationTextContent) {
-        return appNotificationTemplate(notificationTextContent.title(), notificationTextContent.text(), NotificationType.LEARNIFICATION_RESPONSE)
-                .build();
-    }
-
-    private Notification buildNotification(String title, String text, List<NotificationCompat.Action> actions) {
-        NotificationCompat.Builder builder = appNotificationTemplate(title, text, NotificationType.LEARNIFICATION);
-        actions.forEach(builder::addAction);
+    public Notification createLearnificationResponse(NotificationTextContent notificationTextContent, String givenPrompt, String expectedUserResponse) {
+        NotificationCompat.Builder builder = appNotificationTemplate(notificationTextContent.title(), notificationTextContent.text(), NotificationType.LEARNIFICATION_RESPONSE);
+        notificationActionFactory.learnificationResponseActions(givenPrompt, expectedUserResponse)
+                .forEach(builder::addAction);
         return builder.build();
     }
 

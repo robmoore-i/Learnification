@@ -7,8 +7,8 @@ import com.rrm.learnification.publication.LearnificationScheduler;
 
 import org.junit.Test;
 
+import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.RESPONSE_TYPE_EXTRA;
 import static com.rrm.learnification.notification.AndroidNotificationActionFactory.REPLY_TEXT;
-import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.RESPONSE_TYPE_EXTRA;
 import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
 import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
 import static org.hamcrest.CoreMatchers.equalTo;

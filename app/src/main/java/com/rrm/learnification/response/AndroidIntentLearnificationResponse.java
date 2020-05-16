@@ -5,10 +5,10 @@ import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
 import com.rrm.learnification.publication.LearnificationScheduler;
 
+import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.EXPECTED_USER_RESPONSE_EXTRA;
+import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.GIVEN_PROMPT_EXTRA;
+import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.RESPONSE_TYPE_EXTRA;
 import static com.rrm.learnification.notification.AndroidNotificationActionFactory.REPLY_TEXT;
-import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.EXPECTED_USER_RESPONSE_EXTRA;
-import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.GIVEN_PROMPT_EXTRA;
-import static com.rrm.learnification.notification.AndroidPendingIntentBuilder.RESPONSE_TYPE_EXTRA;
 import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
 import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
 
@@ -40,9 +40,9 @@ class AndroidIntentLearnificationResponse implements LearnificationResponse {
     @Override
     public LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
         if (isShowMeResponse()) {
-            return new ShowMeHandler(logger, learnificationScheduler, responseNotificationCorrespondent);
+            return new ShowMeHandler(logger, learnificationScheduler, responseContentGenerator, responseNotificationCorrespondent);
         } else if (isNextResponse()) {
-            return new NextHandler(logger, learnificationScheduler, responseNotificationCorrespondent);
+            return new NextHandler(logger, learnificationScheduler, responseContentGenerator, responseNotificationCorrespondent);
         } else if (hasRemoteInput()) {
             return new AnswerHandler(logger, learnificationScheduler, responseContentGenerator, responseNotificationCorrespondent);
         } else {

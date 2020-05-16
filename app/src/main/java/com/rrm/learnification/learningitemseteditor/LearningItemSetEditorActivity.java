@@ -17,7 +17,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
 import com.rrm.learnification.notification.NotificationIdGenerator;
-import com.rrm.learnification.notification.PendingIntentRequestCodeGenerator;
+import com.rrm.learnification.notification.PendingIntentIdGenerator;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.settings.SettingsActivity;
@@ -80,7 +80,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
-        PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator = PendingIntentRequestCodeGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
+        PendingIntentIdGenerator pendingIntentRequestCodeGenerator = PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this, notificationIdGenerator, pendingIntentRequestCodeGenerator);
         JobIdGenerator jobIdGenerator = JobIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, clock,

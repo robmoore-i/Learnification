@@ -7,7 +7,7 @@ import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.NotificationIdGenerator;
-import com.rrm.learnification.notification.PendingIntentRequestCodeGenerator;
+import com.rrm.learnification.notification.PendingIntentIdGenerator;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
@@ -44,7 +44,7 @@ public class LearnificationPublishingService extends JobService {
         LearnificationTextGenerator learnificationTextGenerator = settingsRepository.learnificationTextGenerator(learningItemSupplier);
 
         NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
-        PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator = PendingIntentRequestCodeGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
+        PendingIntentIdGenerator pendingIntentRequestCodeGenerator = PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this, notificationIdGenerator, pendingIntentRequestCodeGenerator);
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 logger,

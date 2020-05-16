@@ -27,7 +27,7 @@ public class AndroidNotificationFacade {
         this.publisher = publisher;
     }
 
-    public static AndroidNotificationFacade fromContext(AndroidLogger logger, Context context, NotificationIdGenerator notificationIdGenerator, PendingIntentRequestCodeGenerator pendingIntentRequestCodeGenerator) {
+    public static AndroidNotificationFacade fromContext(AndroidLogger logger, Context context, NotificationIdGenerator notificationIdGenerator, PendingIntentIdGenerator pendingIntentRequestCodeGenerator) {
         return new AndroidNotificationFacade(
                 logger,
                 new AndroidNotificationContext(context.getApplicationContext()),
