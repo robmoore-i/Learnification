@@ -1,4 +1,4 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemupdate;
 
 import android.widget.EditText;
 

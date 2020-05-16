@@ -1,6 +1,7 @@
 package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.TextInput;
 
 class LearningItemTextInput implements TextInput {
     private final AddLearningItemTextInputView addLearningItemView;

@@ -1,6 +1,8 @@
 package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.button.ConfigurableButton;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.IdentifiedTextSource;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableTextEntryList;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.Collection;
@@ -27,7 +29,7 @@ class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
         configurableButton.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
     }
 
-    static Function<HashMap<String, String>, Boolean> textsValidationForDisplayedLearningItems(AndroidLogger logger, TextEntryList textEntryList) {
+    static Function<HashMap<String, String>, Boolean> textsValidationForDisplayedLearningItems(AndroidLogger logger, UpdatableTextEntryList textEntryList) {
         return new Function<HashMap<String, String>, Boolean>() {
             private final String LOG_TAG = SetButtonStatusOnTextChangeListener.LOG_TAG + ".unpersistedValidLearningItemSingleTextEntries";
 

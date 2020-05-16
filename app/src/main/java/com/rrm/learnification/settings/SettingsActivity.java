@@ -13,9 +13,9 @@ import com.rrm.learnification.settings.learnificationpromptstrategy.Learnificati
 import com.rrm.learnification.settings.learnificationpromptstrategy.SavePromptStrategyOnClickCommand;
 import com.rrm.learnification.settings.save.SaveSettingsButton;
 import com.rrm.learnification.settings.save.SaveSettingsView;
+import com.rrm.learnification.settings.toolbar.AppToolbar;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.toolbar.AppToolbar;
 
 import static java.lang.Integer.max;
 

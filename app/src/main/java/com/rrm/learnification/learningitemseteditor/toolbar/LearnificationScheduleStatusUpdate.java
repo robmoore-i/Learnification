@@ -1,4 +1,4 @@
-package com.rrm.learnification.toolbar;
+package com.rrm.learnification.learningitemseteditor.toolbar;
 
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.logger.AndroidLogger;

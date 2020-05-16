@@ -17,10 +17,12 @@ import android.widget.TextView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.AndroidTextWatcher;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemView;
+import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarView;
+import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarViewParameters;
+import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarViewUpdate;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.toolbar.ToolbarView;
-import com.rrm.learnification.toolbar.ToolbarViewParameters;
-import com.rrm.learnification.toolbar.ToolbarViewUpdate;
 
 class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorView, LearningItemSetTitleView, AddLearningItemView, LearningItemListView, UpdateLearningItemView, SoftKeyboardView {
     private static final String LOG_TAG = "LearningItemSetEditorView";

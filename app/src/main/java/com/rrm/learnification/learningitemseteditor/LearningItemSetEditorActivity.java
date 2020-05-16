@@ -11,6 +11,11 @@ import android.view.WindowManager;
 import com.rrm.learnification.R;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.LearningItemStash;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableLearningItemTextDisplayStash;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemButton;
+import com.rrm.learnification.learningitemseteditor.toolbar.FastForwardScheduleButton;
+import com.rrm.learnification.learningitemseteditor.toolbar.LearnificationScheduleStatusUpdate;
 import com.rrm.learnification.logdump.LogDumpActivity;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
@@ -30,8 +35,6 @@ import com.rrm.learnification.storage.LearningItemTextUpdateBroker;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.time.AndroidClock;
-import com.rrm.learnification.toolbar.FastForwardScheduleButton;
-import com.rrm.learnification.toolbar.LearnificationScheduleStatusUpdate;
 
 import static com.rrm.learnification.learningitemseteditor.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
 

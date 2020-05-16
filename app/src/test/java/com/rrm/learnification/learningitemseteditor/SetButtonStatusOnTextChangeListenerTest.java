@@ -2,6 +2,8 @@ package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.IdentifiedTextSource;
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableTextEntryList;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import org.junit.Before;
@@ -75,7 +77,7 @@ public class SetButtonStatusOnTextChangeListenerTest {
     }
 
     private Function<HashMap<String, String>, Boolean> updatedLearningItemValidatorWhereNewLearningItemIsntInList() {
-        TextEntryList stubTextEntryList = mock(TextEntryList.class);
+        UpdatableTextEntryList stubTextEntryList = mock(UpdatableTextEntryList.class);
         when(stubTextEntryList.containsTextEntries(any())).thenReturn(false);
         return textsValidationForDisplayedLearningItems(dummyLogger, stubTextEntryList);
     }

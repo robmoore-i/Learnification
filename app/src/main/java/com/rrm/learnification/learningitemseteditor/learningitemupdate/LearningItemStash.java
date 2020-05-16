@@ -1,22 +1,23 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemupdate;
 
 import android.widget.EditText;
 
+import com.rrm.learnification.learningitemseteditor.OnTextChangeListener;
 import com.rrm.learnification.logger.AndroidLogger;
 
-class LearningItemStash {
+public class LearningItemStash {
     private static final String LOG_TAG = "LearningItemListCache";
     private final OnTextChangeListener onTextChangeListener;
     private final UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache;
     private final AndroidLogger logger;
 
-    LearningItemStash(AndroidLogger logger, OnTextChangeListener onTextChangeListener, UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache) {
+    public LearningItemStash(AndroidLogger logger, OnTextChangeListener onTextChangeListener, UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache) {
         this.logger = logger;
         this.onTextChangeListener = onTextChangeListener;
         this.updatableLearningItemDisplayCache = updatableLearningItemDisplayCache;
     }
 
-    void stash(EditText listItemView, String viewText, String textSourceId) {
+    public void stash(EditText listItemView, String viewText, String textSourceId) {
         logger.i(LOG_TAG, "focus acquired on list item with text '" + viewText + "'");
         // Set update button to update the learning item based on viewText with the text of listItemView
         updatableLearningItemDisplayCache.saveText(new AndroidTextSource(listItemView), viewText);
@@ -24,7 +25,7 @@ class LearningItemStash {
         onTextChangeListener.addTextSource(new AndroidTextWatcher(textSourceId, listItemView));
     }
 
-    void pop(EditText listItemView, String viewText, String textSourceId) {
+    public void pop(EditText listItemView, String viewText, String textSourceId) {
         logger.i(LOG_TAG, "focus lost on list item with text '" + viewText + "'");
         // Reload text content from storage
         listItemView.setText(updatableLearningItemDisplayCache.savedText());

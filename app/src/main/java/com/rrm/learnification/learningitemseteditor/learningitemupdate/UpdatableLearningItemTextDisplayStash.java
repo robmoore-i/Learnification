@@ -1,4 +1,4 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemupdate;
 
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -16,7 +16,7 @@ public class UpdatableLearningItemTextDisplayStash implements LearningItemDispla
     private TextSource textSource;
     private LearningItemText savedLearningItemText;
 
-    UpdatableLearningItemTextDisplayStash(AndroidLogger logger, PersistentLearningItemRepository learningItemRepository) {
+    public UpdatableLearningItemTextDisplayStash(AndroidLogger logger, PersistentLearningItemRepository learningItemRepository) {
         this.logger = logger;
         this.learningItemRepository = learningItemRepository;
     }
@@ -44,7 +44,7 @@ public class UpdatableLearningItemTextDisplayStash implements LearningItemDispla
      * Overwrites the stashed value using the live, updatable value. It does this using the given
      * BiConsumer.
      */
-    void commit(BiConsumer<LearningItemText, LearningItemText> learningItemTextConsumer) {
+    public void commit(BiConsumer<LearningItemText, LearningItemText> learningItemTextConsumer) {
         if (!textSource.isEmpty()) {
             LearningItemText target = savedLearningItemText;
             LearningItemText replacement = liveLearningItemText();

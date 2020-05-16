@@ -1,6 +1,8 @@
 package com.rrm.learnification.learningitemseteditor;
 
-interface OnTextChangeListener {
+import com.rrm.learnification.learningitemseteditor.learningitemupdate.IdentifiedTextSource;
+
+public interface OnTextChangeListener {
     void onTextChange(IdentifiedTextSource identifiedTextSource);
 
     void addTextSource(IdentifiedTextSource identifiedTextSource);

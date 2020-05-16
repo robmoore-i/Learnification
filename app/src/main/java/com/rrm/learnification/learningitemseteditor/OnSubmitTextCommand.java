@@ -1,5 +1,5 @@
 package com.rrm.learnification.learningitemseteditor;
 
-interface OnSubmitTextCommand {
+public interface OnSubmitTextCommand {
     void onSubmit();
 }

@@ -1,4 +1,4 @@
-package com.rrm.learnification.toolbar;
+package com.rrm.learnification.settings.toolbar;
 
 import com.rrm.learnification.logger.AndroidLogger;
 

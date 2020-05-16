@@ -1,4 +1,4 @@
-package com.rrm.learnification.toolbar;
+package com.rrm.learnification.learningitemseteditor.toolbar;
 
 import android.support.annotation.Nullable;
 
@@ -74,7 +74,7 @@ public interface ToolbarViewParameters {
         private final LearnificationScheduler learnificationScheduler;
         private final int seconds;
 
-        LearnificationScheduled(LearnificationScheduler learnificationScheduler, int secondsUntilExecution) {
+        public LearnificationScheduled(LearnificationScheduler learnificationScheduler, int secondsUntilExecution) {
             this.learnificationScheduler = learnificationScheduler;
             this.seconds = secondsUntilExecution;
         }

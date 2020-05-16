@@ -1,6 +1,8 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemupdate;
 
-interface IdentifiedTextSource {
+import com.rrm.learnification.learningitemseteditor.OnTextChangeListener;
+
+public interface IdentifiedTextSource {
     String identity();
 
     /**

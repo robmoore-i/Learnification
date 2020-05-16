@@ -1,18 +1,18 @@
-package com.rrm.learnification.toolbar;
+package com.rrm.learnification.learningitemseteditor.toolbar;
 
 import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 
-class ScheduleLearnificationOnClickCommand implements OnClickCommand {
+class TriggerNextLearnificationOnClickCommand implements OnClickCommand {
     private final LearnificationScheduler learnificationScheduler;
 
-    ScheduleLearnificationOnClickCommand(LearnificationScheduler learnificationScheduler) {
+    TriggerNextLearnificationOnClickCommand(LearnificationScheduler learnificationScheduler) {
         this.learnificationScheduler = learnificationScheduler;
     }
 
     @Override
     public void onClick() {
-        learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);
+        learnificationScheduler.triggerNext(LearnificationPublishingService.class);
     }
 }
