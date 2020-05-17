@@ -15,7 +15,6 @@ import com.rrm.learnification.learningitemseteditor.learningitemupdate.LearningI
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableLearningItemTextDisplayStash;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemButton;
 import com.rrm.learnification.learningitemseteditor.toolbar.FastForwardScheduleButton;
-import com.rrm.learnification.learningitemseteditor.toolbar.LearnificationScheduleStatusUpdate;
 import com.rrm.learnification.logdump.LogDumpActivity;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFacade;
@@ -23,6 +22,7 @@ import com.rrm.learnification.notification.AndroidResponseNotificationCorrespond
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
 import com.rrm.learnification.publication.LearnificationPublishingService;
+import com.rrm.learnification.publication.LearnificationScheduleStatusUpdate;
 import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;

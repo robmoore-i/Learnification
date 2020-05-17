@@ -1,10 +1,11 @@
-package com.rrm.learnification.learningitemseteditor.toolbar;
+package com.rrm.learnification.publication;
 
 import com.rrm.learnification.button.ConfigurableButton;
+import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarUpdateListener;
+import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarViewUpdate;
+import com.rrm.learnification.learningitemseteditor.toolbar.viewparameters.EmptyToolbarViewParameters;
+import com.rrm.learnification.learningitemseteditor.toolbar.viewparameters.ToolbarViewParameters;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.publication.LearnificationScheduler;
-
-import java.util.Optional;
 
 public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
     private static final String LOG_TAG = "LearnificationScheduleStatusUpdate";
@@ -14,7 +15,7 @@ public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
     private final ConfigurableButton fastForwardScheduleButton;
     private final Class<?> learnificationPublishingServiceClass;
 
-    private ToolbarViewParameters toolbarViewParameters = ToolbarViewParameters.empty();
+    private ToolbarViewParameters toolbarViewParameters = new EmptyToolbarViewParameters();
 
     public LearnificationScheduleStatusUpdate(AndroidLogger logger, Class<?> learnificationPublishingServiceClass, LearnificationScheduler learnificationScheduler, ConfigurableButton fastForwardScheduleButton) {
         this.logger = logger;
@@ -25,7 +26,7 @@ public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
 
     @Override
     public void update(ToolbarUpdateListener toolbarUpdateListener) {
-        ToolbarViewParameters toolbarViewParameters = getToolbarViewParametersFromLearnificationScheduleStatus();
+        ToolbarViewParameters toolbarViewParameters = ToolbarViewParameters.latest(logger, this.toolbarViewParameters, learnificationScheduler, learnificationPublishingServiceClass);
         logChangeInToolbarViewParameters(toolbarViewParameters);
         toolbarUpdateListener.updateToolbar(toolbarViewParameters);
         toolbarViewParameters.configureFastForwardScheduleButton(fastForwardScheduleButton);
@@ -35,23 +36,6 @@ public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
         if (!this.toolbarViewParameters.equals(toolbarViewParameters)) {
             this.toolbarViewParameters = toolbarViewParameters;
             logger.i(LOG_TAG, "updating activity toolbar using learnification status '" + toolbarViewParameters.getName() + "'");
-        }
-    }
-
-    private ToolbarViewParameters getToolbarViewParametersFromLearnificationScheduleStatus() {
-        if (learnificationScheduler.learnificationAvailable()) {
-            return new ToolbarViewParameters.LearnificationReady();
-        } else {
-            Optional<Integer> optionalSeconds = learnificationScheduler.secondsUntilNextLearnification(learnificationPublishingServiceClass);
-            if (optionalSeconds.isPresent()) {
-                int seconds = optionalSeconds.get();
-                if (!"scheduled".equals(toolbarViewParameters.getName())) {
-                    logger.i(LOG_TAG, "next learnification will trigger in " + seconds + " seconds");
-                }
-                return new ToolbarViewParameters.LearnificationScheduled(learnificationScheduler, seconds);
-            } else {
-                return new ToolbarViewParameters.LearnificationNotScheduled(learnificationScheduler);
-            }
         }
     }
 }

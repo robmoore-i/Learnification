@@ -1,9 +1,7 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemupdate;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemText;
-import com.rrm.learnification.learningitemseteditor.learningitemupdate.TextSource;
-import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableLearningItemTextDisplayStash;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.storage.PersistentLearningItemRepository;
 

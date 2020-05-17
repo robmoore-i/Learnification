@@ -20,8 +20,8 @@ import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.AndroidTextWatcher;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemView;
 import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarView;
-import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarViewParameters;
 import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarViewUpdate;
+import com.rrm.learnification.learningitemseteditor.toolbar.viewparameters.ToolbarViewParameters;
 import com.rrm.learnification.logger.AndroidLogger;
 
 class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorView, LearningItemSetTitleView, AddLearningItemView, LearningItemListView, UpdateLearningItemView, SoftKeyboardView {

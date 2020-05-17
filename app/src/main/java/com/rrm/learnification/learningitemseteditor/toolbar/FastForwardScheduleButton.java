@@ -7,5 +7,4 @@ public class FastForwardScheduleButton extends AndroidButton {
     public FastForwardScheduleButton(AndroidLogger logger, ToolbarView toolbarView) {
         super(logger, toolbarView.toolbarButton(), false);
     }
-
 }
