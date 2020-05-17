@@ -32,11 +32,11 @@
         <activity android:name=".logdump.LogDumpActivity" />
 
         <service
-            android:name=".publication.LearnificationPublishingService"
+            android:name=".learnification.publication.LearnificationPublishingService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".response.LearnificationResponseService" />
+        <service android:name=".learnification.response.LearnificationResponseService" />
 
     </application>
 

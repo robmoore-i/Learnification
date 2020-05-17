@@ -6,8 +6,8 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
+import com.rrm.learnification.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
@@ -53,7 +53,7 @@ public class JobSchedulerTest {
         JobInfo pendingJob = systemJobScheduler.getPendingJob(jobIdGenerator.last());
         assertThat(pendingJob.getMinLatencyMillis(), equalTo(10000L));
         assertThat(pendingJob.getMaxExecutionDelayMillis(), equalTo(20000L));
-        assertThat(pendingJob.getService().getClassName(), equalTo("com.rrm.learnification.publication.LearnificationPublishingService"));
+        assertThat(pendingJob.getService().getClassName(), equalTo(LearnificationPublishingService.class.getCanonicalName()));
     }
 
     @Test

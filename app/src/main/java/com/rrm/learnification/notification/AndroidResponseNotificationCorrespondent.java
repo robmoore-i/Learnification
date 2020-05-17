@@ -4,8 +4,8 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.rrm.learnification.learnification.response.NotificationTextContent;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.response.NotificationTextContent;
 
 import java.util.Arrays;
 

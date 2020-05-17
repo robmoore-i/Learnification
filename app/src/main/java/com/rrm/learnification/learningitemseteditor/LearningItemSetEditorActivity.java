@@ -11,6 +11,9 @@ import android.view.WindowManager;
 import com.rrm.learnification.R;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
+import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
+import com.rrm.learnification.learnification.publication.LearnificationScheduleStatusUpdate;
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.LearningItemStash;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableLearningItemTextDisplayStash;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemButton;
@@ -21,9 +24,6 @@ import com.rrm.learnification.notification.AndroidNotificationFacade;
 import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
-import com.rrm.learnification.publication.LearnificationPublishingService;
-import com.rrm.learnification.publication.LearnificationScheduleStatusUpdate;
-import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
@@ -83,7 +83,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         PendingIntentIdGenerator pendingIntentRequestCodeGenerator = PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this, notificationIdGenerator, pendingIntentRequestCodeGenerator);
         JobIdGenerator jobIdGenerator = JobIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, clock,
+        LearnificationScheduler learnificationScheduler = new AndroidLearnificationScheduler(logger, clock,
                 new AndroidJobScheduler(logger, clock, this, jobIdGenerator),
                 new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor)),
                 new AndroidResponseNotificationCorrespondent(
@@ -95,7 +95,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         // Set them up where necessary, again in the order in which they have relevance in the view
 
-        learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, LearnificationPublishingService.class, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
+        learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
 
         learningItemSetSelector.select(learningItemSetName);
         learningItemSetTitle.set(learningItemSetName);
@@ -115,7 +115,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         // Schedule a learnification
 
         androidNotificationFacade.createNotificationChannel(AndroidNotificationFacade.CHANNEL_ID);
-        learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);
+        learnificationScheduler.scheduleImminentJob();
 
         // Do other stuff
 

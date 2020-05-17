@@ -1,10 +1,10 @@
 package com.rrm.learnification.toolbar;
 
 import com.rrm.learnification.button.ConfigurableButton;
+import com.rrm.learnification.learnification.publication.LearnificationScheduleStatusUpdate;
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarUpdateListener;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.publication.LearnificationScheduleStatusUpdate;
-import com.rrm.learnification.publication.LearnificationScheduler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,6 @@ public class LearnificationScheduleStatusUpdateTest {
     private final LearnificationScheduler mockLearnificationScheduler = mock(LearnificationScheduler.class);
     private final ConfigurableButton mockFastForwardScheduleButton = mock(ConfigurableButton.class);
     private final ToolbarUpdateListener mockToolbarUpdateListener = mock(ToolbarUpdateListener.class);
-    private final Class<LearnificationScheduleStatusUpdateTest> serviceClass = LearnificationScheduleStatusUpdateTest.class;
 
     @Before
     public void beforeEach() {
@@ -34,7 +33,7 @@ public class LearnificationScheduleStatusUpdateTest {
     @Test
     public void doesntLogTheReadyMessageTwice() {
         when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(true);
-        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, serviceClass, mockLearnificationScheduler, mockFastForwardScheduleButton);
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
@@ -45,8 +44,8 @@ public class LearnificationScheduleStatusUpdateTest {
     @Test
     public void logsTwoDifferentMessages() {
         when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
-        when(mockLearnificationScheduler.secondsUntilNextLearnification(serviceClass)).thenReturn(Optional.of(100)).thenReturn(Optional.empty());
-        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, serviceClass, mockLearnificationScheduler, mockFastForwardScheduleButton);
+        when(mockLearnificationScheduler.secondsUntilNextLearnification()).thenReturn(Optional.of(100)).thenReturn(Optional.empty());
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
@@ -58,8 +57,8 @@ public class LearnificationScheduleStatusUpdateTest {
     @Test
     public void doesntLogTheScheduledMessageTwice() {
         when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
-        when(mockLearnificationScheduler.secondsUntilNextLearnification(serviceClass)).thenReturn(Optional.of(100)).thenReturn(Optional.of(99));
-        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, serviceClass, mockLearnificationScheduler, mockFastForwardScheduleButton);
+        when(mockLearnificationScheduler.secondsUntilNextLearnification()).thenReturn(Optional.of(100)).thenReturn(Optional.of(99));
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
@@ -70,8 +69,8 @@ public class LearnificationScheduleStatusUpdateTest {
     @Test
     public void doesntLogTheNotScheduledMessageTwice() {
         when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
-        when(mockLearnificationScheduler.secondsUntilNextLearnification(serviceClass)).thenReturn(Optional.empty()).thenReturn(Optional.empty());
-        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, serviceClass, mockLearnificationScheduler, mockFastForwardScheduleButton);
+        when(mockLearnificationScheduler.secondsUntilNextLearnification()).thenReturn(Optional.empty()).thenReturn(Optional.empty());
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
@@ -82,8 +81,8 @@ public class LearnificationScheduleStatusUpdateTest {
     @Test
     public void doesntLogTheTimeUntilNextLearnificationRepeatedlyAsACountdown() {
         when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
-        when(mockLearnificationScheduler.secondsUntilNextLearnification(serviceClass)).thenReturn(Optional.of(100)).thenReturn(Optional.of(99));
-        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, serviceClass, mockLearnificationScheduler, mockFastForwardScheduleButton);
+        when(mockLearnificationScheduler.secondsUntilNextLearnification()).thenReturn(Optional.of(100)).thenReturn(Optional.of(99));
+        LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);

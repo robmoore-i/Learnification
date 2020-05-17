@@ -1,8 +1,8 @@
-package com.rrm.learnification.response;
+package com.rrm.learnification.learnification.response;
 
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
-import com.rrm.learnification.publication.LearnificationScheduler;
 
 public abstract class UserGuessLearnificationResponseHandler implements LearnificationResponseHandler {
     private final AndroidLogger logger;

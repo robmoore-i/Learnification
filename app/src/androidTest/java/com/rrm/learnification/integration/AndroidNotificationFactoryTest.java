@@ -5,10 +5,10 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.learnification.response.NotificationTextContent;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.NotificationType;
-import com.rrm.learnification.response.NotificationTextContent;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.Before;

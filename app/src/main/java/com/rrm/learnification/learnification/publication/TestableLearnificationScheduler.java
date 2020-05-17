@@ -1,4 +1,4 @@
-package com.rrm.learnification.publication;
+package com.rrm.learnification.learnification.publication;
 
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -10,7 +10,17 @@ import com.rrm.learnification.time.AndroidClock;
 import java.sql.Time;
 import java.util.Optional;
 
-public class LearnificationScheduler {
+/**
+ * You can't write unit tests which refer to classes like LearnificationPublishingService, which is
+ * the service class for the jobs this class schedules. In order to enable unit testing, this class
+ * implements all the behaviour and branching, while never referring to that class.
+ * <p>
+ * The wrapping class, AndroidLearnificationScheduler, cannot be unit tested, but includes the
+ * references to LearnificationPublishingService, allowing the interface to be the one we really
+ * want.
+ */
+@SuppressWarnings("SameParameterValue")
+class TestableLearnificationScheduler {
     private static final String LOG_TAG = "LearnificationScheduler";
 
     private final AndroidLogger logger;
@@ -21,7 +31,7 @@ public class LearnificationScheduler {
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    public LearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
+    TestableLearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;
@@ -29,11 +39,11 @@ public class LearnificationScheduler {
         this.responseNotificationCorrespondent = responseNotificationCorrespondent;
     }
 
-    public void scheduleImminentJob(Class<?> serviceClass) {
+    void scheduleImminentJob(Class<?> serviceClass) {
         scheduleJob(serviceClass, ScheduleConfiguration.getImminentDelayRange());
     }
 
-    public void scheduleJob(Class<?> serviceClass) {
+    void scheduleJob(Class<?> serviceClass) {
         scheduleJob(serviceClass, scheduleConfiguration.getDelayRange());
     }
 
@@ -66,16 +76,16 @@ public class LearnificationScheduler {
         jobScheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
     }
 
-    public boolean learnificationAvailable() {
+    boolean learnificationAvailable() {
         return responseNotificationCorrespondent.hasActiveLearnifications();
     }
 
-    public Optional<Integer> secondsUntilNextLearnification(Class<?> serviceClass) {
+    Optional<Integer> secondsUntilNextLearnification(Class<?> serviceClass) {
         return jobScheduler.msUntilNextJob(serviceClass)
                 .map(l -> l.intValue() / 1000);
     }
 
-    public void triggerNext(Class<?> serviceClass) {
+    void triggerNext(Class<?> serviceClass) {
         jobScheduler.triggerNext(serviceClass);
     }
 }

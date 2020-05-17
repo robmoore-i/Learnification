@@ -1,9 +1,8 @@
-package com.rrm.learnification.response;
+package com.rrm.learnification.learnification.response;
 
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
-import com.rrm.learnification.publication.LearnificationPublishingService;
-import com.rrm.learnification.publication.LearnificationScheduler;
 
 class ShowMeHandler extends UserGuessLearnificationResponseHandler {
     private final LearnificationResponseContentGenerator responseContentGenerator;
@@ -15,7 +14,7 @@ class ShowMeHandler extends UserGuessLearnificationResponseHandler {
 
     @Override
     void scheduleNextLearnification(LearnificationScheduler learnificationScheduler) {
-        learnificationScheduler.scheduleJob(LearnificationPublishingService.class);
+        learnificationScheduler.scheduleJob();
     }
 
     @Override

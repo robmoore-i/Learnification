@@ -4,7 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.rrm.learnification.response.LearnificationResponseService;
+import com.rrm.learnification.learnification.response.LearnificationResponseService;
 
 public class AndroidLearnificationResponsePendingIntentBuilder {
     public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";

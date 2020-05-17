@@ -1,7 +1,7 @@
 package com.rrm.learnification.settings;
 
+import com.rrm.learnification.learnification.publication.LearnificationTextGenerator;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.publication.LearnificationTextGenerator;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
 import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.storage.LearningItemSupplier;

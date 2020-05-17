@@ -1,4 +1,4 @@
-package com.rrm.learnification.response;
+package com.rrm.learnification.learnification.response;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -7,13 +7,14 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.rrm.learnification.intent.AndroidResponseIntent;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
+import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
 import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
-import com.rrm.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
@@ -43,7 +44,7 @@ public class LearnificationResponseService extends IntentService {
                 NotificationManagerCompat.from(this),
                 new AndroidNotificationFactory(logger, this, PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor)),
                 NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor));
-        LearnificationScheduler learnificationScheduler = new LearnificationScheduler(logger, clock,
+        LearnificationScheduler learnificationScheduler = new AndroidLearnificationScheduler(logger, clock,
                 new AndroidJobScheduler(logger, clock, this, JobIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor)),
                 scheduleConfiguration,
                 responseNotificationCorrespondent);

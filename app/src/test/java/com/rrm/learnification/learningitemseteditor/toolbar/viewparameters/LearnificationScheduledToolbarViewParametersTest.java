@@ -1,7 +1,7 @@
 package com.rrm.learnification.learningitemseteditor.toolbar.viewparameters;
 
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.publication.LearnificationScheduler;
 
 import org.junit.Test;
 

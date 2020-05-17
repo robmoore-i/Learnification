@@ -11,8 +11,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.learnification.response.NotificationTextContent;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.response.NotificationTextContent;
 
 public class AndroidNotificationFactory {
     public static final String NOTIFICATION_TYPE = "notificationType";

@@ -1,12 +1,11 @@
-package com.rrm.learnification.publication;
+package com.rrm.learnification.learnification.publication;
 
 import org.junit.Test;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class DelayCalculatorTest {
@@ -23,41 +22,41 @@ public class DelayCalculatorTest {
     public void timeBetween1800AndMidnightIs6Hours() {
         int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 18, 0), Time.valueOf("00:00:00"));
 
-        assertThat(millisBetween, equalTo(sixHours));
+        assertEquals(sixHours, millisBetween);
     }
 
     @Test
     public void timeBetween1830AndMidnightIs5AndAHalfHours() {
         int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 18, 30), Time.valueOf("00:00:00"));
 
-        assertThat(millisBetween, equalTo(fiveHours + thirtyMins));
+        assertEquals(fiveHours + thirtyMins, millisBetween);
     }
 
     @Test
     public void timeBetween1815AndMidnightIs5And3QuarterHours() {
         int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 18, 15), Time.valueOf("00:00:00"));
 
-        assertThat(millisBetween, equalTo(fiveHours + fortyFiveMins));
+        assertEquals(fiveHours + fortyFiveMins, millisBetween);
     }
 
     @Test
     public void timeBetween1845AndMidnightIs5AndAQuarterHours() {
         int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 18, 45), Time.valueOf("00:00:00"));
 
-        assertThat(millisBetween, equalTo(fiveHours + fifteenMins));
+        assertEquals(fiveHours + fifteenMins, millisBetween);
     }
 
     @Test
     public void timeBetween2300And9amNextDayIs10Hours() {
         int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 23, 0), Time.valueOf("09:00:00"));
 
-        assertThat(millisBetween, equalTo(tenHours));
+        assertEquals(tenHours, millisBetween);
     }
 
     @Test
     public void timeBetween2215And9amNextDayIs10Hours45Minutes() {
         int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2019, 8, 18, 22, 15), Time.valueOf("09:00:00"));
 
-        assertThat(millisBetween, equalTo(tenHours + fortyFiveMins));
+        assertEquals(tenHours + fortyFiveMins, millisBetween);
     }
 }

@@ -2,8 +2,7 @@ package com.rrm.learnification.learningitemseteditor.toolbar.viewparameters;
 
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
-import com.rrm.learnification.publication.LearnificationPublishingService;
-import com.rrm.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 
 class LearnificationNotScheduled extends EquatableToolbarViewParameters {
     private final LearnificationScheduler learnificationScheduler;
@@ -38,7 +37,7 @@ class LearnificationNotScheduled extends EquatableToolbarViewParameters {
 
         @Override
         public void onClick() {
-            learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);
+            learnificationScheduler.scheduleImminentJob();
         }
     }
 }

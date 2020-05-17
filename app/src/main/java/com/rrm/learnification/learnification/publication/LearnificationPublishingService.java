@@ -1,4 +1,4 @@
-package com.rrm.learnification.publication;
+package com.rrm.learnification.learnification.publication;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;

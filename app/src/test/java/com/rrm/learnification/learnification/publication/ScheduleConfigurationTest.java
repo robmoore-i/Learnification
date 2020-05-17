@@ -1,4 +1,4 @@
-package com.rrm.learnification.publication;
+package com.rrm.learnification.learnification.publication;
 
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.settings.SettingsRepository;

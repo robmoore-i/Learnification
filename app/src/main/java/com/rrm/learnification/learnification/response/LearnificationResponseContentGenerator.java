@@ -1,4 +1,4 @@
-package com.rrm.learnification.response;
+package com.rrm.learnification.learnification.response;
 
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 

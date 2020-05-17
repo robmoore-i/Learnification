@@ -2,9 +2,8 @@ package com.rrm.learnification.learningitemseteditor.toolbar.viewparameters;
 
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.publication.LearnificationPublishingService;
-import com.rrm.learnification.publication.LearnificationScheduler;
 
 import java.util.Locale;
 
@@ -49,7 +48,7 @@ class LearnificationScheduled extends EquatableToolbarViewParameters {
 
         @Override
         public void onClick() {
-            learnificationScheduler.triggerNext(LearnificationPublishingService.class);
+            learnificationScheduler.triggerNext();
         }
     }
 }
