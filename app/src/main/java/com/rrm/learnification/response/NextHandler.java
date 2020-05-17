@@ -2,6 +2,7 @@ package com.rrm.learnification.response;
 
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
+import com.rrm.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.publication.LearnificationScheduler;
 
 class NextHandler extends UserGuessLearnificationResponseHandler {
@@ -10,6 +11,11 @@ class NextHandler extends UserGuessLearnificationResponseHandler {
     NextHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
         super(logger, "NextHandler", learnificationScheduler, responseNotificationCorrespondent);
         this.responseContentGenerator = responseContentGenerator;
+    }
+
+    @Override
+    void scheduleNextLearnification(LearnificationScheduler learnificationScheduler) {
+        learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);
     }
 
     @Override

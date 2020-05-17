@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -47,7 +46,7 @@ public class LearningItemSqlTableClientTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    private IntegrationTestWrapper guiTestWrapper;
+    private IntegrationTestWrapper integrationTestWrapper;
 
     private AndroidLogger logger = new AndroidLogger();
 
@@ -57,30 +56,15 @@ public class LearningItemSqlTableClientTest {
 
     @Before
     public void before() {
-        guiTestWrapper = new IntegrationTestWrapper(activityTestRule.getActivity());
-        guiTestWrapper.beforeEach();
+        integrationTestWrapper = new IntegrationTestWrapper(activityTestRule.getActivity());
+        integrationTestWrapper.beforeEach();
         androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
         learningItemSqlTableClient = new LearningItemSqlTableClient(logger, androidTestObjectFactory.getLearnificationAppDatabase());
-        learningItemSqlTableClient.clearEverything();
     }
 
     @After
     public void afterEach() {
-        guiTestWrapper.afterEach();
-        ArrayList<LearningItemText> toCleanUp = new ArrayList<>();
-        toCleanUp.addAll(oneAndTwo);
-        toCleanUp.addAll(thaiLearningItems);
-        String[] setNames = {"default", "Chinese", "Thai"};
-        for (String setName : setNames) {
-            sqlLearningItemSetRecordStore = recordStore(setName);
-            for (LearningItemText learningItemText : toCleanUp) {
-                try {
-                    sqlLearningItemSetRecordStore.delete(learningItemText);
-                } catch (AssertionError ignored) {
-                }
-            }
-        }
-        learningItemSqlTableClient.deleteAll(mixedLearningItems);
+        integrationTestWrapper.afterEach();
     }
 
     @Test
