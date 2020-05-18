@@ -32,7 +32,7 @@ public class LearnificationScheduleStatusUpdateTest {
 
     @Test
     public void doesntLogTheReadyMessageTwice() {
-        when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(true);
+        when(mockLearnificationScheduler.isLearnificationAvailable()).thenReturn(true);
         LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
@@ -43,7 +43,7 @@ public class LearnificationScheduleStatusUpdateTest {
 
     @Test
     public void logsTwoDifferentMessages() {
-        when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
+        when(mockLearnificationScheduler.isLearnificationAvailable()).thenReturn(false);
         when(mockLearnificationScheduler.secondsUntilNextLearnification()).thenReturn(Optional.of(100)).thenReturn(Optional.empty());
         LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
@@ -56,7 +56,7 @@ public class LearnificationScheduleStatusUpdateTest {
 
     @Test
     public void doesntLogTheScheduledMessageTwice() {
-        when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
+        when(mockLearnificationScheduler.isLearnificationAvailable()).thenReturn(false);
         when(mockLearnificationScheduler.secondsUntilNextLearnification()).thenReturn(Optional.of(100)).thenReturn(Optional.of(99));
         LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
@@ -68,7 +68,7 @@ public class LearnificationScheduleStatusUpdateTest {
 
     @Test
     public void doesntLogTheNotScheduledMessageTwice() {
-        when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
+        when(mockLearnificationScheduler.isLearnificationAvailable()).thenReturn(false);
         when(mockLearnificationScheduler.secondsUntilNextLearnification()).thenReturn(Optional.empty()).thenReturn(Optional.empty());
         LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 
@@ -80,7 +80,7 @@ public class LearnificationScheduleStatusUpdateTest {
 
     @Test
     public void doesntLogTheTimeUntilNextLearnificationRepeatedlyAsACountdown() {
-        when(mockLearnificationScheduler.learnificationAvailable()).thenReturn(false);
+        when(mockLearnificationScheduler.isLearnificationAvailable()).thenReturn(false);
         when(mockLearnificationScheduler.secondsUntilNextLearnification()).thenReturn(Optional.of(100)).thenReturn(Optional.of(99));
         LearnificationScheduleStatusUpdate learnificationScheduleStatusUpdate = new LearnificationScheduleStatusUpdate(mockLogger, mockLearnificationScheduler, mockFastForwardScheduleButton);
 

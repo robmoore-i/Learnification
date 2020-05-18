@@ -48,7 +48,7 @@ class LearnificationScheduled extends EquatableToolbarViewParameters {
 
         @Override
         public void onClick() {
-            learnificationScheduler.triggerNext();
+            learnificationScheduler.triggerNextLearnification();
         }
     }
 }

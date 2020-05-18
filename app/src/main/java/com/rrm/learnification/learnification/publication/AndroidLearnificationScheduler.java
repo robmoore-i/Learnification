@@ -16,22 +16,22 @@ public class AndroidLearnificationScheduler implements LearnificationScheduler {
     }
 
     @Override
-    public void scheduleJob() {
+    public void scheduleLearnification() {
         learnificationScheduler.scheduleJob(LearnificationPublishingService.class);
     }
 
     @Override
-    public void scheduleImminentJob() {
+    public void scheduleImminentLearnification() {
         learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);
     }
 
     @Override
-    public void triggerNext() {
+    public void triggerNextLearnification() {
         learnificationScheduler.triggerNext(LearnificationPublishingService.class);
     }
 
     @Override
-    public boolean learnificationAvailable() {
+    public boolean isLearnificationAvailable() {
         return learnificationScheduler.learnificationAvailable();
     }
 

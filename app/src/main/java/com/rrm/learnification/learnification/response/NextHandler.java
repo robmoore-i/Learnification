@@ -14,7 +14,7 @@ class NextHandler extends UserGuessLearnificationResponseHandler {
 
     @Override
     void scheduleNextLearnification(LearnificationScheduler learnificationScheduler) {
-        learnificationScheduler.scheduleImminentJob();
+        learnificationScheduler.scheduleImminentLearnification();
     }
 
     @Override

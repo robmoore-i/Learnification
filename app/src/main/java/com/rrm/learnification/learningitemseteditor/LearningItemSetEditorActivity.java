@@ -115,7 +115,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         // Schedule a learnification
 
         androidNotificationFacade.createNotificationChannel(AndroidNotificationFacade.CHANNEL_ID);
-        learnificationScheduler.scheduleImminentJob();
+        learnificationScheduler.scheduleImminentLearnification();
 
         // Do other stuff
 

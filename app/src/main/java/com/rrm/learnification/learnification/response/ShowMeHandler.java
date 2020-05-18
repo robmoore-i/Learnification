@@ -14,7 +14,7 @@ class ShowMeHandler extends UserGuessLearnificationResponseHandler {
 
     @Override
     void scheduleNextLearnification(LearnificationScheduler learnificationScheduler) {
-        learnificationScheduler.scheduleJob();
+        learnificationScheduler.scheduleLearnification();
     }
 
     @Override

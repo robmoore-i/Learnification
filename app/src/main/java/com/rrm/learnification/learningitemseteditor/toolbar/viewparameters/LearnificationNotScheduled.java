@@ -37,7 +37,7 @@ class LearnificationNotScheduled extends EquatableToolbarViewParameters {
 
         @Override
         public void onClick() {
-            learnificationScheduler.scheduleImminentJob();
+            learnificationScheduler.scheduleImminentLearnification();
         }
     }
 }

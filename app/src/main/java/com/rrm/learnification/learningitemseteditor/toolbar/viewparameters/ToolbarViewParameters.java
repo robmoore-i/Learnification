@@ -14,7 +14,7 @@ public interface ToolbarViewParameters {
     void configureFastForwardScheduleButton(ConfigurableButton fastForwardScheduleButton);
 
     static ToolbarViewParameters latest(AndroidLogger logger, ToolbarViewParameters currentToolbarViewParameters, LearnificationScheduler learnificationScheduler) {
-        if (learnificationScheduler.learnificationAvailable()) {
+        if (learnificationScheduler.isLearnificationAvailable()) {
             return new LearnificationReady();
         } else {
             Optional<Integer> optionalSeconds = learnificationScheduler.secondsUntilNextLearnification();

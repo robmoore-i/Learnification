@@ -3,13 +3,13 @@ package com.rrm.learnification.learnification.publication;
 import java.util.Optional;
 
 public interface LearnificationScheduler {
-    void scheduleJob();
+    void scheduleLearnification();
 
-    void scheduleImminentJob();
+    void scheduleImminentLearnification();
 
-    void triggerNext();
+    void triggerNextLearnification();
 
-    boolean learnificationAvailable();
+    boolean isLearnificationAvailable();
 
     Optional<Integer> secondsUntilNextLearnification();
 }
