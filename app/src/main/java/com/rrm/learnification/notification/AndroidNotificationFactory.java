@@ -49,7 +49,7 @@ public class AndroidNotificationFactory {
     }
 
     private NotificationCompat.Builder appNotificationTemplate(String title, String text, String notificationType) {
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, AndroidNotificationFacade.CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannelCreator.CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

@@ -5,10 +5,10 @@ import android.content.Context;
 
 import com.rrm.learnification.R;
 
-class AndroidNotificationContext {
+public class AndroidNotificationContext {
     private final Context androidContext;
 
-    AndroidNotificationContext(Context androidContext) {
+    public AndroidNotificationContext(Context androidContext) {
         this.androidContext = androidContext;
     }
 

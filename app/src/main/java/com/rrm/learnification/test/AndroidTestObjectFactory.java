@@ -1,6 +1,5 @@
 package com.rrm.learnification.test;
 
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.rrm.learnification.jobs.AndroidJobScheduler;
@@ -8,8 +7,6 @@ import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
-import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
-import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.storage.FileStorageAdaptor;
@@ -63,19 +60,5 @@ public class AndroidTestObjectFactory {
 
     public AndroidLogger getLogger() {
         return logger();
-    }
-
-    public AndroidResponseNotificationCorrespondent getAndroidResponseNotificationCorrespondent() {
-        return new AndroidResponseNotificationCorrespondent(
-                logger(),
-                activity.getSystemService(android.app.NotificationManager.class),
-                NotificationManagerCompat.from(activity),
-                getAndroidNotificationFactory(),
-                NotificationIdGenerator.fromFileStorageAdaptor(logger(), getFileStorageAdaptor())
-        );
-    }
-
-    public NotificationManagerCompat getSystemNotificationManager() {
-        return NotificationManagerCompat.from(activity);
     }
 }

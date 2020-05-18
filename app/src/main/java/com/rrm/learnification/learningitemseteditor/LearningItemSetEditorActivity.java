@@ -2,7 +2,6 @@ package com.rrm.learnification.learningitemseteditor;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,10 +19,9 @@ import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLea
 import com.rrm.learnification.learningitemseteditor.toolbar.FastForwardScheduleButton;
 import com.rrm.learnification.logdump.LogDumpActivity;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.AndroidNotificationFacade;
-import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
-import com.rrm.learnification.notification.NotificationIdGenerator;
-import com.rrm.learnification.notification.PendingIntentIdGenerator;
+import com.rrm.learnification.notification.AndroidActiveNotificationReader;
+import com.rrm.learnification.notification.AndroidNotificationContext;
+import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
@@ -79,19 +77,11 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         learningItemTextChangeListener.useTextValidation(textsValidationForDisplayedLearningItems(logger, learningItemList));
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
-        PendingIntentIdGenerator pendingIntentRequestCodeGenerator = PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
-        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this, notificationIdGenerator, pendingIntentRequestCodeGenerator);
         JobIdGenerator jobIdGenerator = JobIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         LearnificationScheduler learnificationScheduler = new AndroidLearnificationScheduler(logger, clock,
                 new AndroidJobScheduler(logger, clock, this, jobIdGenerator),
                 new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor)),
-                new AndroidResponseNotificationCorrespondent(
-                        logger,
-                        this.getSystemService(android.app.NotificationManager.class),
-                        NotificationManagerCompat.from(this),
-                        androidNotificationFacade.getFactory(),
-                        notificationIdGenerator));
+                new AndroidActiveNotificationReader(this.getSystemService(android.app.NotificationManager.class)));
 
         // Set them up where necessary, again in the order in which they have relevance in the view
 
@@ -114,7 +104,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         // Schedule a learnification
 
-        androidNotificationFacade.createNotificationChannel(AndroidNotificationFacade.CHANNEL_ID);
+        LearnificationNotificationChannelCreator channelCreator = new LearnificationNotificationChannelCreator(logger, new AndroidNotificationContext(this.getApplicationContext()));
+        channelCreator.createNotificationChannel();
         learnificationScheduler.scheduleImminentLearnification();
 
         // Do other stuff

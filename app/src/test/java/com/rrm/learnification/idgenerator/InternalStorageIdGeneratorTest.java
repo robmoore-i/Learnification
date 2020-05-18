@@ -9,8 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,30 +22,30 @@ public class InternalStorageIdGeneratorTest {
     @Test
     public void firstIdIs0() throws IOException {
         when(mockStorage.readLines(anyString())).thenThrow(new FileNotFoundException());
-        assertThat(generator.nextId(), equalTo(0));
+        assertEquals(0, generator.nextId());
     }
 
     @Test
     public void theLastIdIsTheIdStoredMinusOne() throws IOException {
         when(mockStorage.readLines(anyString())).thenReturn(Collections.singletonList("4"));
-        assertThat(generator.lastId(), equalTo(3));
+        assertEquals(3, generator.lastId());
     }
 
     @Test
     public void theLastIdIsZeroIfTheresNoIdStored() throws IOException {
         when(mockStorage.readLines(anyString())).thenThrow(new FileNotFoundException());
-        assertThat(generator.lastId(), equalTo(0));
+        assertEquals(0, generator.lastId());
     }
 
     @Test
     public void ifThereIsAValueStoredOnStartupThenThatIsReadToDetermineTheNextId() throws IOException {
         when(mockStorage.readLines(anyString())).thenReturn(Collections.singletonList("5"));
-        assertThat(generator.nextId(), equalTo(5));
+        assertEquals(5, generator.nextId());
     }
 
     @Test
     public void ifThereIsAValueStoredOnStartupThenThatIsReadToDetermineTheLastId() throws IOException {
         when(mockStorage.readLines(anyString())).thenReturn(Collections.singletonList("5"));
-        assertThat(generator.lastId(), equalTo(4));
+        assertEquals(4, generator.lastId());
     }
 }

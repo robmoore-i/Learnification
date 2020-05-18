@@ -2,7 +2,7 @@ package com.rrm.learnification.learnification.publication;
 
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
+import com.rrm.learnification.notification.ActiveNotificationReader;
 import com.rrm.learnification.settings.learnificationdelay.DelayRange;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 import com.rrm.learnification.time.AndroidClock;
@@ -27,16 +27,16 @@ class TestableLearnificationScheduler {
     private final JobScheduler jobScheduler;
     private final ScheduleConfiguration scheduleConfiguration;
     private final AndroidClock androidClock;
-    private final ResponseNotificationCorrespondent responseNotificationCorrespondent;
+    private final ActiveNotificationReader activeNotificationReader;
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    TestableLearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
+    TestableLearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ActiveNotificationReader activeNotificationReader) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;
         this.androidClock = androidClock;
-        this.responseNotificationCorrespondent = responseNotificationCorrespondent;
+        this.activeNotificationReader = activeNotificationReader;
     }
 
     void scheduleImminentJob(Class<?> serviceClass) {
@@ -77,7 +77,7 @@ class TestableLearnificationScheduler {
     }
 
     boolean learnificationAvailable() {
-        return responseNotificationCorrespondent.hasActiveLearnifications();
+        return activeNotificationReader.hasActiveLearnifications();
     }
 
     Optional<Integer> secondsUntilNextLearnification(Class<?> serviceClass) {

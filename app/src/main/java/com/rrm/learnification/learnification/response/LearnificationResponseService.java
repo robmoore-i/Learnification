@@ -10,6 +10,7 @@ import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.notification.AndroidActiveNotificationReader;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
 import com.rrm.learnification.notification.NotificationIdGenerator;
@@ -40,14 +41,13 @@ public class LearnificationResponseService extends IntentService {
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
         ResponseNotificationCorrespondent responseNotificationCorrespondent = new AndroidResponseNotificationCorrespondent(
                 logger,
-                this.getSystemService(android.app.NotificationManager.class),
                 NotificationManagerCompat.from(this),
                 new AndroidNotificationFactory(logger, this, PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor)),
                 NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor));
         LearnificationScheduler learnificationScheduler = new AndroidLearnificationScheduler(logger, clock,
                 new AndroidJobScheduler(logger, clock, this, JobIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor)),
                 scheduleConfiguration,
-                responseNotificationCorrespondent);
+                new AndroidActiveNotificationReader(this.getSystemService(android.app.NotificationManager.class)));
 
         learnificationResponse
                 .handler(logger, learnificationScheduler, new LearnificationResponseContentGenerator(scheduleConfiguration), responseNotificationCorrespondent)
