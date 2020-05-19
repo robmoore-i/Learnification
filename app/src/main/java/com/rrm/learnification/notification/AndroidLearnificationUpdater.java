@@ -6,15 +6,15 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.rrm.learnification.learnification.response.NotificationTextContent;
 import com.rrm.learnification.logger.AndroidLogger;
 
-public class AndroidResponseNotificationCorrespondent implements ResponseNotificationCorrespondent {
-    private static final String LOG_TAG = "AndroidResponseNotificationCorrespondent";
+public class AndroidLearnificationUpdater implements LearnificationUpdater {
+    private static final String LOG_TAG = "AndroidLearnificationUpdater";
 
     private final AndroidLogger logger;
     private final NotificationManagerCompat notificationManagerCompat;
     private final AndroidNotificationFactory androidNotificationFactory;
     private final NotificationIdGenerator notificationIdGenerator;
 
-    public AndroidResponseNotificationCorrespondent(
+    public AndroidLearnificationUpdater(
             AndroidLogger logger,
             NotificationManagerCompat notificationManagerCompat,
             AndroidNotificationFactory androidNotificationFactory,
@@ -29,7 +29,7 @@ public class AndroidResponseNotificationCorrespondent implements ResponseNotific
     public void updateLatestWithReply(NotificationTextContent replyContent, String givenPrompt, String expectedUserResponse) {
         Notification responseNotification = androidNotificationFactory.createLearnificationResponse(replyContent, givenPrompt, expectedUserResponse);
         int lastId = notificationIdGenerator.last();
-        logger.i(LOG_TAG, "updating notification with id " + lastId);
+        logger.i(LOG_TAG, "updating notification with given prompt '" + givenPrompt + "' and notification id " + lastId);
         notificationManagerCompat.notify(lastId, responseNotification);
 
     }

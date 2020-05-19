@@ -3,7 +3,7 @@ package com.rrm.learnification.learnification.response;
 import com.rrm.learnification.intent.ResponseIntent;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
+import com.rrm.learnification.notification.LearnificationUpdater;
 
 import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.EXPECTED_USER_RESPONSE_EXTRA;
 import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.GIVEN_PROMPT_EXTRA;
@@ -38,13 +38,13 @@ class AndroidIntentLearnificationResponse implements LearnificationResponse {
     }
 
     @Override
-    public LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
+    public LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater) {
         if (isShowMeResponse()) {
-            return new ShowMeHandler(logger, learnificationScheduler, responseContentGenerator, responseNotificationCorrespondent);
+            return new ShowMeHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater);
         } else if (isNextResponse()) {
-            return new NextHandler(logger, learnificationScheduler, responseContentGenerator, responseNotificationCorrespondent);
+            return new NextHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater);
         } else if (hasRemoteInput()) {
-            return new AnswerHandler(logger, learnificationScheduler, responseContentGenerator, responseNotificationCorrespondent);
+            return new AnswerHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater);
         } else {
             return new FallthroughHandler(logger, learnificationScheduler);
         }

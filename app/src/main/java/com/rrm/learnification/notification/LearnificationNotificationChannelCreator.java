@@ -7,8 +7,10 @@ import android.os.Build;
 import com.rrm.learnification.logger.AndroidLogger;
 
 public class LearnificationNotificationChannelCreator {
-    static final String CHANNEL_ID = "learnification";
     private static final String LOG_TAG = "LearnificationNotificationChannelCreator";
+
+    static final String CHANNEL_ID = "learnification";
+
     private final AndroidLogger logger;
     private final AndroidNotificationContext context;
 

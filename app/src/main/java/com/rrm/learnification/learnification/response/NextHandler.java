@@ -2,13 +2,13 @@ package com.rrm.learnification.learnification.response;
 
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
+import com.rrm.learnification.notification.LearnificationUpdater;
 
 class NextHandler extends UserGuessLearnificationResponseHandler {
     private final LearnificationResponseContentGenerator responseContentGenerator;
 
-    NextHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, ResponseNotificationCorrespondent responseNotificationCorrespondent) {
-        super(logger, "NextHandler", learnificationScheduler, responseNotificationCorrespondent);
+    NextHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater) {
+        super(logger, "NextHandler", learnificationScheduler, learnificationUpdater);
         this.responseContentGenerator = responseContentGenerator;
     }
 

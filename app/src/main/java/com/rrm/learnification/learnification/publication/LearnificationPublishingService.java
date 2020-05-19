@@ -2,10 +2,12 @@ package com.rrm.learnification.learnification.publication;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.AndroidNotificationFacade;
+import com.rrm.learnification.notification.AndroidNotificationFactory;
+import com.rrm.learnification.notification.AndroidNotificationPublisher;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
 import com.rrm.learnification.settings.SettingsRepository;
@@ -45,11 +47,11 @@ public class LearnificationPublishingService extends JobService {
 
         NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         PendingIntentIdGenerator pendingIntentRequestCodeGenerator = PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
-        AndroidNotificationFacade androidNotificationFacade = AndroidNotificationFacade.fromContext(logger, this, notificationIdGenerator, pendingIntentRequestCodeGenerator);
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 logger,
                 learnificationTextGenerator,
-                androidNotificationFacade
+                new AndroidNotificationFactory(logger, this, pendingIntentRequestCodeGenerator),
+                new AndroidNotificationPublisher(logger, NotificationManagerCompat.from(this), notificationIdGenerator)
         );
 
         learnificationPublisher.publishLearnification();

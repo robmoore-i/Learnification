@@ -2,7 +2,7 @@ package com.rrm.learnification.learnification.response;
 
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
+import com.rrm.learnification.notification.LearnificationUpdater;
 
 interface LearnificationResponse {
     String actualUserResponse();
@@ -11,5 +11,5 @@ interface LearnificationResponse {
 
     String givenPrompt();
 
-    LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, ResponseNotificationCorrespondent responseNotificationCorrespondent);
+    LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater);
 }

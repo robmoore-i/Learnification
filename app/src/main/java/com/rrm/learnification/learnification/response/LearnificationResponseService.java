@@ -11,11 +11,11 @@ import com.rrm.learnification.learnification.publication.AndroidLearnificationSc
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidActiveNotificationReader;
+import com.rrm.learnification.notification.AndroidLearnificationUpdater;
 import com.rrm.learnification.notification.AndroidNotificationFactory;
-import com.rrm.learnification.notification.AndroidResponseNotificationCorrespondent;
+import com.rrm.learnification.notification.LearnificationUpdater;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
-import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
@@ -39,7 +39,7 @@ public class LearnificationResponseService extends IntentService {
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
-        ResponseNotificationCorrespondent responseNotificationCorrespondent = new AndroidResponseNotificationCorrespondent(
+        LearnificationUpdater learnificationUpdater = new AndroidLearnificationUpdater(
                 logger,
                 NotificationManagerCompat.from(this),
                 new AndroidNotificationFactory(logger, this, PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor)),
@@ -50,7 +50,7 @@ public class LearnificationResponseService extends IntentService {
                 new AndroidActiveNotificationReader(this.getSystemService(android.app.NotificationManager.class)));
 
         learnificationResponse
-                .handler(logger, learnificationScheduler, new LearnificationResponseContentGenerator(scheduleConfiguration), responseNotificationCorrespondent)
+                .handler(logger, learnificationScheduler, new LearnificationResponseContentGenerator(scheduleConfiguration), learnificationUpdater)
                 .handle(learnificationResponse);
         logger.i(LOG_TAG, "handled response");
     }

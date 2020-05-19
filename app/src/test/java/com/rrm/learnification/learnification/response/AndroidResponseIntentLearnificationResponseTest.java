@@ -3,7 +3,7 @@ package com.rrm.learnification.learnification.response;
 import com.rrm.learnification.intent.ResponseIntent;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.ResponseNotificationCorrespondent;
+import com.rrm.learnification.notification.LearnificationUpdater;
 
 import org.junit.Test;
 
@@ -78,6 +78,6 @@ public class AndroidResponseIntentLearnificationResponseTest {
     }
 
     private LearnificationResponseHandler responseIntentHandler() {
-        return responseIntent.handler(mock(AndroidLogger.class), mock(LearnificationScheduler.class), mock(LearnificationResponseContentGenerator.class), mock(ResponseNotificationCorrespondent.class));
+        return responseIntent.handler(mock(AndroidLogger.class), mock(LearnificationScheduler.class), mock(LearnificationResponseContentGenerator.class), mock(LearnificationUpdater.class));
     }
 }
