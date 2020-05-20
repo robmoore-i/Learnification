@@ -1,6 +1,5 @@
 package com.rrm.learnification.learnification.response;
 
-import com.rrm.learnification.intent.ResponseIntent;
 import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.creation.LearnificationResponseType;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;

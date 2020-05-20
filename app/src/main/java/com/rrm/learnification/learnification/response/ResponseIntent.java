@@ -1,6 +1,6 @@
-package com.rrm.learnification.intent;
+package com.rrm.learnification.learnification.response;
 
-public interface ResponseIntent {
+interface ResponseIntent {
     String getStringExtra(String name);
 
     CharSequence getRemoteInputText(String key);

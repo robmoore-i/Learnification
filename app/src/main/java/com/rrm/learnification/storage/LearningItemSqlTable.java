@@ -64,7 +64,7 @@ final class LearningItemSqlTable implements BaseColumns {
     }
 
     static void replace(SQLiteDatabase writableDatabase, LearningItem target, LearningItem replacement) {
-        assertTrue(!target.learningItemSetName.equals(replacement.learningItemSetName), "attempted to replace learning item with one that isn't in the same set. target=" + target.toString() + ", replacement=" + replacement.toString());
+        assertTrue(target.learningItemSetName.equals(replacement.learningItemSetName), "attempted to replace learning item with one that isn't in the same set. target=" + target.toString() + ", replacement=" + replacement.toString());
         String selection = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ? AND " + COLUMN_NAME_LEFT + " LIKE ? AND " + COLUMN_NAME_RIGHT + " LIKE ?";
         String[] selectionArgs = {target.learningItemSetName, target.left, target.right};
         writableDatabase.update(TABLE_NAME, from(replacement), selection, selectionArgs);

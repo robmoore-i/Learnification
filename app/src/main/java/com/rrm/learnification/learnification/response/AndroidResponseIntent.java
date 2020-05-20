@@ -1,14 +1,14 @@
-package com.rrm.learnification.intent;
+package com.rrm.learnification.learnification.response;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
 
-public class AndroidResponseIntent implements ResponseIntent {
+class AndroidResponseIntent implements ResponseIntent {
     private final Intent intent;
     private final Bundle remoteInput;
 
-    public AndroidResponseIntent(Intent intent) {
+    AndroidResponseIntent(Intent intent) {
         this.intent = intent;
         this.remoteInput = RemoteInput.getResultsFromIntent(intent);
     }

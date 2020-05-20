@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.rrm.learnification.intent.AndroidResponseIntent;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
