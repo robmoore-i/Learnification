@@ -42,16 +42,11 @@ public class LearnificationPublishingService extends JobService {
         }
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        SettingsRepository settingsRepository = new SettingsRepository(logger, fileStorageAdaptor);
-        LearnificationTextGenerator learnificationTextGenerator = settingsRepository.learnificationTextGenerator(learningItemSupplier);
-
-        NotificationIdGenerator notificationIdGenerator = NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
-        PendingIntentIdGenerator pendingIntentRequestCodeGenerator = PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(
                 logger,
-                learnificationTextGenerator,
-                new AndroidNotificationFactory(logger, this, pendingIntentRequestCodeGenerator),
-                new AndroidNotificationPublisher(logger, NotificationManagerCompat.from(this), notificationIdGenerator)
+                new SettingsRepository(logger, fileStorageAdaptor).learnificationTextGenerator(learningItemSupplier),
+                new AndroidNotificationFactory(logger, this, new PendingIntentIdGenerator(logger, fileStorageAdaptor)),
+                new AndroidNotificationPublisher(logger, NotificationManagerCompat.from(this), new NotificationIdGenerator(logger, fileStorageAdaptor))
         );
 
         learnificationPublisher.publishLearnification();

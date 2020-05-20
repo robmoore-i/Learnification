@@ -51,7 +51,7 @@ public class AppToolbarTest {
     public void beforeEach() {
         guiTestWrapper = new GuiTestWrapper(activityTestRule.getActivity());
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        NotificationIdGenerator.fromFileStorageAdaptor(new AndroidLogger(), androidTestObjectFactory.getFileStorageAdaptor()).reset();
+        new NotificationIdGenerator(new AndroidLogger(), androidTestObjectFactory.getFileStorageAdaptor()).reset();
         androidJobScheduler = activityTestRule.getActivity().getSystemService(android.app.job.JobScheduler.class);
         androidNotificationFactory = androidTestObjectFactory.getAndroidNotificationFactory();
         notificationManagerCompat = NotificationManagerCompat.from(activityTestRule.getActivity());

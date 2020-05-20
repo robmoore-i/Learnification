@@ -77,7 +77,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         learningItemTextChangeListener.useTextValidation(textsValidationForDisplayedLearningItems(logger, learningItemList));
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
-        JobIdGenerator jobIdGenerator = JobIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor);
+        JobIdGenerator jobIdGenerator = new JobIdGenerator(logger, fileStorageAdaptor);
         LearnificationScheduler learnificationScheduler = new AndroidLearnificationScheduler(logger, clock,
                 new AndroidJobScheduler(logger, clock, this, jobIdGenerator),
                 new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor)),

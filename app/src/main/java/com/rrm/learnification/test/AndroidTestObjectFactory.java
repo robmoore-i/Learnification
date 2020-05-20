@@ -43,11 +43,11 @@ public class AndroidTestObjectFactory {
     }
 
     public JobIdGenerator getJobIdGenerator() {
-        return JobIdGenerator.fromFileStorageAdaptor(logger(), getFileStorageAdaptor());
+        return new JobIdGenerator(logger(), getFileStorageAdaptor());
     }
 
     public AndroidNotificationFactory getAndroidNotificationFactory() {
-        return new AndroidNotificationFactory(logger(), activity, PendingIntentIdGenerator.fromFileStorageAdaptor(logger(), getFileStorageAdaptor()));
+        return new AndroidNotificationFactory(logger(), activity, new PendingIntentIdGenerator(logger(), getFileStorageAdaptor()));
     }
 
     public LearnificationAppDatabase getLearnificationAppDatabase() {

@@ -42,10 +42,10 @@ public class LearnificationResponseService extends IntentService {
         LearnificationUpdater learnificationUpdater = new AndroidLearnificationUpdater(
                 logger,
                 NotificationManagerCompat.from(this),
-                new AndroidNotificationFactory(logger, this, PendingIntentIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor)),
-                NotificationIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor));
+                new AndroidNotificationFactory(logger, this, new PendingIntentIdGenerator(logger, fileStorageAdaptor)),
+                new NotificationIdGenerator(logger, fileStorageAdaptor));
         LearnificationScheduler learnificationScheduler = new AndroidLearnificationScheduler(logger, clock,
-                new AndroidJobScheduler(logger, clock, this, JobIdGenerator.fromFileStorageAdaptor(logger, fileStorageAdaptor)),
+                new AndroidJobScheduler(logger, clock, this, new JobIdGenerator(logger, fileStorageAdaptor)),
                 scheduleConfiguration,
                 new AndroidActiveNotificationReader(this.getSystemService(android.app.NotificationManager.class)));
 
