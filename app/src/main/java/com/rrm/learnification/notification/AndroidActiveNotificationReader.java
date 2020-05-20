@@ -16,7 +16,7 @@ public class AndroidActiveNotificationReader implements ActiveNotificationReader
         return Arrays.stream(systemNotificationManager.getActiveNotifications())
                 .map(statusBarNotification -> new AndroidNotification(
                         statusBarNotification.getPackageName(),
-                        statusBarNotification.getNotification().extras.getString(LearnificationResponseNotificationFactory.NOTIFICATION_TYPE)))
+                        statusBarNotification.getNotification().extras.getString(NotificationType.NOTIFICATION_TYPE_EXTRA_NAME)))
                 .anyMatch(AndroidNotification::isLearnification);
     }
 }

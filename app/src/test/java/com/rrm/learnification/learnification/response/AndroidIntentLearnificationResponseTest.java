@@ -3,14 +3,13 @@ package com.rrm.learnification.learnification.response;
 import com.rrm.learnification.intent.ResponseIntent;
 import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.LearnificationUpdater;
 
 import org.junit.Test;
 
-import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.RESPONSE_TYPE_EXTRA;
-import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
-import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
+import static com.rrm.learnification.learnification.creation.LearnificationResponseType.NEXT;
+import static com.rrm.learnification.learnification.creation.LearnificationResponseType.SHOW_ME;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,7 +17,7 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AndroidResponseIntentLearnificationResponseTest {
+public class AndroidIntentLearnificationResponseTest {
     private final ResponseIntent stubIntent = mock(ResponseIntent.class);
 
     private final AndroidIntentLearnificationResponse responseIntent = new AndroidIntentLearnificationResponse(stubIntent);
@@ -33,7 +32,7 @@ public class AndroidResponseIntentLearnificationResponseTest {
 
     @Test
     public void whenTheResponseTypeIsShowMeItUsesAShowMeHandler() {
-        when(stubIntent.getStringExtra(RESPONSE_TYPE_EXTRA)).thenReturn(SHOW_ME.name());
+        when(stubIntent.getStringExtra(LearnificationNotificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn(SHOW_ME.name());
         LearnificationResponseHandler learnificationResponseHandler = responseIntentHandler();
 
         assertThat(learnificationResponseHandler, instanceOf(ShowMeHandler.class));
@@ -41,7 +40,7 @@ public class AndroidResponseIntentLearnificationResponseTest {
 
     @Test
     public void whenTheResponseTypeIsNextItUsesANextHandler() {
-        when(stubIntent.getStringExtra(RESPONSE_TYPE_EXTRA)).thenReturn(NEXT.name());
+        when(stubIntent.getStringExtra(LearnificationNotificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn(NEXT.name());
         LearnificationResponseHandler learnificationResponseHandler = responseIntentHandler();
 
         assertThat(learnificationResponseHandler, instanceOf(NextHandler.class));
@@ -49,7 +48,7 @@ public class AndroidResponseIntentLearnificationResponseTest {
 
     @Test
     public void whenTheresNoRemoteInputAndTheResponseTypeIsntRecognisedItUsesTheFallthroughHandler() {
-        when(stubIntent.getStringExtra(RESPONSE_TYPE_EXTRA)).thenReturn("nonsense");
+        when(stubIntent.getStringExtra(LearnificationNotificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn("nonsense");
         LearnificationResponseHandler learnificationResponseHandler = responseIntentHandler();
 
         assertThat(learnificationResponseHandler, instanceOf(FallthroughHandler.class));

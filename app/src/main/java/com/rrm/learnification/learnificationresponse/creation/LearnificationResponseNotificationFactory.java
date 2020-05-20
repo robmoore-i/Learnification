@@ -1,4 +1,4 @@
-package com.rrm.learnification.notification;
+package com.rrm.learnification.learnificationresponse.creation;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -12,12 +12,14 @@ import android.support.v4.app.NotificationCompat;
 import com.rrm.learnification.R;
 import com.rrm.learnification.learnification.response.LearnificationResponseService;
 import com.rrm.learnification.learnification.response.NotificationTextContent;
+import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
+import com.rrm.learnification.notification.NotificationType;
+import com.rrm.learnification.notification.PendingIntentIdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LearnificationResponseNotificationFactory {
-    public static final String NOTIFICATION_TYPE = "notificationType";
     private static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
     private static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
     private static final String RESPONSE_TYPE_EXTRA = "responseType";
@@ -61,12 +63,20 @@ public class LearnificationResponseNotificationFactory {
 
     private Bundle notificationExtras() {
         Bundle bundle = new Bundle();
-        bundle.putString(NOTIFICATION_TYPE, NotificationType.LEARNIFICATION_RESPONSE);
+        bundle.putString(NotificationType.NOTIFICATION_TYPE_EXTRA_NAME, NotificationType.LEARNIFICATION_RESPONSE);
         return bundle;
     }
 
     private NotificationCompat.Action pressButtonAction(String title, PendingIntent pendingIntent) {
         return new NotificationCompat.Action.Builder(R.drawable.android_send, title, pendingIntent).build();
+    }
+
+    private List<NotificationCompat.Action> learnificationResponseActions(String givenPrompt, String expectedUserResponse) {
+        List<NotificationCompat.Action> actions = new ArrayList<>();
+        PendingIntent pendingIntent = learnificationResponsePendingIntent(givenPrompt, expectedUserResponse);
+        actions.add(pressButtonAction("My answer was ✅", pendingIntent));
+        actions.add(pressButtonAction("My answer was ❌", pendingIntent));
+        return actions;
     }
 
     private PendingIntent learnificationResponsePendingIntent(String learningItemPrompt, String expectedUserResponse) {
@@ -80,13 +90,5 @@ public class LearnificationResponseNotificationFactory {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
-    }
-
-    private List<NotificationCompat.Action> learnificationResponseActions(String givenPrompt, String expectedUserResponse) {
-        List<NotificationCompat.Action> actions = new ArrayList<>();
-        PendingIntent pendingIntent = learnificationResponsePendingIntent(givenPrompt, expectedUserResponse);
-        actions.add(pressButtonAction("My answer was ✅", pendingIntent));
-        actions.add(pressButtonAction("My answer was ❌", pendingIntent));
-        return actions;
     }
 }

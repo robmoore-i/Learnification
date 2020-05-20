@@ -4,11 +4,9 @@ import android.app.Notification;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rrm.learnification.common.LearnificationText;
-import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.response.NotificationTextContent;
+import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.notification.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
@@ -32,38 +30,18 @@ public class LearnificationResponseNotificationFactoryTest {
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
     private LearnificationResponseNotificationFactory learnificationResponseNotificationFactory;
-    private LearnificationNotificationFactory learnificationNotificationFactory;
 
     @Before
     public void beforeEach() {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
         learnificationResponseNotificationFactory = androidTestObjectFactory.getAndroidNotificationFactory();
-        learnificationNotificationFactory = androidTestObjectFactory.getLearnificationNotificationFactory();
-    }
-
-    @Test
-    public void itGeneratesLearnificationWithABundleContainingTheNotificationType() {
-        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b"));
-
-        assertThat(learnification.extras.getString(LearnificationResponseNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION));
     }
 
     @Test
     public void itGeneratesLearnificationResponseWithABundleContainingTheNotificationType() {
         Notification learnificationResponse = learnificationResponseNotificationFactory.createLearnificationResponse(new NotificationTextContent("a", "b"), "", "");
 
-        assertThat(learnificationResponse.extras.getString(LearnificationResponseNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION_RESPONSE));
-    }
-
-    @Test
-    public void itGeneratesLearnificationWithPendingIntents() {
-        String[] expectedPendingIntentTitles = {"Respond", "Show me", "Next"};
-        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b"));
-
-        List<String> pendingIntentTitles = Arrays.stream(learnification.actions).map(action -> action.title.toString()).collect(Collectors.toList());
-
-        assertThat(pendingIntentTitles, hasItems(expectedPendingIntentTitles));
-        assertEquals(expectedPendingIntentTitles.length, learnification.actions.length);
+        assertThat(learnificationResponse.extras.getString(NotificationType.NOTIFICATION_TYPE_EXTRA_NAME), equalTo(NotificationType.LEARNIFICATION_RESPONSE));
     }
 
     @Test

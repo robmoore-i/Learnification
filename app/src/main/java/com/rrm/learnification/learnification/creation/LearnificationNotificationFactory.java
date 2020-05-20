@@ -15,24 +15,23 @@ import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.learnification.response.LearnificationResponseService;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
-import com.rrm.learnification.notification.LearnificationResponseType;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.rrm.learnification.notification.LearnificationResponseType.ANSWER;
-import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
-import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
+import static com.rrm.learnification.learnification.creation.LearnificationResponseType.ANSWER;
+import static com.rrm.learnification.learnification.creation.LearnificationResponseType.NEXT;
+import static com.rrm.learnification.learnification.creation.LearnificationResponseType.SHOW_ME;
 
 public class LearnificationNotificationFactory {
+    public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
+
     public static final String REPLY_TEXT = "remote_input_text_reply";
+    public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
+    public static final String RESPONSE_TYPE_EXTRA = "responseType";
     private static final String LOG_TAG = "LearnificationNotificationFactory";
-    private static final String NOTIFICATION_TYPE = "notificationType";
-    private static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
-    private static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
-    private static final String RESPONSE_TYPE_EXTRA = "responseType";
 
     private final AndroidLogger logger;
     private final Context packageContext;
@@ -78,7 +77,7 @@ public class LearnificationNotificationFactory {
 
     private Bundle notificationExtras() {
         Bundle bundle = new Bundle();
-        bundle.putString(NOTIFICATION_TYPE, NotificationType.LEARNIFICATION);
+        bundle.putString(NotificationType.NOTIFICATION_TYPE_EXTRA_NAME, NotificationType.LEARNIFICATION);
         return bundle;
     }
 

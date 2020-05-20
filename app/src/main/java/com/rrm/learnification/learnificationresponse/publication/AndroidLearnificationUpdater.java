@@ -1,10 +1,12 @@
-package com.rrm.learnification.notification;
+package com.rrm.learnification.learnificationresponse.publication;
 
 import android.app.Notification;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.rrm.learnification.learnification.response.NotificationTextContent;
+import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.notification.NotificationIdGenerator;
 
 public class AndroidLearnificationUpdater implements LearnificationUpdater {
     private static final String LOG_TAG = "AndroidLearnificationUpdater";

@@ -1,4 +1,4 @@
-package com.rrm.learnification.notification;
+package com.rrm.learnification.learnificationresponse.publication;
 
 import com.rrm.learnification.learnification.response.NotificationTextContent;
 

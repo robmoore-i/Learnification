@@ -2,15 +2,10 @@ package com.rrm.learnification.learnification.response;
 
 import com.rrm.learnification.intent.ResponseIntent;
 import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
+import com.rrm.learnification.learnification.creation.LearnificationResponseType;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.LearnificationUpdater;
-
-import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.EXPECTED_USER_RESPONSE_EXTRA;
-import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.GIVEN_PROMPT_EXTRA;
-import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.RESPONSE_TYPE_EXTRA;
-import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
-import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
 
 class AndroidIntentLearnificationResponse implements LearnificationResponse {
     private final ResponseIntent intent;
@@ -29,12 +24,12 @@ class AndroidIntentLearnificationResponse implements LearnificationResponse {
 
     @Override
     public String expectedUserResponse() {
-        return intent.getStringExtra(EXPECTED_USER_RESPONSE_EXTRA);
+        return intent.getStringExtra(LearnificationNotificationFactory.EXPECTED_USER_RESPONSE_EXTRA);
     }
 
     @Override
     public String givenPrompt() {
-        return intent.getStringExtra(GIVEN_PROMPT_EXTRA);
+        return intent.getStringExtra(LearnificationNotificationFactory.GIVEN_PROMPT_EXTRA);
     }
 
     @Override
@@ -61,15 +56,15 @@ class AndroidIntentLearnificationResponse implements LearnificationResponse {
     }
 
     private String responseType() {
-        return intent.getStringExtra(RESPONSE_TYPE_EXTRA);
+        return intent.getStringExtra(LearnificationNotificationFactory.RESPONSE_TYPE_EXTRA);
     }
 
     private boolean isShowMeResponse() {
-        return SHOW_ME.name().equals(responseType());
+        return LearnificationResponseType.SHOW_ME.name().equals(responseType());
     }
 
     private boolean isNextResponse() {
-        return NEXT.name().equals(responseType());
+        return LearnificationResponseType.NEXT.name().equals(responseType());
     }
 
     private boolean hasRemoteInput() {
