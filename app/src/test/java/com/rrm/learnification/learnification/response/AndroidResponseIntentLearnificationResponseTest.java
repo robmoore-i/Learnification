@@ -1,6 +1,7 @@
 package com.rrm.learnification.learnification.response;
 
 import com.rrm.learnification.intent.ResponseIntent;
+import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.LearnificationUpdater;
@@ -8,7 +9,6 @@ import com.rrm.learnification.notification.LearnificationUpdater;
 import org.junit.Test;
 
 import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.RESPONSE_TYPE_EXTRA;
-import static com.rrm.learnification.notification.AndroidNotificationActionFactory.REPLY_TEXT;
 import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
 import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -64,7 +64,7 @@ public class AndroidResponseIntentLearnificationResponseTest {
 
     @Test
     public void actualUserResponseIsNullIfTheRemoteInputTextIsNull() {
-        when(stubIntent.getRemoteInputText(REPLY_TEXT)).thenReturn(null);
+        when(stubIntent.getRemoteInputText(LearnificationNotificationFactory.REPLY_TEXT)).thenReturn(null);
 
         assertNull(responseIntent.actualUserResponse());
     }
@@ -72,7 +72,7 @@ public class AndroidResponseIntentLearnificationResponseTest {
     @Test
     public void actualUserResponseEqualsTheRemoteInputTextAsAString() {
         when(stubIntent.hasRemoteInput()).thenReturn(true);
-        when(stubIntent.getRemoteInputText(REPLY_TEXT)).thenReturn("some text");
+        when(stubIntent.getRemoteInputText(LearnificationNotificationFactory.REPLY_TEXT)).thenReturn("some text");
 
         assertThat(responseIntent.actualUserResponse(), equalTo("some text"));
     }

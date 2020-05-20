@@ -1,38 +1,30 @@
 package com.rrm.learnification.learnification.publication;
 
-import android.app.Notification;
-
-import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.learnification.creation.LearnificationFactory;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.AndroidNotificationPublisher;
 
 class LearnificationPublisher {
     private static final String LOG_TAG = "LearnificationPublisher";
 
     private final AndroidLogger logger;
-    private final LearnificationTextGenerator learnificationTextGenerator;
-    private final AndroidNotificationFactory notificationFactory;
     private final AndroidNotificationPublisher notificationPublisher;
+    private final LearnificationFactory learnificationFactory;
 
-    LearnificationPublisher(AndroidLogger logger, LearnificationTextGenerator learnificationTextGenerator, AndroidNotificationFactory notificationFactory, AndroidNotificationPublisher notificationPublisher) {
+    LearnificationPublisher(AndroidLogger logger, AndroidNotificationPublisher notificationPublisher, LearnificationFactory learnificationFactory) {
         this.logger = logger;
-        this.learnificationTextGenerator = learnificationTextGenerator;
-        this.notificationFactory = notificationFactory;
         this.notificationPublisher = notificationPublisher;
+        this.learnificationFactory = learnificationFactory;
     }
 
     void publishLearnification() {
         try {
-            LearnificationText learnificationText = learnificationTextGenerator.learnificationText();
-
-            Notification notification = notificationFactory.createLearnification(learnificationText);
-
-            notificationPublisher.publish(notification);
+            notificationPublisher.publish(learnificationFactory.getLearnification());
         } catch (IllegalStateException e) {
             logger.i(LOG_TAG, "didn't publish a learnification because '" + e.getMessage() + "'");
         } catch (Exception e) {
             logger.e(LOG_TAG, e);
         }
     }
+
 }

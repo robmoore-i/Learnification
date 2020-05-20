@@ -8,10 +8,10 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.jobs.JobScheduler;
+import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.AndroidNotificationFactory;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.support.GuiTestWrapper;
 import com.rrm.learnification.support.UserSimulation;
@@ -43,7 +43,7 @@ public class AppToolbarTest {
 
     private GuiTestWrapper guiTestWrapper;
     private android.app.job.JobScheduler androidJobScheduler;
-    private AndroidNotificationFactory androidNotificationFactory;
+    private LearnificationNotificationFactory notificationFactory;
     private NotificationManagerCompat notificationManagerCompat;
     private JobScheduler learnificationJobScheduler;
 
@@ -53,7 +53,7 @@ public class AppToolbarTest {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
         new NotificationIdGenerator(new AndroidLogger(), androidTestObjectFactory.getFileStorageAdaptor()).reset();
         androidJobScheduler = activityTestRule.getActivity().getSystemService(android.app.job.JobScheduler.class);
-        androidNotificationFactory = androidTestObjectFactory.getAndroidNotificationFactory();
+        notificationFactory = androidTestObjectFactory.getLearnificationNotificationFactory();
         notificationManagerCompat = NotificationManagerCompat.from(activityTestRule.getActivity());
         learnificationJobScheduler = androidTestObjectFactory.getJobScheduler();
         guiTestWrapper.beforeEach();
@@ -84,8 +84,7 @@ public class AppToolbarTest {
         UserSimulation.clearNotifications();
         UserSimulation.waitACoupleOfSeconds();
 
-        notificationManagerCompat.notify(0,
-                androidNotificationFactory.createLearnification(new LearnificationText("a", "b")));
+        notificationManagerCompat.notify(0, notificationFactory.createLearnification(new LearnificationText("a", "b")));
         UserSimulation.waitACoupleOfSeconds();
 
         onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification ready")))).check(matches(isDisplayed()));

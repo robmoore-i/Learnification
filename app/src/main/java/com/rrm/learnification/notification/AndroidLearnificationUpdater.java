@@ -11,23 +11,23 @@ public class AndroidLearnificationUpdater implements LearnificationUpdater {
 
     private final AndroidLogger logger;
     private final NotificationManagerCompat notificationManagerCompat;
-    private final AndroidNotificationFactory androidNotificationFactory;
+    private final LearnificationResponseNotificationFactory learnificationResponseNotificationFactory;
     private final NotificationIdGenerator notificationIdGenerator;
 
     public AndroidLearnificationUpdater(
             AndroidLogger logger,
             NotificationManagerCompat notificationManagerCompat,
-            AndroidNotificationFactory androidNotificationFactory,
+            LearnificationResponseNotificationFactory learnificationResponseNotificationFactory,
             NotificationIdGenerator notificationIdGenerator) {
         this.logger = logger;
         this.notificationManagerCompat = notificationManagerCompat;
-        this.androidNotificationFactory = androidNotificationFactory;
+        this.learnificationResponseNotificationFactory = learnificationResponseNotificationFactory;
         this.notificationIdGenerator = notificationIdGenerator;
     }
 
     @Override
     public void updateLatestWithReply(NotificationTextContent replyContent, String givenPrompt, String expectedUserResponse) {
-        Notification responseNotification = androidNotificationFactory.createLearnificationResponse(replyContent, givenPrompt, expectedUserResponse);
+        Notification responseNotification = learnificationResponseNotificationFactory.createLearnificationResponse(replyContent, givenPrompt, expectedUserResponse);
         int lastId = notificationIdGenerator.last();
         logger.i(LOG_TAG, "updating notification with given prompt '" + givenPrompt + "' and notification id " + lastId);
         notificationManagerCompat.notify(lastId, responseNotification);

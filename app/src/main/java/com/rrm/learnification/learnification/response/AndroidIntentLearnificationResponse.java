@@ -1,6 +1,7 @@
 package com.rrm.learnification.learnification.response;
 
 import com.rrm.learnification.intent.ResponseIntent;
+import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.LearnificationUpdater;
@@ -8,7 +9,6 @@ import com.rrm.learnification.notification.LearnificationUpdater;
 import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.EXPECTED_USER_RESPONSE_EXTRA;
 import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.GIVEN_PROMPT_EXTRA;
 import static com.rrm.learnification.notification.AndroidLearnificationResponsePendingIntentBuilder.RESPONSE_TYPE_EXTRA;
-import static com.rrm.learnification.notification.AndroidNotificationActionFactory.REPLY_TEXT;
 import static com.rrm.learnification.notification.LearnificationResponseType.NEXT;
 import static com.rrm.learnification.notification.LearnificationResponseType.SHOW_ME;
 
@@ -22,7 +22,7 @@ class AndroidIntentLearnificationResponse implements LearnificationResponse {
     @Override
     public String actualUserResponse() {
         if (!hasRemoteInput()) return null;
-        CharSequence replyText = intent.getRemoteInputText(REPLY_TEXT);
+        CharSequence replyText = intent.getRemoteInputText(LearnificationNotificationFactory.REPLY_TEXT);
         if (replyText == null) return null;
         return replyText.toString();
     }

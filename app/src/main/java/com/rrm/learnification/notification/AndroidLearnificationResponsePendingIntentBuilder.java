@@ -9,7 +9,6 @@ import com.rrm.learnification.learnification.response.LearnificationResponseServ
 public class AndroidLearnificationResponsePendingIntentBuilder {
     public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
     public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
-
     public static final String RESPONSE_TYPE_EXTRA = "responseType";
 
     private final Context packageContext;

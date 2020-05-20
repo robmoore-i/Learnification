@@ -5,9 +5,10 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.response.NotificationTextContent;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.notification.AndroidNotificationFactory;
+import com.rrm.learnification.notification.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
@@ -26,36 +27,38 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class AndroidNotificationFactoryTest {
+public class LearnificationResponseNotificationFactoryTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
-    private AndroidNotificationFactory androidNotificationFactory;
+    private LearnificationResponseNotificationFactory learnificationResponseNotificationFactory;
+    private LearnificationNotificationFactory learnificationNotificationFactory;
 
     @Before
     public void beforeEach() {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        androidNotificationFactory = androidTestObjectFactory.getAndroidNotificationFactory();
+        learnificationResponseNotificationFactory = androidTestObjectFactory.getAndroidNotificationFactory();
+        learnificationNotificationFactory = androidTestObjectFactory.getLearnificationNotificationFactory();
     }
 
     @Test
     public void itGeneratesLearnificationWithABundleContainingTheNotificationType() {
-        Notification learnification = androidNotificationFactory.createLearnification(new LearnificationText("a", "b"));
+        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b"));
 
-        assertThat(learnification.extras.getString(AndroidNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION));
+        assertThat(learnification.extras.getString(LearnificationResponseNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION));
     }
 
     @Test
     public void itGeneratesLearnificationResponseWithABundleContainingTheNotificationType() {
-        Notification learnificationResponse = androidNotificationFactory.createLearnificationResponse(new NotificationTextContent("a", "b"), "", "");
+        Notification learnificationResponse = learnificationResponseNotificationFactory.createLearnificationResponse(new NotificationTextContent("a", "b"), "", "");
 
-        assertThat(learnificationResponse.extras.getString(AndroidNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION_RESPONSE));
+        assertThat(learnificationResponse.extras.getString(LearnificationResponseNotificationFactory.NOTIFICATION_TYPE), equalTo(NotificationType.LEARNIFICATION_RESPONSE));
     }
 
     @Test
     public void itGeneratesLearnificationWithPendingIntents() {
         String[] expectedPendingIntentTitles = {"Respond", "Show me", "Next"};
-        Notification learnification = androidNotificationFactory.createLearnification(new LearnificationText("a", "b"));
+        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b"));
 
         List<String> pendingIntentTitles = Arrays.stream(learnification.actions).map(action -> action.title.toString()).collect(Collectors.toList());
 
@@ -67,7 +70,7 @@ public class AndroidNotificationFactoryTest {
     public void notificationResponsesAreUpdatedWithResultCapturePendingIntents() {
         String[] expectedPendingIntentTitles = {"My answer was ✅", "My answer was ❌"};
         NotificationTextContent notificationTextContent = new NotificationTextContent("Some Title", "Some Text");
-        Notification learnificationResponse = androidNotificationFactory.createLearnificationResponse(notificationTextContent, "Given", "Expected");
+        Notification learnificationResponse = learnificationResponseNotificationFactory.createLearnificationResponse(notificationTextContent, "Given", "Expected");
 
         List<String> pendingIntentTitles = Arrays.stream(learnificationResponse.actions).map(action -> action.title.toString()).collect(Collectors.toList());
 
