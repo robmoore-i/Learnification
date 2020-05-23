@@ -13,7 +13,7 @@ class LearnificationResponseContentGenerator {
         String expected = learnificationResponse.expectedUserResponse();
         String actual = learnificationResponse.actualUserResponse();
         String title = "Got '" + actual + "', expected '" + expected + "'";
-        String text = "Next one in " + timeUntilNextLearnificationText() + ".";
+        String text = "Next one in " + textForTimeUntilNextLearnification() + ".";
         return new NotificationTextContent(title, text);
     }
 
@@ -21,17 +21,12 @@ class LearnificationResponseContentGenerator {
         String given = learnificationResponse.givenPrompt();
         String expected = learnificationResponse.expectedUserResponse();
         String title = given + " -> " + expected;
-        String text = "Next one in " + timeUntilNextLearnificationText() + ".";
+        String text = "Next one in " + textForTimeUntilNextLearnification() + ".";
         return new NotificationTextContent(title, text);
     }
 
-    private String timeUntilNextLearnificationText() {
+    private String textForTimeUntilNextLearnification() {
         int delayInSeconds = scheduleConfiguration.getDelayRange().earliestStartTimeDelayMs / 1000;
-
-        if (delayInSeconds < 60) {
-            return delayInSeconds + "s";
-        } else {
-            return (delayInSeconds / 60) + " mins";
-        }
+        return delayInSeconds < 60 ? delayInSeconds + "s" : (delayInSeconds / 60) + " mins";
     }
 }
