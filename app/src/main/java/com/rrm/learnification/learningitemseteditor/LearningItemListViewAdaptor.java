@@ -9,8 +9,8 @@ import android.widget.EditText;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.LearningItemStash;
+import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import java.util.Collection;
 import java.util.List;

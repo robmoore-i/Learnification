@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
@@ -13,12 +15,9 @@ import com.rrm.learnification.learnificationresponse.publication.AndroidLearnifi
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidActiveNotificationReader;
-import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
-import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
-import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.time.AndroidClock;
 
 public class LearnificationResponseService extends IntentService {
@@ -34,6 +33,7 @@ public class LearnificationResponseService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         AndroidIntentLearnificationResponse learnificationResponse = new AndroidIntentLearnificationResponse(new AndroidResponseIntent(intent));
+
         logger.i(LOG_TAG, "handling learnification response: " + learnificationResponse.toString());
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
@@ -41,8 +41,7 @@ public class LearnificationResponseService extends IntentService {
         LearnificationUpdater learnificationUpdater = new AndroidLearnificationUpdater(
                 logger,
                 NotificationManagerCompat.from(this),
-                new LearnificationResponseNotificationFactory(this, new PendingIntentIdGenerator(logger, fileStorageAdaptor)),
-                new NotificationIdGenerator(logger, fileStorageAdaptor));
+                new LearnificationResponseNotificationFactory(this, new PendingIntentIdGenerator(logger, fileStorageAdaptor)));
         LearnificationScheduler learnificationScheduler = new AndroidLearnificationScheduler(logger, clock,
                 new AndroidJobScheduler(logger, clock, this, new JobIdGenerator(logger, fileStorageAdaptor)),
                 scheduleConfiguration,

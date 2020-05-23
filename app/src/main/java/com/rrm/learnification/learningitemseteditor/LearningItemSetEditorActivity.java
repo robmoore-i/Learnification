@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
@@ -17,6 +19,10 @@ import com.rrm.learnification.learningitemseteditor.learningitemupdate.LearningI
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableLearningItemTextDisplayStash;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemButton;
 import com.rrm.learnification.learningitemseteditor.toolbar.FastForwardScheduleButton;
+import com.rrm.learnification.learningitemstorage.LearningItemSqlTableClient;
+import com.rrm.learnification.learningitemstorage.LearningItemTextUpdateBroker;
+import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
+import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logdump.LogDumpActivity;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidActiveNotificationReader;
@@ -25,13 +31,7 @@ import com.rrm.learnification.notification.LearnificationNotificationChannelCrea
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
-import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
-import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlTableClient;
-import com.rrm.learnification.storage.LearningItemTextUpdateBroker;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
-import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
+import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 import com.rrm.learnification.time.AndroidClock;
 
 import static com.rrm.learnification.learningitemseteditor.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;

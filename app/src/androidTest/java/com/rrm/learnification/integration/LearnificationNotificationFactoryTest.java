@@ -39,7 +39,7 @@ public class LearnificationNotificationFactoryTest {
 
     @Test
     public void itGeneratesLearnificationWithABundleContainingTheNotificationType() {
-        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b"));
+        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b")).notification();
 
         assertThat(learnification.extras.getString(NotificationType.NOTIFICATION_TYPE_EXTRA_NAME), equalTo(NotificationType.LEARNIFICATION));
     }
@@ -47,7 +47,7 @@ public class LearnificationNotificationFactoryTest {
     @Test
     public void itGeneratesLearnificationWithPendingIntents() {
         String[] expectedPendingIntentTitles = {"Respond", "Show me", "Next"};
-        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b"));
+        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b")).notification();
 
         List<String> pendingIntentTitles = Arrays.stream(learnification.actions).map(action -> action.title.toString()).collect(Collectors.toList());
 

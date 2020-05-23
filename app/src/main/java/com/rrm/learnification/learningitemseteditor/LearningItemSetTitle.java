@@ -6,8 +6,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 
 class LearningItemSetTitle {
     private static final String LOG_TAG = "LearningItemSetTitle";

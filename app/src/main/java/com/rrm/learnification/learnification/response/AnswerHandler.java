@@ -8,8 +8,8 @@ class AnswerHandler extends UserGuessLearnificationResponseHandler {
     private final LearnificationResponseContentGenerator responseContentGenerator;
 
     AnswerHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator,
-                  LearnificationUpdater learnificationUpdater) {
-        super(logger, "AnswerHandler", learnificationScheduler, learnificationUpdater);
+                  LearnificationUpdater learnificationUpdater, int notificationId) {
+        super(logger, "AnswerHandler", learnificationScheduler, learnificationUpdater, notificationId);
         this.responseContentGenerator = responseContentGenerator;
     }
 

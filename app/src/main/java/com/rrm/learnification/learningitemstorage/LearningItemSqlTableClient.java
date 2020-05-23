@@ -1,10 +1,11 @@
-package com.rrm.learnification.storage;
+package com.rrm.learnification.learningitemstorage;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 
 import java.util.ArrayList;
 import java.util.List;

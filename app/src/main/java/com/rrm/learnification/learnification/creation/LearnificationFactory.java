@@ -1,8 +1,7 @@
 package com.rrm.learnification.learnification.creation;
 
-import android.app.Notification;
-
 import com.rrm.learnification.learnification.publication.LearnificationTextGenerator;
+import com.rrm.learnification.notification.IdentifiedNotification;
 
 public class LearnificationFactory {
     private final LearnificationTextGenerator learnificationTextGenerator;
@@ -13,7 +12,7 @@ public class LearnificationFactory {
         this.notificationFactory = notificationFactory;
     }
 
-    public Notification getLearnification() {
+    public IdentifiedNotification getLearnification() {
         return notificationFactory.createLearnification(learnificationTextGenerator.learnificationText());
     }
 }

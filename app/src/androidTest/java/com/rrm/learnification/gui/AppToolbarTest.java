@@ -12,6 +12,7 @@ import com.rrm.learnification.learnification.creation.LearnificationNotification
 import com.rrm.learnification.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.notification.IdentifiedNotification;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.support.GuiTestWrapper;
 import com.rrm.learnification.support.UserSimulation;
@@ -84,7 +85,8 @@ public class AppToolbarTest {
         UserSimulation.clearNotifications();
         UserSimulation.waitACoupleOfSeconds();
 
-        notificationManagerCompat.notify(0, notificationFactory.createLearnification(new LearnificationText("a", "b")));
+        IdentifiedNotification learnification = notificationFactory.createLearnification(new LearnificationText("a", "b"));
+        notificationManagerCompat.notify(learnification.id(), learnification.notification());
         UserSimulation.waitACoupleOfSeconds();
 
         onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification ready")))).check(matches(isDisplayed()));

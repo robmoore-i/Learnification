@@ -4,9 +4,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import com.rrm.learnification.learningitemstorage.LearningItemSetNameChangeListener;
+import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.LearningItemSetNameChangeListener;
-import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
 
 class LearningItemSetSelector implements LearningItemSetNameChangeListener {
     private static final String LOG_TAG = "LearningItemSetSelector";

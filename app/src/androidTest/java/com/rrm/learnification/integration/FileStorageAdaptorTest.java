@@ -3,8 +3,8 @@ package com.rrm.learnification.integration;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
-import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;

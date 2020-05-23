@@ -8,8 +8,8 @@ class ShowMeHandler extends UserGuessLearnificationResponseHandler {
     private final LearnificationResponseContentGenerator responseContentGenerator;
 
     ShowMeHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator,
-                  LearnificationUpdater learnificationUpdater) {
-        super(logger, "ShowMeHandler", learnificationScheduler, learnificationUpdater);
+                  LearnificationUpdater learnificationUpdater, int notificationId) {
+        super(logger, "ShowMeHandler", learnificationScheduler, learnificationUpdater, notificationId);
         this.responseContentGenerator = responseContentGenerator;
     }
 

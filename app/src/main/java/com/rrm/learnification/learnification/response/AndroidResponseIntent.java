@@ -19,6 +19,14 @@ class AndroidResponseIntent implements ResponseIntent {
     }
 
     @Override
+    public int getIntExtra(String name) {
+        if (!intent.hasExtra(name)) {
+            throw new RuntimeException("LearnificationResponseService input unexpectedly lacked int extra '" + name + "'");
+        }
+        return intent.getExtras().getInt(name);
+    }
+
+    @Override
     public CharSequence getRemoteInputText(String key) {
         return remoteInput.getCharSequence(key);
     }

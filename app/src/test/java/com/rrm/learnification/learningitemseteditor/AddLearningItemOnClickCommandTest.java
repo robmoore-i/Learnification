@@ -2,8 +2,8 @@ package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 import org.junit.Test;
 

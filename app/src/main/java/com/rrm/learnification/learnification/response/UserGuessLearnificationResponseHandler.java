@@ -10,13 +10,15 @@ public abstract class UserGuessLearnificationResponseHandler implements Learnifi
 
     private final LearnificationScheduler learnificationScheduler;
     private final LearnificationUpdater learnificationUpdater;
+    private int notificationId;
 
     UserGuessLearnificationResponseHandler(AndroidLogger logger, String log_tag, LearnificationScheduler learnificationScheduler,
-                                           LearnificationUpdater learnificationUpdater) {
+                                           LearnificationUpdater learnificationUpdater, int notificationId) {
         this.logger = logger;
         this.learnificationScheduler = learnificationScheduler;
         this.learnificationUpdater = learnificationUpdater;
         this.LOG_TAG = log_tag;
+        this.notificationId = notificationId;
     }
 
     @Override
@@ -24,7 +26,8 @@ public abstract class UserGuessLearnificationResponseHandler implements Learnifi
         logger.i(LOG_TAG, "learnification response was '" + typeOfGuess() + "'");
         NotificationTextContent responseContent = responseNotificationContent(learnificationResponse);
         logger.i(LOG_TAG, "replying with response content '" + responseContent.toString() + "'");
-        learnificationUpdater.updateLatestWithReply(responseContent, learnificationResponse.givenPrompt(), learnificationResponse.expectedUserResponse());
+        learnificationUpdater.updateWithResponse(responseContent, learnificationResponse.givenPrompt(),
+                learnificationResponse.expectedUserResponse(), notificationId);
         logger.i(LOG_TAG, "replied to learnification by showing '" + responseContent.toString() + "'");
         scheduleNextLearnification(learnificationScheduler);
     }

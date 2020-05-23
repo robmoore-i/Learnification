@@ -3,8 +3,8 @@ package com.rrm.learnification.support;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
+import com.rrm.learnification.learningitemstorage.LearningItemSqlTableClient;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.LearningItemSqlTableClient;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import java.util.List;

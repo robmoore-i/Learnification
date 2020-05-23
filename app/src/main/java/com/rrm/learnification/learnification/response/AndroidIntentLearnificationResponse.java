@@ -5,6 +5,7 @@ import com.rrm.learnification.learnification.creation.LearnificationResponseType
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.notification.IdentifiedNotification;
 
 class AndroidIntentLearnificationResponse implements LearnificationResponse {
     private final ResponseIntent intent;
@@ -34,12 +35,14 @@ class AndroidIntentLearnificationResponse implements LearnificationResponse {
     @Override
     public LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler,
                                                  LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater) {
+
+        int notificationId = intent.getIntExtra(IdentifiedNotification.ID_EXTRA);
         if (isShowMeResponse()) {
-            return new ShowMeHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater);
+            return new ShowMeHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater, notificationId);
         } else if (isNextResponse()) {
-            return new NextHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater);
+            return new NextHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater, notificationId);
         } else if (hasRemoteInput()) {
-            return new AnswerHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater);
+            return new AnswerHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater, notificationId);
         } else {
             return new FallthroughHandler(logger, learnificationScheduler);
         }

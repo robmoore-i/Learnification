@@ -2,8 +2,8 @@ package com.rrm.learnification.learningitemseteditor;
 
 import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
 
 class AddLearningItemOnClickCommand implements OnClickCommand {
     private static final String LOG_TAG = "AddLearningItemOnClickCommand";

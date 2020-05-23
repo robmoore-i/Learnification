@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.settings.learnificationdelay.DelayPicker;
 import com.rrm.learnification.settings.learnificationdelay.SaveDelayFromPickerOnClickCommand;
@@ -14,8 +16,6 @@ import com.rrm.learnification.settings.learnificationpromptstrategy.SavePromptSt
 import com.rrm.learnification.settings.save.SaveSettingsButton;
 import com.rrm.learnification.settings.save.SaveSettingsView;
 import com.rrm.learnification.settings.toolbar.AppToolbar;
-import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
-import com.rrm.learnification.storage.FileStorageAdaptor;
 
 import static java.lang.Integer.max;
 

@@ -2,18 +2,19 @@ package com.rrm.learnification.test;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
+import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
+import com.rrm.learnification.learningitemstorage.LearningItemSqlTableClient;
+import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
-import com.rrm.learnification.storage.AndroidInternalStorageAdaptor;
-import com.rrm.learnification.storage.FileStorageAdaptor;
-import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlTableClient;
-import com.rrm.learnification.storage.SqlLearningItemSetRecordStore;
+import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 import com.rrm.learnification.time.AndroidClock;
 
 public class AndroidTestObjectFactory {
@@ -52,8 +53,9 @@ public class AndroidTestObjectFactory {
     }
 
     public LearnificationNotificationFactory getLearnificationNotificationFactory() {
-        final PendingIntentIdGenerator pendingIntentRequestCodeGenerator = new PendingIntentIdGenerator(logger(), getFileStorageAdaptor());
-        return new LearnificationNotificationFactory(logger(), activity, pendingIntentRequestCodeGenerator);
+        PendingIntentIdGenerator pendingIntentRequestCodeGenerator = new PendingIntentIdGenerator(logger(), getFileStorageAdaptor());
+        NotificationIdGenerator notificationIdGenerator = new NotificationIdGenerator(logger(), getFileStorageAdaptor());
+        return new LearnificationNotificationFactory(logger(), activity, pendingIntentRequestCodeGenerator, notificationIdGenerator);
     }
 
     public LearnificationAppDatabase getLearnificationAppDatabase() {

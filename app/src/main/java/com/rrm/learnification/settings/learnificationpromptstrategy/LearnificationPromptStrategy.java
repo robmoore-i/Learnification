@@ -1,9 +1,9 @@
 package com.rrm.learnification.settings.learnificationpromptstrategy;
 
 import com.rrm.learnification.learnification.publication.LearnificationTextGenerator;
+import com.rrm.learnification.learningitemstorage.LearningItemSupplier;
 import com.rrm.learnification.random.JavaRandomiser;
 import com.rrm.learnification.random.Randomiser;
-import com.rrm.learnification.storage.LearningItemSupplier;
 
 public interface LearnificationPromptStrategy {
     Randomiser randomiser = new JavaRandomiser();

@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivityBundle;
+import com.rrm.learnification.learningitemstorage.LearningItemSqlTableClient;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.storage.LearnificationAppDatabase;
-import com.rrm.learnification.storage.LearningItemSqlTableClient;
+import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";

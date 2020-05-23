@@ -1,12 +1,11 @@
 package com.rrm.learnification.learnificationresponse.publication;
 
-import android.app.Notification;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.rrm.learnification.learnification.response.NotificationTextContent;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.notification.NotificationIdGenerator;
+import com.rrm.learnification.notification.IdentifiedNotification;
 
 public class AndroidLearnificationUpdater implements LearnificationUpdater {
     private static final String LOG_TAG = "AndroidLearnificationUpdater";
@@ -14,24 +13,20 @@ public class AndroidLearnificationUpdater implements LearnificationUpdater {
     private final AndroidLogger logger;
     private final NotificationManagerCompat notificationManagerCompat;
     private final LearnificationResponseNotificationFactory learnificationResponseNotificationFactory;
-    private final NotificationIdGenerator notificationIdGenerator;
 
     public AndroidLearnificationUpdater(AndroidLogger logger, NotificationManagerCompat notificationManagerCompat,
-                                        LearnificationResponseNotificationFactory learnificationResponseNotificationFactory,
-                                        NotificationIdGenerator notificationIdGenerator) {
+                                        LearnificationResponseNotificationFactory learnificationResponseNotificationFactory) {
         this.logger = logger;
         this.notificationManagerCompat = notificationManagerCompat;
         this.learnificationResponseNotificationFactory = learnificationResponseNotificationFactory;
-        this.notificationIdGenerator = notificationIdGenerator;
     }
 
     @Override
-    public void updateLatestWithReply(NotificationTextContent replyContent, String givenPrompt, String expectedUserResponse) {
-        Notification responseNotification = learnificationResponseNotificationFactory.createLearnificationResponse(replyContent,
-                givenPrompt, expectedUserResponse);
-        int lastId = notificationIdGenerator.last();
-        logger.i(LOG_TAG, "updating notification with given prompt '" + givenPrompt + "' and notification id " + lastId);
-        notificationManagerCompat.notify(lastId, responseNotification);
+    public void updateWithResponse(NotificationTextContent replyContent, String givenPrompt, String expectedUserResponse, int notificationId) {
+        IdentifiedNotification learnificationResponse = learnificationResponseNotificationFactory.createLearnificationResponse(replyContent,
+                givenPrompt, expectedUserResponse, notificationId);
+        logger.i(LOG_TAG, "updating notification with given prompt '" + givenPrompt + "' and notification id " + notificationId);
+        notificationManagerCompat.notify(learnificationResponse.id(), learnificationResponse.notification());
 
     }
 }

@@ -40,7 +40,7 @@ public class LearnificationResponseNotificationFactoryTest {
     @Test
     public void itGeneratesLearnificationResponseWithABundleContainingTheNotificationType() {
         Notification learnificationResponse = learnificationResponseNotificationFactory.createLearnificationResponse(
-                new NotificationTextContent("a", "b"), "", "");
+                new NotificationTextContent("a", "b"), "", "", 0).notification();
 
         assertThat(learnificationResponse.extras.getString(NotificationType.NOTIFICATION_TYPE_EXTRA_NAME), equalTo(NotificationType.LEARNIFICATION_RESPONSE));
     }
@@ -50,7 +50,7 @@ public class LearnificationResponseNotificationFactoryTest {
         String[] expectedPendingIntentTitles = {"My answer was ✅", "My answer was ❌"};
         NotificationTextContent notificationTextContent = new NotificationTextContent("Some Title", "Some Text");
         Notification learnificationResponse = learnificationResponseNotificationFactory.createLearnificationResponse(notificationTextContent,
-                "Given", "Expected");
+                "Given", "Expected", 0).notification();
 
         List<String> pendingIntentTitles = Arrays.stream(learnificationResponse.actions).map(action -> action.title.toString()).collect(Collectors.toList());
 

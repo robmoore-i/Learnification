@@ -1,4 +1,4 @@
-package com.rrm.learnification.storage;
+package com.rrm.learnification.learningitemstorage;
 
 import com.rrm.learnification.common.LearningItemText;
 

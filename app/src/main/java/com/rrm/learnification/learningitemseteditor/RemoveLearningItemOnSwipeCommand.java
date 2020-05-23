@@ -1,6 +1,6 @@
 package com.rrm.learnification.learningitemseteditor;
 
-import com.rrm.learnification.storage.PersistentLearningItemRepository;
+import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
 
 public class RemoveLearningItemOnSwipeCommand implements OnSwipeCommand {
     private final PersistentLearningItemRepository itemRepository;

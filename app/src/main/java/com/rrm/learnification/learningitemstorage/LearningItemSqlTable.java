@@ -1,4 +1,4 @@
-package com.rrm.learnification.storage;
+package com.rrm.learnification.learningitemstorage;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -10,7 +10,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 
 import static com.rrm.learnification.assertion.Assert.assertTrue;
 
-final class LearningItemSqlTable implements BaseColumns {
+public final class LearningItemSqlTable implements BaseColumns {
     private static final String LOG_TAG = "LearningItemSqlTable";
 
     private static final String TABLE_NAME = "learningitem";
@@ -21,7 +21,7 @@ final class LearningItemSqlTable implements BaseColumns {
     private LearningItemSqlTable() {
     }
 
-    static String createTable() {
+    public static String createTable() {
         return "CREATE TABLE " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_NAME_LEARNING_ITEM_SET_NAME + " TEXT," +
@@ -29,7 +29,7 @@ final class LearningItemSqlTable implements BaseColumns {
                 COLUMN_NAME_RIGHT + " TEXT)";
     }
 
-    static String deleteTable() {
+    public static String deleteTable() {
         return "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 

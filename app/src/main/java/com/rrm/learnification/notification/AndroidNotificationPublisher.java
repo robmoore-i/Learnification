@@ -1,6 +1,5 @@
 package com.rrm.learnification.notification;
 
-import android.app.Notification;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.rrm.learnification.logger.AndroidLogger;
@@ -10,17 +9,15 @@ public class AndroidNotificationPublisher {
 
     private final AndroidLogger logger;
     private final NotificationManagerCompat notificationManager;
-    private final NotificationIdGenerator notificationIdGenerator;
 
-    public AndroidNotificationPublisher(AndroidLogger logger, NotificationManagerCompat notificationManager, NotificationIdGenerator notificationIdGenerator) {
+    public AndroidNotificationPublisher(AndroidLogger logger, NotificationManagerCompat notificationManager) {
         this.logger = logger;
         this.notificationManager = notificationManager;
-        this.notificationIdGenerator = notificationIdGenerator;
     }
 
-    public void publish(Notification notification) {
-        int nextId = notificationIdGenerator.next();
+    public void publish(IdentifiedNotification notification) {
+        int nextId = notification.id();
         logger.i(LOG_TAG, "publishing notification with id " + nextId);
-        notificationManager.notify(nextId, notification);
+        notificationManager.notify(nextId, notification.notification());
     }
 }
