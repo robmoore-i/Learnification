@@ -1,10 +1,7 @@
-package com.rrm.learnification.storage;
+package com.rrm.learnification.learningitemstorage;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.common.LearningItemText;
-import com.rrm.learnification.learningitemstorage.LearningItemRecordStore;
-import com.rrm.learnification.learningitemstorage.LearningItemTextUpdateBroker;
-import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import org.junit.Before;

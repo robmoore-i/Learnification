@@ -1,4 +1,4 @@
-package com.rrm.learnification.radiogroup;
+package com.rrm.learnification.settings.radiogroup;
 
 import java.util.HashMap;
 import java.util.Map;

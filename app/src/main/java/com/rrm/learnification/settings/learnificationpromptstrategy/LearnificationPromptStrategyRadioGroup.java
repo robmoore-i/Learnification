@@ -1,8 +1,8 @@
 package com.rrm.learnification.settings.learnificationpromptstrategy;
 
 import com.rrm.learnification.logger.AndroidLogger;
-import com.rrm.learnification.radiogroup.RadioGroupMappings;
-import com.rrm.learnification.radiogroup.RadioGroupView;
+import com.rrm.learnification.settings.radiogroup.RadioGroupMappings;
+import com.rrm.learnification.settings.radiogroup.RadioGroupView;
 
 import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.LEFT_TO_RIGHT;
 import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.MIXED;

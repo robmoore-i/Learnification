@@ -1,4 +1,4 @@
-package com.rrm.learnification.random;
+package com.rrm.learnification.settings.learnificationpromptstrategy;
 
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.common.LearningItem;

@@ -5,10 +5,10 @@ import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.radiogroup.RadioGroupMappings;
-import com.rrm.learnification.radiogroup.RadioGroupView;
 import com.rrm.learnification.settings.learnificationdelay.DelayPickerView;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
+import com.rrm.learnification.settings.radiogroup.RadioGroupMappings;
+import com.rrm.learnification.settings.radiogroup.RadioGroupView;
 import com.rrm.learnification.settings.toolbar.SimpleToolbarView;
 
 import java.util.HashMap;

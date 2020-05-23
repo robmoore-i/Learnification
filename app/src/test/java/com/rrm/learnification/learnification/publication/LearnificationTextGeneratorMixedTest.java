@@ -3,8 +3,8 @@ package com.rrm.learnification.learnification.publication;
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
-import com.rrm.learnification.random.Randomiser;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy;
+import com.rrm.learnification.settings.learnificationpromptstrategy.Randomiser;
 
 import org.junit.Test;
 

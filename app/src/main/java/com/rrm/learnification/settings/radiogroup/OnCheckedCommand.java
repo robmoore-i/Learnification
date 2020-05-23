@@ -1,4 +1,4 @@
-package com.rrm.learnification.radiogroup;
+package com.rrm.learnification.settings.radiogroup;
 
 public interface OnCheckedCommand {
     void onChecked();
