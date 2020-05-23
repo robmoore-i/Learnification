@@ -11,7 +11,8 @@ import java.util.Optional;
 public class AndroidLearnificationScheduler implements LearnificationScheduler {
     private final TestableLearnificationScheduler learnificationScheduler;
 
-    public AndroidLearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ActiveNotificationReader activeNotificationReader) {
+    public AndroidLearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler,
+                                          ScheduleConfiguration scheduleConfiguration, ActiveNotificationReader activeNotificationReader) {
         this.learnificationScheduler = new TestableLearnificationScheduler(logger, androidClock, jobScheduler, scheduleConfiguration, activeNotificationReader);
     }
 

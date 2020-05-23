@@ -19,7 +19,8 @@ import static org.mockito.Mockito.when;
 public class LearnificationTextGeneratorMixedTest {
     @Test
     public void generatesEgyptCapitalCityLearnification() {
-        LearnificationTextGenerator learnificationTextGenerator = getLearnificationTextGenerator(Collections.singletonList(new LearningItem("Egypt", "Cairo", "default")));
+        LearnificationTextGenerator learnificationTextGenerator = getLearnificationTextGenerator(Collections.singletonList(new LearningItem("Egypt", "Cairo",
+                "default")));
 
         assertThat(learnificationTextGenerator.learnificationText().given, equalTo("Egypt"));
     }

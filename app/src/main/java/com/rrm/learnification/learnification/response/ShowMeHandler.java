@@ -7,7 +7,8 @@ import com.rrm.learnification.logger.AndroidLogger;
 class ShowMeHandler extends UserGuessLearnificationResponseHandler {
     private final LearnificationResponseContentGenerator responseContentGenerator;
 
-    ShowMeHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater) {
+    ShowMeHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator,
+                  LearnificationUpdater learnificationUpdater) {
         super(logger, "ShowMeHandler", learnificationScheduler, learnificationUpdater);
         this.responseContentGenerator = responseContentGenerator;
     }

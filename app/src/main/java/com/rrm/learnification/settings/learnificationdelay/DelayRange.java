@@ -8,4 +8,8 @@ public class DelayRange {
         this.earliestStartTimeDelayMs = earliestStartTimeDelayMs;
         this.latestStartTimeDelayMs = latestStartTimeDelayMs;
     }
+
+    public static DelayRange getImminentDelayRange() {
+        return new DelayRange(1, 1);
+    }
 }

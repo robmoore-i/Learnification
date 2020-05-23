@@ -64,7 +64,8 @@ final class LearningItemSqlTable implements BaseColumns {
     }
 
     static void replace(SQLiteDatabase writableDatabase, LearningItem target, LearningItem replacement) {
-        assertTrue(target.learningItemSetName.equals(replacement.learningItemSetName), "attempted to replace learning item with one that isn't in the same set. target=" + target.toString() + ", replacement=" + replacement.toString());
+        assertTrue(target.learningItemSetName.equals(replacement.learningItemSetName), "attempted to replace learning item with one that isn't in " +
+                "the same set. target=" + target.toString() + ", replacement=" + replacement.toString());
         String selection = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ? AND " + COLUMN_NAME_LEFT + " LIKE ? AND " + COLUMN_NAME_RIGHT + " LIKE ?";
         String[] selectionArgs = {target.learningItemSetName, target.left, target.right};
         writableDatabase.update(TABLE_NAME, from(replacement), selection, selectionArgs);
@@ -82,7 +83,9 @@ final class LearningItemSqlTable implements BaseColumns {
 
     static String mostPopulousLearningItemSetName(SQLiteDatabase readableDatabase) {
         String viewName = "numberOfDistinctLearningItemSets";
-        Cursor cursor = readableDatabase.rawQuery("SELECT " + COLUMN_NAME_LEARNING_ITEM_SET_NAME + ",(COUNT(DISTINCT " + COLUMN_NAME_LEARNING_ITEM_SET_NAME + ")) AS " + viewName + " FROM " + TABLE_NAME, null);
+        Cursor cursor =
+                readableDatabase.rawQuery("SELECT " + COLUMN_NAME_LEARNING_ITEM_SET_NAME + ",(COUNT(DISTINCT " + COLUMN_NAME_LEARNING_ITEM_SET_NAME + ")) "
+                        + "AS " + viewName + " FROM " + TABLE_NAME, null);
         cursor.moveToFirst();
         String mostPopulousLearningItemSetName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_LEARNING_ITEM_SET_NAME));
         cursor.close();
@@ -108,7 +111,8 @@ final class LearningItemSqlTable implements BaseColumns {
         String whereClause = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ?";
         String[] whereArgs = {learningItemSetName};
         int numberOfRowsAffected = writableDatabase.update(TABLE_NAME, contentValues, whereClause, whereArgs);
-        logger.i(LOG_TAG, "updated learning item set name for " + numberOfRowsAffected + " items, from '" + learningItemSetName + "' to '" + newLearningItemSetName + "'");
+        logger.i(LOG_TAG, "updated learning item set name for " + numberOfRowsAffected + " items, from '" + learningItemSetName + "' " +
+                "to '" + newLearningItemSetName + "'");
     }
 
     static String learningItemSetNameFrom(Cursor cursor) {

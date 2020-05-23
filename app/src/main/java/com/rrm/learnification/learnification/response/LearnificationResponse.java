@@ -11,5 +11,6 @@ interface LearnificationResponse {
 
     String givenPrompt();
 
-    LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater);
+    LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler,
+                                          LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater);
 }

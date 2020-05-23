@@ -20,7 +20,8 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
 
     private LearningItemSetChangeListener setChangeListener;
 
-    LearningItemSetSelector(AndroidLogger logger, LearningItemSetSelectorView learningItemSetSelectorView, LearningItemSetSelectorAdaptor adapter, LearningItemSetTitle learningItemSetTitle, SqlLearningItemSetRecordStore recordStore) {
+    LearningItemSetSelector(AndroidLogger logger, LearningItemSetSelectorView learningItemSetSelectorView, LearningItemSetSelectorAdaptor adapter,
+                            LearningItemSetTitle learningItemSetTitle, SqlLearningItemSetRecordStore recordStore) {
         this.logger = logger;
         this.adapter = adapter;
         this.spinner = learningItemSetSelectorView.learningItemSetSelector();

@@ -11,7 +11,8 @@ public abstract class UserGuessLearnificationResponseHandler implements Learnifi
     private final LearnificationScheduler learnificationScheduler;
     private final LearnificationUpdater learnificationUpdater;
 
-    UserGuessLearnificationResponseHandler(AndroidLogger logger, String log_tag, LearnificationScheduler learnificationScheduler, LearnificationUpdater learnificationUpdater) {
+    UserGuessLearnificationResponseHandler(AndroidLogger logger, String log_tag, LearnificationScheduler learnificationScheduler,
+                                           LearnificationUpdater learnificationUpdater) {
         this.logger = logger;
         this.learnificationScheduler = learnificationScheduler;
         this.learnificationUpdater = learnificationUpdater;

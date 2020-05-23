@@ -20,24 +20,28 @@ public class UpdatableLearningItemDisplayStashTest {
 
     @Test
     public void revertsUnpersistedChanges() {
-        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger, mockLearningItemRepository);
+        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger,
+                mockLearningItemRepository);
         LearningItem savedLearningItem = new LearningItem("a", "b", "default");
         LearningItem updatedLearningItem = new LearningItem("a", "c", "default");
         when(mockLearningItemRepository.get(any())).thenReturn(savedLearningItem);
 
-        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(updatedLearningItem.toDisplayString().toString()), savedLearningItem.toDisplayString().toString());
+        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(updatedLearningItem.toDisplayString().toString()),
+                savedLearningItem.toDisplayString().toString());
 
         assertThat(updatableLearningItemDisplayCache.savedText(), equalTo(savedLearningItem.toDisplayString().toString()));
     }
 
     @Test
     public void savesPersistedChanges() {
-        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger, mockLearningItemRepository);
+        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger,
+                mockLearningItemRepository);
         LearningItem savedLearningItem = new LearningItem("a", "b", "default");
         LearningItemText updatedLearningItemText = new LearningItemText("a", "c");
         when(mockLearningItemRepository.get(any())).thenReturn(savedLearningItem);
 
-        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(updatedLearningItemText.toString()), savedLearningItem.toDisplayString().toString());
+        updatableLearningItemDisplayCache.saveText(new TextSource.StableTextSource(updatedLearningItemText.toString()),
+                savedLearningItem.toDisplayString().toString());
         updatableLearningItemDisplayCache.onItemChange(updatedLearningItemText);
 
         assertThat(updatableLearningItemDisplayCache.savedText(), equalTo(updatedLearningItemText.toString()));
@@ -45,7 +49,8 @@ public class UpdatableLearningItemDisplayStashTest {
 
     @Test
     public void revertsUnpersistedChangesAfterASave() {
-        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger, mockLearningItemRepository);
+        UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayCache = new UpdatableLearningItemTextDisplayStash(dummyLogger,
+                mockLearningItemRepository);
         LearningItem savedLearningItem = new LearningItem("a", "b", "default");
         LearningItemText updatedLearningItemText = new LearningItemText("a", "c");
         String nextUpdatedTextEntry = "q - w";

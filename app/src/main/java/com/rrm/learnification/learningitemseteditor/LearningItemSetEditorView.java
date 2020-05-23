@@ -24,7 +24,8 @@ import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarViewUpdate;
 import com.rrm.learnification.learningitemseteditor.toolbar.viewparameters.ToolbarViewParameters;
 import com.rrm.learnification.logger.AndroidLogger;
 
-class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorView, LearningItemSetTitleView, AddLearningItemView, LearningItemListView, UpdateLearningItemView, SoftKeyboardView {
+class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorView, LearningItemSetTitleView, AddLearningItemView, LearningItemListView,
+        UpdateLearningItemView, SoftKeyboardView {
     private static final String LOG_TAG = "LearningItemSetEditorView";
 
     private final AndroidLogger logger;

@@ -18,7 +18,8 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     private final LearningItemRecordStore learningItemRecordStore;
     private final LearningItemTextUpdateBroker itemTextUpdateBroker;
 
-    public PersistentLearningItemRepository(AndroidLogger logger, LearningItemRecordStore learningItemRecordStore, LearningItemTextUpdateBroker itemTextUpdateBroker) {
+    public PersistentLearningItemRepository(AndroidLogger logger, LearningItemRecordStore learningItemRecordStore,
+                                            LearningItemTextUpdateBroker itemTextUpdateBroker) {
         this.logger = logger;
         this.learningItemRecordStore = learningItemRecordStore;
         this.learningItems = learningItemRecordStore.items();

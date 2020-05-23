@@ -44,13 +44,12 @@ public class SqlLearningItemSetRecordStoreTest {
     private final LearningItem replacementLearningItem = new LearningItem("l-test-replacement", "r-test-replacement", LEARNING_ITEM_SET_EUROPEAN);
     private final LearningItem writtenLearningItem = new LearningItem("l-test-write", "r-test-write", "default");
 
+    private final AndroidLogger logger = new AndroidLogger();
+
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     private IntegrationTestWrapper guiTestWrapper;
-
-    private final AndroidLogger logger = new AndroidLogger();
-
     private SqlLearningItemSetRecordStore asianLearningItemRecordStore;
     private SqlLearningItemSetRecordStore euroLearningItemRecordStore;
 
@@ -59,8 +58,10 @@ public class SqlLearningItemSetRecordStoreTest {
         guiTestWrapper = new IntegrationTestWrapper(activityTestRule.getActivity());
         guiTestWrapper.beforeEach();
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        asianLearningItemRecordStore = new SqlLearningItemSetRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_DEFAULT);
-        euroLearningItemRecordStore = new SqlLearningItemSetRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(), LEARNING_ITEM_SET_EUROPEAN);
+        asianLearningItemRecordStore = new SqlLearningItemSetRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(),
+                LEARNING_ITEM_SET_DEFAULT);
+        euroLearningItemRecordStore = new SqlLearningItemSetRecordStore(logger, androidTestObjectFactory.getLearnificationAppDatabase(),
+                LEARNING_ITEM_SET_EUROPEAN);
         asianLearningItemRecordStore.writeAll(Arrays.stream(asianLearningItems).map(LearningItem::toDisplayString).collect(Collectors.toList()));
         euroLearningItemRecordStore.writeAll(Arrays.stream(europeanLearningItems).map(LearningItem::toDisplayString).collect(Collectors.toList()));
     }
@@ -92,7 +93,8 @@ public class SqlLearningItemSetRecordStoreTest {
         euroLearningItemRecordStore.write(additionalLearningItem);
 
         assertThat(asianLearningItemRecordStore.items(), allOf(hasItems(asianLearningItems), not(hasItems(europeanLearningItems))));
-        assertThat(euroLearningItemRecordStore.items(), allOf(hasItems(europeanLearningItems), hasItems(additionalLearningItem.withSet(LEARNING_ITEM_SET_EUROPEAN)), not(hasItems(asianLearningItems))));
+        assertThat(euroLearningItemRecordStore.items(), allOf(hasItems(europeanLearningItems), not(hasItems(asianLearningItems)),
+                hasItems(additionalLearningItem.withSet(LEARNING_ITEM_SET_EUROPEAN))));
     }
 
     @Test

@@ -51,7 +51,8 @@ public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningIt
     }
 
     boolean containsTextEntries(Collection<String> textEntries) {
-        logger.i(LOG_TAG, "checking if the displayed items '" + this.textEntries.toString() + "' contains all the text entries '" + textEntries.toString() + "'");
+        logger.i(LOG_TAG, "checking if the displayed items '" + this.textEntries.toString() + "' " +
+                "contains all the text entries '" + textEntries.toString() + "'");
         return this.textEntries.containsAll(textEntries);
     }
 

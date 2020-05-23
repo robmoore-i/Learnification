@@ -76,6 +76,7 @@ public class AndroidIntentLearnificationResponseTest {
     }
 
     private LearnificationResponseHandler responseIntentHandler() {
-        return responseIntent.handler(mock(AndroidLogger.class), mock(LearnificationScheduler.class), mock(LearnificationResponseContentGenerator.class), mock(LearnificationUpdater.class));
+        return responseIntent.handler(mock(AndroidLogger.class), mock(LearnificationScheduler.class), mock(LearnificationResponseContentGenerator.class),
+                mock(LearnificationUpdater.class));
     }
 }

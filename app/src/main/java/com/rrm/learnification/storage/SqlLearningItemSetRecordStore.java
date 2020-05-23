@@ -49,7 +49,8 @@ public class SqlLearningItemSetRecordStore implements LearningItemRecordStore {
 
     @Override
     public void replace(LearningItemText target, LearningItemText replacement) {
-        LearningItemSqlTable.replace(learnificationAppDatabase.getWritableDatabase(), target.withSet(learningItemSetName), replacement.withSet(learningItemSetName));
+        LearningItemSqlTable.replace(learnificationAppDatabase.getWritableDatabase(),
+                target.withSet(learningItemSetName), replacement.withSet(learningItemSetName));
     }
 
     @Override

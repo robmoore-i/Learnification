@@ -7,13 +7,8 @@ import com.rrm.learnification.logger.AndroidLogger;
 import java.util.Optional;
 
 public interface ToolbarViewParameters {
-    String toolbarTitle();
-
-    String getName();
-
-    void configureFastForwardScheduleButton(ConfigurableButton fastForwardScheduleButton);
-
-    static ToolbarViewParameters latest(AndroidLogger logger, ToolbarViewParameters currentToolbarViewParameters, LearnificationScheduler learnificationScheduler) {
+    static ToolbarViewParameters latest(AndroidLogger logger, ToolbarViewParameters currentToolbarViewParameters,
+                                        LearnificationScheduler learnificationScheduler) {
         if (learnificationScheduler.isLearnificationAvailable()) {
             return new LearnificationReady();
         } else {
@@ -29,4 +24,10 @@ public interface ToolbarViewParameters {
             }
         }
     }
+
+    String toolbarTitle();
+
+    String getName();
+
+    void configureFastForwardScheduleButton(ConfigurableButton fastForwardScheduleButton);
 }

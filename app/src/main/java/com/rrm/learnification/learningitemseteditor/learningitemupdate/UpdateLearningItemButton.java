@@ -9,7 +9,8 @@ import java.util.function.BiConsumer;
 public class UpdateLearningItemButton extends AndroidButton {
     private final UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayStash;
 
-    public UpdateLearningItemButton(AndroidLogger logger, UpdateLearningItemView view, UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayStash) {
+    public UpdateLearningItemButton(AndroidLogger logger, UpdateLearningItemView view,
+                                    UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayStash) {
         super(logger, view.updateLearningItemButton(), false);
         this.updatableLearningItemDisplayStash = updatableLearningItemDisplayStash;
     }

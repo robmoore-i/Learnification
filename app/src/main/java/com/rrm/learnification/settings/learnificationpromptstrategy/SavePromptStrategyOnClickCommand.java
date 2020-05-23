@@ -7,7 +7,8 @@ public class SavePromptStrategyOnClickCommand implements OnClickCommand {
     private final SettingsRepository settingsRepository;
     private final LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup;
 
-    public SavePromptStrategyOnClickCommand(SettingsRepository settingsRepository, LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup) {
+    public SavePromptStrategyOnClickCommand(SettingsRepository settingsRepository,
+                                            LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup) {
         this.settingsRepository = settingsRepository;
         this.learnificationPromptStrategyRadioGroup = learnificationPromptStrategyRadioGroup;
     }

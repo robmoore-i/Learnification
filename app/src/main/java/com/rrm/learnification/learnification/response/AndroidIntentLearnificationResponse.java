@@ -32,7 +32,8 @@ class AndroidIntentLearnificationResponse implements LearnificationResponse {
     }
 
     @Override
-    public LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler, LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater) {
+    public LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler,
+                                                 LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater) {
         if (isShowMeResponse()) {
             return new ShowMeHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater);
         } else if (isNextResponse()) {

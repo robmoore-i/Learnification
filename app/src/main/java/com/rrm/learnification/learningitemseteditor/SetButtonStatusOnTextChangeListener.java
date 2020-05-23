@@ -14,12 +14,12 @@ import static java.util.Arrays.asList;
 class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
     private static final String LOG_TAG = "SetButtonStatusOnTextChangeListener";
 
-    // By default, a text entry list is valid as long as none of the constituent entries are empty.
-    private Function<HashMap<String, String>, Boolean> textsValidation = entries -> entries.values().stream().map(String::trim).noneMatch(""::equals);
-
     private final ConfigurableButton configurableButton;
     private final AndroidLogger logger;
     private final HashMap<String, String> texts = new HashMap<>();
+
+    // By default, a text entry list is valid as long as none of the constituent entries are empty.
+    private Function<HashMap<String, String>, Boolean> textsValidation = entries -> entries.values().stream().map(String::trim).noneMatch(""::equals);
 
 
     SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton) {

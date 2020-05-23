@@ -25,7 +25,7 @@ public class AddLearningItemOnClickCommandTest {
         LearningItemText testLearningItemText = testLearningItem.toDisplayString();
         when(stubInput.getText()).thenReturn(testLearningItemText);
         when(mockRepository.get(testLearningItemText)).thenReturn(testLearningItem);
-        AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(dummyLogger, stubInput, mockRepository, mockList);
+        AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(dummyLogger, stubInput, mockList, mockRepository);
 
         addLearningItemOnClickCommand.onClick();
 
@@ -36,7 +36,7 @@ public class AddLearningItemOnClickCommandTest {
     public void addsLearningItemSingleStringFormIntoTheList() {
         when(stubInput.getText()).thenReturn(testLearningItem.toDisplayString());
         when(mockRepository.get(testLearningItem.toDisplayString())).thenReturn(testLearningItem);
-        AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(dummyLogger, stubInput, mockRepository, mockList);
+        AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(dummyLogger, stubInput, mockList, mockRepository);
 
         addLearningItemOnClickCommand.onClick();
 
@@ -46,7 +46,7 @@ public class AddLearningItemOnClickCommandTest {
     @Test(expected = CantAddLearningItemException.class)
     public void ifInputThrowsExceptionThenItThrowsARuntimeException() {
         when(stubInput.getText()).thenThrow(new IllegalArgumentException());
-        AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(dummyLogger, stubInput, mockRepository, mockList);
+        AddLearningItemOnClickCommand addLearningItemOnClickCommand = new AddLearningItemOnClickCommand(dummyLogger, stubInput, mockList, mockRepository);
 
         addLearningItemOnClickCommand.onClick();
     }

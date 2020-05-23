@@ -8,7 +8,6 @@ import com.rrm.learnification.storage.FileStorageAdaptor;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,10 +39,6 @@ public class FileStorageAdaptorTest {
     @After
     public void afterEach() {
         fileStorageAdaptor.deleteFile(TEST_FILE_NAME);
-    }
-
-    @AfterClass
-    public static void tearDown() {
     }
 
     @Test

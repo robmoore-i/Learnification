@@ -61,19 +61,23 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         LearningItemSqlTableClient learningItemSqlTableClient = new LearningItemSqlTableClient(logger, learnificationAppDatabase);
 
         LearningItemSetTitle learningItemSetTitle = new LearningItemSetTitle(logger, sqlLearningItemSetRecordStore, learningItemSetEditorView);
-        LearningItemSetSelectorAdaptor learningItemSetSelectorAdaptor = new LearningItemSetSelectorAdaptor(logger, this, learningItemSqlTableClient.orderedLearningItemSetNames());
-        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(logger, learningItemSetEditorView, learningItemSetSelectorAdaptor, learningItemSetTitle, sqlLearningItemSetRecordStore);
+        LearningItemSetSelectorAdaptor learningItemSetSelectorAdaptor =
+                new LearningItemSetSelectorAdaptor(logger, this, learningItemSqlTableClient.orderedLearningItemSetNames());
+        LearningItemSetSelector learningItemSetSelector = new LearningItemSetSelector(logger, learningItemSetEditorView, learningItemSetSelectorAdaptor,
+                learningItemSetTitle, sqlLearningItemSetRecordStore);
 
         LearningItemTextInput learningItemTextInput = new LearningItemTextInput(learningItemSetEditorView);
         AddLearningItemButton addLearningItemButton = new AddLearningItemButton(logger, learningItemSetEditorView);
 
-        PersistentLearningItemRepository learningItemRepository = new PersistentLearningItemRepository(logger, sqlLearningItemSetRecordStore, new LearningItemTextUpdateBroker());
+        PersistentLearningItemRepository learningItemRepository =
+                new PersistentLearningItemRepository(logger, sqlLearningItemSetRecordStore, new LearningItemTextUpdateBroker());
         UpdatableLearningItemTextDisplayStash learningItemDisplayStash = new UpdatableLearningItemTextDisplayStash(logger, learningItemRepository);
         UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, learningItemSetEditorView, learningItemDisplayStash);
 
         SetButtonStatusOnTextChangeListener learningItemTextChangeListener = new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton);
         LearningItemStash learningItemStash = new LearningItemStash(logger, learningItemTextChangeListener, learningItemDisplayStash);
-        learningItemList = new LearningItemList(logger, learningItemSetEditorView, new LearningItemListViewAdaptor(logger, learningItemStash, learningItemRepository), learningItemSetSelector);
+        learningItemList = new LearningItemList(logger, learningItemSetEditorView,
+                new LearningItemListViewAdaptor(logger, learningItemStash, learningItemRepository), learningItemSetSelector);
         learningItemTextChangeListener.useTextValidation(textsValidationForDisplayedLearningItems(logger, learningItemList));
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
@@ -85,14 +89,15 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         // Set them up where necessary, again in the order in which they have relevance in the view
 
-        learningItemSetEditorView.addToolbarViewUpdate(new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
+        learningItemSetEditorView.addToolbarViewUpdate(
+                new LearnificationScheduleStatusUpdate(logger, learnificationScheduler, new FastForwardScheduleButton(logger, learningItemSetEditorView)));
 
         learningItemSetSelector.select(learningItemSetName);
         learningItemSetTitle.set(learningItemSetName);
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));
-        addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(logger, learningItemTextInput, learningItemRepository, learningItemList));
+        addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(logger, learningItemTextInput, learningItemList, learningItemRepository));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
 
         learningItemList.setOnSwipeCommand(new RemoveLearningItemOnSwipeCommand(learningItemRepository));
@@ -104,7 +109,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         // Schedule a learnification
 
-        LearnificationNotificationChannelCreator channelCreator = new LearnificationNotificationChannelCreator(logger, new AndroidNotificationContext(this.getApplicationContext()));
+        LearnificationNotificationChannelCreator channelCreator =
+                new LearnificationNotificationChannelCreator(logger, new AndroidNotificationContext(this.getApplicationContext()));
         channelCreator.createNotificationChannel();
         learnificationScheduler.scheduleImminentLearnification();
 

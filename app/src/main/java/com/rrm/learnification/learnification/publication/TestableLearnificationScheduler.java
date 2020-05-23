@@ -31,7 +31,8 @@ class TestableLearnificationScheduler {
 
     private final DelayCalculator delayCalculator = new DelayCalculator();
 
-    TestableLearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration, ActiveNotificationReader activeNotificationReader) {
+    TestableLearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler, ScheduleConfiguration scheduleConfiguration,
+                                    ActiveNotificationReader activeNotificationReader) {
         this.logger = logger;
         this.jobScheduler = jobScheduler;
         this.scheduleConfiguration = scheduleConfiguration;
@@ -40,18 +41,19 @@ class TestableLearnificationScheduler {
     }
 
     void scheduleImminentJob(Class<?> serviceClass) {
-        scheduleJob(serviceClass, ScheduleConfiguration.getImminentDelayRange());
+        scheduleJob(serviceClass, DelayRange.getImminentDelayRange());
     }
 
     void scheduleJob(Class<?> serviceClass) {
-        scheduleJob(serviceClass, scheduleConfiguration.getDelayRange());
+        scheduleJob(serviceClass, scheduleConfiguration.getConfiguredDelayRange());
     }
 
     private void scheduleJob(Class<?> serviceClass, DelayRange delayRange) {
         int earliestStartTimeDelayMs = delayRange.earliestStartTimeDelayMs;
         int latestStartTimeDelayMs = delayRange.latestStartTimeDelayMs;
 
-        boolean upcomingLearnificationScheduled = jobScheduler.hasPendingJob(serviceClass, scheduleConfiguration.getDelayRange().earliestStartTimeDelayMs);
+        boolean upcomingLearnificationScheduled = jobScheduler.hasPendingJob(serviceClass,
+                scheduleConfiguration.getConfiguredDelayRange().earliestStartTimeDelayMs);
         if (upcomingLearnificationScheduled) {
             logger.i(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");
             return;

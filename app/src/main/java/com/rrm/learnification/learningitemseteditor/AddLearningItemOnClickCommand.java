@@ -13,7 +13,8 @@ class AddLearningItemOnClickCommand implements OnClickCommand {
     private final PersistentLearningItemRepository itemRepository;
     private final LearningItemList learningItemList;
 
-    AddLearningItemOnClickCommand(AndroidLogger logger, LearningItemTextInput learningItemTextInput, PersistentLearningItemRepository itemRepository, LearningItemList learningItemList) {
+    AddLearningItemOnClickCommand(AndroidLogger logger, LearningItemTextInput learningItemTextInput, LearningItemList learningItemList,
+                                  PersistentLearningItemRepository itemRepository) {
         this.logger = logger;
         this.learningItemTextInput = learningItemTextInput;
         this.itemRepository = itemRepository;

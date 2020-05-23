@@ -13,13 +13,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration.getImminentDelayRange;
+import static com.rrm.learnification.settings.learnificationdelay.DelayRange.getImminentDelayRange;
 
 public class AndroidJobScheduler implements JobScheduler {
-    private static final String LOG_TAG = "AndroidJobScheduler";
-
     static final String TIME_OF_SCHEDULING = "timeOfScheduling";
-
+    private static final String LOG_TAG = "AndroidJobScheduler";
     private final AndroidLogger logger;
     private final AndroidClock clock;
     private final Context context;
@@ -36,7 +34,9 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public void schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass) {
-        logger.i(LOG_TAG, "scheduling job for serviceClass " + serviceClass.getName() + " in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
+        logger.i(LOG_TAG,
+                "scheduling job for serviceClass " + serviceClass.getName() + " " +
+                        "in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
         JobInfo.Builder builder = new JobInfo.Builder(jobIdGenerator.next(), new ComponentName(context, serviceClass))
                 .setMinimumLatency(earliestStartTimeDelayMs)
                 .setOverrideDeadline(latestStartTimeDelayMs)

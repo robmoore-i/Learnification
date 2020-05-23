@@ -26,7 +26,7 @@ class LearnificationResponseContentGenerator {
     }
 
     private String textForTimeUntilNextLearnification() {
-        int delayInSeconds = scheduleConfiguration.getDelayRange().earliestStartTimeDelayMs / 1000;
+        int delayInSeconds = scheduleConfiguration.getConfiguredDelayRange().earliestStartTimeDelayMs / 1000;
         return delayInSeconds < 60 ? delayInSeconds + "s" : (delayInSeconds / 60) + " mins";
     }
 }

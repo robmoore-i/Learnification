@@ -28,7 +28,8 @@ public class LearnificationPromptStrategyRadioGroup {
 
     public void setValue(LearnificationPromptStrategy learnificationPromptStrategy) {
         int radioButtonViewId = radioGroupMappings.viewIdOfOption(learnificationPromptStrategy);
-        logger.i(LOG_TAG, "checking radio button for learnification prompt strategy '" + learnificationPromptStrategy.name() + "', with view id '" + radioButtonViewId + "'");
+        logger.i(LOG_TAG, "checking radio button for learnification prompt strategy '" + learnificationPromptStrategy.name() + "', " +
+                "with view id '" + radioButtonViewId + "'");
         view.checkOption(radioButtonViewId);
     }
 

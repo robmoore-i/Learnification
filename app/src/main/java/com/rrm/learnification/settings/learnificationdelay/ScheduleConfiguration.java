@@ -17,16 +17,12 @@ public class ScheduleConfiguration {
         this.settingsRepository = settingsRepository;
     }
 
-    public DelayRange getDelayRange() {
+    public DelayRange getConfiguredDelayRange() {
         logger.i(LOG_TAG, "getting learnification delay range from settings repository");
 
         int delayInSeconds = settingsRepository.readDelaySeconds();
         int delayInMs = delayInSeconds * 1000;
         return new DelayRange(delayInMs, delayInMs + (MAXIMUM_ACCEPTABLE_DELAY_SECONDS * 1000));
-    }
-
-    public static DelayRange getImminentDelayRange() {
-        return new DelayRange(1, 1);
     }
 
     public Time getFirstLearnificationTime() {

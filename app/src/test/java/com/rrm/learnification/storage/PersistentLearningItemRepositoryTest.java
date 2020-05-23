@@ -34,14 +34,16 @@ public class PersistentLearningItemRepositoryTest {
 
     @Before
     public void beforeEach() {
-        when(mockRecordStore.applySet(any())).thenAnswer((Answer<LearningItem>) invocation -> ((LearningItemText) invocation.getArguments()[0]).withSet("default"));
+        when(mockRecordStore.applySet(any())).thenAnswer((Answer<LearningItem>) invocation -> ((LearningItemText) invocation.getArguments()[0]).withSet(
+                "default"));
     }
 
     @Test
     public void canAddLearningItems() {
         LearningItemText newLearningItemText = new LearningItemText("L", "R");
         when(mockRecordStore.items()).thenReturn(new ArrayList<>());
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore, dummyItemUpdateBroker);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore,
+                dummyItemUpdateBroker);
 
         persistentLearnificationRepository.add(newLearningItemText);
 
@@ -54,7 +56,8 @@ public class PersistentLearningItemRepositoryTest {
     @Test
     public void returnsLearningItemsWithLatestEntryFirst() {
         when(mockRecordStore.items()).thenReturn(new ArrayList<>());
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore, dummyItemUpdateBroker);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore,
+                dummyItemUpdateBroker);
 
         persistentLearnificationRepository.add(new LearningItemText("L1", "R1"));
         persistentLearnificationRepository.add(new LearningItemText("L2", "R2"));
@@ -68,7 +71,8 @@ public class PersistentLearningItemRepositoryTest {
     @Test
     public void removesItemCorrespondingToIndexInReturnedList() {
         when(mockRecordStore.items()).thenReturn(defaultLearningItems);
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore, dummyItemUpdateBroker);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore,
+                dummyItemUpdateBroker);
 
         List<LearningItem> items = persistentLearnificationRepository.items();
         int removalIndex = 2;
@@ -81,7 +85,8 @@ public class PersistentLearningItemRepositoryTest {
     @Test
     public void gettingItemsTwiceDoesntChangeThem() {
         when(mockRecordStore.items()).thenReturn(defaultLearningItems);
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore, dummyItemUpdateBroker);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore,
+                dummyItemUpdateBroker);
 
         List<LearningItem> items = persistentLearnificationRepository.items();
         for (LearningItem learningItem : defaultLearningItems) {
@@ -97,7 +102,8 @@ public class PersistentLearningItemRepositoryTest {
     @Test
     public void replacingALearningItemUpdatesItWhenYouReadAllItems() {
         when(mockRecordStore.items()).thenReturn(defaultLearningItems);
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore, dummyItemUpdateBroker);
+        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore,
+                dummyItemUpdateBroker);
 
         persistentLearnificationRepository.replace(new LearningItemText("c", "c"), new LearningItemText("e", "e"));
 

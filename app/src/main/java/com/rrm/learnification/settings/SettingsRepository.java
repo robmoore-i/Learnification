@@ -15,14 +15,11 @@ import java.util.stream.Collectors;
 import static com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategy.LEFT_TO_RIGHT;
 
 public class SettingsRepository {
-    private static final String LOG_TAG = "SettingsRepository";
-
     public static final String LEARNIFICATION_DELAY_FILE_NAME = "settings_delay";
     public static final String LEARNIFICATION_PROMPT_STRATEGY_FILE_NAME = "settings_prompt_strategy";
-
     static final int DEFAULT_LEARNIFICATION_DELAY_SECONDS = 5;
     static final LearnificationPromptStrategy DEFAULT_LEARNIFICATION_PROMPT_STRATEGY = LEFT_TO_RIGHT;
-
+    private static final String LOG_TAG = "SettingsRepository";
     private final AndroidLogger logger;
     private final FileStorageAdaptor fileStorageAdaptor;
 

@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 class PendingJob {
+    public final int id;
     private final String serviceClassName;
     private final long earliestStartTimeDelayMs;
     private final LocalDateTime timeOfScheduling;
-    public final int id;
 
     PendingJob(String serviceClassName, long earliestStartTimeDelayMs, LocalDateTime timeOfScheduling, int id) {
         this.serviceClassName = serviceClassName;

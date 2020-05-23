@@ -16,7 +16,8 @@ public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {
 
     private ToolbarViewParameters toolbarViewParameters = new EmptyToolbarViewParameters();
 
-    public LearnificationScheduleStatusUpdate(AndroidLogger logger, LearnificationScheduler learnificationScheduler, ConfigurableButton fastForwardScheduleButton) {
+    public LearnificationScheduleStatusUpdate(AndroidLogger logger, LearnificationScheduler learnificationScheduler,
+                                              ConfigurableButton fastForwardScheduleButton) {
         this.logger = logger;
         this.learnificationScheduler = learnificationScheduler;
         this.fastForwardScheduleButton = fastForwardScheduleButton;

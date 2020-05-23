@@ -41,7 +41,8 @@ public class SettingsActivity extends AppCompatActivity implements SaveSettingsV
         delayPicker.setToValue(max(settingsRepository.readDelayMinutes(), 1));
         delayPicker.setChoiceFormatter();
 
-        LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup = new LearnificationPromptStrategyRadioGroup(logger, settingsActivityView);
+        LearnificationPromptStrategyRadioGroup learnificationPromptStrategyRadioGroup =
+                new LearnificationPromptStrategyRadioGroup(logger, settingsActivityView);
         learnificationPromptStrategyRadioGroup.setValue(settingsRepository.readLearnificationPromptStrategy());
 
         SaveSettingsButton saveSettingsButton = new SaveSettingsButton(logger, this);
