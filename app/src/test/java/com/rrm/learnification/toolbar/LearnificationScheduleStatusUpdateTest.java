@@ -91,6 +91,10 @@ public class LearnificationScheduleStatusUpdateTest {
 
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
         learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
+        learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
+        learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
+        learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
+        learnificationScheduleStatusUpdate.update(mockToolbarUpdateListener);
 
         verify(mockLogger, times(1)).i(anyString(), contains("next learnification will trigger in"));
     }

@@ -3,17 +3,15 @@ package com.rrm.learnification.learningitemseteditor.toolbar.viewparameters;
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
-import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.Locale;
 
 class LearnificationScheduled extends EquatableToolbarViewParameters {
-    private static final String LOG_TAG = "LearnificationScheduled";
 
     private final LearnificationScheduler learnificationScheduler;
     private final int seconds;
 
-    LearnificationScheduled(AndroidLogger logger, LearnificationScheduler learnificationScheduler, int secondsUntilExecution) {
+    LearnificationScheduled(LearnificationScheduler learnificationScheduler, int secondsUntilExecution) {
         this.learnificationScheduler = learnificationScheduler;
         this.seconds = secondsUntilExecution;
     }

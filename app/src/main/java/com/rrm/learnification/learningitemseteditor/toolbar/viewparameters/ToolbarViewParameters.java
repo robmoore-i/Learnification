@@ -15,10 +15,10 @@ public interface ToolbarViewParameters {
             Optional<Integer> optionalSeconds = learnificationScheduler.secondsUntilNextLearnification();
             if (optionalSeconds.isPresent()) {
                 int secondsUntilExecution = optionalSeconds.get();
-                if ("scheduled".equals(currentToolbarViewParameters.getName())) {
+                if (!"scheduled".equals(currentToolbarViewParameters.getName())) {
                     logger.i("ToolbarViewParameters", "next learnification will trigger in " + secondsUntilExecution + " seconds");
                 }
-                return new LearnificationScheduled(logger, learnificationScheduler, secondsUntilExecution);
+                return new LearnificationScheduled(learnificationScheduler, secondsUntilExecution);
             } else {
                 return new LearnificationNotScheduled(learnificationScheduler);
             }
