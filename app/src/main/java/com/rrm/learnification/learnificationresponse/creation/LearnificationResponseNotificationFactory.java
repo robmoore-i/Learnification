@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.learnification.response.LearnificationResponseService;
 import com.rrm.learnification.learnification.response.NotificationTextContent;
+import com.rrm.learnification.learnificationresponse.response.LearnificationResultService;
 import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
@@ -22,7 +22,6 @@ import java.util.List;
 public class LearnificationResponseNotificationFactory {
     private static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
     private static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
-    private static final String RESPONSE_TYPE_EXTRA = "responseType";
 
     private final Context packageContext;
     private final PendingIntentIdGenerator pendingIntentRequestCodeGenerator;
@@ -34,16 +33,9 @@ public class LearnificationResponseNotificationFactory {
     }
 
     public Notification createLearnificationResponse(NotificationTextContent notificationTextContent, String givenPrompt, String expectedUserResponse) {
-        NotificationCompat.Builder builder = appNotificationTemplate(notificationTextContent.title(), notificationTextContent.text());
-        learnificationResponseActions(givenPrompt, expectedUserResponse)
-                .forEach(builder::addAction);
-        return builder.build();
-    }
-
-    private NotificationCompat.Builder appNotificationTemplate(String title, String text) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannelCreator.CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(text)
+                .setContentTitle(notificationTextContent.title())
+                .setContentText(notificationTextContent.text())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notificationContentIntent()) // Set the intent that will fire when the user taps the notification
                 .setAutoCancel(true)
@@ -51,7 +43,8 @@ public class LearnificationResponseNotificationFactory {
 
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher_a_notification);
         notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(packageContext.getResources(), R.mipmap.ic_launcher_a_notification));
-        return notificationBuilder;
+        learnificationResponseActions(givenPrompt, expectedUserResponse).forEach(notificationBuilder::addAction);
+        return notificationBuilder.build();
     }
 
     private PendingIntent notificationContentIntent() {
@@ -80,8 +73,7 @@ public class LearnificationResponseNotificationFactory {
     }
 
     private PendingIntent learnificationResponsePendingIntent(String learningItemPrompt, String expectedUserResponse) {
-        Intent intent = new Intent(packageContext, LearnificationResponseService.class);
-        intent.putExtra(RESPONSE_TYPE_EXTRA, NotificationType.LEARNIFICATION_RESPONSE);
+        Intent intent = new Intent(packageContext, LearnificationResultService.class);
         intent.putExtra(EXPECTED_USER_RESPONSE_EXTRA, expectedUserResponse);
         intent.putExtra(GIVEN_PROMPT_EXTRA, learningItemPrompt);
         return PendingIntent.getService(

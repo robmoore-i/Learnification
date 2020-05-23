@@ -49,16 +49,9 @@ public class LearnificationNotificationFactory {
         String expectedUserResponse = learnificationText.expected;
         logger.i(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
-        NotificationCompat.Builder builder = appNotificationTemplate(learningItemPrompt, subHeading);
-        learnificationActions(learningItemPrompt, expectedUserResponse)
-                .forEach(builder::addAction);
-        return builder.build();
-    }
-
-    private NotificationCompat.Builder appNotificationTemplate(String title, String text) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannelCreator.CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(text)
+                .setContentTitle(learningItemPrompt)
+                .setContentText(subHeading)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notificationContentIntent()) // Set the intent that will fire when the user taps the notification
                 .setAutoCancel(true)
@@ -66,7 +59,8 @@ public class LearnificationNotificationFactory {
 
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher_a_notification);
         notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(packageContext.getResources(), R.mipmap.ic_launcher_a_notification));
-        return notificationBuilder;
+        learnificationActions(learningItemPrompt, expectedUserResponse).forEach(notificationBuilder::addAction);
+        return notificationBuilder.build();
     }
 
     private PendingIntent notificationContentIntent() {
