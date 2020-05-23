@@ -30,6 +30,7 @@ public class InternalStorageIdGenerator implements IdGenerator {
         try {
             nextId = readFromStorage();
         } catch (FileNotFoundException e) {
+            logger.i(LOG_TAG, "Couldn't find the file storing the set of used ids, so resetting to 0");
             nextId = 0;
         } catch (IOException e) {
             nextId = this.nextId;
@@ -63,7 +64,6 @@ public class InternalStorageIdGenerator implements IdGenerator {
             return Integer.parseInt(lines.get(0));
         } catch (IOException e) {
             logger.i(LOG_TAG, "couldn't get latest generated id from file '" + fileName + "'");
-            logger.e(LOG_TAG, e);
             throw e;
         }
     }
