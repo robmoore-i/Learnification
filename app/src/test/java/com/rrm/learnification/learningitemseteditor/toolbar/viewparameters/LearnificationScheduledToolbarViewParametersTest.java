@@ -1,7 +1,6 @@
 package com.rrm.learnification.learningitemseteditor.toolbar.viewparameters;
 
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
-import com.rrm.learnification.logger.AndroidLogger;
 
 import org.junit.Test;
 
@@ -25,6 +24,6 @@ public class LearnificationScheduledToolbarViewParametersTest {
     }
 
     private String toolbarTitleWithScheduledDelayTimeInSeconds(int seconds) {
-        return new LearnificationScheduled(mock(AndroidLogger.class), mock(LearnificationScheduler.class), seconds).toolbarTitle();
+        return new LearnificationScheduled(mock(LearnificationScheduler.class), seconds).toolbarTitle();
     }
 }
