@@ -38,7 +38,6 @@ public class LearnificationResponseService extends IntentService {
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
-        final PendingIntentIdGenerator pendingIntentRequestCodeGenerator = new PendingIntentIdGenerator(logger, fileStorageAdaptor);
         LearnificationUpdater learnificationUpdater = new AndroidLearnificationUpdater(
                 logger,
                 NotificationManagerCompat.from(this),
