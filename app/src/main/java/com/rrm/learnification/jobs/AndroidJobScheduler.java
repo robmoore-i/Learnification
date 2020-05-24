@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.rrm.learnification.settings.learnificationdelay.DelayRange.getImminentDelayRange;
-
 public class AndroidJobScheduler implements JobScheduler {
     static final String TIME_OF_SCHEDULING = "timeOfScheduling";
     private static final String LOG_TAG = "AndroidJobScheduler";
@@ -73,7 +71,7 @@ public class AndroidJobScheduler implements JobScheduler {
             logger.i(LOG_TAG, "triggering next job");
             int id = pendingJob.get().id;
             systemJobScheduler.cancel(id);
-            DelayRange imminentDelayRange = getImminentDelayRange();
+            DelayRange imminentDelayRange = DelayRange.getImminentDelayRange();
             schedule(imminentDelayRange.earliestStartTimeDelayMs, imminentDelayRange.latestStartTimeDelayMs, serviceClass);
         } else {
             logger.i(LOG_TAG, "didn't trigger next job because there isn't one");
