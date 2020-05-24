@@ -27,12 +27,13 @@ import static com.rrm.learnification.learnification.creation.LearnificationRespo
 import static com.rrm.learnification.learnification.creation.LearnificationResponseType.SHOW_ME;
 
 public class LearnificationNotificationFactory {
-    public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
 
-    public static final String REPLY_TEXT = "remote_input_text_reply";
-    public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
-    public static final String RESPONSE_TYPE_EXTRA = "responseType";
     private static final String LOG_TAG = "LearnificationNotificationFactory";
+    
+    public static final String REPLY_TEXT = "remote_input_text_reply";
+    public static final String RESPONSE_TYPE_EXTRA = "responseType";
+    public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
+    public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
 
     private final AndroidLogger logger;
     private final Context packageContext;

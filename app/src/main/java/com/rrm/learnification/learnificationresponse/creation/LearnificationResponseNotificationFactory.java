@@ -20,16 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LearnificationResponseNotificationFactory {
-    private static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
-    private static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
+    public static final String GIVEN_PROMPT_EXTRA = "givenPrompt";
+    public static final String EXPECTED_USER_RESPONSE_EXTRA = "expectedUserResponse";
     public static final String USER_REPORTS_THEY_ARE_CORRECT_EXTRA = "userReportsTheyAreCorrect";
 
     private final Context packageContext;
     private final PendingIntentIdGenerator pendingIntentRequestCodeGenerator;
 
 
-    public LearnificationResponseNotificationFactory(Context packageContext,
-                                                     PendingIntentIdGenerator pendingIntentRequestCodeGenerator) {
+    public LearnificationResponseNotificationFactory(Context packageContext, PendingIntentIdGenerator pendingIntentRequestCodeGenerator) {
         this.packageContext = packageContext;
         this.pendingIntentRequestCodeGenerator = pendingIntentRequestCodeGenerator;
     }
