@@ -7,8 +7,8 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-public class CustomMatcher {
-    public static Matcher<View> withToolbarTitle(final Matcher<String> textMatcher) {
+class CustomMatcher {
+    static Matcher<View> withToolbarTitle(final Matcher<String> textMatcher) {
         return new BoundedMatcher<View, Toolbar>(Toolbar.class) {
             @Override
             public boolean matchesSafely(Toolbar toolbar) {
