@@ -49,22 +49,45 @@ public class LearnificationTest {
         UserSimulation.checkForLearnificationResponse();
     }
 
-//    @Test
-//    public void youGetAResponseWhenYouClickShowMeOnALearnification() {
-//    }
-//
-//    @Test
-//    public void youGetAResponseWhenYouClickNextOnALearnification() {
-//    }
-//
-//    @Test
-//    public void notificationGetsCancelledWhenYouSubmitACorrectLearnificationResult() {
-//    }
-//
-//    @Test
-//    public void notificationGetsCancelledWhenYouSubmitAnIncorrectLearnificationResult() {
-//    }
-//
+    @Test
+    public void youGetAResponseWhenYouClickShowMeOnALearnification() {
+        UserSimulation.pressLearnificationFastForwardButton();
+
+        UserSimulation.clickShowMeOnLearnification();
+
+        UserSimulation.checkForLearnificationResponse();
+    }
+
+    @Test
+    public void youGetAResponseAndAnotherLearnificationIsSentWhenYouClickNextOnALearnification() {
+        UserSimulation.pressLearnificationFastForwardButton();
+
+        UserSimulation.clickNextOnLearnification();
+
+        UserSimulation.checkForLearnificationResponse();
+        UserSimulation.checkForLearnification();
+    }
+
+    @Test
+    public void notificationGetsCancelledWhenYouSubmitACorrectLearnificationResult() {
+        UserSimulation.pressLearnificationFastForwardButton();
+
+        UserSimulation.clickShowMeOnLearnification();
+        UserSimulation.clickOnTickedLearnificationResult();
+
+        UserSimulation.checkForLackOfLearnificationRelatedNotifications();
+    }
+
+    @Test
+    public void notificationGetsCancelledWhenYouSubmitAnIncorrectLearnificationResult() {
+        UserSimulation.pressLearnificationFastForwardButton();
+
+        UserSimulation.clickShowMeOnLearnification();
+        UserSimulation.clickOnCrossedLearnificationResult();
+
+        UserSimulation.checkForLackOfLearnificationRelatedNotifications();
+    }
+
 //    @Test
 //    public void ifThereAreLearningItemsThenYouGetALearnificationOnAppStartup() {
 //    }

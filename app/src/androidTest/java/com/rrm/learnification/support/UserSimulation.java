@@ -92,15 +92,73 @@ public class UserSimulation {
         device.findObject(By.desc("Send")).click();
     }
 
+    public static void clickShowMeOnLearnification() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
+        if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
+            throw new AssertionError("Couldn't find learnification");
+        }
+        if (!device.wait(Until.hasObject(By.text("SHOW ME")), 1000)) {
+            throw new AssertionError("Couldn't find learnification action for showing learnification answer");
+        }
+        device.findObject(By.text("SHOW ME")).click();
+    }
+
+    public static void clickNextOnLearnification() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
+        if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
+            throw new AssertionError("Couldn't find learnification");
+        }
+        if (!device.wait(Until.hasObject(By.text("NEXT")), 1000)) {
+            throw new AssertionError("Couldn't find learnification action for showing learnification answer and triggering next learnification");
+        }
+        device.findObject(By.text("NEXT")).click();
+    }
+
+    public static void clickOnTickedLearnificationResult() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
+        if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {
+            throw new AssertionError("Couldn't find learnification response");
+        }
+        if (!device.wait(Until.hasObject(By.text("MY ANSWER WAS ✅")), 1000)) {
+            throw new AssertionError("Couldn't find learnification action for showing learnification answer and triggering next learnification");
+        }
+        device.findObject(By.text("MY ANSWER WAS ✅")).click();
+    }
+
+    public static void clickOnCrossedLearnificationResult() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
+        if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {
+            throw new AssertionError("Couldn't find learnification response");
+        }
+        if (!device.wait(Until.hasObject(By.text("MY ANSWER WAS ❌")), 1000)) {
+            throw new AssertionError("Couldn't find learnification action for showing learnification answer and triggering next learnification");
+        }
+        device.findObject(By.text("MY ANSWER WAS ❌")).click();
+    }
+
     public static void checkForLearnification() {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
         if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
             throw new AssertionError("Couldn't find learnification");
         }
     }
 
+    public static void checkForLackOfLearnificationRelatedNotifications() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
+        if (device.wait(Until.hasObject(By.text("Learnification")), 1000)) {
+            throw new AssertionError("Unexpectedly found learnification");
+        }
+    }
+
     public static void checkForLearnificationResponse() {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
         if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {
             throw new AssertionError("Couldn't find learnification response");
         }
