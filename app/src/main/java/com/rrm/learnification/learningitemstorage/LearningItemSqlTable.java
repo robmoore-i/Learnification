@@ -54,7 +54,7 @@ public final class LearningItemSqlTable implements BaseColumns {
     }
 
     static void insert(SQLiteDatabase writableDatabase, LearningItem item) {
-        writableDatabase.insert(LearningItemSqlTable.TABLE_NAME, null, from(item));
+        writableDatabase.insert(TABLE_NAME, null, from(item));
     }
 
     static void delete(SQLiteDatabase writableDatabase, LearningItem learningItemToRemove) {
@@ -74,11 +74,11 @@ public final class LearningItemSqlTable implements BaseColumns {
     static void deleteAll(SQLiteDatabase writableDatabase, String learningItemSetName) {
         String whereClause = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ?";
         String[] whereArgs = {learningItemSetName};
-        writableDatabase.delete(LearningItemSqlTable.TABLE_NAME, whereClause, whereArgs);
+        writableDatabase.delete(TABLE_NAME, whereClause, whereArgs);
     }
 
     static void deleteAll(SQLiteDatabase writableDatabase) {
-        writableDatabase.delete(LearningItemSqlTable.TABLE_NAME, null, null);
+        writableDatabase.delete(TABLE_NAME, null, null);
     }
 
     static String mostPopulousLearningItemSetName(SQLiteDatabase readableDatabase) {

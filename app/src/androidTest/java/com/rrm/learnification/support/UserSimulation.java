@@ -70,16 +70,20 @@ public class UserSimulation {
         activity.getSystemService(NotificationManager.class).cancelAll();
     }
 
+    public static void closeNotificationPulldown() {
+        pressBack();
+    }
+
     // LEARNIFICATION
 
     public static void respondToLearnification(String input) {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
-            throw new AssertionError("Couldn't find learnification");
+            throw new RuntimeException("Couldn't find learnification");
         }
         if (!device.wait(Until.hasObject(By.text("RESPOND")), 1000)) {
-            throw new AssertionError("Couldn't find learnification action for responding with text");
+            throw new RuntimeException("Couldn't find learnification action for responding with text");
         }
         device.findObject(By.text("RESPOND")).click();
         KeyCharacterMap keyCharacterMap = KeyCharacterMap.load(KeyCharacterMap.VIRTUAL_KEYBOARD);
@@ -96,10 +100,10 @@ public class UserSimulation {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
-            throw new AssertionError("Couldn't find learnification");
+            throw new RuntimeException("Couldn't find learnification");
         }
         if (!device.wait(Until.hasObject(By.text("SHOW ME")), 1000)) {
-            throw new AssertionError("Couldn't find learnification action for showing learnification answer");
+            throw new RuntimeException("Couldn't find learnification action for showing learnification answer");
         }
         device.findObject(By.text("SHOW ME")).click();
     }
@@ -108,10 +112,10 @@ public class UserSimulation {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
-            throw new AssertionError("Couldn't find learnification");
+            throw new RuntimeException("Couldn't find learnification");
         }
         if (!device.wait(Until.hasObject(By.text("NEXT")), 1000)) {
-            throw new AssertionError("Couldn't find learnification action for showing learnification answer and triggering next learnification");
+            throw new RuntimeException("Couldn't find learnification action for showing learnification answer and triggering next learnification");
         }
         device.findObject(By.text("NEXT")).click();
     }
@@ -120,10 +124,10 @@ public class UserSimulation {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {
-            throw new AssertionError("Couldn't find learnification response");
+            throw new RuntimeException("Couldn't find learnification response");
         }
         if (!device.wait(Until.hasObject(By.text("MY ANSWER WAS ✅")), 1000)) {
-            throw new AssertionError("Couldn't find learnification action for showing learnification answer and triggering next learnification");
+            throw new RuntimeException("Couldn't find learnification action for showing learnification answer and triggering next learnification");
         }
         device.findObject(By.text("MY ANSWER WAS ✅")).click();
     }
@@ -132,10 +136,10 @@ public class UserSimulation {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {
-            throw new AssertionError("Couldn't find learnification response");
+            throw new RuntimeException("Couldn't find learnification response");
         }
         if (!device.wait(Until.hasObject(By.text("MY ANSWER WAS ❌")), 1000)) {
-            throw new AssertionError("Couldn't find learnification action for showing learnification answer and triggering next learnification");
+            throw new RuntimeException("Couldn't find learnification action for showing learnification answer and triggering next learnification");
         }
         device.findObject(By.text("MY ANSWER WAS ❌")).click();
     }
@@ -144,7 +148,7 @@ public class UserSimulation {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
-            throw new AssertionError("Couldn't find learnification");
+            throw new RuntimeException("Couldn't find learnification");
         }
     }
 
@@ -152,7 +156,7 @@ public class UserSimulation {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (device.wait(Until.hasObject(By.text("Learnification")), 1000)) {
-            throw new AssertionError("Unexpectedly found learnification");
+            throw new RuntimeException("Unexpectedly found learnification");
         }
     }
 
@@ -160,7 +164,7 @@ public class UserSimulation {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {
-            throw new AssertionError("Couldn't find learnification response");
+            throw new RuntimeException("Couldn't find learnification response");
         }
     }
 
@@ -349,11 +353,27 @@ public class UserSimulation {
 
     // WAITING
 
-    public static void waitACoupleOfSeconds() throws InterruptedException {
-        Thread.sleep(2000);
+    public static void waitASecond() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static void waitSomeSeconds() throws InterruptedException {
-        Thread.sleep(4000);
+    public static void waitACoupleOfSeconds() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void waitSomeSeconds() {
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

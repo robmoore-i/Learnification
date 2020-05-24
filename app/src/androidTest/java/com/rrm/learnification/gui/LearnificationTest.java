@@ -25,14 +25,16 @@ public class LearnificationTest {
 
     private GuiTestWrapper guiTestWrapper;
 
+    private LearningItemSqlTableClient learningItemSqlTableClient;
+
     @Before
     public void beforeEach() {
         LearningItemSetEditorActivity activity = activityTestRule.getActivity();
         guiTestWrapper = new GuiTestWrapper(activity);
         guiTestWrapper.beforeEach();
         AndroidTestObjectFactory testObjectFactory = new AndroidTestObjectFactory(activity);
-        LearningItemSqlTableClient learningItemSqlTableClient = testObjectFactory.getLearningItemSqlTableClient();
-        learningItemSqlTableClient.writeAll(Collections.singletonList(new LearningItem("อะไร", "what", "Thai")));
+        learningItemSqlTableClient = testObjectFactory.getLearningItemSqlTableClient();
+        learningItemSqlTableClient.writeAll(Collections.singletonList(new LearningItem("อะไร", "what", "default")));
     }
 
     @After
@@ -96,6 +98,7 @@ public class LearnificationTest {
         } catch (Exception e) {
             // If it fails, it could mean that there were no learnifications when the app was opened. So add one and try again.
             // If this fails, then the feature is not working.
+            UserSimulation.closeNotificationPulldown();
             UserSimulation.addLearningItem("krai", "who?");
             UserSimulation.pressHome();
             UserSimulation.openApp();
@@ -106,7 +109,7 @@ public class LearnificationTest {
     @Test
     public void youGetALearnificationIfThereAreLearningItemsAndYouClickTheFastForwardButton() {
         UserSimulation.clearNotifications(activityTestRule.getActivity());
-        UserSimulation.addLearningItem("krai", "who?");
+        UserSimulation.waitASecond();
 
         UserSimulation.pressLearnificationFastForwardButton();
 
@@ -115,7 +118,9 @@ public class LearnificationTest {
 
     @Test
     public void youDontGetALearnificationIfThereAreNoLearningItemsAndYouClickTheFastForwardButton() {
+        learningItemSqlTableClient.clearEverything();
         UserSimulation.clearNotifications(activityTestRule.getActivity());
+        UserSimulation.waitASecond();
         UserSimulation.pressLearnificationFastForwardButton();
 
         UserSimulation.checkForLackOfLearnificationRelatedNotifications();

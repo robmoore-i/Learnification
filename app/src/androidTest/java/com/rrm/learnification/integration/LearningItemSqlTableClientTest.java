@@ -29,8 +29,8 @@ import static org.junit.Assert.assertEquals;
 public class LearningItemSqlTableClientTest {
     private final List<LearningItemText> thaiLearningItems = Arrays.asList(
             new LearningItemText("sa-wad-dee-kab", "hello"),
-            new LearningItemText("aroi", "delicious"),
-            new LearningItemText("ayam", "ayam")
+            new LearningItemText("ทวน", "to repeat"),
+            new LearningItemText("เบอร์", "number")
     );
     private final List<LearningItemText> oneAndTwo = Arrays.asList(new LearningItemText("1", "a"), new LearningItemText("2", "b"));
     private final LearningItem krabLearningItem = new LearningItem("krab", "krab", "Thai");
@@ -40,7 +40,7 @@ public class LearningItemSqlTableClientTest {
             new LearningItem("ka", "ka", "Thai"),
             krabLearningItem,
             new LearningItem("dee", "good", "Thai"),
-            new LearningItem("a", "b", "default")
+            new LearningItem("โรงแรม", "hotel", "default")
     );
 
     @Rule
