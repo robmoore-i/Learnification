@@ -1,6 +1,7 @@
 package com.rrm.learnification.support;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
@@ -65,7 +66,8 @@ public class UserSimulation {
         context.startActivity(intent);
     }
 
-    public static void clearNotifications() {
+    public static void clearNotifications(Activity activity) {
+        activity.getSystemService(NotificationManager.class).cancelAll();
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         try {

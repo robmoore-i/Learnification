@@ -69,7 +69,7 @@ public class AppToolbarTest {
 
     @Test
     public void ifNotificationIsCancelledThenToolbarSaysThatNoNotificationIsScheduledAfterACoupleOfSeconds() throws InterruptedException {
-        UserSimulation.clearNotifications();
+        UserSimulation.clearNotifications(activityTestRule.getActivity());
         androidJobScheduler.cancelAll();
         UserSimulation.waitSomeSeconds();
 
@@ -79,7 +79,7 @@ public class AppToolbarTest {
 
     @Test
     public void ifNotificationIsCancelledButThenANewOneIsMadeThenToolbarSaysItsReady() throws InterruptedException {
-        UserSimulation.clearNotifications();
+        UserSimulation.clearNotifications(activityTestRule.getActivity());
         UserSimulation.waitACoupleOfSeconds();
 
         IdentifiedNotification learnification = notificationFactory.createLearnification(new LearnificationText("a", "b"));
@@ -91,7 +91,7 @@ public class AppToolbarTest {
 
     @Test
     public void ifNotificationIsCancelledButThenANewOneIsScheduledThenToolbarSaysItsReady() throws InterruptedException {
-        UserSimulation.clearNotifications();
+        UserSimulation.clearNotifications(activityTestRule.getActivity());
         UserSimulation.waitACoupleOfSeconds();
 
         learnificationJobScheduler.schedule(10000, 20000, LearnificationPublishingService.class);

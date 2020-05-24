@@ -43,5 +43,6 @@ public class GuiTestWrapper {
         logger.i(LOG_TAG, "==== TEST FINISH ====");
         learningItemSqlTableClient.clearEverything();
         learningItemSqlTableClient.writeAll(originalLearningItems);
+        UserSimulation.clearNotifications(activity);
     }
 }

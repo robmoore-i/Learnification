@@ -49,31 +49,31 @@ public class LearnificationTest {
         UserSimulation.checkForLearnificationResponse();
     }
 
-    @Test
-    public void youGetAResponseWhenYouClickShowMeOnALearnification() {
-    }
-
-    @Test
-    public void youGetAResponseWhenYouClickNextOnALearnification() {
-    }
-
-    @Test
-    public void notificationGetsCancelledWhenYouSubmitACorrectLearnificationResult() {
-    }
-
-    @Test
-    public void notificationGetsCancelledWhenYouSubmitAnIncorrectLearnificationResult() {
-    }
-
-    @Test
-    public void ifThereAreLearningItemsThenYouGetALearnificationOnAppStartup() {
-    }
-
-    @Test
-    public void youGetALearnificationIfThereAreLearningItemsAndYouClickTheFastForwardButton() {
-    }
-
-    @Test
-    public void youDontGetALearnificationIfThereAreNoLearningItemsAndYouClickTheFastForwardButton() {
-    }
+//    @Test
+//    public void youGetAResponseWhenYouClickShowMeOnALearnification() {
+//    }
+//
+//    @Test
+//    public void youGetAResponseWhenYouClickNextOnALearnification() {
+//    }
+//
+//    @Test
+//    public void notificationGetsCancelledWhenYouSubmitACorrectLearnificationResult() {
+//    }
+//
+//    @Test
+//    public void notificationGetsCancelledWhenYouSubmitAnIncorrectLearnificationResult() {
+//    }
+//
+//    @Test
+//    public void ifThereAreLearningItemsThenYouGetALearnificationOnAppStartup() {
+//    }
+//
+//    @Test
+//    public void youGetALearnificationIfThereAreLearningItemsAndYouClickTheFastForwardButton() {
+//    }
+//
+//    @Test
+//    public void youDontGetALearnificationIfThereAreNoLearningItemsAndYouClickTheFastForwardButton() {
+//    }
 }
