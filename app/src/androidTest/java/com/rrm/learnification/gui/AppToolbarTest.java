@@ -29,7 +29,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.rrm.learnification.support.LearnificationAppAssumption.assumeThatThereAreAnyLearningItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 
@@ -101,10 +100,17 @@ public class AppToolbarTest {
     }
 
     @Test
-    public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() throws InterruptedException {
-        assumeThatThereAreAnyLearningItems(activityTestRule);
-        UserSimulation.waitACoupleOfSeconds();
-
-        UserSimulation.checkToolbarTitle(is("Learnification ready"));
+    public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() {
+        try {
+            // If there were learnifications when the app was opened, and if the feature is working, then this will pass
+            UserSimulation.checkToolbarTitle(is("Learnification ready"));
+        } catch (Exception e) {
+            // If it fails, it could mean that there were no learnifications when the app was opened. So add one and try again.
+            // If this fails, then the feature is not working.
+            UserSimulation.addLearningItem("krai", "who?");
+            UserSimulation.pressHome();
+            UserSimulation.openApp();
+            UserSimulation.checkToolbarTitle(is("Learnification ready"));
+        }
     }
 }

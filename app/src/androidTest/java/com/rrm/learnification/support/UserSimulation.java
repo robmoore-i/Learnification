@@ -68,21 +68,6 @@ public class UserSimulation {
 
     public static void clearNotifications(Activity activity) {
         activity.getSystemService(NotificationManager.class).cancelAll();
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        device.openNotification();
-        try {
-            device.wait(Until.hasObject(By.pkg("com.rrm.learnification")), 1000);
-            device.findObject(By.text("CLEAR ALL")).click();
-        } catch (Exception e) {
-            try {
-                device.findObject(By.text("CLEAR ALL")).click();
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-            e.printStackTrace();
-        } finally {
-            device.pressBack();
-        }
     }
 
     // LEARNIFICATION
