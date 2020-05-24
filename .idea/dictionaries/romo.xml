@@ -1,13 +1,29 @@
 <component name="ProjectDictionaryState">
-  <dictionary name="romo">
-    <words>
-      <w>didnt</w>
-      <w>dont</w>
-      <w>gooduns</w>
-      <w>learnificationresponse</w>
-      <w>lifecycles</w>
-      <w>logdump</w>
-      <w>mins</w>
-    </words>
-  </dictionary>
+    <dictionary name="romo">
+        <words>
+            <w>didnt</w>
+            <w>doesnt</w>
+            <w>dont</w>
+            <w>goodun</w>
+            <w>gooduns</w>
+            <w>initialiser</w>
+            <w>isnt</w>
+            <w>learnification</w>
+            <w>learnificationresponse</w>
+            <w>learnifications</w>
+            <w>learningitem</w>
+            <w>learningitemseteditor</w>
+            <w>lifecycles</w>
+            <w>logdump</w>
+            <w>mins</w>
+            <w>randomiser</w>
+            <w>rerender</w>
+            <w>sharedpref</w>
+            <w>stringified</w>
+            <w>textbox</w>
+            <w>theres</w>
+            <w>unfocusing</w>
+            <w>unpersisted</w>
+        </words>
+    </dictionary>
 </component>
