@@ -2,9 +2,7 @@ package com.rrm.learnification.gui;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.RecyclerView;
 
-import com.rrm.learnification.R;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.support.GuiTestWrapper;
 import com.rrm.learnification.support.UserSimulation;
@@ -17,11 +15,7 @@ import org.junit.runner.RunWith;
 
 import java.util.UUID;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assume.assumeThat;
@@ -50,12 +44,12 @@ public class DeleteLearningItemTest {
     @Test
     public void swipingALearningItemLeftDeletesIt() {
         UserSimulation.addLearningItem(left, right);
-        RecyclerView recyclerView = activityTestRule.getActivity().findViewById(R.id.learning_item_list);
-        int initialSize = recyclerView.getChildCount();
-        assumeThat(initialSize, lessThan(8));
+        int initialNumberOfLearningItems = UserSimulation.countLearningItems(activityTestRule.getActivity());
+        assumeThat(initialNumberOfLearningItems, lessThan(8));
 
-        onView(withText(startsWith(left))).perform(swipeLeft());
+        UserSimulation.swipeLearningItem(left, right);
 
-        assertThat(recyclerView.getChildCount(), equalTo(initialSize - 1));
+        int newNumberOfLearningItems = UserSimulation.countLearningItems(activityTestRule.getActivity());
+        assertThat(newNumberOfLearningItems, equalTo(initialNumberOfLearningItems - 1));
     }
 }

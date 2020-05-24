@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.v7.widget.RecyclerView;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.widget.NumberPicker;
 
 import androidx.test.uiautomator.By;
@@ -13,6 +16,8 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
 import com.rrm.learnification.R;
+
+import org.hamcrest.Matcher;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
@@ -22,9 +27,12 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.rrm.learnification.support.CustomMatcher.withToolbarTitle;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -75,6 +83,42 @@ public class UserSimulation {
         }
     }
 
+    // LEARNIFICATION
+
+    public static void respondToLearnification(String input) {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.openNotification();
+        if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
+            throw new AssertionError("Couldn't find learnification");
+        }
+        if (!device.wait(Until.hasObject(By.text("RESPOND")), 1000)) {
+            throw new AssertionError("Couldn't find learnification action for responding with text");
+        }
+        device.findObject(By.text("RESPOND")).click();
+        KeyCharacterMap keyCharacterMap = KeyCharacterMap.load(KeyCharacterMap.VIRTUAL_KEYBOARD);
+        KeyEvent[] events = keyCharacterMap.getEvents(input.toCharArray());
+        for (KeyEvent event : events) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                device.pressKeyCode(event.getKeyCode(), event.getMetaState());
+            }
+        }
+        device.findObject(By.desc("Send")).click();
+    }
+
+    public static void checkForLearnification() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
+            throw new AssertionError("Couldn't find learnification");
+        }
+    }
+
+    public static void checkForLearnificationResponse() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {
+            throw new AssertionError("Couldn't find learnification response");
+        }
+    }
+
     // ADD LEARNING ITEM
 
     public static void focusLeftInputForNewLearningItem() {
@@ -94,6 +138,10 @@ public class UserSimulation {
     public static void addLearningItem(String left, String right) {
         typeOutNewLearningItemIntoTextFields(left, right);
         pressAddLearningItemButton();
+    }
+
+    public static void checkForLearningItem(String left, String right) {
+        onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + right))).check(matches(isDisplayed()));
     }
 
     // UPDATE LEARNING ITEM
@@ -132,6 +180,11 @@ public class UserSimulation {
 
     public static void deleteLearningItem(String left, String right) {
         swipeLearningItem(left, right);
+    }
+
+    public static int countLearningItems(Activity activity) {
+        RecyclerView recyclerView = activity.findViewById(R.id.learning_item_list);
+        return recyclerView.getChildCount();
     }
 
     // LOG DUMP
@@ -185,6 +238,14 @@ public class UserSimulation {
 
     public static void pressLearnificationFastForwardButton() {
         onView(withId(R.id.toolbar_button)).perform(click());
+    }
+
+    public static void checkToolbarTitle(Matcher<String> toolbarTitleMatcher) {
+        onView(allOf(withId(R.id.toolbar), withToolbarTitle(toolbarTitleMatcher))).check(matches(isDisplayed()));
+    }
+
+    public static void checkForFastForwardButton() {
+        onView(allOf(withId(R.id.toolbar_button), withText(">>"))).check(matches(isDisplayed()));
     }
 
     // REFRESH

@@ -1,5 +1,6 @@
 package com.rrm.learnification.test;
 
+import android.app.NotificationManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
@@ -8,12 +9,18 @@ import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
+import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
+import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.learningitemstorage.LearningItemSqlTableClient;
 import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.notification.ActiveNotificationReader;
+import com.rrm.learnification.notification.AndroidActiveNotificationReader;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
+import com.rrm.learnification.settings.SettingsRepository;
+import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 import com.rrm.learnification.time.AndroidClock;
 
@@ -49,13 +56,19 @@ public class AndroidTestObjectFactory {
     }
 
     public LearnificationResponseNotificationFactory getAndroidNotificationFactory() {
-        return new LearnificationResponseNotificationFactory(activity, new PendingIntentIdGenerator(logger(), getFileStorageAdaptor()));
+        return new LearnificationResponseNotificationFactory(activity, getPendingIntentRequestCodeGenerator());
     }
 
     public LearnificationNotificationFactory getLearnificationNotificationFactory() {
-        PendingIntentIdGenerator pendingIntentRequestCodeGenerator = new PendingIntentIdGenerator(logger(), getFileStorageAdaptor());
-        NotificationIdGenerator notificationIdGenerator = new NotificationIdGenerator(logger(), getFileStorageAdaptor());
-        return new LearnificationNotificationFactory(logger(), activity, pendingIntentRequestCodeGenerator, notificationIdGenerator);
+        return new LearnificationNotificationFactory(logger(), activity, getPendingIntentRequestCodeGenerator(), getNotificationIdGenerator());
+    }
+
+    private PendingIntentIdGenerator getPendingIntentRequestCodeGenerator() {
+        return new PendingIntentIdGenerator(logger(), getFileStorageAdaptor());
+    }
+
+    private NotificationIdGenerator getNotificationIdGenerator() {
+        return new NotificationIdGenerator(logger(), getFileStorageAdaptor());
     }
 
     public LearnificationAppDatabase getLearnificationAppDatabase() {
@@ -68,5 +81,26 @@ public class AndroidTestObjectFactory {
 
     public AndroidLogger getLogger() {
         return logger();
+    }
+
+    public LearnificationScheduler getLearnificationScheduler() {
+        return new AndroidLearnificationScheduler(logger(), clock(), getJobScheduler(), getScheduleConfiguration(), getActiveNotificationReader());
+    }
+
+    private ActiveNotificationReader getActiveNotificationReader() {
+        return new AndroidActiveNotificationReader(getSystemNotificationManager());
+    }
+
+    private ScheduleConfiguration getScheduleConfiguration() {
+        return new ScheduleConfiguration(logger(),
+                getSettingsRepository());
+    }
+
+    private SettingsRepository getSettingsRepository() {
+        return new SettingsRepository(logger(), getFileStorageAdaptor());
+    }
+
+    private NotificationManager getSystemNotificationManager() {
+        return activity.getSystemService(NotificationManager.class);
     }
 }

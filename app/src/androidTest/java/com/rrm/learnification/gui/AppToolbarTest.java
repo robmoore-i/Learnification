@@ -28,11 +28,8 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.rrm.learnification.support.CustomMatcher.withToolbarTitle;
 import static com.rrm.learnification.support.LearnificationAppAssumption.assumeThatThereAreAnyLearningItems;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 
@@ -76,8 +73,8 @@ public class AppToolbarTest {
         androidJobScheduler.cancelAll();
         UserSimulation.waitSomeSeconds();
 
-        onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification")))).check(matches(isDisplayed()));
-        onView(allOf(withId(R.id.toolbar_button), withText(">>"))).check(matches(isDisplayed()));
+        UserSimulation.checkToolbarTitle(is("Learnification"));
+        UserSimulation.checkForFastForwardButton();
     }
 
     @Test
@@ -89,7 +86,7 @@ public class AppToolbarTest {
         notificationManagerCompat.notify(learnification.id(), learnification.notification());
         UserSimulation.waitACoupleOfSeconds();
 
-        onView(allOf(withId(R.id.toolbar), withToolbarTitle(is("Learnification ready")))).check(matches(isDisplayed()));
+        UserSimulation.checkToolbarTitle(is("Learnification ready"));
     }
 
     @Test
@@ -100,7 +97,7 @@ public class AppToolbarTest {
         learnificationJobScheduler.schedule(10000, 20000, LearnificationPublishingService.class);
         UserSimulation.waitACoupleOfSeconds();
 
-        onView(allOf(withId(R.id.toolbar), withToolbarTitle(startsWith("Learnification in ")))).check(matches(isDisplayed()));
+        UserSimulation.checkToolbarTitle(startsWith("Learnification in "));
     }
 
     @Test
@@ -108,6 +105,6 @@ public class AppToolbarTest {
         assumeThatThereAreAnyLearningItems(activityTestRule);
         UserSimulation.waitACoupleOfSeconds();
 
-        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(is("Learnification ready"))));
+        UserSimulation.checkToolbarTitle(is("Learnification ready"));
     }
 }
