@@ -44,5 +44,6 @@ public class GuiTestWrapper {
         learningItemSqlTableClient.clearEverything();
         learningItemSqlTableClient.writeAll(originalLearningItems);
         UserSimulation.clearNotifications(activity);
+        UserSimulation.pressHome();
     }
 }
