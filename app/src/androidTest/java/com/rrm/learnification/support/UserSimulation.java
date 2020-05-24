@@ -92,7 +92,7 @@ public class UserSimulation {
         device.findObject(By.desc("Send")).click();
     }
 
-    public static void clickShowMeOnLearnification() {
+    public static void pressShowMeOnLearnification() {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
@@ -104,7 +104,7 @@ public class UserSimulation {
         device.findObject(By.text("SHOW ME")).click();
     }
 
-    public static void clickNextOnLearnification() {
+    public static void pressNextOnLearnification() {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.text("Learn!")), 1000)) {
@@ -116,7 +116,7 @@ public class UserSimulation {
         device.findObject(By.text("NEXT")).click();
     }
 
-    public static void clickOnTickedLearnificationResult() {
+    public static void pressOnTickedLearnificationResult() {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {
@@ -128,7 +128,7 @@ public class UserSimulation {
         device.findObject(By.text("MY ANSWER WAS ✅")).click();
     }
 
-    public static void clickOnCrossedLearnificationResult() {
+    public static void pressOnCrossedLearnificationResult() {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.openNotification();
         if (!device.wait(Until.hasObject(By.textStartsWith("Next one in ")), 1000)) {

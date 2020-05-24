@@ -98,19 +98,4 @@ public class AppToolbarTest {
 
         UserSimulation.checkToolbarTitle(startsWith("Learnification in "));
     }
-
-    @Test
-    public void whenAppStartsUpAndNotificationIsSentTheToolbarSaysThatANotificationIsReady() {
-        try {
-            // If there were learnifications when the app was opened, and if the feature is working, then this will pass
-            UserSimulation.checkToolbarTitle(is("Learnification ready"));
-        } catch (Exception e) {
-            // If it fails, it could mean that there were no learnifications when the app was opened. So add one and try again.
-            // If this fails, then the feature is not working.
-            UserSimulation.addLearningItem("krai", "who?");
-            UserSimulation.pressHome();
-            UserSimulation.openApp();
-            UserSimulation.checkToolbarTitle(is("Learnification ready"));
-        }
-    }
 }

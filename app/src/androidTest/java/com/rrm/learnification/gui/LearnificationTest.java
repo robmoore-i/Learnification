@@ -53,7 +53,7 @@ public class LearnificationTest {
     public void youGetAResponseWhenYouClickShowMeOnALearnification() {
         UserSimulation.pressLearnificationFastForwardButton();
 
-        UserSimulation.clickShowMeOnLearnification();
+        UserSimulation.pressShowMeOnLearnification();
 
         UserSimulation.checkForLearnificationResponse();
     }
@@ -62,7 +62,7 @@ public class LearnificationTest {
     public void youGetAResponseAndAnotherLearnificationIsSentWhenYouClickNextOnALearnification() {
         UserSimulation.pressLearnificationFastForwardButton();
 
-        UserSimulation.clickNextOnLearnification();
+        UserSimulation.pressNextOnLearnification();
 
         UserSimulation.checkForLearnificationResponse();
         UserSimulation.checkForLearnification();
@@ -72,8 +72,8 @@ public class LearnificationTest {
     public void notificationGetsCancelledWhenYouSubmitACorrectLearnificationResult() {
         UserSimulation.pressLearnificationFastForwardButton();
 
-        UserSimulation.clickShowMeOnLearnification();
-        UserSimulation.clickOnTickedLearnificationResult();
+        UserSimulation.pressShowMeOnLearnification();
+        UserSimulation.pressOnTickedLearnificationResult();
 
         UserSimulation.checkForLackOfLearnificationRelatedNotifications();
     }
@@ -82,21 +82,42 @@ public class LearnificationTest {
     public void notificationGetsCancelledWhenYouSubmitAnIncorrectLearnificationResult() {
         UserSimulation.pressLearnificationFastForwardButton();
 
-        UserSimulation.clickShowMeOnLearnification();
-        UserSimulation.clickOnCrossedLearnificationResult();
+        UserSimulation.pressShowMeOnLearnification();
+        UserSimulation.pressOnCrossedLearnificationResult();
 
         UserSimulation.checkForLackOfLearnificationRelatedNotifications();
     }
 
-//    @Test
-//    public void ifThereAreLearningItemsThenYouGetALearnificationOnAppStartup() {
-//    }
-//
-//    @Test
-//    public void youGetALearnificationIfThereAreLearningItemsAndYouClickTheFastForwardButton() {
-//    }
-//
-//    @Test
-//    public void youDontGetALearnificationIfThereAreNoLearningItemsAndYouClickTheFastForwardButton() {
-//    }
+    @Test
+    public void ifThereAreLearningItemsThenYouGetALearnificationOnAppStartup() {
+        try {
+            // If there were learnifications when the app was opened, and if the feature is working, then this will pass
+            UserSimulation.checkForLearnification();
+        } catch (Exception e) {
+            // If it fails, it could mean that there were no learnifications when the app was opened. So add one and try again.
+            // If this fails, then the feature is not working.
+            UserSimulation.addLearningItem("krai", "who?");
+            UserSimulation.pressHome();
+            UserSimulation.openApp();
+            UserSimulation.checkForLearnification();
+        }
+    }
+
+    @Test
+    public void youGetALearnificationIfThereAreLearningItemsAndYouClickTheFastForwardButton() {
+        UserSimulation.clearNotifications(activityTestRule.getActivity());
+        UserSimulation.addLearningItem("krai", "who?");
+
+        UserSimulation.pressLearnificationFastForwardButton();
+
+        UserSimulation.checkForLearnification();
+    }
+
+    @Test
+    public void youDontGetALearnificationIfThereAreNoLearningItemsAndYouClickTheFastForwardButton() {
+        UserSimulation.clearNotifications(activityTestRule.getActivity());
+        UserSimulation.pressLearnificationFastForwardButton();
+
+        UserSimulation.checkForLackOfLearnificationRelatedNotifications();
+    }
 }
