@@ -48,9 +48,8 @@ public class PersistentLearningItemRepository implements LearningItemSupplier {
     }
 
     public void removeAt(int index) {
-        LearningItem learningItem = learningItems.get(index);
-        logger.i(LOG_TAG, "removing a learning item at index " + index + " in the view, which is " + learningItem.toDisplayString());
-        remove(learningItem);
+        logger.i(LOG_TAG, "removing a learning item at index " + index + " in the view");
+        remove(learningItems.get(index));
     }
 
     private void remove(LearningItem learningItem) {
