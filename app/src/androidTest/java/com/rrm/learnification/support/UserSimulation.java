@@ -40,9 +40,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * This class contains Espresso controls for all the actions that I expect a user to take in the
+ * This class contains UI controls for all the actions that I expect a user to take in the
  * app. Of course, this is a very limited set of what they are capable of, however, it can grow
- * as those assumptions become invalidated
+ * as those assumptions become invalidated.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class UserSimulation {

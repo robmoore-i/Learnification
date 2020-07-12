@@ -71,12 +71,11 @@ public class PersistentLearningItemRepositoryTest {
     @Test
     public void removesItemCorrespondingToIndexInReturnedList() {
         when(mockRecordStore.items()).thenReturn(defaultLearningItems);
-        PersistentLearningItemRepository persistentLearnificationRepository = new PersistentLearningItemRepository(dummyLogger, mockRecordStore,
-                dummyItemUpdateBroker);
-
-        List<LearningItem> items = persistentLearnificationRepository.items();
+        PersistentLearningItemRepository persistentLearnificationRepository =
+                new PersistentLearningItemRepository(dummyLogger, mockRecordStore, dummyItemUpdateBroker);
         int removalIndex = 2;
-        LearningItem expectedDeletedLearningItem = items.get(removalIndex);
+        LearningItem expectedDeletedLearningItem = defaultLearningItems.get(removalIndex);
+
         persistentLearnificationRepository.removeAt(removalIndex);
 
         assertThat(persistentLearnificationRepository.items(), not(hasItem(expectedDeletedLearningItem)));
