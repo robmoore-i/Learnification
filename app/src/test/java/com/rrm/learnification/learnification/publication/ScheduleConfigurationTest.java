@@ -17,7 +17,7 @@ public class ScheduleConfigurationTest {
     private final SettingsRepository mockSettingsRepository = mock(SettingsRepository.class);
 
     @Test
-    public void readsPeriodicityFromStorage() {
+    public void readsDelayRangeFromStorage() {
         when(mockSettingsRepository.readDelaySeconds()).thenReturn(10);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, mockSettingsRepository);
 
