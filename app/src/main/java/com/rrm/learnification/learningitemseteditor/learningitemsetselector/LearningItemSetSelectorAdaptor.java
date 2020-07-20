@@ -13,10 +13,9 @@ import java.util.List;
 public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> {
     private static final String LOG_TAG = "LearningItemSetSelectorAdaptor";
 
-    final String addNewSetOptionText = "Add new group";
+    public static final String addNewSetOptionText = "Add new group";
 
     private final AndroidLogger logger;
-
     private final List<String> learningItemSetNamesReference;
 
     public LearningItemSetSelectorAdaptor(AndroidLogger logger, Context context, List<String> learningItemSetNames) {
@@ -50,9 +49,8 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> {
     }
 
     private void appendAddNewSetOptionToSpinnerList(List<String> spinnerOptions) {
-        String optionText = "Add new group";
-        spinnerOptions.remove(optionText);
-        spinnerOptions.add(optionText);
+        spinnerOptions.remove(addNewSetOptionText);
+        spinnerOptions.add(addNewSetOptionText);
     }
 
     String createNewLearningItemSet() {

@@ -17,6 +17,7 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelectorAdaptor;
 
 import org.hamcrest.Matcher;
 
@@ -341,12 +342,12 @@ public class UserSimulation {
 
     public static void addNewLearningItemSet() {
         pressLearningItemSetSelector();
-        pressLearningItemSetSelectorOption("Add new group");
+        pressLearningItemSetSelectorOption(LearningItemSetSelectorAdaptor.addNewSetOptionText);
     }
 
     public static void addNewLearningItemSet(String newSetName) {
         pressLearningItemSetSelector();
-        pressLearningItemSetSelectorOption("Add new group");
+        pressLearningItemSetSelectorOption(LearningItemSetSelectorAdaptor.addNewSetOptionText);
         typeOutNewLearningItemSetTitleName(newSetName);
         pressLearningItemSetTitleChangeIcon();
     }

@@ -7,6 +7,7 @@ import android.widget.Spinner;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelectorAdaptor;
 import com.rrm.learnification.support.GuiTestWrapper;
 import com.rrm.learnification.support.UserSimulation;
 
@@ -53,7 +54,7 @@ public class LearningItemSetSelectorTest {
         UserSimulation.addNewLearningItemSet();
         UserSimulation.pressLearningItemSetSelector();
 
-        onView(withText("Add new group")).check(matches(isDisplayed()));
+        onView(withText(LearningItemSetSelectorAdaptor.addNewSetOptionText)).check(matches(isDisplayed()));
         onView(withText(initialLearningItemSetName)).check(matches(isDisplayed()));
         onView(withText("new set 1")).check(matches(isDisplayed()));
     }
