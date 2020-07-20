@@ -25,8 +25,10 @@ import static org.mockito.Mockito.when;
 
 public class TestableLearnificationSchedulerTest {
     private final Class<?> serviceClass = Object.class;
+
     private final Time nineAm = Time.valueOf("09:00:00");
     private final LocalDateTime fivePmSeptFirst = LocalDateTime.of(2019, 9, 1, 17, 0, 0);
+
     private final int earliestStartTimeDelayMs = 10;
     private final int latestStartTimeDelayMs = 20;
     private final DelayRange delayRange = new DelayRange(earliestStartTimeDelayMs, latestStartTimeDelayMs);
