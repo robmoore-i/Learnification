@@ -2,8 +2,15 @@ package com.rrm.learnification.learnification.response;
 
 import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnification.response.handler.AnswerHandler;
+import com.rrm.learnification.learnification.response.handler.FallthroughHandler;
+import com.rrm.learnification.learnification.response.handler.LearnificationResponseHandler;
+import com.rrm.learnification.learnification.response.handler.NextHandler;
+import com.rrm.learnification.learnification.response.handler.ShowMeHandler;
+import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.notification.NotificationResponseIntent;
 
 import org.junit.Test;
 
@@ -16,10 +23,10 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AndroidIntentLearnificationResponseTest {
-    private final ResponseIntent stubIntent = mock(ResponseIntent.class);
+public class LearnificationResponseTest {
+    private final NotificationResponseIntent stubIntent = mock(NotificationResponseIntent.class);
 
-    private final AndroidIntentLearnificationResponse responseIntent = new AndroidIntentLearnificationResponse(stubIntent);
+    private final LearnificationResponse responseIntent = new LearnificationResponse(stubIntent);
 
     @Test
     public void whenThereIsRemoteInputItUsesAnAnswerHandler() {
@@ -76,7 +83,7 @@ public class AndroidIntentLearnificationResponseTest {
     }
 
     private LearnificationResponseHandler responseIntentHandler() {
-        return responseIntent.handler(mock(AndroidLogger.class), mock(LearnificationScheduler.class), mock(LearnificationResponseContentGenerator.class),
+        return responseIntent.handler(mock(AndroidLogger.class), mock(LearnificationResponseContentGenerator.class), mock(LearnificationScheduler.class),
                 mock(LearnificationUpdater.class));
     }
 }

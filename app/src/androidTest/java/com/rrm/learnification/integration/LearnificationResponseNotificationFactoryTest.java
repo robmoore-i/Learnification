@@ -4,9 +4,9 @@ import android.app.Notification;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rrm.learnification.learnification.response.NotificationTextContent;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
+import com.rrm.learnification.notification.NotificationTextContent;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
 

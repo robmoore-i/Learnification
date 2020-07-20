@@ -1,20 +1,26 @@
-package com.rrm.learnification.learnification.response;
+package com.rrm.learnification.learnification.response.learnificationresponse;
 
 import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.creation.LearnificationResponseType;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnification.response.LearnificationResponseContentGenerator;
+import com.rrm.learnification.learnification.response.handler.AnswerHandler;
+import com.rrm.learnification.learnification.response.handler.FallthroughHandler;
+import com.rrm.learnification.learnification.response.handler.LearnificationResponseHandler;
+import com.rrm.learnification.learnification.response.handler.NextHandler;
+import com.rrm.learnification.learnification.response.handler.ShowMeHandler;
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.IdentifiedNotification;
+import com.rrm.learnification.notification.NotificationResponseIntent;
 
-class AndroidIntentLearnificationResponse implements LearnificationResponse {
-    private final ResponseIntent intent;
+public class LearnificationResponse {
+    private final NotificationResponseIntent intent;
 
-    AndroidIntentLearnificationResponse(ResponseIntent intent) {
+    public LearnificationResponse(NotificationResponseIntent intent) {
         this.intent = intent;
     }
 
-    @Override
     public String actualUserResponse() {
         if (!hasRemoteInput()) return null;
         CharSequence replyText = intent.getRemoteInputText(LearnificationNotificationFactory.REPLY_TEXT);
@@ -22,20 +28,17 @@ class AndroidIntentLearnificationResponse implements LearnificationResponse {
         return replyText.toString();
     }
 
-    @Override
     public String expectedUserResponse() {
         return intent.getStringExtra(LearnificationNotificationFactory.EXPECTED_USER_RESPONSE_EXTRA);
     }
 
-    @Override
     public String givenPrompt() {
         return intent.getStringExtra(LearnificationNotificationFactory.GIVEN_PROMPT_EXTRA);
     }
 
-    @Override
-    public LearnificationResponseHandler handler(AndroidLogger logger, LearnificationScheduler learnificationScheduler,
-                                                 LearnificationResponseContentGenerator responseContentGenerator, LearnificationUpdater learnificationUpdater) {
-
+    public LearnificationResponseHandler handler(
+            AndroidLogger logger, LearnificationResponseContentGenerator responseContentGenerator,
+            LearnificationScheduler learnificationScheduler, LearnificationUpdater learnificationUpdater) {
         int notificationId = intent.getIntExtra(IdentifiedNotification.ID_EXTRA);
         if (isShowMeResponse()) {
             return new ShowMeHandler(logger, learnificationScheduler, responseContentGenerator, learnificationUpdater, notificationId);

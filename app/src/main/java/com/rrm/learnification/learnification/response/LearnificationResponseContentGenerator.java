@@ -1,15 +1,17 @@
 package com.rrm.learnification.learnification.response;
 
+import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
+import com.rrm.learnification.notification.NotificationTextContent;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 
-class LearnificationResponseContentGenerator {
+public class LearnificationResponseContentGenerator {
     private final ScheduleConfiguration scheduleConfiguration;
 
     LearnificationResponseContentGenerator(ScheduleConfiguration scheduleConfiguration) {
         this.scheduleConfiguration = scheduleConfiguration;
     }
 
-    NotificationTextContent getResponseNotificationTextContentForSubmittedText(LearnificationResponse learnificationResponse) {
+    public NotificationTextContent getResponseNotificationTextContentForSubmittedText(LearnificationResponse learnificationResponse) {
         String expected = learnificationResponse.expectedUserResponse();
         String actual = learnificationResponse.actualUserResponse();
         String title = "Got '" + actual + "', expected '" + expected + "'";
@@ -17,7 +19,7 @@ class LearnificationResponseContentGenerator {
         return new NotificationTextContent(title, text);
     }
 
-    NotificationTextContent getResponseNotificationTextContentForViewing(LearnificationResponse learnificationResponse) {
+    public NotificationTextContent getResponseNotificationTextContentForViewing(LearnificationResponse learnificationResponse) {
         String given = learnificationResponse.givenPrompt();
         String expected = learnificationResponse.expectedUserResponse();
         String title = given + " -> " + expected;

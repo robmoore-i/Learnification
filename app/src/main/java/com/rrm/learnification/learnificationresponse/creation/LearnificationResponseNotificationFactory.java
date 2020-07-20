@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.learnification.response.NotificationTextContent;
 import com.rrm.learnification.learnificationresponse.response.LearnificationResultService;
 import com.rrm.learnification.notification.IdentifiedNotification;
 import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
+import com.rrm.learnification.notification.NotificationTextContent;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
 

@@ -1,14 +1,15 @@
-package com.rrm.learnification.learnification.response;
+package com.rrm.learnification.learnification.response.handler;
 
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
 import com.rrm.learnification.logger.AndroidLogger;
 
-class FallthroughHandler implements LearnificationResponseHandler {
+public class FallthroughHandler implements LearnificationResponseHandler {
     private static final String LOG_TAG = "FallthroughHandler";
     private final AndroidLogger logger;
     private final LearnificationScheduler learnificationScheduler;
 
-    FallthroughHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler) {
+    public FallthroughHandler(AndroidLogger logger, LearnificationScheduler learnificationScheduler) {
         this.logger = logger;
         this.learnificationScheduler = learnificationScheduler;
     }

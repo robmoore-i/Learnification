@@ -1,8 +1,10 @@
-package com.rrm.learnification.learnification.response;
+package com.rrm.learnification.learnification.response.handler;
 
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.notification.NotificationTextContent;
 
 public abstract class UserGuessLearnificationResponseHandler implements LearnificationResponseHandler {
     private final AndroidLogger logger;

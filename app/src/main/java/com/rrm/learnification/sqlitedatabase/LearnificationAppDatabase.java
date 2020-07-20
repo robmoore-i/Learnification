@@ -34,6 +34,5 @@ public class LearnificationAppDatabase extends SQLiteOpenHelper {
         db.execSQL(LearningItemSqlTable.deleteTable());
         db.execSQL(LearnificationResultSqlTable.deleteTable());
         onCreate(db);
-        db.close();
     }
 }

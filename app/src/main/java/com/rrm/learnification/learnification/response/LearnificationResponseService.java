@@ -10,6 +10,8 @@ import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
+import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponseIntent;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.learnificationresponse.publication.AndroidLearnificationUpdater;
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
@@ -32,7 +34,7 @@ public class LearnificationResponseService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        AndroidIntentLearnificationResponse learnificationResponse = new AndroidIntentLearnificationResponse(new AndroidResponseIntent(intent));
+        LearnificationResponse learnificationResponse = new LearnificationResponse(new LearnificationResponseIntent(intent));
 
         logger.i(LOG_TAG, "handling learnification response: " + learnificationResponse.toString());
 
@@ -48,7 +50,7 @@ public class LearnificationResponseService extends IntentService {
                 new AndroidActiveNotificationReader(this.getSystemService(android.app.NotificationManager.class)));
 
         learnificationResponse
-                .handler(logger, learnificationScheduler, new LearnificationResponseContentGenerator(scheduleConfiguration), learnificationUpdater)
+                .handler(logger, new LearnificationResponseContentGenerator(scheduleConfiguration), learnificationScheduler, learnificationUpdater)
                 .handle(learnificationResponse);
         logger.i(LOG_TAG, "handled response");
     }

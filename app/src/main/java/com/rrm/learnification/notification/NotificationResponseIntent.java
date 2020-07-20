@@ -1,6 +1,6 @@
-package com.rrm.learnification.learnification.response;
+package com.rrm.learnification.notification;
 
-interface ResponseIntent {
+public interface NotificationResponseIntent {
     String getStringExtra(String name);
 
     int getIntExtra(String name);
