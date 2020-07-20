@@ -2,7 +2,7 @@ package com.rrm.learnification.learningitemseteditor.learningitemadd;
 
 import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.common.LearningItemText;
-import com.rrm.learnification.learningitemseteditor.LearningItemList;
+import com.rrm.learnification.learningitemseteditor.learningitemlist.LearningItemList;
 import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
 import com.rrm.learnification.logger.AndroidLogger;
 

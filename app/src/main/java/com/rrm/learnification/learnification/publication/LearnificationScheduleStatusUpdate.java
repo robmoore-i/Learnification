@@ -1,10 +1,10 @@
 package com.rrm.learnification.learnification.publication;
 
 import com.rrm.learnification.button.ConfigurableButton;
-import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarUpdateListener;
-import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarViewUpdate;
-import com.rrm.learnification.learningitemseteditor.toolbar.viewparameters.EmptyToolbarViewParameters;
-import com.rrm.learnification.learningitemseteditor.toolbar.viewparameters.ToolbarViewParameters;
+import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.ToolbarUpdateListener;
+import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.ToolbarViewUpdate;
+import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.viewparameters.EmptyToolbarViewParameters;
+import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.viewparameters.ToolbarViewParameters;
 import com.rrm.learnification.logger.AndroidLogger;
 
 public class LearnificationScheduleStatusUpdate implements ToolbarViewUpdate {

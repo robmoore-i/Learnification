@@ -1,6 +1,6 @@
 package com.rrm.learnification.learningitemseteditor.learningitemupdate;
 
-import com.rrm.learnification.learningitemseteditor.OnTextChangeListener;
+import com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.OnTextChangeListener;
 
 public interface IdentifiedTextSource {
     String identity();

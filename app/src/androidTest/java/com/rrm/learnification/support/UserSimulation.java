@@ -2,10 +2,8 @@ package com.rrm.learnification.support;
 
 import android.app.Activity;
 import android.app.NotificationManager;
-import android.content.Context;
-import android.content.Intent;
+import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyCharacterMap;
@@ -13,6 +11,7 @@ import android.view.KeyEvent;
 import android.widget.NumberPicker;
 
 import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.Direction;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
@@ -37,8 +36,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.rrm.learnification.support.CustomMatcher.withToolbarTitle;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * This class contains UI controls for all the actions that I expect a user to take in the
@@ -51,7 +48,8 @@ public class UserSimulation {
     // ANDROID
 
     public static void pressBack() {
-        Espresso.pressBack();
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        device.pressBack();
     }
 
     public static void pressHome() {
@@ -59,12 +57,37 @@ public class UserSimulation {
         device.pressHome();
     }
 
-    public static void openApp() {
-        Context context = InstrumentationRegistry.getInstrumentation().getContext();
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.rrm.learnification");
-        assertThat(intent, notNullValue());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(intent);
+    public static void openAppFromHome() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        // Swipes right to get to the app in the app drawer.
+        // This is based on my personal phone's particular set up!
+        int y = device.getDisplayHeight() / 2;
+        device.swipe(device.getDisplayWidth() - 10, y, 10, y, 20);
+        UserSimulation.waitASecond();
+        device.findObject(By.descContains("Learnification")).click();
+    }
+
+    public static void peekAtRunningApps() {
+        try {
+            UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+            device.pressRecentApps();
+            UserSimulation.waitACoupleOfSeconds();
+            device.pressRecentApps();
+        } catch (RemoteException e) {
+            throw new RuntimeException("Something went wrong when checking recently opened apps", e);
+        }
+    }
+
+    public static void closeApp() {
+        try {
+            UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+            device.pressRecentApps();
+            UserSimulation.waitASecond();
+            device.findObject(By.descContains("Learnification")).swipe(Direction.RIGHT, 1.0f);
+            UserSimulation.waitASecond();
+        } catch (RemoteException e) {
+            throw new RuntimeException("Something went wrong when closing app", e);
+        }
     }
 
     public static void clearNotifications(Activity activity) {

@@ -2,7 +2,7 @@ package com.rrm.learnification.learningitemseteditor.learningitemupdate;
 
 import android.widget.EditText;
 
-import com.rrm.learnification.learningitemseteditor.OnTextChangeListener;
+import com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.OnTextChangeListener;
 import com.rrm.learnification.logger.AndroidLogger;
 
 public class LearningItemStash {

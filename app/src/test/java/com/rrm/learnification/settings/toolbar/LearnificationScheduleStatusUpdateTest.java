@@ -3,7 +3,7 @@ package com.rrm.learnification.settings.toolbar;
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.learnification.publication.LearnificationScheduleStatusUpdate;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
-import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarUpdateListener;
+import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.ToolbarUpdateListener;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import org.junit.Before;

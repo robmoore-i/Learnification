@@ -35,7 +35,6 @@ public class GuiTestWrapper {
         learningItemSqlTableClient.clearEverything();
         learnificationResultSqlTableClient.deleteAll();
         UserSimulation.refreshLearningItemList();
-        UserSimulation.clearNotifications(activity);
         logger.i(LOG_TAG, "==== TEST START ====");
     }
 

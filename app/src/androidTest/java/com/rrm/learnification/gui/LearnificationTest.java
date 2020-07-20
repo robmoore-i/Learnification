@@ -72,7 +72,7 @@ public class LearnificationTest {
 
     @Test
     public void notificationGetsCancelledWhenYouSubmitACorrectLearnificationResult() {
-        UserSimulation.waitASecond();
+        UserSimulation.clearNotifications(activityTestRule.getActivity());
         UserSimulation.pressLearnificationFastForwardButton();
 
         UserSimulation.pressShowMeOnLearnification();
@@ -101,8 +101,13 @@ public class LearnificationTest {
             // If this fails, then the feature is not working.
             UserSimulation.closeNotificationPulldown();
             UserSimulation.addLearningItem("krai", "who?");
-            UserSimulation.pressHome();
-            UserSimulation.openApp();
+            UserSimulation.waitASecond();
+            UserSimulation.closeApp();
+            UserSimulation.waitASecond();
+            UserSimulation.peekAtRunningApps();
+            UserSimulation.waitASecond();
+            UserSimulation.openAppFromHome();
+            UserSimulation.waitASecond();
             UserSimulation.checkForLearnification();
         }
     }

@@ -15,16 +15,22 @@ import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationScheduleStatusUpdate;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.FastForwardScheduleButton;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemButton;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemOnClickCommand;
+import com.rrm.learnification.learningitemseteditor.learningitemadd.ClearTextInputOnClickCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.LearningItemTextInput;
+import com.rrm.learnification.learningitemseteditor.learningitemadd.SimulateButtonClickOnSubmitTextCommand;
+import com.rrm.learnification.learningitemseteditor.learningitemlist.LearningItemList;
+import com.rrm.learnification.learningitemseteditor.learningitemlist.LearningItemListViewAdaptor;
+import com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.SetButtonStatusOnTextChangeListener;
+import com.rrm.learnification.learningitemseteditor.learningitemremove.RemoveLearningItemOnSwipeCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelector;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelectorAdaptor;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetTitle;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.LearningItemStash;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableLearningItemTextDisplayStash;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemButton;
-import com.rrm.learnification.learningitemseteditor.toolbar.FastForwardScheduleButton;
 import com.rrm.learnification.learningitemstorage.LearningItemSqlTableClient;
 import com.rrm.learnification.learningitemstorage.LearningItemTextUpdateBroker;
 import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
@@ -40,7 +46,7 @@ import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration
 import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 import com.rrm.learnification.time.AndroidClock;
 
-import static com.rrm.learnification.learningitemseteditor.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
+import static com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
 
 public class LearningItemSetEditorActivity extends AppCompatActivity {
     private static final String LOG_TAG = "LearningItemSetEditorActivity";

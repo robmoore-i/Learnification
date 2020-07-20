@@ -6,7 +6,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.learningitemseteditor.SoftKeyboardView;
 import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logger.AndroidLogger;
 

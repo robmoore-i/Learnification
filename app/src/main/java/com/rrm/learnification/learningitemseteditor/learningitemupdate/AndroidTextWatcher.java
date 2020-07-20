@@ -4,7 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.rrm.learnification.learningitemseteditor.OnTextChangeListener;
+import com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.OnTextChangeListener;
 
 public class AndroidTextWatcher implements IdentifiedTextSource, TextWatcher {
 
