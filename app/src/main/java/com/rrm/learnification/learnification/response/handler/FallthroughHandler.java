@@ -1,7 +1,7 @@
 package com.rrm.learnification.learnification.response.handler;
 
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
-import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
+import com.rrm.learnification.learnification.response.LearnificationResponse;
 import com.rrm.learnification.logger.AndroidLogger;
 
 public class FallthroughHandler implements LearnificationResponseHandler {

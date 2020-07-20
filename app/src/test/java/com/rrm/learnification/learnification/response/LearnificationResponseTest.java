@@ -7,7 +7,6 @@ import com.rrm.learnification.learnification.response.handler.FallthroughHandler
 import com.rrm.learnification.learnification.response.handler.LearnificationResponseHandler;
 import com.rrm.learnification.learnification.response.handler.NextHandler;
 import com.rrm.learnification.learnification.response.handler.ShowMeHandler;
-import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.NotificationResponseIntent;

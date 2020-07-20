@@ -1,9 +1,8 @@
-package com.rrm.learnification.learnification.response.learnificationresponse;
+package com.rrm.learnification.learnification.response;
 
 import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learnification.creation.LearnificationResponseType;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
-import com.rrm.learnification.learnification.response.LearnificationResponseContentGenerator;
 import com.rrm.learnification.learnification.response.handler.AnswerHandler;
 import com.rrm.learnification.learnification.response.handler.FallthroughHandler;
 import com.rrm.learnification.learnification.response.handler.LearnificationResponseHandler;

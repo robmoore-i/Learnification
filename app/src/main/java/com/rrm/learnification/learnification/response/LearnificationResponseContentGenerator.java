@@ -1,6 +1,5 @@
 package com.rrm.learnification.learnification.response;
 
-import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
 import com.rrm.learnification.notification.NotificationTextContent;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 

@@ -10,8 +10,6 @@ import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
-import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
-import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponseIntent;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
 import com.rrm.learnification.learnificationresponse.publication.AndroidLearnificationUpdater;
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;

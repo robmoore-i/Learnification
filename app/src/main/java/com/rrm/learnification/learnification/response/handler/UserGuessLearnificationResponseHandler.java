@@ -1,7 +1,7 @@
 package com.rrm.learnification.learnification.response.handler;
 
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
-import com.rrm.learnification.learnification.response.learnificationresponse.LearnificationResponse;
+import com.rrm.learnification.learnification.response.LearnificationResponse;
 import com.rrm.learnification.learnificationresponse.publication.LearnificationUpdater;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.NotificationTextContent;
