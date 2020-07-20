@@ -1,12 +1,14 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemadd;
 
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemseteditor.OnSubmitTextCommand;
+import com.rrm.learnification.learningitemseteditor.OnTextChangeListener;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.TextInput;
 
-class LearningItemTextInput implements TextInput {
+public class LearningItemTextInput implements TextInput {
     private final AddLearningItemTextInputView addLearningItemView;
 
-    LearningItemTextInput(AddLearningItemTextInputView addLearningItemView) {
+    public LearningItemTextInput(AddLearningItemTextInputView addLearningItemView) {
         this.addLearningItemView = addLearningItemView;
     }
 

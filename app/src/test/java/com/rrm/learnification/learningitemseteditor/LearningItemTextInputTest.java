@@ -1,5 +1,8 @@
 package com.rrm.learnification.learningitemseteditor;
 
+import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemTextInputView;
+import com.rrm.learnification.learningitemseteditor.learningitemadd.LearningItemTextInput;
+
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;

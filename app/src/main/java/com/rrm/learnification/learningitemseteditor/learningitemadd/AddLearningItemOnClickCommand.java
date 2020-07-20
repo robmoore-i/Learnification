@@ -1,11 +1,12 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemadd;
 
 import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemseteditor.LearningItemList;
 import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
 import com.rrm.learnification.logger.AndroidLogger;
 
-class AddLearningItemOnClickCommand implements OnClickCommand {
+public class AddLearningItemOnClickCommand implements OnClickCommand {
     private static final String LOG_TAG = "AddLearningItemOnClickCommand";
     private final AndroidLogger logger;
 
@@ -13,8 +14,8 @@ class AddLearningItemOnClickCommand implements OnClickCommand {
     private final PersistentLearningItemRepository itemRepository;
     private final LearningItemList learningItemList;
 
-    AddLearningItemOnClickCommand(AndroidLogger logger, LearningItemTextInput learningItemTextInput, LearningItemList learningItemList,
-                                  PersistentLearningItemRepository itemRepository) {
+    public AddLearningItemOnClickCommand(AndroidLogger logger, LearningItemTextInput learningItemTextInput, LearningItemList learningItemList,
+                                         PersistentLearningItemRepository itemRepository) {
         this.logger = logger;
         this.learningItemTextInput = learningItemTextInput;
         this.itemRepository = itemRepository;

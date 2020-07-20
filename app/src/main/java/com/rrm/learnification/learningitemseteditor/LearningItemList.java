@@ -10,7 +10,7 @@ import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.Collection;
 
-class LearningItemList implements UpdatableTextEntryList, LearningItemSetChangeListener {
+public class LearningItemList implements UpdatableTextEntryList, LearningItemSetChangeListener {
     private static final String LOG_TAG = "LearningItemList";
 
     private final RecyclerView recyclerView;
@@ -56,7 +56,7 @@ class LearningItemList implements UpdatableTextEntryList, LearningItemSetChangeL
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    void addTextEntry(LearningItemText learningItemText) {
+    public void addTextEntry(LearningItemText learningItemText) {
         logger.i(LOG_TAG, "adding a text entry to the learning-item list '" + learningItemText + "'");
         adapter.add(learningItemText.toString());
     }
