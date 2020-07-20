@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemView;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelectorView;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetTitleView;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.AndroidTextWatcher;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemView;
 import com.rrm.learnification.learningitemseteditor.toolbar.ToolbarView;

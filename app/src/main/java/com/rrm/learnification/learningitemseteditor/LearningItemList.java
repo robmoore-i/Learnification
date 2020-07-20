@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetChangeListener;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelector;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableTextEntryList;
 import com.rrm.learnification.logger.AndroidLogger;
 

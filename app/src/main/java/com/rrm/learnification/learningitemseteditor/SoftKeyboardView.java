@@ -1,6 +1,6 @@
 package com.rrm.learnification.learningitemseteditor;
 
-interface SoftKeyboardView {
+public interface SoftKeyboardView {
     void hideSoftKeyboard();
 
     void showSoftKeyboard();

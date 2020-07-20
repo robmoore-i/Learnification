@@ -1,4 +1,4 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemsetselector;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,7 +8,7 @@ import com.rrm.learnification.learningitemstorage.LearningItemSetNameChangeListe
 import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logger.AndroidLogger;
 
-class LearningItemSetSelector implements LearningItemSetNameChangeListener {
+public class LearningItemSetSelector implements LearningItemSetNameChangeListener {
     private static final String LOG_TAG = "LearningItemSetSelector";
 
     private final AndroidLogger logger;
@@ -20,8 +20,8 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
 
     private LearningItemSetChangeListener setChangeListener;
 
-    LearningItemSetSelector(AndroidLogger logger, LearningItemSetSelectorView learningItemSetSelectorView, LearningItemSetSelectorAdaptor adapter,
-                            LearningItemSetTitle learningItemSetTitle, SqlLearningItemSetRecordStore recordStore) {
+    public LearningItemSetSelector(AndroidLogger logger, LearningItemSetSelectorView learningItemSetSelectorView, LearningItemSetSelectorAdaptor adapter,
+                                   LearningItemSetTitle learningItemSetTitle, SqlLearningItemSetRecordStore recordStore) {
         this.logger = logger;
         this.adapter = adapter;
         this.spinner = learningItemSetSelectorView.learningItemSetSelector();
@@ -32,7 +32,7 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
         recordStore.addLearningItemSetRenameListener(this);
     }
 
-    void select(String learningItemSetName) {
+    public void select(String learningItemSetName) {
         recordStore.useSet(learningItemSetName);
         setChangeListener.refresh();
     }
@@ -68,7 +68,7 @@ class LearningItemSetSelector implements LearningItemSetNameChangeListener {
         spinner.setSelection(adapter.getPosition(replacement));
     }
 
-    void registerForSetChanges(LearningItemSetChangeListener setChangeListener) {
+    public void registerForSetChanges(LearningItemSetChangeListener setChangeListener) {
         this.setChangeListener = setChangeListener;
     }
 }

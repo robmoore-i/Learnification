@@ -1,4 +1,4 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemsetselector;
 
 import android.content.Context;
 import android.view.View;
@@ -19,7 +19,7 @@ public class LearningItemSetSelectorAdaptor extends ArrayAdapter<String> {
 
     private final List<String> learningItemSetNamesReference;
 
-    LearningItemSetSelectorAdaptor(AndroidLogger logger, Context context, List<String> learningItemSetNames) {
+    public LearningItemSetSelectorAdaptor(AndroidLogger logger, Context context, List<String> learningItemSetNames) {
         super(context, R.layout.learning_item_set_selector_entry, R.id.learning_item_set_selector_text_entry, learningItemSetNames);
         this.logger = logger;
         this.learningItemSetNamesReference = learningItemSetNames;

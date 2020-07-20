@@ -1,4 +1,4 @@
-package com.rrm.learnification.learningitemseteditor;
+package com.rrm.learnification.learningitemseteditor.learningitemsetselector;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -6,10 +6,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.learningitemseteditor.SoftKeyboardView;
 import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logger.AndroidLogger;
 
-class LearningItemSetTitle {
+public class LearningItemSetTitle {
     private static final String LOG_TAG = "LearningItemSetTitle";
 
     private final AndroidLogger logger;
@@ -20,7 +21,7 @@ class LearningItemSetTitle {
     private final EditText textBox;
     private final ImageView changeIcon;
 
-    LearningItemSetTitle(AndroidLogger logger, SqlLearningItemSetRecordStore recordStore, LearningItemSetTitleView learningItemSetTitleView) {
+    public LearningItemSetTitle(AndroidLogger logger, SqlLearningItemSetRecordStore recordStore, LearningItemSetTitleView learningItemSetTitleView) {
         this.logger = logger;
         this.recordStore = recordStore;
         this.softKeyboardView = learningItemSetTitleView;
@@ -30,7 +31,7 @@ class LearningItemSetTitle {
         disableEditing();
     }
 
-    void set(String learningItemSetName) {
+    public void set(String learningItemSetName) {
         logger.i(LOG_TAG, "setting title to '" + learningItemSetName + "'");
         disableEditing();
         textBox.setText(learningItemSetName);

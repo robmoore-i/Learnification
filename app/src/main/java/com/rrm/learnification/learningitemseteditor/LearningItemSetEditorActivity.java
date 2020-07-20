@@ -18,6 +18,9 @@ import com.rrm.learnification.learnification.publication.LearnificationScheduler
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemButton;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemOnClickCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.LearningItemTextInput;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelector;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelectorAdaptor;
+import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetTitle;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.LearningItemStash;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableLearningItemTextDisplayStash;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdateLearningItemButton;
