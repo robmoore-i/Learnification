@@ -50,6 +50,7 @@ public class LearnificationResponseService extends IntentService {
         learnificationResponse
                 .handler(logger, new LearnificationResponseContentGenerator(scheduleConfiguration), learnificationScheduler, learnificationUpdater)
                 .handle(learnificationResponse);
+
         logger.i(LOG_TAG, "handled response");
     }
 }

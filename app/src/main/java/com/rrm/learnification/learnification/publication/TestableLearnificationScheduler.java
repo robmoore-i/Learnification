@@ -1,5 +1,6 @@
 package com.rrm.learnification.learnification.publication;
 
+import com.rrm.learnification.jobs.DelayCalculator;
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.ActiveNotificationReader;
@@ -52,7 +53,7 @@ class TestableLearnificationScheduler {
         int earliestStartTimeDelayMs = delayRange.earliestStartTimeDelayMs;
         int latestStartTimeDelayMs = delayRange.latestStartTimeDelayMs;
 
-        boolean upcomingLearnificationScheduled = jobScheduler.hasPendingJob(serviceClass,
+        boolean upcomingLearnificationScheduled = jobScheduler.hasPendingJobInTimeframe(serviceClass,
                 scheduleConfiguration.getConfiguredDelayRange().earliestStartTimeDelayMs);
         if (upcomingLearnificationScheduled) {
             logger.i(LOG_TAG, "ignoring learnification scheduling request because jobScheduler reports that there is one pending");

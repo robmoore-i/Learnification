@@ -1,6 +1,6 @@
 package com.rrm.learnification.learnification.response;
 
-import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
+import com.rrm.learnification.learnification.creation.LearnificationFactory;
 import com.rrm.learnification.learnification.creation.LearnificationResponseType;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learnification.response.handler.AnswerHandler;
@@ -22,17 +22,17 @@ public class LearnificationResponse {
 
     public String actualUserResponse() {
         if (!hasRemoteInput()) return null;
-        CharSequence replyText = intent.getRemoteInputText(LearnificationNotificationFactory.REPLY_TEXT);
+        CharSequence replyText = intent.getRemoteInputText(LearnificationFactory.REPLY_TEXT);
         if (replyText == null) return null;
         return replyText.toString();
     }
 
     public String expectedUserResponse() {
-        return intent.getStringExtra(LearnificationNotificationFactory.EXPECTED_USER_RESPONSE_EXTRA);
+        return intent.getStringExtra(LearnificationFactory.EXPECTED_USER_RESPONSE_EXTRA);
     }
 
     public String givenPrompt() {
-        return intent.getStringExtra(LearnificationNotificationFactory.GIVEN_PROMPT_EXTRA);
+        return intent.getStringExtra(LearnificationFactory.GIVEN_PROMPT_EXTRA);
     }
 
     public LearnificationResponseHandler handler(
@@ -61,7 +61,7 @@ public class LearnificationResponse {
     }
 
     private String responseType() {
-        return intent.getStringExtra(LearnificationNotificationFactory.RESPONSE_TYPE_EXTRA);
+        return intent.getStringExtra(LearnificationFactory.RESPONSE_TYPE_EXTRA);
     }
 
     private boolean isShowMeResponse() {

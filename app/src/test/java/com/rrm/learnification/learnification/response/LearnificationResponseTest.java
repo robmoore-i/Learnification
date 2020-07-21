@@ -1,6 +1,6 @@
 package com.rrm.learnification.learnification.response;
 
-import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
+import com.rrm.learnification.learnification.creation.LearnificationFactory;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learnification.response.handler.AnswerHandler;
 import com.rrm.learnification.learnification.response.handler.FallthroughHandler;
@@ -37,7 +37,7 @@ public class LearnificationResponseTest {
 
     @Test
     public void whenTheResponseTypeIsShowMeItUsesAShowMeHandler() {
-        when(stubIntent.getStringExtra(LearnificationNotificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn(SHOW_ME.name());
+        when(stubIntent.getStringExtra(LearnificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn(SHOW_ME.name());
         LearnificationResponseHandler learnificationResponseHandler = responseIntentHandler();
 
         assertThat(learnificationResponseHandler, instanceOf(ShowMeHandler.class));
@@ -45,7 +45,7 @@ public class LearnificationResponseTest {
 
     @Test
     public void whenTheResponseTypeIsNextItUsesANextHandler() {
-        when(stubIntent.getStringExtra(LearnificationNotificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn(NEXT.name());
+        when(stubIntent.getStringExtra(LearnificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn(NEXT.name());
         LearnificationResponseHandler learnificationResponseHandler = responseIntentHandler();
 
         assertThat(learnificationResponseHandler, instanceOf(NextHandler.class));
@@ -53,7 +53,7 @@ public class LearnificationResponseTest {
 
     @Test
     public void whenTheresNoRemoteInputAndTheResponseTypeIsntRecognisedItUsesTheFallthroughHandler() {
-        when(stubIntent.getStringExtra(LearnificationNotificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn("nonsense");
+        when(stubIntent.getStringExtra(LearnificationFactory.RESPONSE_TYPE_EXTRA)).thenReturn("nonsense");
         LearnificationResponseHandler learnificationResponseHandler = responseIntentHandler();
 
         assertThat(learnificationResponseHandler, instanceOf(FallthroughHandler.class));
@@ -68,7 +68,7 @@ public class LearnificationResponseTest {
 
     @Test
     public void actualUserResponseIsNullIfTheRemoteInputTextIsNull() {
-        when(stubIntent.getRemoteInputText(LearnificationNotificationFactory.REPLY_TEXT)).thenReturn(null);
+        when(stubIntent.getRemoteInputText(LearnificationFactory.REPLY_TEXT)).thenReturn(null);
 
         assertNull(responseIntent.actualUserResponse());
     }
@@ -76,7 +76,7 @@ public class LearnificationResponseTest {
     @Test
     public void actualUserResponseEqualsTheRemoteInputTextAsAString() {
         when(stubIntent.hasRemoteInput()).thenReturn(true);
-        when(stubIntent.getRemoteInputText(LearnificationNotificationFactory.REPLY_TEXT)).thenReturn("some text");
+        when(stubIntent.getRemoteInputText(LearnificationFactory.REPLY_TEXT)).thenReturn("some text");
 
         assertThat(responseIntent.actualUserResponse(), equalTo("some text"));
     }

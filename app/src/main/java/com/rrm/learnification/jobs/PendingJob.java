@@ -6,7 +6,7 @@ import android.os.PersistableBundle;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-class PendingJob {
+public class PendingJob {
     public final int id;
     private final String serviceClassName;
     private final long earliestStartTimeDelayMs;
@@ -29,7 +29,7 @@ class PendingJob {
      * @param serviceClass The service class for the jobs you want to check for
      * @return True, if the PendingJob is for the given serviceClass
      */
-    boolean willTriggerService(Class<?> serviceClass) {
+    public boolean willTriggerService(Class<?> serviceClass) {
         return serviceClassName.equals(serviceClass.getName());
     }
 
@@ -37,15 +37,15 @@ class PendingJob {
      * @param maxDelayTimeMs The delay time you're checking against, in milliseconds
      * @return True, if the PendingJob will trigger before the given maxDelayTime elapses.
      */
-    boolean hasDelayTimeNoMoreThan(int maxDelayTimeMs) {
+    public boolean hasDelayTimeNoMoreThan(int maxDelayTimeMs) {
         return earliestStartTimeDelayMs <= maxDelayTimeMs;
     }
 
-    Long msUntilExecution(LocalDateTime now) {
+    public Long msUntilExecution(LocalDateTime now) {
         return ChronoUnit.MILLIS.between(now, scheduledExecutionTime());
     }
 
-    LocalDateTime scheduledExecutionTime() {
+    public LocalDateTime scheduledExecutionTime() {
         return timeOfScheduling.plusSeconds(earliestStartTimeDelayMs / 1000);
     }
 }

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public class AndroidLearnificationScheduler implements LearnificationScheduler {
     private final TestableLearnificationScheduler learnificationScheduler;
+    private final Class<LearnificationPublishingService> learnificationPublicationClass = LearnificationPublishingService.class;
 
     public AndroidLearnificationScheduler(AndroidLogger logger, AndroidClock androidClock, JobScheduler jobScheduler,
                                           ScheduleConfiguration scheduleConfiguration, ActiveNotificationReader activeNotificationReader) {
@@ -18,17 +19,17 @@ public class AndroidLearnificationScheduler implements LearnificationScheduler {
 
     @Override
     public void scheduleLearnification() {
-        learnificationScheduler.scheduleJob(LearnificationPublishingService.class);
+        learnificationScheduler.scheduleJob(learnificationPublicationClass);
     }
 
     @Override
     public void scheduleImminentLearnification() {
-        learnificationScheduler.scheduleImminentJob(LearnificationPublishingService.class);
+        learnificationScheduler.scheduleImminentJob(learnificationPublicationClass);
     }
 
     @Override
     public void triggerNextLearnification() {
-        learnificationScheduler.triggerNext(LearnificationPublishingService.class);
+        learnificationScheduler.triggerNext(learnificationPublicationClass);
     }
 
     @Override
@@ -38,6 +39,6 @@ public class AndroidLearnificationScheduler implements LearnificationScheduler {
 
     @Override
     public Optional<Integer> secondsUntilNextLearnification() {
-        return learnificationScheduler.secondsUntilNextLearnification(LearnificationPublishingService.class);
+        return learnificationScheduler.secondsUntilNextLearnification(learnificationPublicationClass);
     }
 }

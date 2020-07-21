@@ -4,8 +4,7 @@ import android.app.Notification;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rrm.learnification.common.LearnificationText;
-import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
+import com.rrm.learnification.learnification.creation.LearnificationFactory;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.test.AndroidTestObjectFactory;
@@ -25,21 +24,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class LearnificationNotificationFactoryTest {
+public class LearnificationFactoryTest {
     @Rule
     public ActivityTestRule<LearningItemSetEditorActivity> activityTestRule = new ActivityTestRule<>(LearningItemSetEditorActivity.class);
 
-    private LearnificationNotificationFactory learnificationNotificationFactory;
+    private LearnificationFactory learnificationFactory;
 
     @Before
     public void beforeEach() {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        learnificationNotificationFactory = androidTestObjectFactory.getLearnificationNotificationFactory();
+        learnificationFactory = androidTestObjectFactory.getLearnificationFactory();
     }
 
     @Test
     public void itGeneratesLearnificationWithABundleContainingTheNotificationType() {
-        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b")).notification();
+        Notification learnification = learnificationFactory.learnification().notification();
 
         assertThat(learnification.extras.getString(NotificationType.NOTIFICATION_TYPE_EXTRA_NAME), equalTo(NotificationType.LEARNIFICATION));
     }
@@ -47,7 +46,7 @@ public class LearnificationNotificationFactoryTest {
     @Test
     public void itGeneratesLearnificationWithPendingIntents() {
         String[] expectedPendingIntentTitles = {"Respond", "Show me", "Next"};
-        Notification learnification = learnificationNotificationFactory.createLearnification(new LearnificationText("a", "b")).notification();
+        Notification learnification = learnificationFactory.learnification().notification();
 
         List<String> pendingIntentTitles = Arrays.stream(learnification.actions).map(action -> action.title.toString()).collect(Collectors.toList());
 

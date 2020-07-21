@@ -28,4 +28,8 @@ public class ScheduleConfiguration {
     public Time getFirstLearnificationTime() {
         return Time.valueOf("09:00:00");
     }
+
+    public Time getDailyReportTime() {
+        return Time.valueOf("21:00:00");
+    }
 }

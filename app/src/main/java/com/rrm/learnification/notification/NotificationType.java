@@ -5,4 +5,5 @@ public class NotificationType {
 
     public static final String LEARNIFICATION = "learnification";
     public static final String LEARNIFICATION_RESPONSE = "learnification-response";
+    public static final String DAILY_REPORT = "daily-report";
 }

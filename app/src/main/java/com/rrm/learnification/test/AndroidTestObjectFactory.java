@@ -3,12 +3,15 @@ package com.rrm.learnification.test;
 import android.app.NotificationManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.rrm.learnification.common.LearnificationText;
+import com.rrm.learnification.dailyreport.creation.DailyReportFactory;
+import com.rrm.learnification.dailyreport.creation.DailyReportTextGenerator;
 import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
-import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
+import com.rrm.learnification.learnification.creation.LearnificationFactory;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
@@ -59,8 +62,9 @@ public class AndroidTestObjectFactory {
         return new LearnificationResponseNotificationFactory(activity, getPendingIntentRequestCodeGenerator());
     }
 
-    public LearnificationNotificationFactory getLearnificationNotificationFactory() {
-        return new LearnificationNotificationFactory(logger(), activity, getPendingIntentRequestCodeGenerator(), getNotificationIdGenerator());
+    public LearnificationFactory getLearnificationFactory() {
+        return new LearnificationFactory(logger(), activity, getPendingIntentRequestCodeGenerator(), getNotificationIdGenerator(),
+                () -> new LearnificationText("given", "expected"));
     }
 
     private PendingIntentIdGenerator getPendingIntentRequestCodeGenerator() {
@@ -102,5 +106,9 @@ public class AndroidTestObjectFactory {
 
     private NotificationManager getSystemNotificationManager() {
         return activity.getSystemService(NotificationManager.class);
+    }
+
+    public DailyReportFactory getDailyReportFactory() {
+        return new DailyReportFactory(logger(), activity, getNotificationIdGenerator(), new DailyReportTextGenerator());
     }
 }

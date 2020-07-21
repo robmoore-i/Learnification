@@ -39,6 +39,7 @@ public class JobSchedulerTest {
         systemJobScheduler = activity.getSystemService(android.app.job.JobScheduler.class);
         jobIdGenerator = androidTestObjectFactory.getJobIdGenerator();
         jobIdGenerator.reset();
+        jobScheduler.clearSchedule();
     }
 
     @After
@@ -60,13 +61,13 @@ public class JobSchedulerTest {
     public void itCanTellIfThereIsAPendingJob() {
         jobScheduler.schedule(10000, 20000, LearnificationPublishingService.class);
 
-        assertTrue(jobScheduler.hasPendingJob(LearnificationPublishingService.class, 15000));
+        assertTrue(jobScheduler.hasPendingJobInTimeframe(LearnificationPublishingService.class, 15000));
     }
 
     @Test
     public void itCanTellIfTheIsAPendingJobIsScheduledButNotPendingBecauseItsTooFarInTheFuture() {
         jobScheduler.schedule(800000, 900000, LearnificationPublishingService.class);
 
-        assertFalse(jobScheduler.hasPendingJob(LearnificationPublishingService.class, 15000));
+        assertFalse(jobScheduler.hasPendingJobInTimeframe(LearnificationPublishingService.class, 15000));
     }
 }

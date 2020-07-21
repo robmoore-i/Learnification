@@ -11,6 +11,7 @@ import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class AndroidJobScheduler implements JobScheduler {
@@ -32,21 +33,16 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public void schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass) {
-        logger.i(LOG_TAG,
-                "scheduling job for serviceClass " + serviceClass.getName() + " " +
-                        "in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
+        logger.i(LOG_TAG, "scheduling job for serviceClass " + serviceClass.getName() + " " +
+                "in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
+        PersistableBundle jobExtras = new PersistableBundle();
+        jobExtras.putString(TIME_OF_SCHEDULING, clock.now().toString());
         JobInfo.Builder builder = new JobInfo.Builder(jobIdGenerator.next(), new ComponentName(context, serviceClass))
                 .setMinimumLatency(earliestStartTimeDelayMs)
                 .setOverrideDeadline(latestStartTimeDelayMs)
                 .setRequiresCharging(false)
-                .setExtras(jobExtras());
+                .setExtras(jobExtras);
         systemJobScheduler.schedule(builder.build());
-    }
-
-    @Override
-    public boolean hasPendingJob(Class<?> serviceClass, int maxDelayTimeMs) {
-        logger.i(LOG_TAG, "checking for pending job with serviceClass " + serviceClass.getName() + " occurring in the next " + maxDelayTimeMs + "ms");
-        return pendingJobs().anyMatch(job -> job.willTriggerService(serviceClass) && job.hasDelayTimeNoMoreThan(maxDelayTimeMs));
     }
 
     @Override
@@ -54,14 +50,21 @@ public class AndroidJobScheduler implements JobScheduler {
         return nextJob().map(j -> j.msUntilExecution(clock.now()));
     }
 
-    private Optional<PendingJob> nextJob() {
-        LocalDateTime now = clock.now();
-        return pendingJobs().min((j1, j2) -> Long.compare(j1.msUntilExecution(now), j2.msUntilExecution(now)));
+    @Override
+    public boolean anyJobMatches(Predicate<PendingJob> predicate) {
+        return pendingJobs().anyMatch(predicate);
+    }
+
+    @Override
+    public boolean hasPendingJobInTimeframe(Class<?> serviceClass, int occurringBeforeThisManyMilliseconds) {
+        logger.i(LOG_TAG, "checking for pending job with serviceClass " + serviceClass.getName() +
+                " occurring in the next " + occurringBeforeThisManyMilliseconds + "ms");
+        return anyJobMatches(job -> job.willTriggerService(serviceClass) && job.hasDelayTimeNoMoreThan(occurringBeforeThisManyMilliseconds));
     }
 
     @Override
     public boolean isAnythingScheduledForTomorrow() {
-        return pendingJobs().anyMatch(j -> (j.scheduledExecutionTime().getDayOfMonth() - clock.now().getDayOfMonth()) == 1);
+        return anyJobMatches(j -> (j.scheduledExecutionTime().getDayOfMonth() - clock.now().getDayOfMonth()) == 1);
     }
 
     @Override
@@ -78,6 +81,13 @@ public class AndroidJobScheduler implements JobScheduler {
         }
     }
 
+    @Override
+    public void clearSchedule() {
+        pendingJobs().forEach(pendingJob -> {
+            systemJobScheduler.cancel(pendingJob.id);
+        });
+    }
+
     private Stream<PendingJob> pendingJobs() {
         return systemJobScheduler
                 .getAllPendingJobs()
@@ -85,9 +95,8 @@ public class AndroidJobScheduler implements JobScheduler {
                 .map(PendingJob::fromJobInfo);
     }
 
-    private PersistableBundle jobExtras() {
-        PersistableBundle persistableBundle = new PersistableBundle();
-        persistableBundle.putString(TIME_OF_SCHEDULING, clock.now().toString());
-        return persistableBundle;
+    private Optional<PendingJob> nextJob() {
+        LocalDateTime now = clock.now();
+        return pendingJobs().min((j1, j2) -> Long.compare(j1.msUntilExecution(now), j2.msUntilExecution(now)));
     }
 }

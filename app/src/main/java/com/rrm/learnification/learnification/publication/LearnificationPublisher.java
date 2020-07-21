@@ -19,7 +19,7 @@ class LearnificationPublisher {
 
     void publishLearnification() {
         try {
-            notificationPublisher.publish(learnificationFactory.getLearnification());
+            notificationPublisher.publish(learnificationFactory.learnification());
         } catch (IllegalStateException e) {
             logger.i(LOG_TAG, "didn't publish a learnification because '" + e.getMessage() + "'");
         } catch (Exception e) {

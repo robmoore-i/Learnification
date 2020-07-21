@@ -8,7 +8,6 @@ import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.learnification.creation.LearnificationFactory;
-import com.rrm.learnification.learnification.creation.LearnificationNotificationFactory;
 import com.rrm.learnification.learningitemstorage.LearningItemSqlTableClient;
 import com.rrm.learnification.learningitemstorage.LearningItemSupplier;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -45,10 +44,9 @@ public class LearnificationPublishingService extends JobService {
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(logger,
                 new AndroidNotificationPublisher(logger, NotificationManagerCompat.from(this)),
-                new LearnificationFactory(
-                        new SettingsRepository(logger, fileStorageAdaptor).learnificationTextGenerator(learningItemSupplier),
-                        new LearnificationNotificationFactory(logger, this,
-                                new PendingIntentIdGenerator(logger, fileStorageAdaptor), new NotificationIdGenerator(logger, fileStorageAdaptor)))
+                new LearnificationFactory(logger, this,
+                        new PendingIntentIdGenerator(logger, fileStorageAdaptor), new NotificationIdGenerator(logger, fileStorageAdaptor),
+                        new SettingsRepository(logger, fileStorageAdaptor).learnificationTextGenerator(learningItemSupplier))
         );
 
         learnificationPublisher.publishLearnification();
