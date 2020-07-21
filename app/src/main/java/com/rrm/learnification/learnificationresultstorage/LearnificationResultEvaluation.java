@@ -8,6 +8,6 @@ public enum LearnificationResultEvaluation {
         for (LearnificationResultEvaluation value : values()) {
             if (string.equals(value.name())) return value;
         }
-        throw new IllegalStateException("A LearnificationResultBinary '" + string + "' could not be parsed");
+        throw new IllegalStateException("A LearnificationResultEvaluation '" + string + "' could not be parsed");
     }
 }
