@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.rrm.learnification.R;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.IdentifiedNotification;
 import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
@@ -36,7 +38,9 @@ public class DailyReportFactory {
                 .setContentText(dailyReportTextGenerator.getText())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notificationContentIntent()) // Set the intent that will fire when the user taps the notification
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher_a_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(packageContext.getResources(), R.mipmap.ic_launcher_a_notification));
         return new IdentifiedNotification(notificationId, notificationBuilder, notificationExtras());
     }
 

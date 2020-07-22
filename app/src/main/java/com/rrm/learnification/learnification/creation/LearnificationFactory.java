@@ -69,10 +69,9 @@ public class LearnificationFactory {
                 .setContentText(subHeading)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notificationContentIntent()) // Set the intent that will fire when the user taps the notification
-                .setAutoCancel(true);
-
-        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher_a_notification);
-        notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(packageContext.getResources(), R.mipmap.ic_launcher_a_notification));
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher_a_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(packageContext.getResources(), R.mipmap.ic_launcher_a_notification));
         learnificationActions(notificationId, learningItemPrompt, expectedUserResponse).forEach(notificationBuilder::addAction);
         return new IdentifiedNotification(notificationId, notificationBuilder, notificationExtras());
     }
