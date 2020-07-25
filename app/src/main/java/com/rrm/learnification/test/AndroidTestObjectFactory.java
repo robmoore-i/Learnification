@@ -15,6 +15,7 @@ import com.rrm.learnification.learnification.creation.LearnificationFactory;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationFactory;
+import com.rrm.learnification.learnificationresultstorage.LearnificationResultSqlTableClient;
 import com.rrm.learnification.learningitemstorage.LearningItemSqlTableClient;
 import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -109,6 +110,7 @@ public class AndroidTestObjectFactory {
     }
 
     public DailyReportFactory getDailyReportFactory() {
-        return new DailyReportFactory(logger(), activity, getNotificationIdGenerator(), new DailyReportTextGenerator());
+        return new DailyReportFactory(logger(), activity, getNotificationIdGenerator(),
+                new DailyReportTextGenerator(clock(), new LearnificationResultSqlTableClient(new LearnificationAppDatabase(activity))));
     }
 }

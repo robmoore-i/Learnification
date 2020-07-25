@@ -16,6 +16,10 @@ public class LearnificationResult {
         this.expected = learnificationPrompt.expected;
     }
 
+    public boolean submittedOnDayOf(LocalDateTime dateTime) {
+        return timeSubmitted.toLocalDate().equals(dateTime.toLocalDate());
+    }
+
     @Override
     public String toString() {
         return "LearnificationResult{" +
