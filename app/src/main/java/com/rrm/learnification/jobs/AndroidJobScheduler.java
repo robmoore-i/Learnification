@@ -47,7 +47,7 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public Optional<Long> msUntilNextJob(Class<?> serviceClass) {
-        return nextJob().map(j -> j.msUntilExecution(clock.now()));
+        return nextJob(serviceClass).map(j -> j.msUntilExecution(clock.now()));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public void triggerNext(Class<?> serviceClass) {
-        Optional<PendingJob> pendingJob = nextJob();
+        Optional<PendingJob> pendingJob = nextJob(serviceClass);
         if (pendingJob.isPresent()) {
             logger.i(LOG_TAG, "triggering next job");
             int id = pendingJob.get().id;
@@ -83,9 +83,7 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public void clearSchedule() {
-        pendingJobs().forEach(pendingJob -> {
-            systemJobScheduler.cancel(pendingJob.id);
-        });
+        pendingJobs().forEach(pendingJob -> systemJobScheduler.cancel(pendingJob.id));
     }
 
     private Stream<PendingJob> pendingJobs() {
@@ -95,8 +93,10 @@ public class AndroidJobScheduler implements JobScheduler {
                 .map(PendingJob::fromJobInfo);
     }
 
-    private Optional<PendingJob> nextJob() {
+    private Optional<PendingJob> nextJob(Class<?> serviceClass) {
         LocalDateTime now = clock.now();
-        return pendingJobs().min((j1, j2) -> Long.compare(j1.msUntilExecution(now), j2.msUntilExecution(now)));
+        return pendingJobs()
+                .filter(pendingJob -> pendingJob.isForService(serviceClass))
+                .min((j1, j2) -> Long.compare(j1.msUntilExecution(now), j2.msUntilExecution(now)));
     }
 }

@@ -48,4 +48,8 @@ public class PendingJob {
     public LocalDateTime scheduledExecutionTime() {
         return timeOfScheduling.plusSeconds(earliestStartTimeDelayMs / 1000);
     }
+
+    public boolean isForService(Class<?> serviceClass) {
+        return serviceClassName.equals(serviceClass.getName());
+    }
 }

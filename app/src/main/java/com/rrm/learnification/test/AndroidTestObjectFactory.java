@@ -113,4 +113,8 @@ public class AndroidTestObjectFactory {
         return new DailyReportFactory(logger(), activity, getNotificationIdGenerator(),
                 new DailyReportTextGenerator(clock(), new LearnificationResultSqlTableClient(new LearnificationAppDatabase(activity))));
     }
+
+    public AndroidJobScheduler androidJobScheduler() {
+        return new AndroidJobScheduler(logger(), clock(), activity, getJobIdGenerator());
+    }
 }
