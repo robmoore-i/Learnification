@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.learnification.creation.LearnificationNotificationChannel;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.IdentifiedNotification;
 import com.rrm.learnification.notification.NotificationIdGenerator;
