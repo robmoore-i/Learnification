@@ -73,6 +73,7 @@ public class LearnificationTest {
     @Test
     public void notificationGetsCancelledWhenYouSubmitACorrectLearnificationResult() {
         UserSimulation.clearNotifications(activityTestRule.getActivity());
+        UserSimulation.waitASecond();
         UserSimulation.pressLearnificationFastForwardButton();
 
         UserSimulation.pressShowMeOnLearnification();
