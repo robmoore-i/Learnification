@@ -12,7 +12,7 @@ public interface JobScheduler {
 
     boolean hasPendingJobInTimeframe(Class<?> serviceClass, int earliestStartTimeDelayMs);
 
-    boolean isAnythingScheduledForTomorrow();
+    boolean isJobScheduledForTomorrow(Class<?> serviceClass);
 
     void triggerNext(Class<?> serviceClass);
 

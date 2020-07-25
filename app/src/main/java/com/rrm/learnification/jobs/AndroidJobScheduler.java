@@ -63,8 +63,8 @@ public class AndroidJobScheduler implements JobScheduler {
     }
 
     @Override
-    public boolean isAnythingScheduledForTomorrow() {
-        return anyJobMatches(j -> (j.scheduledExecutionTime().getDayOfMonth() - clock.now().getDayOfMonth()) == 1);
+    public boolean isJobScheduledForTomorrow(Class<?> serviceClass) {
+        return anyJobMatches(j -> j.isForService(serviceClass) && (j.scheduledExecutionTime().getDayOfMonth() - clock.now().getDayOfMonth() == 1));
     }
 
     @Override
