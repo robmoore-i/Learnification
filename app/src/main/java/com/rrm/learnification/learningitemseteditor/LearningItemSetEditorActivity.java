@@ -12,6 +12,7 @@ import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
+import com.rrm.learnification.learnification.creation.LearnificationNotificationChannel;
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationScheduleStatusUpdate;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
@@ -38,8 +39,6 @@ import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logdump.LogDumpActivity;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidActiveNotificationReader;
-import com.rrm.learnification.notification.AndroidNotificationContext;
-import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
@@ -119,11 +118,12 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
             learningItemList.replace(targetText, replacementText);
         });
 
+        // Register notification channels
+
+        new LearnificationNotificationChannel(logger, this.getApplicationContext()).register();
+
         // Schedule a learnification
 
-        LearnificationNotificationChannelCreator channelCreator =
-                new LearnificationNotificationChannelCreator(logger, new AndroidNotificationContext(this.getApplicationContext()));
-        channelCreator.createNotificationChannel();
         learnificationScheduler.scheduleImminentLearnification();
 
         // Do other stuff

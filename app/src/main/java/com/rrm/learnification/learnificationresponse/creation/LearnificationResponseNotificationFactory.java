@@ -9,9 +9,9 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.learnification.creation.LearnificationNotificationChannel;
 import com.rrm.learnification.learnificationresponse.response.LearnificationResultService;
 import com.rrm.learnification.notification.IdentifiedNotification;
-import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
 import com.rrm.learnification.notification.NotificationTextContent;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
@@ -35,7 +35,7 @@ public class LearnificationResponseNotificationFactory {
 
     public IdentifiedNotification createLearnificationResponse(NotificationTextContent notificationTextContent,
                                                                String givenPrompt, String expectedUserResponse, int notificationId) {
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannelCreator.CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannel.CHANNEL_ID)
                 .setContentTitle(notificationTextContent.title())
                 .setContentText(notificationTextContent.text())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

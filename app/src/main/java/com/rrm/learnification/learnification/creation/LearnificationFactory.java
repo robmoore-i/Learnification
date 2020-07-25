@@ -15,7 +15,6 @@ import com.rrm.learnification.learnification.publication.LearnificationTextGener
 import com.rrm.learnification.learnification.response.LearnificationResponseService;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.IdentifiedNotification;
-import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.NotificationType;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
@@ -64,7 +63,7 @@ public class LearnificationFactory {
         logger.i(LOG_TAG, "Creating a notification with title '" + learningItemPrompt + "' and text '" + subHeading + "'");
 
         int notificationId = notificationIdGenerator.next();
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannelCreator.CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannel.CHANNEL_ID)
                 .setContentTitle(learningItemPrompt)
                 .setContentText(subHeading)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

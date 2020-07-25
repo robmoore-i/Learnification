@@ -9,9 +9,9 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.learnification.creation.LearnificationNotificationChannel;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.IdentifiedNotification;
-import com.rrm.learnification.notification.LearnificationNotificationChannelCreator;
 import com.rrm.learnification.notification.NotificationIdGenerator;
 import com.rrm.learnification.notification.NotificationType;
 
@@ -33,7 +33,7 @@ public class DailyReportFactory {
     public IdentifiedNotification dailyReport() {
         int notificationId = notificationIdGenerator.next();
         logger.i(LOG_TAG, "creating daily report with notification id " + notificationId);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannelCreator.CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannel.CHANNEL_ID)
                 .setContentTitle("Daily Report")
                 .setContentText(dailyReportTextGenerator.getText())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
