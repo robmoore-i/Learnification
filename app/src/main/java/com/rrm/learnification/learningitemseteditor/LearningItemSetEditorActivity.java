@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.rrm.learnification.R;
+import com.rrm.learnification.dailyreport.creation.DailyReportNotificationChannel;
 import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
@@ -16,6 +17,7 @@ import com.rrm.learnification.learnification.creation.LearnificationNotification
 import com.rrm.learnification.learnification.publication.AndroidLearnificationScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationScheduleStatusUpdate;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
+import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationChannel;
 import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.FastForwardScheduleButton;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemButton;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemOnClickCommand;
@@ -39,11 +41,15 @@ import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logdump.LogDumpActivity;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidActiveNotificationReader;
+import com.rrm.learnification.notification.AndroidNotificationChannel;
 import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 import com.rrm.learnification.time.AndroidClock;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.SetButtonStatusOnTextChangeListener.textsValidationForDisplayedLearningItems;
 
@@ -120,7 +126,11 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
 
         // Register notification channels
 
-        new LearnificationNotificationChannel(logger, this.getApplicationContext()).register();
+        List<AndroidNotificationChannel> notificationChannels = Arrays.asList(
+                new LearnificationNotificationChannel(logger, this.getApplicationContext()),
+                new LearnificationResponseNotificationChannel(logger, this.getApplicationContext()),
+                new DailyReportNotificationChannel(logger, this.getApplicationContext()));
+        notificationChannels.forEach(AndroidNotificationChannel::register);
 
         // Schedule a learnification
 

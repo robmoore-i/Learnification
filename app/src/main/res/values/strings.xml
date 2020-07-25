@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Learnification</string>
     <string name="action_settings">Settings</string>
-    <string name="channel_name">learnification</string>
-    <string name="channel_description">notification_channel_for_learnification</string>
+    <string name="learnification_channel_name">learnification</string>
+    <string name="learnification_channel_description">notification_channel_for_learnification</string>
     <string name="right_input_hint">Right-side value</string>
     <string name="left_input_hint">Left-side value</string>
     <string name="learnification_delay_input_text_prompt">How many minutes between each notification?</string>
@@ -18,4 +18,8 @@
     <string name="change_icon">change_icon</string>
     <string name="refresh_learning_item_list">Refresh</string>
     <string name="dump_logs">Dump Logs</string>
+    <string name="learnification_response_channel_name">learnification-response</string>
+    <string name="learnification_response_channel_description">notification_channel_for_learnification_responses</string>
+    <string name="daily_report_channel_name">daily-report</string>
+    <string name="daily_report_channel_description">notification_channel_for_daily_reports</string>
 </resources>

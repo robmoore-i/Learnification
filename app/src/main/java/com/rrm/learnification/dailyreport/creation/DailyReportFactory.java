@@ -33,7 +33,7 @@ public class DailyReportFactory {
     public IdentifiedNotification dailyReport() {
         int notificationId = notificationIdGenerator.next();
         logger.i(LOG_TAG, "creating daily report with notification id " + notificationId);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannel.CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, DailyReportNotificationChannel.CHANNEL_ID)
                 .setContentTitle("Daily Report")
                 .setContentText(dailyReportTextGenerator.getText())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

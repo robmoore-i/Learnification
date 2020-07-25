@@ -35,7 +35,7 @@ public class LearnificationResponseNotificationFactory {
 
     public IdentifiedNotification createLearnificationResponse(NotificationTextContent notificationTextContent,
                                                                String givenPrompt, String expectedUserResponse, int notificationId) {
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationNotificationChannel.CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(packageContext, LearnificationResponseNotificationChannel.CHANNEL_ID)
                 .setContentTitle(notificationTextContent.title())
                 .setContentText(notificationTextContent.text())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
