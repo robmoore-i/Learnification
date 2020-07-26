@@ -4,6 +4,7 @@ import android.app.job.JobInfo;
 import android.os.PersistableBundle;
 
 import com.rrm.learnification.table.AndroidTable;
+import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -56,8 +57,10 @@ public class PendingJob {
         return serviceClassName.equals(serviceClass.getName());
     }
 
-    public void addAsRowOf(AndroidTable table) {
-        String infoText = "Starts in " + earliestStartTimeDelayMs + "ms";
+    public void addAsRowOf(AndroidClock clock, AndroidTable table) {
+        ScheduledTimeFormatter scheduledTimeFormatter = new ScheduledTimeFormatter(clock);
+        LocalDateTime scheduledExecutionTime = clock.now().plusNanos(earliestStartTimeDelayMs * 1000000);
+        String infoText = scheduledTimeFormatter.format(scheduledExecutionTime);
         withServiceClass(
                 serviceClass -> table.addRow(serviceClass.getSimpleName(), infoText),
                 () -> table.addRow(serviceClassName, infoText));

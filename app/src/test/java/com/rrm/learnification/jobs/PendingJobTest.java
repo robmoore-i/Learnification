@@ -1,5 +1,8 @@
 package com.rrm.learnification.jobs;
 
+import com.rrm.learnification.table.AndroidTable;
+import com.rrm.learnification.time.AndroidClock;
+
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -7,6 +10,10 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class PendingJobTest {
     private final Class<?> serviceClass = Object.class;
@@ -25,16 +32,30 @@ public class PendingJobTest {
     }
 
     @Test
-    public void isIncomingLearnificationReturnsFalseIfItIsFartherInTheFutureThanTheGivenPeriodicity() {
+    public void isIncomingLearnificationReturnsFalseIfItIsFartherInTheFutureThanTheGivenDelayRange() {
         PendingJob pendingJob = new PendingJob(serviceClass.getName(), 100L, nineAmOctSixth, id);
 
         assertFalse(pendingJob.hasDelayTimeNoMoreThan(50));
     }
 
     @Test
-    public void isIncomingLearnificationReturnsTrueIfItIsCloserThanTheGivenPeriodicity() {
+    public void isIncomingLearnificationReturnsTrueIfItIsCloserThanTheGivenDelayRange() {
         PendingJob pendingJob = new PendingJob(serviceClass.getName(), 25L, nineAmOctSixth, id);
 
         assertTrue(pendingJob.hasDelayTimeNoMoreThan(50));
+    }
+
+    @Test
+    public void addsSelfAsRowToTableWithCompletionTime() {
+        AndroidTable mockTable = mock(AndroidTable.class);
+        AndroidClock stubClock = mock(AndroidClock.class);
+        when(stubClock.now()).thenReturn(LocalDateTime.of(2020, 7, 26, 19, 45));
+        long twoHours = 2 * 60 * 60 * 1000;
+        PendingJob pendingJob = new PendingJob(serviceClass.getName(), twoHours,
+                LocalDateTime.of(2020, 7, 26, 13, 0), id);
+
+        pendingJob.addAsRowOf(stubClock, mockTable);
+
+        verify(mockTable, times(1)).addRow(serviceClass.getSimpleName(), "9:45pm today");
     }
 }

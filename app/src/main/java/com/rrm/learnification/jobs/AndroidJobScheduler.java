@@ -89,7 +89,7 @@ public class AndroidJobScheduler implements JobScheduler {
 
     @Override
     public void insertJobInfoInto(AndroidTable table) {
-        pendingJobs().forEach(pendingJob -> pendingJob.addAsRowOf(table));
+        pendingJobs().forEach(pendingJob -> pendingJob.addAsRowOf(clock, table));
     }
 
     private Stream<PendingJob> pendingJobs() {
