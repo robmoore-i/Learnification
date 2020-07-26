@@ -57,9 +57,10 @@ public class PendingJob {
     }
 
     public void addAsRowOf(AndroidTable table) {
+        String infoText = "Starts in " + earliestStartTimeDelayMs + "ms";
         withServiceClass(
-                serviceClass -> table.addRow(serviceClass.getSimpleName(), "Starts in " + earliestStartTimeDelayMs + "ms"),
-                () -> table.addRow(serviceClassName, "Starts in " + earliestStartTimeDelayMs + "ms"));
+                serviceClass -> table.addRow(serviceClass.getSimpleName(), infoText),
+                () -> table.addRow(serviceClassName, infoText));
     }
 
     private void withServiceClass(Consumer<Class<?>> consumer, Runnable ifFails) {
