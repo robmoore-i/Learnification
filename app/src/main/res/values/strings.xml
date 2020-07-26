@@ -22,4 +22,5 @@
     <string name="learnification_response_channel_description">notification_channel_for_learnification_responses</string>
     <string name="daily_report_channel_name">daily-report</string>
     <string name="daily_report_channel_description">notification_channel_for_daily_reports</string>
+    <string name="dump_jobs">Dump Jobs</string>
 </resources>

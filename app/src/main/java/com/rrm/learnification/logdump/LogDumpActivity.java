@@ -29,12 +29,12 @@ public class LogDumpActivity extends AppCompatActivity implements LogLineListVie
     }
 
     @Override
-    public RecyclerView learningItemsList() {
+    public RecyclerView logLineList() {
         return findViewById(R.id.log_line_list);
     }
 
     private void setLogLineListInterItemPadding() {
-        RecyclerView recyclerView = this.learningItemsList();
+        RecyclerView recyclerView = this.logLineList();
         // RecyclerViews must have a layout manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

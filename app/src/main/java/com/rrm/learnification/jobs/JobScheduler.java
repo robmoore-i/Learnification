@@ -1,5 +1,7 @@
 package com.rrm.learnification.jobs;
 
+import com.rrm.learnification.table.AndroidTable;
+
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -17,4 +19,6 @@ public interface JobScheduler {
     void triggerNext(Class<?> serviceClass);
 
     void clearSchedule();
+
+    void insertJobInfoInto(AndroidTable table);
 }

@@ -271,6 +271,17 @@ public class UserSimulation {
         onView(withText(R.string.dump_logs)).perform(click());
     }
 
+    // JOB DUMP
+
+    public static void switchToJobDumpScreen() {
+        pressOptionMenu();
+        pressJobDumpOptionOnOptionMenu();
+    }
+
+    private static void pressJobDumpOptionOnOptionMenu() {
+        onView(withText(R.string.dump_jobs)).perform(click());
+    }
+
     // SETTINGS
 
     public static void pressOptionMenu() {

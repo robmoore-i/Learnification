@@ -3,8 +3,11 @@ package com.rrm.learnification.jobs;
 import android.app.job.JobInfo;
 import android.os.PersistableBundle;
 
+import com.rrm.learnification.table.AndroidTable;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.function.Consumer;
 
 public class PendingJob {
     public final int id;
@@ -51,5 +54,20 @@ public class PendingJob {
 
     public boolean isForService(Class<?> serviceClass) {
         return serviceClassName.equals(serviceClass.getName());
+    }
+
+    public void addAsRowOf(AndroidTable table) {
+        withServiceClass(
+                serviceClass -> table.addRow(serviceClass.getSimpleName(), "Starts in " + earliestStartTimeDelayMs + "ms"),
+                () -> table.addRow(serviceClassName, "Starts in " + earliestStartTimeDelayMs + "ms"));
+    }
+
+    private void withServiceClass(Consumer<Class<?>> consumer, Runnable ifFails) {
+        try {
+            Class<?> serviceClass = Class.forName(serviceClassName);
+            consumer.accept(serviceClass);
+        } catch (ClassNotFoundException e) {
+            ifFails.run();
+        }
     }
 }

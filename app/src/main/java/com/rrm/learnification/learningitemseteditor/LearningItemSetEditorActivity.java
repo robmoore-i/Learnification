@@ -11,6 +11,7 @@ import com.rrm.learnification.R;
 import com.rrm.learnification.dailyreport.creation.DailyReportNotificationChannel;
 import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.files.FileStorageAdaptor;
+import com.rrm.learnification.jobdump.JobDumpActivity;
 import com.rrm.learnification.jobs.AndroidJobScheduler;
 import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.learnification.creation.LearnificationNotificationChannel;
@@ -166,10 +167,16 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
             startActivity(new Intent(this, LogDumpActivity.class));
             return true;
         }
+        if (id == R.id.menu_action_dump_jobs) {
+            logger.u(LOG_TAG, "selected job dump menu item");
+            startActivity(new Intent(this, JobDumpActivity.class));
+            return true;
+        }
         if (id == R.id.menu_action_refresh) {
             logger.u(LOG_TAG, "selected refresh menu item");
             learningItemList.refresh();
         }
+
 
         return super.onOptionsItemSelected(item);
     }
