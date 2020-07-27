@@ -24,6 +24,8 @@ public class TestableDailyReportSchedulerTest {
 
     private final Time ninePm = Time.valueOf("21:00:00");
     private final LocalDateTime eightAmJulyTwentyFirst = LocalDateTime.of(2020, 7, 21, 8, 0, 0);
+    private final LocalDateTime TenPmJulyTwentyFirst = LocalDateTime.of(2020, 7, 21, 22, 0, 0);
+
 
     private final AndroidLogger mockLogger = mock(AndroidLogger.class);
     private final JobScheduler mockJobScheduler = mock(JobScheduler.class);
@@ -56,5 +58,18 @@ public class TestableDailyReportSchedulerTest {
         dailyReportScheduler.scheduleJob(serviceClass);
 
         verify(mockJobScheduler, never()).schedule(anyInt(), anyInt(), eq(serviceClass));
+    }
+
+    @Test
+    public void schedulingAfterDailyReportTimeWhenNoDailyReportIsScheduled() {
+        when(stubScheduleConfiguration.getDailyReportTime()).thenReturn(ninePm);
+        when(stubAndroidClock.now()).thenReturn(TenPmJulyTwentyFirst);
+        when(mockJobScheduler.msUntilNextJob(serviceClass)).thenReturn(Optional.empty());
+        TestableDailyReportScheduler dailyReportScheduler = new TestableDailyReportScheduler(mockLogger, stubAndroidClock,
+                mockJobScheduler, stubScheduleConfiguration);
+
+        dailyReportScheduler.scheduleJob(serviceClass);
+
+        verify(mockJobScheduler, times(1)).schedule(eq(23 * 60 * 60 * 1000), anyInt(), eq(serviceClass));
     }
 }
