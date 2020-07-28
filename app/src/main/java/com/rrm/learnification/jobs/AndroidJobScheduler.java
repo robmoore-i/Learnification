@@ -64,8 +64,13 @@ public class AndroidJobScheduler implements JobScheduler {
     }
 
     @Override
-    public boolean isJobScheduledForTomorrow(Class<?> serviceClass) {
+    public boolean hasPendingJobForTomorrow(Class<?> serviceClass) {
         return anyJobMatches(j -> j.isForService(serviceClass) && (j.scheduledExecutionTime().getDayOfMonth() - clock.now().getDayOfMonth() == 1));
+    }
+
+    @Override
+    public void clearSchedule() {
+        pendingJobs().forEach(pendingJob -> systemJobScheduler.cancel(pendingJob.id));
     }
 
     @Override
@@ -80,11 +85,6 @@ public class AndroidJobScheduler implements JobScheduler {
         } else {
             logger.i(LOG_TAG, "didn't trigger next job because there isn't one");
         }
-    }
-
-    @Override
-    public void clearSchedule() {
-        pendingJobs().forEach(pendingJob -> systemJobScheduler.cancel(pendingJob.id));
     }
 
     @Override

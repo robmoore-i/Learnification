@@ -14,11 +14,11 @@ public interface JobScheduler {
 
     boolean hasPendingJobInTimeframe(Class<?> serviceClass, int earliestStartTimeDelayMs);
 
-    boolean isJobScheduledForTomorrow(Class<?> serviceClass);
-
-    void triggerNext(Class<?> serviceClass);
+    boolean hasPendingJobForTomorrow(Class<?> serviceClass);
 
     void clearSchedule();
+
+    void triggerNext(Class<?> serviceClass);
 
     void insertJobInfoInto(AndroidTable table);
 }

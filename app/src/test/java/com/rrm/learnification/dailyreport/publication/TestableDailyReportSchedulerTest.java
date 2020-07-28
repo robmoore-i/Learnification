@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -31,18 +31,18 @@ public class TestableDailyReportSchedulerTest {
     private final JobScheduler mockJobScheduler = mock(JobScheduler.class);
     private final ScheduleConfiguration stubScheduleConfiguration = mock(ScheduleConfiguration.class);
     private final AndroidClock stubAndroidClock = mock(AndroidClock.class);
-    private int thirteenHoursInMillis = 13 * 60 * 60 * 1000;
 
     @Test
     public void itPassesTheScheduleThroughToTheScheduler() {
         when(stubScheduleConfiguration.getDailyReportTime()).thenReturn(ninePm);
         when(stubAndroidClock.now()).thenReturn(eightAmJulyTwentyFirst);
-        when(mockJobScheduler.msUntilNextJob(serviceClass)).thenReturn(Optional.empty());
+        when(mockJobScheduler.anyJobMatches(any())).thenReturn(false);
         TestableDailyReportScheduler dailyReportScheduler = new TestableDailyReportScheduler(mockLogger, stubAndroidClock,
                 mockJobScheduler, stubScheduleConfiguration);
 
         dailyReportScheduler.scheduleJob(serviceClass);
 
+        int thirteenHoursInMillis = 13 * 60 * 60 * 1000;
         verify(mockJobScheduler, times(1)).schedule(eq(thirteenHoursInMillis),
                 eq(thirteenHoursInMillis + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS)), eq(serviceClass));
     }
@@ -51,7 +51,7 @@ public class TestableDailyReportSchedulerTest {
     public void ifJobSchedulerReportsAPendingJobThenSubsequentJobRequestsAreIgnored() {
         when(stubScheduleConfiguration.getDailyReportTime()).thenReturn(ninePm);
         when(stubAndroidClock.now()).thenReturn(eightAmJulyTwentyFirst);
-        when(mockJobScheduler.msUntilNextJob(serviceClass)).thenReturn(Optional.of((long) thirteenHoursInMillis));
+        when(mockJobScheduler.anyJobMatches(any())).thenReturn(true);
         TestableDailyReportScheduler dailyReportScheduler = new TestableDailyReportScheduler(mockLogger, stubAndroidClock,
                 mockJobScheduler, stubScheduleConfiguration);
 
@@ -64,12 +64,13 @@ public class TestableDailyReportSchedulerTest {
     public void schedulingAfterDailyReportTimeWhenNoDailyReportIsScheduled() {
         when(stubScheduleConfiguration.getDailyReportTime()).thenReturn(ninePm);
         when(stubAndroidClock.now()).thenReturn(TenPmJulyTwentyFirst);
-        when(mockJobScheduler.msUntilNextJob(serviceClass)).thenReturn(Optional.empty());
+        when(mockJobScheduler.anyJobMatches(any())).thenReturn(false);
         TestableDailyReportScheduler dailyReportScheduler = new TestableDailyReportScheduler(mockLogger, stubAndroidClock,
                 mockJobScheduler, stubScheduleConfiguration);
 
         dailyReportScheduler.scheduleJob(serviceClass);
 
-        verify(mockJobScheduler, times(1)).schedule(eq(23 * 60 * 60 * 1000), anyInt(), eq(serviceClass));
+        int twentyThreeHours = 23 * 60 * 60 * 1000;
+        verify(mockJobScheduler, times(1)).schedule(eq(twentyThreeHours), anyInt(), eq(serviceClass));
     }
 }

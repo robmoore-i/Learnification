@@ -66,7 +66,7 @@ class TestableLearnificationScheduler {
         logger.i(LOG_TAG, "scheduling learnification in the next " + earliestStartTimeDelayMs + " to " + latestStartTimeDelayMs + "ms");
         jobScheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
 
-        if (!jobScheduler.isJobScheduledForTomorrow(serviceClass)) {
+        if (!jobScheduler.hasPendingJobForTomorrow(serviceClass)) {
             scheduleTomorrow(serviceClass);
         }
     }

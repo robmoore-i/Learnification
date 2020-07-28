@@ -59,7 +59,7 @@ public class PendingJob {
 
     public void addAsRowOf(AndroidClock clock, AndroidTable table) {
         ScheduledTimeFormatter scheduledTimeFormatter = new ScheduledTimeFormatter(clock);
-        LocalDateTime scheduledExecutionTime = clock.now().plusNanos(earliestStartTimeDelayMs * 1000000);
+        LocalDateTime scheduledExecutionTime = clock.now().plusSeconds(earliestStartTimeDelayMs / 1000);
         String infoText = scheduledTimeFormatter.format(scheduledExecutionTime);
         withServiceClass(
                 serviceClass -> table.addRow(serviceClass.getSimpleName(), infoText),
