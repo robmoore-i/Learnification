@@ -4,21 +4,22 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 
 public class DelayCalculator {
-    public int millisBetween(LocalDateTime now, Time time) {
-        int hour = now.getHour();
-        int minute = now.getMinute();
-        int minutesLeftInHour = 60 - minute;
+    public int millisBetween(LocalDateTime now, Time then) {
+        int nowHour = now.getHour();
+        int nowMinute = now.getMinute();
 
-        int hourOfDay = Integer.parseInt(time.toString().split(":")[0]);
-        int millisFromMidnightUntilTime = hourOfDay * 60 * 60 * 1000;
+        int thenHour = Integer.parseInt(then.toString().split(":")[0]);
+        int thenMinute = Integer.parseInt(then.toString().split(":")[1]);
 
-        if (hourOfDay < hour) {
-            int hoursLeftToday = 24 - hour;
-            int millisUntilMidnight = ((hoursLeftToday - 1) * 60 * 60 * 1000) + (minutesLeftInHour * 60 * 1000);
-            return millisUntilMidnight + millisFromMidnightUntilTime;
+        boolean nowIsEarlierInTheDayThanThen = thenHour > nowHour || (thenHour == nowHour && thenMinute > nowMinute);
+        if (nowIsEarlierInTheDayThanThen) {
+            int hourDifference = thenHour - nowHour;
+            int minuteDifference = thenMinute - nowMinute;
+            return (hourDifference * 60 * 60 * 1000) + (minuteDifference * 60 * 1000);
         } else {
-            int millisFromPastMidnightUntilNow = (hour * 60 * 60 * 1000) + (minute * 60 * 1000);
-            return millisFromMidnightUntilTime - millisFromPastMidnightUntilNow;
+            int millisFromNowUntilMidnight = ((24 - nowHour) * 60 * 60 * 1000) - (nowMinute * 60 * 1000);
+            int millisFromMidnightUntilThen = thenHour * 60 * 60 * 1000;
+            return millisFromNowUntilMidnight + millisFromMidnightUntilThen;
         }
     }
 }

@@ -69,6 +69,27 @@ public class DelayCalculatorTest {
         assertEquals(hours(12) + mins(45), millisBetween);
     }
 
+    @Test
+    public void timeBetween935pmAnd9pmNextDayIs23Hours25Minutes() {
+        int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2020, 7, 21, 21, 35), Time.valueOf("21:00:00"));
+
+        assertEquals(hours(23) + mins(25), millisBetween);
+    }
+
+    @Test
+    public void timeBetween9pmAnd930pmSameDayIs30Minutes() {
+        int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2020, 7, 21, 21, 0), Time.valueOf("21:30:00"));
+
+        assertEquals(mins(30), millisBetween);
+    }
+
+    @Test
+    public void timeBetween930pmAnd1015pmSameDayIs45Minutes() {
+        int millisBetween = delayCalculator.millisBetween(LocalDateTime.of(2020, 7, 21, 21, 30), Time.valueOf("22:15:00"));
+
+        assertEquals(mins(45), millisBetween);
+    }
+
     private int hours(int n) {
         return n * 60 * 60 * 1000;
     }

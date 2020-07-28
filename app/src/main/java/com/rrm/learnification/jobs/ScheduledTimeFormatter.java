@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 Provides the formatting I want for the times of scheduled jobs. See the tests for details of what this is,
 because really trying to decipher this code is just not worth the effort.
 */
-class ScheduledTimeFormatter {
+public class ScheduledTimeFormatter {
     private final AndroidClock clock;
 
     public ScheduledTimeFormatter(AndroidClock clock) {

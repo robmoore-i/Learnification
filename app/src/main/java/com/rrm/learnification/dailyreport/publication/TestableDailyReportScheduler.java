@@ -10,7 +10,7 @@ import java.sql.Time;
 
 @SuppressWarnings("SameParameterValue")
 public class TestableDailyReportScheduler {
-    private static final String LOG_TAG = "LearnificationScheduler";
+    private static final String LOG_TAG = "DailyReportScheduler";
 
     private final AndroidLogger logger;
     private final JobScheduler jobScheduler;
@@ -30,8 +30,9 @@ public class TestableDailyReportScheduler {
         boolean nextDailyReportIsScheduledAlready = jobScheduler.anyJobMatches(pendingJob -> pendingJob.isForService(serviceClass));
         if (!nextDailyReportIsScheduledAlready) {
             Time dailyReportTime = scheduleConfiguration.getDailyReportTime();
-            logger.i(LOG_TAG, "scheduling learnification for tomorrow at around " + dailyReportTime.toString());
+            logger.i(LOG_TAG, "scheduling daily report for " + dailyReportTime.toString());
             int earliestStartTimeDelayMs = delayCalculator.millisBetween(clock.now(), dailyReportTime);
+            logger.v(LOG_TAG, "next daily report will trigger in " + earliestStartTimeDelayMs + "ms");
             int latestStartTimeDelayMs = earliestStartTimeDelayMs + (1000 * ScheduleConfiguration.MAXIMUM_ACCEPTABLE_DELAY_SECONDS);
             jobScheduler.schedule(earliestStartTimeDelayMs, latestStartTimeDelayMs, serviceClass);
         }
