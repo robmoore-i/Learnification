@@ -16,8 +16,8 @@ public class LearnificationResult {
         this.expected = learnificationPrompt.expected;
     }
 
-    public boolean submittedOnDayOf(LocalDateTime dateTime) {
-        return timeSubmitted.toLocalDate().equals(dateTime.toLocalDate());
+    public boolean submittedInLastTwentyFourHours(LocalDateTime dateTime) {
+        return timeSubmitted.plusHours(24).isAfter(dateTime);
     }
 
     @Override

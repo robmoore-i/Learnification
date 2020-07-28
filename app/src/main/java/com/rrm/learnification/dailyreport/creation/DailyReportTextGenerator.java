@@ -21,7 +21,7 @@ public class DailyReportTextGenerator {
         LocalDateTime now = clock.now();
         List<LearnificationResult> learnificationResults = storage.readAll()
                 .stream()
-                .filter(learnificationResult -> learnificationResult.submittedOnDayOf(now))
+                .filter(learnificationResult -> learnificationResult.submittedInLastTwentyFourHours(now))
                 .collect(Collectors.toList());
         int numberOfCompletedLearnifications = learnificationResults.size();
         if (numberOfCompletedLearnifications == 0) {
