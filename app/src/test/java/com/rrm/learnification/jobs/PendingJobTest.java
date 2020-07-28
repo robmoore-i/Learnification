@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -46,16 +48,38 @@ public class PendingJobTest {
     }
 
     @Test
-    public void addsSelfAsRowToTableWithCompletionTime() {
+    public void addsSelfAsRowToTableWithServiceClassSimpleNameAndCorrectCompletionTime() {
         AndroidTable mockTable = mock(AndroidTable.class);
+
+        addPendingJobToTable(mockTable, serviceClass.getName());
+
+        verify(mockTable, times(1)).addRow(serviceClass.getSimpleName(), "9:45pm today");
+    }
+
+    @Test
+    public void omitsPublishingServiceInNameWhenAddingSelfAsRowToTable() {
+        AndroidTable mockTable = mock(AndroidTable.class);
+
+        addPendingJobToTable(mockTable, "DailyReportPublishingService");
+
+        verify(mockTable, times(1)).addRow(eq("DailyReport"), anyString());
+    }
+
+    @Test
+    public void doesntUseTheFullyQualifiedNameOfServiceWhenAddingSelfAsRowToTable() {
+        AndroidTable mockTable = mock(AndroidTable.class);
+
+        addPendingJobToTable(mockTable, "com.rrm.learnification.stuff.DailyReportPublishingService");
+
+        verify(mockTable, times(1)).addRow(eq("DailyReport"), anyString());
+    }
+
+    private void addPendingJobToTable(AndroidTable mockTable, String serviceClassName) {
         AndroidClock stubClock = mock(AndroidClock.class);
         when(stubClock.now()).thenReturn(LocalDateTime.of(2020, 7, 26, 19, 45));
         long twoHours = 2 * 60 * 60 * 1000;
-        PendingJob pendingJob = new PendingJob(serviceClass.getName(), twoHours,
+        PendingJob pendingJob = new PendingJob(serviceClassName, twoHours,
                 LocalDateTime.of(2020, 7, 26, 13, 0), id);
-
         pendingJob.addAsRowOf(stubClock, mockTable);
-
-        verify(mockTable, times(1)).addRow(serviceClass.getSimpleName(), "9:45pm today");
     }
 }

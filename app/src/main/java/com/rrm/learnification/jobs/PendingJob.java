@@ -8,7 +8,6 @@ import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.function.Consumer;
 
 public class PendingJob {
     public final int id;
@@ -61,17 +60,20 @@ public class PendingJob {
         ScheduledTimeFormatter scheduledTimeFormatter = new ScheduledTimeFormatter(clock);
         LocalDateTime scheduledExecutionTime = clock.now().plusSeconds(earliestStartTimeDelayMs / 1000);
         String infoText = scheduledTimeFormatter.format(scheduledExecutionTime);
-        withServiceClass(
-                serviceClass -> table.addRow(serviceClass.getSimpleName(), infoText),
-                () -> table.addRow(serviceClassName, infoText));
+        table.addRow(serviceSimpleName(), infoText);
     }
 
-    private void withServiceClass(Consumer<Class<?>> consumer, Runnable ifFails) {
+    private String serviceSimpleName() {
+        return serviceSimpleClassName().replaceAll("PublishingService", "");
+    }
+
+    private String serviceSimpleClassName() {
         try {
             Class<?> serviceClass = Class.forName(serviceClassName);
-            consumer.accept(serviceClass);
-        } catch (ClassNotFoundException e) {
-            ifFails.run();
+            return serviceClass.getSimpleName();
+        } catch (ClassNotFoundException ignored) {
+            String[] split = serviceClassName.split("[.]");
+            return split[split.length - 1];
         }
     }
 }
