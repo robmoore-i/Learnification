@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemseteditor.buttonbinding.OnFocusGainedCommand;
 import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.ToolbarView;
 import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.ToolbarViewUpdate;
 import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.viewparameters.ToolbarViewParameters;
@@ -24,7 +25,6 @@ import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningI
 import com.rrm.learnification.learningitemseteditor.learningitemadd.OnSubmitTextCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemlist.LearningItemListView;
 import com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.OnTextChangeListener;
-import com.rrm.learnification.learningitemseteditor.learningitemlistedit.OnFocusGainedCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelectorView;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetTitleView;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.SoftKeyboardView;

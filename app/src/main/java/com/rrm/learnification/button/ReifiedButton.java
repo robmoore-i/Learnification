@@ -14,7 +14,7 @@ import static com.rrm.learnification.button.ButtonColour.FINGER_DOWN;
 import static com.rrm.learnification.button.ButtonColour.GRAYED_OUT;
 import static com.rrm.learnification.button.ButtonColour.READY_TO_BE_CLICKED;
 
-public abstract class AndroidButton implements ConfigurableButton, LogicalButton {
+public abstract class ReifiedButton implements ConfigurableButton {
     private final AndroidLogger logger;
 
     private final Button button;
@@ -22,41 +22,21 @@ public abstract class AndroidButton implements ConfigurableButton, LogicalButton
     private ButtonColour colour;
 
     private final List<OnClickCommand> onClickCommands = new ArrayList<>();
-    private OnClickCommand lastExecutedOnClickCommand;
 
-    private boolean attached;
     private boolean enabled;
 
-    protected AndroidButton(AndroidLogger logger, Button button, String text, boolean enabledInitially, boolean attachedInitially) {
+    protected ReifiedButton(AndroidLogger logger, Button button, String text, boolean enabledInitially) {
         this.logger = logger;
         this.button = button;
         this.text = text;
 
-        // The same regardless of attachment, so doesn't need a guard for the attached property.
         setOnFocusHandler();
-
-        this.attached = attachedInitially;
-        if (attached) {
-            bindText();
-        }
+        bindText();
         if (enabledInitially) {
             enable();
         } else {
             disable();
         }
-    }
-
-    @Override
-    public void attach() {
-        this.attached = true;
-        bindText();
-        bindColour();
-        bindClickListeners();
-    }
-
-    @Override
-    public void detach() {
-        this.attached = false;
     }
 
     private void bindText() {
@@ -66,17 +46,7 @@ public abstract class AndroidButton implements ConfigurableButton, LogicalButton
     @Override
     public final void addOnClickHandler(final OnClickCommand onClickCommand) {
         this.onClickCommands.add(onClickCommand);
-        if (enabled && attached) {
-            bindClickListeners();
-        }
-    }
-
-    @Override
-    public final void addLastExecutedOnClickHandler(final OnClickCommand onClickCommand) {
-        if (lastExecutedOnClickCommand != null)
-            throw new IllegalStateException("there is already a last executed on click command registered");
-        lastExecutedOnClickCommand = onClickCommand;
-        if (enabled && attached) {
+        if (enabled) {
             bindClickListeners();
         }
     }
@@ -115,10 +85,6 @@ public abstract class AndroidButton implements ConfigurableButton, LogicalButton
 
     private void bindClickListeners() {
         ArrayList<OnClickCommand> onClickCommands = new ArrayList<>(this.onClickCommands);
-        if (lastExecutedOnClickCommand != null) {
-            logger.i(logTag(), "last executed on click command is set");
-            onClickCommands.add(lastExecutedOnClickCommand);
-        }
         bindClickListeners(onClickCommands);
     }
 

@@ -1,7 +1,7 @@
 package com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons;
 
-import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
+import com.rrm.learnification.button.PostPressEvaluatingButton;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.IdentifiedTextSource;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableTextEntryList;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -142,7 +142,7 @@ public class SetButtonStatusOnTextChangeListenerTest {
         assertTrue(updatedLearningItemValidatorWhereNewLearningItemIsntInList().apply(invalid));
     }
 
-    private static class MockAndroidButton implements ConfigurableButton {
+    private static class MockAndroidButton implements PostPressEvaluatingButton {
         private Boolean active;
 
         @Override

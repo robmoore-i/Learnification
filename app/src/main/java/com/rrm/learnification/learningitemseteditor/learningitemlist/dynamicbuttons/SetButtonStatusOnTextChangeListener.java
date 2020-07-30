@@ -1,6 +1,7 @@
 package com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons;
 
 import com.rrm.learnification.button.ConfigurableButton;
+import com.rrm.learnification.button.PostPressEvaluatingButton;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.IdentifiedTextSource;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.UpdatableTextEntryList;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -14,7 +15,7 @@ import static java.util.Arrays.asList;
 public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener {
     private static final String LOG_TAG = "SetButtonStatusOnTextChangeListener";
 
-    private final ConfigurableButton configurableButton;
+    private final ConfigurableButton button;
     private final AndroidLogger logger;
     private final HashMap<String, String> texts = new HashMap<>();
 
@@ -22,11 +23,11 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
     private Function<HashMap<String, String>, Boolean> textsValidation = entries -> entries.values().stream().map(String::trim).noneMatch(""::equals);
 
 
-    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, ConfigurableButton configurableButton) {
+    public SetButtonStatusOnTextChangeListener(AndroidLogger logger, PostPressEvaluatingButton button) {
         this.logger = logger;
-        this.configurableButton = configurableButton;
+        this.button = button;
         // Reevaluate button status onclick
-        configurableButton.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
+        button.addLastExecutedOnClickHandler(this::setButtonStatusBasedOnTexts);
     }
 
     public static Function<HashMap<String, String>, Boolean> textsValidationForDisplayedLearningItems(AndroidLogger logger,
@@ -96,9 +97,9 @@ public class SetButtonStatusOnTextChangeListener implements OnTextChangeListener
     private void setButtonStatus(boolean shouldBeEnabled) {
         logger.v(LOG_TAG, "setting button status to " + shouldBeEnabled);
         if (shouldBeEnabled) {
-            configurableButton.enable();
+            button.enable();
         } else {
-            configurableButton.disable();
+            button.disable();
         }
     }
 

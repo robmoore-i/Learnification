@@ -1,12 +1,12 @@
 package com.rrm.learnification.learningitemseteditor.learningitemupdate;
 
-import com.rrm.learnification.button.AndroidButton;
+import com.rrm.learnification.button.LogicalButton;
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.logger.AndroidLogger;
 
 import java.util.function.BiConsumer;
 
-public class UpdateLearningItemButton extends AndroidButton {
+public class UpdateLearningItemButton extends LogicalButton {
     private final UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayStash;
 
     public UpdateLearningItemButton(AndroidLogger logger, UpdateLearningItemView view,

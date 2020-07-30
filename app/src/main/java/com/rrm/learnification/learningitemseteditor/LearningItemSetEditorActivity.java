@@ -19,6 +19,8 @@ import com.rrm.learnification.learnification.publication.AndroidLearnificationSc
 import com.rrm.learnification.learnification.publication.LearnificationScheduleStatusUpdate;
 import com.rrm.learnification.learnification.publication.LearnificationScheduler;
 import com.rrm.learnification.learnificationresponse.creation.LearnificationResponseNotificationChannel;
+import com.rrm.learnification.learningitemseteditor.buttonbinding.EditLearningItemListButtonBinding;
+import com.rrm.learnification.learningitemseteditor.buttonbinding.SetButtonIntoAddModeOnFocusGained;
 import com.rrm.learnification.learningitemseteditor.learnificationtoolbar.FastForwardScheduleButton;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemButton;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemOnClickCommand;
@@ -28,8 +30,6 @@ import com.rrm.learnification.learningitemseteditor.learningitemadd.SimulateButt
 import com.rrm.learnification.learningitemseteditor.learningitemlist.LearningItemList;
 import com.rrm.learnification.learningitemseteditor.learningitemlist.LearningItemListViewAdaptor;
 import com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.SetButtonStatusOnTextChangeListener;
-import com.rrm.learnification.learningitemseteditor.learningitemlistedit.EditLearningItemListButton;
-import com.rrm.learnification.learningitemseteditor.learningitemlistedit.SetButtonIntoAddModeOnFocusGained;
 import com.rrm.learnification.learningitemseteditor.learningitemremove.RemoveLearningItemOnSwipeCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelector;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelectorAdaptor;
@@ -92,12 +92,12 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
                 new PersistentLearningItemRepository(logger, sqlLearningItemSetRecordStore, new LearningItemTextUpdateBroker());
         UpdatableLearningItemTextDisplayStash learningItemDisplayStash = new UpdatableLearningItemTextDisplayStash(logger, learningItemRepository);
         UpdateLearningItemButton updateLearningItemButton = new UpdateLearningItemButton(logger, learningItemSetEditorView, learningItemDisplayStash);
-        EditLearningItemListButton editLearningItemListButton = new EditLearningItemListButton(logger, addLearningItemButton, updateLearningItemButton);
+        EditLearningItemListButtonBinding buttonBinding = new EditLearningItemListButtonBinding(logger, addLearningItemButton, updateLearningItemButton);
 
         SetButtonStatusOnTextChangeListener learningItemTextChangeListener = new SetButtonStatusOnTextChangeListener(logger, updateLearningItemButton);
         LearningItemStash learningItemStash = new LearningItemStash(logger, learningItemTextChangeListener, learningItemDisplayStash);
         learningItemList = new LearningItemList(logger, learningItemSetEditorView,
-                new LearningItemListViewAdaptor(logger, learningItemStash, learningItemRepository, editLearningItemListButton), learningItemSetSelector);
+                new LearningItemListViewAdaptor(logger, learningItemStash, learningItemRepository, buttonBinding), learningItemSetSelector);
         learningItemTextChangeListener.useTextValidation(textsValidationForDisplayedLearningItems(logger, learningItemList));
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
@@ -116,7 +116,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
         learningItemSetTitle.set(learningItemSetName);
 
         learningItemTextInput.setOnTextChangeListener(new SetButtonStatusOnTextChangeListener(logger, addLearningItemButton));
-        learningItemTextInput.setOnFocusGainedListener(new SetButtonIntoAddModeOnFocusGained(editLearningItemListButton));
+        learningItemTextInput.setOnFocusGainedListener(new SetButtonIntoAddModeOnFocusGained(buttonBinding));
         learningItemTextInput.setOnSubmitTextCommand(new SimulateButtonClickOnSubmitTextCommand(addLearningItemButton));
         addLearningItemButton.addOnClickHandler(new AddLearningItemOnClickCommand(logger, learningItemTextInput, learningItemList, learningItemRepository));
         addLearningItemButton.addOnClickHandler(new ClearTextInputOnClickCommand(learningItemTextInput));
