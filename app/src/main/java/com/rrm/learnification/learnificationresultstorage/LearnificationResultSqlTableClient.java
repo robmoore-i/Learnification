@@ -8,7 +8,7 @@ import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LearnificationResultSqlTableClient {
+public class LearnificationResultSqlTableClient implements LearnificationResultProvider {
     private final LearnificationAppDatabase learnificationAppDatabase;
 
     public LearnificationResultSqlTableClient(LearnificationAppDatabase learnificationAppDatabase) {
@@ -19,6 +19,7 @@ public class LearnificationResultSqlTableClient {
         LearnificationResultSqlTable.store(learnificationAppDatabase.getWritableDatabase(), learnificationResult);
     }
 
+    @Override
     public List<LearnificationResult> readAll() {
         Cursor cursor = LearnificationResultSqlTable.readAll(learnificationAppDatabase.getReadableDatabase());
         ArrayList<LearnificationResult> learnificationResults = new ArrayList<>();

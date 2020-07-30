@@ -1,6 +1,6 @@
 package com.rrm.learnification.jobs;
 
-import com.rrm.learnification.table.AndroidTable;
+import com.rrm.learnification.table.Table;
 import com.rrm.learnification.time.AndroidClock;
 
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class PendingJobTest {
 
     @Test
     public void addsSelfAsRowToTableWithServiceClassSimpleNameAndCorrectCompletionTime() {
-        AndroidTable mockTable = mock(AndroidTable.class);
+        Table mockTable = mock(Table.class);
 
         addPendingJobToTable(mockTable, serviceClass.getName());
 
@@ -58,7 +58,7 @@ public class PendingJobTest {
 
     @Test
     public void omitsPublishingServiceInNameWhenAddingSelfAsRowToTable() {
-        AndroidTable mockTable = mock(AndroidTable.class);
+        Table mockTable = mock(Table.class);
 
         addPendingJobToTable(mockTable, "DailyReportPublishingService");
 
@@ -67,14 +67,14 @@ public class PendingJobTest {
 
     @Test
     public void doesntUseTheFullyQualifiedNameOfServiceWhenAddingSelfAsRowToTable() {
-        AndroidTable mockTable = mock(AndroidTable.class);
+        Table mockTable = mock(Table.class);
 
         addPendingJobToTable(mockTable, "com.rrm.learnification.stuff.DailyReportPublishingService");
 
         verify(mockTable, times(1)).addRow(eq("DailyReport"), anyString());
     }
 
-    private void addPendingJobToTable(AndroidTable mockTable, String serviceClassName) {
+    private void addPendingJobToTable(Table mockTable, String serviceClassName) {
         AndroidClock stubClock = mock(AndroidClock.class);
         when(stubClock.now()).thenReturn(LocalDateTime.of(2020, 7, 26, 19, 45));
         long twoHours = 2 * 60 * 60 * 1000;

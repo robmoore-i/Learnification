@@ -3,7 +3,7 @@ package com.rrm.learnification.dailyreport.creation;
 import com.rrm.learnification.learnificationresultstorage.LearnificationPrompt;
 import com.rrm.learnification.learnificationresultstorage.LearnificationResult;
 import com.rrm.learnification.learnificationresultstorage.LearnificationResultEvaluation;
-import com.rrm.learnification.learnificationresultstorage.LearnificationResultSqlTableClient;
+import com.rrm.learnification.learnificationresultstorage.LearnificationResultProvider;
 import com.rrm.learnification.time.AndroidClock;
 
 import org.junit.Test;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class DailyReportTextGeneratorTest {
-    private final LearnificationResultSqlTableClient stubStorage = mock(LearnificationResultSqlTableClient.class);
+    private final LearnificationResultProvider stubStorage = mock(LearnificationResultProvider.class);
     private final AndroidClock stubClock = mock(AndroidClock.class);
     private final DailyReportTextGenerator dailyReportTextGenerator = new DailyReportTextGenerator(stubClock, stubStorage);
 

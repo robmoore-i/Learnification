@@ -1,10 +1,7 @@
 package com.rrm.learnification.button;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
 
 import com.rrm.learnification.logger.AndroidLogger;
@@ -12,6 +9,10 @@ import com.rrm.learnification.logger.AndroidLogger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.rrm.learnification.button.ButtonColour.FINGER_DOWN;
+import static com.rrm.learnification.button.ButtonColour.GRAYED_OUT;
+import static com.rrm.learnification.button.ButtonColour.READY_TO_BE_CLICKED;
 
 public abstract class AndroidButton implements ConfigurableButton {
     private final AndroidLogger logger;
@@ -58,7 +59,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     @Override
     public final void enable() {
         enabled = true;
-        setColour(AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
+        READY_TO_BE_CLICKED.applyTo(button);
         button.setClickable(true);
         bindClickListeners();
     }
@@ -66,7 +67,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     @Override
     public final void disable() {
         enabled = false;
-        setColour(AndroidButton.ButtonColour.GRAYED_OUT);
+        GRAYED_OUT.applyTo(button);
         button.setClickable(false);
         unbindClickListeners();
     }
@@ -104,28 +105,13 @@ public abstract class AndroidButton implements ConfigurableButton {
     private void setOnFocusHandler(Button button) {
         button.setOnTouchListener((view, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN && enabled) {
-                AndroidButton.ButtonColour.setColour(view, AndroidButton.ButtonColour.FINGER_DOWN);
+                FINGER_DOWN.applyTo(view);
             } else if (event.getAction() == MotionEvent.ACTION_UP && enabled) {
-                AndroidButton.ButtonColour.setColour(view, AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
+                READY_TO_BE_CLICKED.applyTo(view);
             } else if (!enabled) {
-                AndroidButton.ButtonColour.setColour(view, AndroidButton.ButtonColour.GRAYED_OUT);
+                GRAYED_OUT.applyTo(view);
             }
             return false;
         });
-    }
-
-    private void setColour(int colour) {
-        AndroidButton.ButtonColour.setColour(button, colour);
-    }
-
-    public static class ButtonColour {
-        public static final int READY_TO_BE_CLICKED = Color.parseColor("#32CD32");
-        public static final int GRAYED_OUT = Color.GRAY;
-        static final int FINGER_DOWN = Color.GREEN;
-
-        private static void setColour(View view, int colour) {
-            view.getBackground().setColorFilter(colour, PorterDuff.Mode.MULTIPLY);
-            view.setTag(colour);
-        }
     }
 }

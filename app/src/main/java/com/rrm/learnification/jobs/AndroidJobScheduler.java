@@ -7,7 +7,7 @@ import android.os.PersistableBundle;
 
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.settings.learnificationdelay.DelayRange;
-import com.rrm.learnification.table.AndroidTable;
+import com.rrm.learnification.table.Table;
 import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
@@ -88,7 +88,7 @@ public class AndroidJobScheduler implements JobScheduler {
     }
 
     @Override
-    public void insertJobInfoInto(AndroidTable table) {
+    public void insertJobInfoInto(Table table) {
         pendingJobs().forEach(pendingJob -> pendingJob.addAsRowOf(clock, table));
     }
 

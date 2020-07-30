@@ -1,7 +1,7 @@
 package com.rrm.learnification.jobdump;
 
-import com.rrm.learnification.table.AndroidTable;
+import com.rrm.learnification.table.Table;
 
 interface ScheduledJobTableView {
-    AndroidTable scheduledJobsTable();
+    Table scheduledJobsTable();
 }

@@ -1,7 +1,7 @@
 package com.rrm.learnification.dailyreport.creation;
 
 import com.rrm.learnification.learnificationresultstorage.LearnificationResult;
-import com.rrm.learnification.learnificationresultstorage.LearnificationResultSqlTableClient;
+import com.rrm.learnification.learnificationresultstorage.LearnificationResultProvider;
 import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class DailyReportTextGenerator {
     private final AndroidClock clock;
-    private final LearnificationResultSqlTableClient storage;
+    private final LearnificationResultProvider storage;
 
-    public DailyReportTextGenerator(AndroidClock clock, LearnificationResultSqlTableClient storage) {
+    public DailyReportTextGenerator(AndroidClock clock, LearnificationResultProvider storage) {
         this.clock = clock;
         this.storage = storage;
     }

@@ -5,7 +5,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class AndroidTable {
+public class AndroidTable implements Table {
     private final Context androidContext;
     private final TableLayout tableLayout;
 
@@ -16,6 +16,7 @@ public class AndroidTable {
         tableLayout.bringToFront();
     }
 
+    @Override
     public void addRow(String columnOneText, String columnTwoText) {
         TableRow row = new TableRow(androidContext);
         TextView columnOne = new TextView(androidContext);

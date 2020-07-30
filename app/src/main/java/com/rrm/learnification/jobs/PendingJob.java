@@ -3,7 +3,7 @@ package com.rrm.learnification.jobs;
 import android.app.job.JobInfo;
 import android.os.PersistableBundle;
 
-import com.rrm.learnification.table.AndroidTable;
+import com.rrm.learnification.table.Table;
 import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
@@ -56,7 +56,7 @@ public class PendingJob {
         return serviceClassName.equals(serviceClass.getName());
     }
 
-    public void addAsRowOf(AndroidClock clock, AndroidTable table) {
+    public void addAsRowOf(AndroidClock clock, Table table) {
         ScheduledTimeFormatter scheduledTimeFormatter = new ScheduledTimeFormatter(clock);
         LocalDateTime scheduledExecutionTime = clock.now().plusSeconds(earliestStartTimeDelayMs / 1000);
         String infoText = scheduledTimeFormatter.format(scheduledExecutionTime);

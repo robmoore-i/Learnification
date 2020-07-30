@@ -4,7 +4,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.rrm.learnification.R;
-import com.rrm.learnification.button.AndroidButton;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
 import com.rrm.learnification.support.GuiTestWrapper;
 import com.rrm.learnification.support.UserSimulation;
@@ -24,6 +23,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.rrm.learnification.button.ButtonColour.GRAYED_OUT;
+import static com.rrm.learnification.button.ButtonColour.READY_TO_BE_CLICKED;
 import static com.rrm.learnification.support.CustomAssertion.assertButtonHasColour;
 import static org.hamcrest.CoreMatchers.allOf;
 
@@ -56,7 +57,7 @@ public class UpdateLearningItemTest {
 
         UserSimulation.typeOutLearningItemListEntryUpdate(left, initialRight, extraText);
 
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, READY_TO_BE_CLICKED.intValue());
     }
 
     @Test
@@ -65,7 +66,7 @@ public class UpdateLearningItemTest {
 
         UserSimulation.updateLearningItem(left, initialRight, extraText);
 
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, GRAYED_OUT.intValue());
     }
 
     @Test
@@ -76,7 +77,7 @@ public class UpdateLearningItemTest {
         UserSimulation.focusLeftInputForNewLearningItem();
 
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + updatedRight))).check(matches(isDisplayed()));
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, GRAYED_OUT.intValue());
     }
 
     @Test
@@ -97,7 +98,7 @@ public class UpdateLearningItemTest {
         UserSimulation.typeOutLearningItemListEntryUpdate(left, initialRight, extraText);
         UserSimulation.deleteLearningItem(left, updatedRight);
 
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, AndroidButton.ButtonColour.GRAYED_OUT);
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, GRAYED_OUT.intValue());
     }
 
     @Test
