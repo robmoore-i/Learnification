@@ -5,6 +5,6 @@ import com.rrm.learnification.logger.AndroidLogger;
 
 public class AddLearningItemButton extends AndroidButton {
     public AddLearningItemButton(AndroidLogger logger, AddLearningItemView addLearningItemView) {
-        super(logger, addLearningItemView.addLearningItemButton(), false);
+        super(logger, addLearningItemView.addLearningItemButton(), "Add Learning Item", false, true);
     }
 }

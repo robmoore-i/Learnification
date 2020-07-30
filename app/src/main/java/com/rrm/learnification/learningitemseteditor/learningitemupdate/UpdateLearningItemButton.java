@@ -11,7 +11,7 @@ public class UpdateLearningItemButton extends AndroidButton {
 
     public UpdateLearningItemButton(AndroidLogger logger, UpdateLearningItemView view,
                                     UpdatableLearningItemTextDisplayStash updatableLearningItemDisplayStash) {
-        super(logger, view.updateLearningItemButton(), false);
+        super(logger, view.updateLearningItemButton(), "Update Learning Item", false, false);
         this.updatableLearningItemDisplayStash = updatableLearningItemDisplayStash;
     }
 

@@ -1,13 +1,13 @@
-package com.rrm.learnification.settings;
+package com.rrm.learnification.settings.save;
 
 import android.app.Activity;
 
 import com.rrm.learnification.button.OnClickCommand;
 
-class FinishActivityOnClickCommand implements OnClickCommand {
+public class FinishActivityOnClickCommand implements OnClickCommand {
     private final Activity activity;
 
-    FinishActivityOnClickCommand(Activity activity) {
+    public FinishActivityOnClickCommand(Activity activity) {
         this.activity = activity;
     }
 

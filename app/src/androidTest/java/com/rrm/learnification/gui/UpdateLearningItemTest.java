@@ -57,7 +57,7 @@ public class UpdateLearningItemTest {
 
         UserSimulation.typeOutLearningItemListEntryUpdate(left, initialRight, extraText);
 
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, READY_TO_BE_CLICKED.intValue());
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.edit_learning_item_list_button, READY_TO_BE_CLICKED.intValue());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class UpdateLearningItemTest {
 
         UserSimulation.updateLearningItem(left, initialRight, extraText);
 
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, GRAYED_OUT.intValue());
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.edit_learning_item_list_button, GRAYED_OUT.intValue());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class UpdateLearningItemTest {
         UserSimulation.focusLeftInputForNewLearningItem();
 
         onView(allOf(withParent(withId(R.id.learning_item_list)), withText(left + " - " + updatedRight))).check(matches(isDisplayed()));
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, GRAYED_OUT.intValue());
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.edit_learning_item_list_button, GRAYED_OUT.intValue());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class UpdateLearningItemTest {
         UserSimulation.typeOutLearningItemListEntryUpdate(left, initialRight, extraText);
         UserSimulation.deleteLearningItem(left, updatedRight);
 
-        assertButtonHasColour(activityTestRule.getActivity(), R.id.update_learning_item_button, GRAYED_OUT.intValue());
+        assertButtonHasColour(activityTestRule.getActivity(), R.id.edit_learning_item_list_button, GRAYED_OUT.intValue());
     }
 
     @Test

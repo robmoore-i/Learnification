@@ -14,18 +14,31 @@ import static com.rrm.learnification.button.ButtonColour.FINGER_DOWN;
 import static com.rrm.learnification.button.ButtonColour.GRAYED_OUT;
 import static com.rrm.learnification.button.ButtonColour.READY_TO_BE_CLICKED;
 
-public abstract class AndroidButton implements ConfigurableButton {
+public abstract class AndroidButton implements ConfigurableButton, LogicalButton {
     private final AndroidLogger logger;
+
     private final Button button;
+    private final String text;
+    private ButtonColour colour;
+
     private final List<OnClickCommand> onClickCommands = new ArrayList<>();
-    private boolean enabled;
     private OnClickCommand lastExecutedOnClickCommand;
 
-    protected AndroidButton(AndroidLogger logger, Button button, boolean enabledInitially) {
+    private boolean attached;
+    private boolean enabled;
+
+    protected AndroidButton(AndroidLogger logger, Button button, String text, boolean enabledInitially, boolean attachedInitially) {
         this.logger = logger;
         this.button = button;
-        setOnFocusHandler(button);
+        this.text = text;
 
+        // The same regardless of attachment, so doesn't need a guard for the attached property.
+        setOnFocusHandler();
+
+        this.attached = attachedInitially;
+        if (attached) {
+            bindText();
+        }
         if (enabledInitially) {
             enable();
         } else {
@@ -34,9 +47,26 @@ public abstract class AndroidButton implements ConfigurableButton {
     }
 
     @Override
+    public void attach() {
+        this.attached = true;
+        bindText();
+        bindColour();
+        bindClickListeners();
+    }
+
+    @Override
+    public void detach() {
+        this.attached = false;
+    }
+
+    private void bindText() {
+        button.setText(text);
+    }
+
+    @Override
     public final void addOnClickHandler(final OnClickCommand onClickCommand) {
         this.onClickCommands.add(onClickCommand);
-        if (enabled) {
+        if (enabled && attached) {
             bindClickListeners();
         }
     }
@@ -46,7 +76,7 @@ public abstract class AndroidButton implements ConfigurableButton {
         if (lastExecutedOnClickCommand != null)
             throw new IllegalStateException("there is already a last executed on click command registered");
         lastExecutedOnClickCommand = onClickCommand;
-        if (enabled) {
+        if (enabled && attached) {
             bindClickListeners();
         }
     }
@@ -59,7 +89,8 @@ public abstract class AndroidButton implements ConfigurableButton {
     @Override
     public final void enable() {
         enabled = true;
-        READY_TO_BE_CLICKED.applyTo(button);
+        colour = READY_TO_BE_CLICKED;
+        bindColour();
         button.setClickable(true);
         bindClickListeners();
     }
@@ -67,9 +98,14 @@ public abstract class AndroidButton implements ConfigurableButton {
     @Override
     public final void disable() {
         enabled = false;
-        GRAYED_OUT.applyTo(button);
+        colour = GRAYED_OUT;
+        bindColour();
         button.setClickable(false);
         unbindClickListeners();
+    }
+
+    private void bindColour() {
+        colour.applyTo(button);
     }
 
     @Override
@@ -102,15 +138,16 @@ public abstract class AndroidButton implements ConfigurableButton {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void setOnFocusHandler(Button button) {
+    private void setOnFocusHandler() {
         button.setOnTouchListener((view, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN && enabled) {
-                FINGER_DOWN.applyTo(view);
-            } else if (event.getAction() == MotionEvent.ACTION_UP && enabled) {
-                READY_TO_BE_CLICKED.applyTo(view);
-            } else if (!enabled) {
-                GRAYED_OUT.applyTo(view);
+            if (!enabled) {
+                colour = GRAYED_OUT;
+            } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                colour = FINGER_DOWN;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                colour = READY_TO_BE_CLICKED;
             }
+            colour.applyTo(view);
             return false;
         });
     }

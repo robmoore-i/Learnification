@@ -13,6 +13,7 @@ import com.rrm.learnification.settings.learnificationdelay.SaveDelayFromPickerOn
 import com.rrm.learnification.settings.learnificationdelay.StoreDelayOnValuePickedCommand;
 import com.rrm.learnification.settings.learnificationpromptstrategy.LearnificationPromptStrategyRadioGroup;
 import com.rrm.learnification.settings.learnificationpromptstrategy.SavePromptStrategyOnClickCommand;
+import com.rrm.learnification.settings.save.FinishActivityOnClickCommand;
 import com.rrm.learnification.settings.save.SaveSettingsButton;
 import com.rrm.learnification.settings.save.SaveSettingsView;
 import com.rrm.learnification.settings.toolbar.AppToolbar;

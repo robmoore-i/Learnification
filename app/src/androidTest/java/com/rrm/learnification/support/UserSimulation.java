@@ -204,7 +204,7 @@ public class UserSimulation {
     }
 
     public static void pressAddLearningItemButton() {
-        onView(withId(R.id.add_learning_item_button)).perform(click());
+        onView(withId(R.id.edit_learning_item_list_button)).perform(click());
         closeSoftKeyboard();
     }
 
@@ -232,7 +232,7 @@ public class UserSimulation {
     }
 
     public static void pressUpdateLearningItemButton() {
-        onView(withId(R.id.update_learning_item_button)).perform(click());
+        onView(withId(R.id.edit_learning_item_list_button)).perform(click());
     }
 
     public static void updateLearningItem(String oldLeft, String oldRight, String newLeft, String newRight) {

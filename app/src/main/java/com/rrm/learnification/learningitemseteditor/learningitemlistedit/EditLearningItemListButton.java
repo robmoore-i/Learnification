@@ -1,5 +1,6 @@
 package com.rrm.learnification.learningitemseteditor.learningitemlistedit;
 
+import com.rrm.learnification.button.AndroidButton;
 import com.rrm.learnification.button.ConfigurableButton;
 import com.rrm.learnification.button.OnClickCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningItemButton;
@@ -13,21 +14,24 @@ public class EditLearningItemListButton implements ConfigurableButton {
     private final AddLearningItemButton addLearningItemButton;
     private final UpdateLearningItemButton updateLearningItemButton;
 
-    private ConfigurableButton activeButton;
+    private AndroidButton activeButton;
 
     public EditLearningItemListButton(AndroidLogger logger, AddLearningItemButton addLearningItemButton, UpdateLearningItemButton updateLearningItemButton) {
         this.logger = logger;
         this.addLearningItemButton = addLearningItemButton;
         this.updateLearningItemButton = updateLearningItemButton;
+
+        this.activeButton = addLearningItemButton;
     }
 
     public void takeRole(EditLearningItemListButtonRole role) {
+        activeButton.detach();
         activeButton = selectActiveButton(role);
+        activeButton.attach();
         logger.i(LOG_TAG, "set button role to be " + role.name());
-        // TODO: Update the view to match the content of the activeButton.
     }
 
-    private ConfigurableButton selectActiveButton(EditLearningItemListButtonRole role) {
+    private AndroidButton selectActiveButton(EditLearningItemListButtonRole role) {
         if (role == EditLearningItemListButtonRole.ADD) {
             return addLearningItemButton;
         } else {

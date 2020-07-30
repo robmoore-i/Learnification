@@ -115,7 +115,7 @@ class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorV
 
     @Override
     public Button addLearningItemButton() {
-        return activity.findViewById(R.id.add_learning_item_button);
+        return activity.findViewById(R.id.edit_learning_item_list_button);
     }
 
     @Override
@@ -165,7 +165,7 @@ class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorV
 
     @Override
     public Button updateLearningItemButton() {
-        return activity.findViewById(R.id.update_learning_item_button);
+        return activity.findViewById(R.id.edit_learning_item_list_button);
     }
 
     @Override
