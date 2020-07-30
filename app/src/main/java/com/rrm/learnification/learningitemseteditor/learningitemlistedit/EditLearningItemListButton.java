@@ -22,7 +22,7 @@ public class EditLearningItemListButton implements ConfigurableButton {
     }
 
     public void takeRole(EditLearningItemListButtonRole role) {
-        this.activeButton = selectActiveButton(role);
+        activeButton = selectActiveButton(role);
         logger.i(LOG_TAG, "set button role to be " + role.name());
         // TODO: Update the view to match the content of the activeButton.
     }

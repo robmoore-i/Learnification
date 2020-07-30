@@ -23,7 +23,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     protected AndroidButton(AndroidLogger logger, Button button, boolean enabledInitially) {
         this.logger = logger;
         this.button = button;
-        setOnFocusHandler();
+        setOnFocusHandler(button);
 
         if (enabledInitially) {
             enable();
@@ -58,7 +58,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     @Override
     public final void enable() {
         enabled = true;
-        AndroidButton.ButtonColour.setColour(button, AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
+        setColour(AndroidButton.ButtonColour.READY_TO_BE_CLICKED);
         button.setClickable(true);
         bindClickListeners();
     }
@@ -66,7 +66,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     @Override
     public final void disable() {
         enabled = false;
-        AndroidButton.ButtonColour.setColour(button, AndroidButton.ButtonColour.GRAYED_OUT);
+        setColour(AndroidButton.ButtonColour.GRAYED_OUT);
         button.setClickable(false);
         unbindClickListeners();
     }
@@ -101,7 +101,7 @@ public abstract class AndroidButton implements ConfigurableButton {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void setOnFocusHandler() {
+    private void setOnFocusHandler(Button button) {
         button.setOnTouchListener((view, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN && enabled) {
                 AndroidButton.ButtonColour.setColour(view, AndroidButton.ButtonColour.FINGER_DOWN);
@@ -112,6 +112,10 @@ public abstract class AndroidButton implements ConfigurableButton {
             }
             return false;
         });
+    }
+
+    private void setColour(int colour) {
+        AndroidButton.ButtonColour.setColour(button, colour);
     }
 
     public static class ButtonColour {
