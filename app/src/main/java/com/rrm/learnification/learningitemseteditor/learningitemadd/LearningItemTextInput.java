@@ -2,7 +2,7 @@ package com.rrm.learnification.learningitemseteditor.learningitemadd;
 
 import com.rrm.learnification.common.LearningItemText;
 import com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.OnTextChangeListener;
-import com.rrm.learnification.learningitemseteditor.learningitemupdate.TextInput;
+import com.rrm.learnification.learningitemseteditor.learningitemlistedit.OnFocusGainedCommand;
 
 public class LearningItemTextInput implements TextInput {
     private final AddLearningItemTextInputView addLearningItemView;
@@ -14,6 +14,11 @@ public class LearningItemTextInput implements TextInput {
     @Override
     public void setOnTextChangeListener(OnTextChangeListener onTextChangeListener) {
         addLearningItemView.addLearningItemOnTextChangeListener(onTextChangeListener);
+    }
+
+    @Override
+    public void setOnFocusGainedListener(OnFocusGainedCommand onFocusGainedCommand) {
+        addLearningItemView.addLearningItemOnFocusTextBoxListener(onFocusGainedCommand);
     }
 
     @Override

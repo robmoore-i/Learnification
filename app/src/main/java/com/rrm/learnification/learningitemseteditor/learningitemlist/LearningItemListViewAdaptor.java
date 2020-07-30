@@ -8,6 +8,8 @@ import android.widget.EditText;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.common.LearningItemText;
+import com.rrm.learnification.learningitemseteditor.learningitemlistedit.EditLearningItemListButton;
+import com.rrm.learnification.learningitemseteditor.learningitemlistedit.EditLearningItemListButtonRole;
 import com.rrm.learnification.learningitemseteditor.learningitemupdate.LearningItemStash;
 import com.rrm.learnification.learningitemstorage.PersistentLearningItemRepository;
 import com.rrm.learnification.logger.AndroidLogger;
@@ -23,12 +25,15 @@ public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningIt
     private final List<String> textEntries;
     private final LearningItemStash learningItemStash;
     private final PersistentLearningItemRepository learningItemRepository;
+    private final EditLearningItemListButton editLearningItemListButton;
 
-    public LearningItemListViewAdaptor(AndroidLogger logger, LearningItemStash learningItemStash, PersistentLearningItemRepository learningItemRepository) {
+    public LearningItemListViewAdaptor(AndroidLogger logger, LearningItemStash learningItemStash, PersistentLearningItemRepository learningItemRepository,
+                                       EditLearningItemListButton editLearningItemListButton) {
         this.logger = logger;
         this.learningItemStash = learningItemStash;
         this.textEntries = learningItemRepository.textEntries().stream().map(LearningItemText::toString).collect(Collectors.toList());
         this.learningItemRepository = learningItemRepository;
+        this.editLearningItemListButton = editLearningItemListButton;
     }
 
     void add(String textEntry) {
@@ -78,7 +83,7 @@ public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningIt
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         EditText v = (EditText) LayoutInflater.from(parent.getContext()).inflate(R.layout.learning_item_editable_text_entry, parent, false);
-        return new ViewHolder(v, learningItemStash);
+        return new ViewHolder(v, learningItemStash, editLearningItemListButton);
     }
 
     String itemAtPosition(int listViewIndex) {
@@ -88,11 +93,13 @@ public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningIt
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final EditText listItemView;
         private final LearningItemStash learningItemStash;
+        private final EditLearningItemListButton editLearningItemListButton;
 
-        ViewHolder(EditText listItemView, LearningItemStash learningItemStash) {
+        ViewHolder(EditText listItemView, LearningItemStash learningItemStash, EditLearningItemListButton editLearningItemListButton) {
             super(listItemView);
             this.listItemView = listItemView;
             this.learningItemStash = learningItemStash;
+            this.editLearningItemListButton = editLearningItemListButton;
             configureListItemSaver();
         }
 
@@ -102,6 +109,7 @@ public class LearningItemListViewAdaptor extends RecyclerView.Adapter<LearningIt
                 String viewText = ((EditText) v).getText().toString();
                 if (hasFocus) {
                     learningItemStash.stash(listItemView, viewText, textSourceId);
+                    editLearningItemListButton.takeRole(EditLearningItemListButtonRole.UPDATE);
                 } else {
                     learningItemStash.pop(listItemView, viewText, textSourceId);
                 }

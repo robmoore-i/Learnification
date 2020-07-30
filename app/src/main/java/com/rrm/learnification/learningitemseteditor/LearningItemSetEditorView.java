@@ -24,6 +24,7 @@ import com.rrm.learnification.learningitemseteditor.learningitemadd.AddLearningI
 import com.rrm.learnification.learningitemseteditor.learningitemadd.OnSubmitTextCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemlist.LearningItemListView;
 import com.rrm.learnification.learningitemseteditor.learningitemlist.dynamicbuttons.OnTextChangeListener;
+import com.rrm.learnification.learningitemseteditor.learningitemlistedit.OnFocusGainedCommand;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetSelectorView;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.LearningItemSetTitleView;
 import com.rrm.learnification.learningitemseteditor.learningitemsetselector.SoftKeyboardView;
@@ -141,6 +142,20 @@ class LearningItemSetEditorView implements ToolbarView, LearningItemSetSelectorV
     public void addLearningItemClearTextInput() {
         leftEditText().setText("");
         rightEditText().setText("");
+    }
+
+    @Override
+    public void addLearningItemOnFocusTextBoxListener(OnFocusGainedCommand onFocusGainedCommand) {
+        leftEditText().setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                onFocusGainedCommand.focusGained();
+            }
+        });
+        rightEditText().setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                onFocusGainedCommand.focusGained();
+            }
+        });
     }
 
     @Override
