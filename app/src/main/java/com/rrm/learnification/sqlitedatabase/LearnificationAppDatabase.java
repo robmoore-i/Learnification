@@ -19,7 +19,6 @@ public class LearnificationAppDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(LearningItemSqlTable.createTable());
         db.execSQL(LearnificationResultSqlTable.createTable());
-        db.close();
     }
 
     @Override
