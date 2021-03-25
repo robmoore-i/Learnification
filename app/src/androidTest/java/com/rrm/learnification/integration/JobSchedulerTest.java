@@ -4,7 +4,6 @@ import android.app.job.JobInfo;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rrm.learnification.jobs.JobIdGenerator;
 import com.rrm.learnification.jobs.JobScheduler;
 import com.rrm.learnification.learnification.publication.LearnificationPublishingService;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;
@@ -29,7 +28,6 @@ public class JobSchedulerTest {
 
     private JobScheduler jobScheduler;
     private android.app.job.JobScheduler systemJobScheduler;
-    private JobIdGenerator jobIdGenerator;
 
     @Before
     public void beforeEach() {
@@ -37,8 +35,7 @@ public class JobSchedulerTest {
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activity);
         jobScheduler = androidTestObjectFactory.getJobScheduler();
         systemJobScheduler = activity.getSystemService(android.app.job.JobScheduler.class);
-        jobIdGenerator = androidTestObjectFactory.getJobIdGenerator();
-        jobIdGenerator.reset();
+        androidTestObjectFactory.getJobIdGenerator().reset();
         jobScheduler.clearSchedule();
     }
 
@@ -49,11 +46,13 @@ public class JobSchedulerTest {
 
     @Test
     public void itSchedulesAJobsWithTheCorrectParameters() {
-        jobScheduler.schedule(10000, 20000, LearnificationPublishingService.class);
+        // The latest start time needs to exceed 1 hour (3600000 millis), because the Oppo phone I'm testing on will automatically set your
+        // overrideDeadline on scheduled jobs to make sure it is at least 1 hour.
+        int jobId = jobScheduler.schedule(10000, 3600099, LearnificationPublishingService.class);
 
-        JobInfo pendingJob = systemJobScheduler.getPendingJob(jobIdGenerator.last());
+        JobInfo pendingJob = systemJobScheduler.getPendingJob(jobId);
         assertThat(pendingJob.getMinLatencyMillis(), equalTo(10000L));
-        assertThat(pendingJob.getMaxExecutionDelayMillis(), equalTo(20000L));
+        assertThat(pendingJob.getMaxExecutionDelayMillis(), equalTo(3600099L));
         assertThat(pendingJob.getService().getClassName(), equalTo(LearnificationPublishingService.class.getCanonicalName()));
     }
 

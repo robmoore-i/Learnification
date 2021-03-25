@@ -47,7 +47,7 @@ public class AppToolbarTest {
     public void beforeEach() {
         guiTestWrapper = new GuiTestWrapper(activityTestRule.getActivity());
         AndroidTestObjectFactory androidTestObjectFactory = new AndroidTestObjectFactory(activityTestRule.getActivity());
-        new NotificationIdGenerator(new AndroidLogger(), androidTestObjectFactory.getFileStorageAdaptor()).reset();
+        new NotificationIdGenerator(new AndroidLogger(), androidTestObjectFactory.getLearnificationAppDatabase()).reset();
         androidJobScheduler = activityTestRule.getActivity().getSystemService(android.app.job.JobScheduler.class);
         learnificationFactory = androidTestObjectFactory.getLearnificationFactory();
         notificationManagerCompat = NotificationManagerCompat.from(activityTestRule.getActivity());
@@ -88,7 +88,7 @@ public class AppToolbarTest {
     }
 
     @Test
-    public void ifNotificationIsCancelledButThenANewOneIsScheduledThenToolbarSaysItsReady() {
+    public void ifNotificationIsCancelledButThenANewOneIsScheduledThenToolbarSaysWhenItsArriving() {
         UserSimulation.clearNotifications(activityTestRule.getActivity());
         UserSimulation.waitACoupleOfSeconds();
 

@@ -36,13 +36,13 @@ public class LearnificationResultService extends IntentService {
         NotificationCanceller notificationCanceller = new NotificationCanceller(NotificationManagerCompat.from(this));
         notificationCanceller.cancel(learnificationResultIntent.notificationId());
         // Persist the event data
-        LearnificationResultSqlTableClient learnificationResultSqlTableClient = new LearnificationResultSqlTableClient(new LearnificationAppDatabase(this));
+        LearnificationAppDatabase database = new LearnificationAppDatabase(this);
+        LearnificationResultSqlTableClient learnificationResultSqlTableClient = new LearnificationResultSqlTableClient(database);
         learnificationResultSqlTableClient.write(result);
         // Schedule daily report notification
         AndroidInternalStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         DailyReportScheduler dailyReportScheduler = new DailyReportScheduler(new TestableDailyReportScheduler(logger, clock,
-                new AndroidJobScheduler(logger, clock, this,
-                        new JobIdGenerator(logger, fileStorageAdaptor)),
+                new AndroidJobScheduler(logger, clock, this, new JobIdGenerator(logger, database)),
                 new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor))));
         dailyReportScheduler.scheduleJob();
         logger.i(LOG_TAG, "handled result of learnification");

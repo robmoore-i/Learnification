@@ -6,7 +6,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public interface JobScheduler {
-    void schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass);
+    /**
+     * @param serviceClass The JobService implementation class which should be awakened by this job
+     * @return The job id for the scheduled job
+     */
+    int schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass);
 
     Optional<Long> msUntilNextJob(Class<?> serviceClass);
 

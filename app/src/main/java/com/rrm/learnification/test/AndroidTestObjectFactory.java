@@ -56,7 +56,7 @@ public class AndroidTestObjectFactory {
     }
 
     public JobIdGenerator getJobIdGenerator() {
-        return new JobIdGenerator(logger(), getFileStorageAdaptor());
+        return new JobIdGenerator(logger(), getLearnificationAppDatabase());
     }
 
     public LearnificationResponseNotificationFactory getAndroidNotificationFactory() {
@@ -69,11 +69,11 @@ public class AndroidTestObjectFactory {
     }
 
     private PendingIntentIdGenerator getPendingIntentRequestCodeGenerator() {
-        return new PendingIntentIdGenerator(logger(), getFileStorageAdaptor());
+        return new PendingIntentIdGenerator(logger(), getLearnificationAppDatabase());
     }
 
     private NotificationIdGenerator getNotificationIdGenerator() {
-        return new NotificationIdGenerator(logger(), getFileStorageAdaptor());
+        return new NotificationIdGenerator(logger(), getLearnificationAppDatabase());
     }
 
     public LearnificationAppDatabase getLearnificationAppDatabase() {

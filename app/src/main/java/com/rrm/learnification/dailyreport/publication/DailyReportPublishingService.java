@@ -6,7 +6,6 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.rrm.learnification.dailyreport.creation.DailyReportFactory;
 import com.rrm.learnification.dailyreport.creation.DailyReportTextGenerator;
-import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.learnificationresultstorage.LearnificationResultSqlTableClient;
 import com.rrm.learnification.logger.AndroidLogger;
 import com.rrm.learnification.notification.AndroidNotificationPublisher;
@@ -29,7 +28,7 @@ public class DailyReportPublishingService extends JobService {
 
     private void publishDailyReport() {
         DailyReportFactory dailyReportFactory = new DailyReportFactory(logger, this,
-                new NotificationIdGenerator(logger, new AndroidInternalStorageAdaptor(logger, this)),
+                new NotificationIdGenerator(logger, new LearnificationAppDatabase(this)),
                 new DailyReportTextGenerator(clock, new LearnificationResultSqlTableClient(new LearnificationAppDatabase(this))));
         IdentifiedNotification identifiedNotification = dailyReportFactory.dailyReport();
         AndroidNotificationPublisher notificationPublisher = new AndroidNotificationPublisher(logger, NotificationManagerCompat.from(this));

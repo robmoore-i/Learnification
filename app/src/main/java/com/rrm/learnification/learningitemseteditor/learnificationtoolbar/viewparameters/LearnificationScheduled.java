@@ -18,6 +18,9 @@ class LearnificationScheduled extends EquatableToolbarViewParameters {
 
     @Override
     public String toolbarTitle() {
+        if (seconds < 0) {
+            return "Learnification scheduled";
+        }
         return "Learnification in " + formatSecondsIntoPresentableTime(seconds);
     }
 

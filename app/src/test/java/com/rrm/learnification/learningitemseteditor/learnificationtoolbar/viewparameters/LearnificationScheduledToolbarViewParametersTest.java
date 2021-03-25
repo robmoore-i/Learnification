@@ -23,6 +23,11 @@ public class LearnificationScheduledToolbarViewParametersTest {
         assertEquals("Learnification in 5:00:00", toolbarTitleWithScheduledDelayTimeInSeconds(18000));
     }
 
+    @Test
+    public void handlesNegativeSecondsGracefully() {
+        assertEquals("Learnification scheduled", toolbarTitleWithScheduledDelayTimeInSeconds(-1));
+    }
+
     private String toolbarTitleWithScheduledDelayTimeInSeconds(int seconds) {
         return new LearnificationScheduled(mock(LearnificationScheduler.class), seconds).toolbarTitle();
     }

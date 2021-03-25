@@ -8,6 +8,9 @@ import com.rrm.learnification.time.AndroidClock;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class PendingJob {
     public final int id;
@@ -44,8 +47,12 @@ public class PendingJob {
         return earliestStartTimeDelayMs <= maxDelayTimeMs;
     }
 
-    public Long msUntilExecution(LocalDateTime now) {
-        return ChronoUnit.MILLIS.between(now, scheduledExecutionTime());
+    public Optional<Long> msUntilExecution(LocalDateTime now) {
+        long millis = ChronoUnit.MILLIS.between(now, scheduledExecutionTime());
+        if (millis < 0) {
+            return Optional.empty();
+        }
+        return Optional.of(millis);
     }
 
     public LocalDateTime scheduledExecutionTime() {
@@ -75,5 +82,21 @@ public class PendingJob {
             String[] split = serviceClassName.split("[.]");
             return split[split.length - 1];
         }
+    }
+
+    static Comparator<PendingJob> compareByExecutionTime(LocalDateTime now) {
+        return (j1, j2) -> Long.compare(
+                // We use Long.MIN_VALUE here as the default value, because if the
+                // msUntilExecution(now) call returns an Optional.empty(), then that
+                // means the job execution has either happened, or is presently happening.
+                // In this case, we would consider that to be the next job, because it's
+                // the next job that the user will see, even if it's not the next
+                // according to the internal knowledge of the software.
+                j1.msUntilExecution(now).orElse(Long.MIN_VALUE),
+                j2.msUntilExecution(now).orElse(Long.MIN_VALUE));
+    }
+
+    static Predicate<PendingJob> filterByServiceClass(Class<?> serviceClass) {
+        return pendingJob -> pendingJob.isForService(serviceClass);
     }
 }

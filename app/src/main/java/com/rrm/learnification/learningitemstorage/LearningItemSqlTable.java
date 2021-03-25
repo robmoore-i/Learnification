@@ -34,10 +34,10 @@ public final class LearningItemSqlTable implements BaseColumns {
     }
 
     static Cursor all(SQLiteDatabase readableDatabase, String learningItemSetName) {
-        String selection = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ?";
-        String[] selectionArgs = {learningItemSetName};
+        String whereClause = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ?";
+        String[] whereArgs = {learningItemSetName};
         return readableDatabase.query(TABLE_NAME, new String[]{_ID, COLUMN_NAME_LEARNING_ITEM_SET_NAME, COLUMN_NAME_LEFT, COLUMN_NAME_RIGHT},
-                selection, selectionArgs, null, null, null);
+                whereClause, whereArgs, null, null, null);
     }
 
     static Cursor all(SQLiteDatabase readableDatabase) {
@@ -58,17 +58,17 @@ public final class LearningItemSqlTable implements BaseColumns {
     }
 
     static void delete(SQLiteDatabase writableDatabase, LearningItem learningItemToRemove) {
-        String selection = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ? AND " + COLUMN_NAME_LEFT + " LIKE ? AND " + COLUMN_NAME_RIGHT + " LIKE ?";
-        String[] selectionArgs = {learningItemToRemove.learningItemSetName, learningItemToRemove.left, learningItemToRemove.right};
-        writableDatabase.delete(TABLE_NAME, selection, selectionArgs);
+        String whereClause = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ? AND " + COLUMN_NAME_LEFT + " LIKE ? AND " + COLUMN_NAME_RIGHT + " LIKE ?";
+        String[] whereArgs = {learningItemToRemove.learningItemSetName, learningItemToRemove.left, learningItemToRemove.right};
+        writableDatabase.delete(TABLE_NAME, whereClause, whereArgs);
     }
 
     static void replace(SQLiteDatabase writableDatabase, LearningItem target, LearningItem replacement) {
         assertTrue(target.learningItemSetName.equals(replacement.learningItemSetName), "attempted to replace learning item with one that isn't in " +
                 "the same set. target=" + target.toString() + ", replacement=" + replacement.toString());
-        String selection = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ? AND " + COLUMN_NAME_LEFT + " LIKE ? AND " + COLUMN_NAME_RIGHT + " LIKE ?";
-        String[] selectionArgs = {target.learningItemSetName, target.left, target.right};
-        writableDatabase.update(TABLE_NAME, from(replacement), selection, selectionArgs);
+        String whereClause = COLUMN_NAME_LEARNING_ITEM_SET_NAME + " LIKE ? AND " + COLUMN_NAME_LEFT + " LIKE ? AND " + COLUMN_NAME_RIGHT + " LIKE ?";
+        String[] whereArgs = {target.learningItemSetName, target.left, target.right};
+        writableDatabase.update(TABLE_NAME, from(replacement), whereClause, whereArgs);
     }
 
     static void deleteAll(SQLiteDatabase writableDatabase, String learningItemSetName) {

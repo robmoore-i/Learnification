@@ -32,9 +32,9 @@ public class LearnificationPublishingService extends JobService {
 
     private void publishNewLearnification() {
         logger.i(LOG_TAG, "Job started");
-        LearnificationAppDatabase learnificationAppDatabase = new LearnificationAppDatabase(this);
+        LearnificationAppDatabase database = new LearnificationAppDatabase(this);
 
-        LearningItemSupplier learningItemSupplier = new LearningItemSqlTableClient(logger, learnificationAppDatabase);
+        LearningItemSupplier learningItemSupplier = new LearningItemSqlTableClient(logger, database);
 
         List<LearningItem> learningItems = learningItemSupplier.items();
         for (LearningItem learningItem : learningItems) {
@@ -45,7 +45,8 @@ public class LearnificationPublishingService extends JobService {
         LearnificationPublisher learnificationPublisher = new LearnificationPublisher(logger,
                 new AndroidNotificationPublisher(logger, NotificationManagerCompat.from(this)),
                 new LearnificationFactory(logger, this,
-                        new PendingIntentIdGenerator(logger, fileStorageAdaptor), new NotificationIdGenerator(logger, fileStorageAdaptor),
+                        new PendingIntentIdGenerator(logger, database),
+                        new NotificationIdGenerator(logger, database),
                         new SettingsRepository(logger, fileStorageAdaptor).learnificationTextGenerator(learningItemSupplier))
         );
 

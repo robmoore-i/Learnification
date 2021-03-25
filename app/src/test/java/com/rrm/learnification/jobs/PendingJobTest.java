@@ -6,8 +6,12 @@ import com.rrm.learnification.time.AndroidClock;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -72,6 +76,13 @@ public class PendingJobTest {
         addPendingJobToTable(mockTable, "com.rrm.learnification.stuff.DailyReportPublishingService");
 
         verify(mockTable, times(1)).addRow(eq("DailyReport"), anyString());
+    }
+
+    @Test
+    public void handlesPastScheduledTimeGracefully() {
+        PendingJob pendingJob = new PendingJob(serviceClass.getName(), 5000L, nineAmOctSixth, 1);
+        assertThat(pendingJob.msUntilExecution(nineAmOctSixth.plus(6000L, ChronoUnit.MILLIS)),
+                equalTo(Optional.empty()));
     }
 
     private void addPendingJobToTable(Table mockTable, String serviceClassName) {

@@ -18,6 +18,7 @@ import com.rrm.learnification.notification.AndroidActiveNotificationReader;
 import com.rrm.learnification.notification.PendingIntentIdGenerator;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
+import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
 import com.rrm.learnification.time.AndroidClock;
 
 public class LearnificationResponseService extends IntentService {
@@ -38,12 +39,13 @@ public class LearnificationResponseService extends IntentService {
 
         FileStorageAdaptor fileStorageAdaptor = new AndroidInternalStorageAdaptor(logger, this);
         ScheduleConfiguration scheduleConfiguration = new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor));
+        LearnificationAppDatabase database = new LearnificationAppDatabase(this);
         LearnificationUpdater learnificationUpdater = new AndroidLearnificationUpdater(
                 logger,
                 NotificationManagerCompat.from(this),
-                new LearnificationResponseNotificationFactory(this, new PendingIntentIdGenerator(logger, fileStorageAdaptor)));
+                new LearnificationResponseNotificationFactory(this, new PendingIntentIdGenerator(logger, database)));
         LearnificationScheduler learnificationScheduler = new AndroidLearnificationScheduler(logger, clock,
-                new AndroidJobScheduler(logger, clock, this, new JobIdGenerator(logger, fileStorageAdaptor)),
+                new AndroidJobScheduler(logger, clock, this, new JobIdGenerator(logger, database)),
                 scheduleConfiguration,
                 new AndroidActiveNotificationReader(this.getSystemService(android.app.NotificationManager.class)));
 

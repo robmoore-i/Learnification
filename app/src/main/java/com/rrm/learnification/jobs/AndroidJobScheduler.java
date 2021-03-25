@@ -33,22 +33,24 @@ public class AndroidJobScheduler implements JobScheduler {
     }
 
     @Override
-    public void schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass) {
-        logger.i(LOG_TAG, "scheduling job for serviceClass " + serviceClass.getName() + " " +
-                "in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
+    public int schedule(int earliestStartTimeDelayMs, int latestStartTimeDelayMs, Class<?> serviceClass) {
         PersistableBundle jobExtras = new PersistableBundle();
         jobExtras.putString(TIME_OF_SCHEDULING, clock.now().toString());
-        JobInfo.Builder builder = new JobInfo.Builder(jobIdGenerator.next(), new ComponentName(context, serviceClass))
+        int jobId = jobIdGenerator.next();
+        JobInfo.Builder builder = new JobInfo.Builder(jobId, new ComponentName(context, serviceClass))
                 .setMinimumLatency(earliestStartTimeDelayMs)
                 .setOverrideDeadline(latestStartTimeDelayMs)
                 .setRequiresCharging(false)
                 .setExtras(jobExtras);
+        logger.i(LOG_TAG, "scheduling job (id=" + jobId + ") for serviceClass " + serviceClass.getName() + " " +
+                "in delay range " + earliestStartTimeDelayMs + "-" + latestStartTimeDelayMs);
         systemJobScheduler.schedule(builder.build());
+        return jobId;
     }
 
     @Override
     public Optional<Long> msUntilNextJob(Class<?> serviceClass) {
-        return nextJob(serviceClass).map(j -> j.msUntilExecution(clock.now()));
+        return nextJob(serviceClass).flatMap(j -> j.msUntilExecution(clock.now()));
     }
 
     @Override
@@ -102,7 +104,7 @@ public class AndroidJobScheduler implements JobScheduler {
     private Optional<PendingJob> nextJob(Class<?> serviceClass) {
         LocalDateTime now = clock.now();
         return pendingJobs()
-                .filter(pendingJob -> pendingJob.isForService(serviceClass))
-                .min((j1, j2) -> Long.compare(j1.msUntilExecution(now), j2.msUntilExecution(now)));
+                .filter(PendingJob.filterByServiceClass(serviceClass))
+                .min(PendingJob.compareByExecutionTime(now));
     }
 }
