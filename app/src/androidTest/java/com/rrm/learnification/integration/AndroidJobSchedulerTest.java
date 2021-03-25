@@ -44,8 +44,10 @@ public class AndroidJobSchedulerTest {
     }
 
     @Test
-    public void returnsMsUntilNextJobForScheduledJob() {
+    public void returnsMsUntilNextJobForScheduledJob() throws InterruptedException {
         androidJobScheduler.schedule(10000, 20000, LearnificationPublishingService.class);
+        // The Oppo phone I'm now testing on is quite slow with job scheduling. Give it some time.
+        Thread.sleep(5000);
 
         assertTrue(androidJobScheduler.msUntilNextJob(LearnificationPublishingService.class).isPresent());
     }
