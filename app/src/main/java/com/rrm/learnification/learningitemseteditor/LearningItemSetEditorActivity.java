@@ -43,9 +43,9 @@ import com.rrm.learnification.learningitemstorage.PersistentLearningItemReposito
 import com.rrm.learnification.learningitemstorage.SqlLearningItemSetRecordStore;
 import com.rrm.learnification.logdump.LogDumpActivity;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.navbar.Navbar;
 import com.rrm.learnification.notification.AndroidActiveNotificationReader;
 import com.rrm.learnification.notification.AndroidNotificationChannel;
-import com.rrm.learnification.settings.SettingsActivity;
 import com.rrm.learnification.settings.SettingsRepository;
 import com.rrm.learnification.settings.learnificationdelay.ScheduleConfiguration;
 import com.rrm.learnification.sqlitedatabase.LearnificationAppDatabase;
@@ -107,6 +107,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
                 new ScheduleConfiguration(logger, new SettingsRepository(logger, fileStorageAdaptor)),
                 new AndroidActiveNotificationReader(this.getSystemService(android.app.NotificationManager.class)));
 
+        Navbar navbar = new Navbar(logger, this);
+
         // Set them up where necessary, again in the order in which they have relevance in the view
 
         learningItemSetEditorView.addToolbarViewUpdate(
@@ -127,6 +129,8 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
             learningItemRepository.replace(targetText, replacementText);
             learningItemList.replace(targetText, replacementText);
         });
+
+        navbar.bindTabChoicesToActivities();
 
         // Register notification channels
 
@@ -152,7 +156,7 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_vertical_dots, menu);
         return true;
     }
 
@@ -160,11 +164,6 @@ public class LearningItemSetEditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menu_action_settings) {
-            logger.u(LOG_TAG, "selected settings menu item");
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
-        }
         if (id == R.id.menu_action_dump_logs) {
             logger.u(LOG_TAG, "selected log dump menu item");
             startActivity(new Intent(this, LogDumpActivity.class));

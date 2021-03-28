@@ -16,11 +16,13 @@
     <string name="update_learning_item_button_text">Update Learning Item</string>
     <string name="learning_item_set_name_textbox_hint">Learning item set name</string>
     <string name="change_icon">change_icon</string>
-    <string name="refresh_learning_item_list">Refresh</string>
-    <string name="dump_logs">Dump Logs</string>
+    <string name="options_menu_refresh">Refresh</string>
+    <string name="options_menu_logs">Show Logs</string>
     <string name="learnification_response_channel_name">learnification-response</string>
     <string name="learnification_response_channel_description">notification_channel_for_learnification_responses</string>
     <string name="daily_report_channel_name">daily-report</string>
     <string name="daily_report_channel_description">notification_channel_for_daily_reports</string>
-    <string name="dump_jobs">Dump Jobs</string>
+    <string name="options_menu_jobs">Show Notification Jobs</string>
+    <string name="learning_items_navbar_title">Learning Items</string>
+    <string name="settings_navbar_title">Settings</string>
 </resources>

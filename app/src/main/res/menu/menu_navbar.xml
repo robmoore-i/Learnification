@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_learningitemseteditor"
+        android:icon="@drawable/ic_deck_of_cards_nounproject"
+        android:title="@string/learning_items_navbar_title" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_cog_nounproject"
+        android:title="@string/settings_navbar_title" />
+</menu>

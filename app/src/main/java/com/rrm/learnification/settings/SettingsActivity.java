@@ -8,6 +8,7 @@ import com.rrm.learnification.R;
 import com.rrm.learnification.files.AndroidInternalStorageAdaptor;
 import com.rrm.learnification.files.FileStorageAdaptor;
 import com.rrm.learnification.logger.AndroidLogger;
+import com.rrm.learnification.navbar.Navbar;
 import com.rrm.learnification.settings.learnificationdelay.DelayPicker;
 import com.rrm.learnification.settings.learnificationdelay.SaveDelayFromPickerOnClickCommand;
 import com.rrm.learnification.settings.learnificationdelay.StoreDelayOnValuePickedCommand;
@@ -50,6 +51,9 @@ public class SettingsActivity extends AppCompatActivity implements SaveSettingsV
         saveSettingsButton.addOnClickHandler(new SaveDelayFromPickerOnClickCommand(logger, settingsRepository, delayPicker));
         saveSettingsButton.addOnClickHandler(new SavePromptStrategyOnClickCommand(settingsRepository, learnificationPromptStrategyRadioGroup));
         saveSettingsButton.addOnClickHandler(new FinishActivityOnClickCommand(this));
+
+        Navbar navbar = new Navbar(logger, this);
+        navbar.bindTabChoicesToActivities();
     }
 
     @Override

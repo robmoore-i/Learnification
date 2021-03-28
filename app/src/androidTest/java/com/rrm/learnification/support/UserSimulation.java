@@ -268,7 +268,7 @@ public class UserSimulation {
     }
 
     public static void pressLogDumpOptionOnOptionMenu() {
-        onView(withText(R.string.dump_logs)).perform(click());
+        onView(withText(R.string.options_menu_logs)).perform(click());
     }
 
     // JOB DUMP
@@ -279,7 +279,7 @@ public class UserSimulation {
     }
 
     private static void pressJobDumpOptionOnOptionMenu() {
-        onView(withText(R.string.dump_jobs)).perform(click());
+        onView(withText(R.string.options_menu_jobs)).perform(click());
     }
 
     // SETTINGS
@@ -288,13 +288,12 @@ public class UserSimulation {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
     }
 
-    public static void pressSettingsOptionOnOptionMenu() {
-        onView(withText(R.string.action_settings)).perform(click());
+    public static void pressSettingsInNavMenu() {
+        onView(withId(R.id.navigation_settings)).perform(click());
     }
 
     public static void switchToSettingsScreen() {
-        pressOptionMenu();
-        pressSettingsOptionOnOptionMenu();
+        pressSettingsInNavMenu();
     }
 
     public static void spinLearnificationDelaySpinnerToValue(Activity activity, int newLearnificationDelayValueMinutes) {
@@ -335,7 +334,7 @@ public class UserSimulation {
     // REFRESH
 
     public static void pressRefreshOptionOnOptionMenu() {
-        onView(withText(R.string.refresh_learning_item_list)).perform(click());
+        onView(withText(R.string.options_menu_refresh)).perform(click());
     }
 
     public static void refreshLearningItemList() {
