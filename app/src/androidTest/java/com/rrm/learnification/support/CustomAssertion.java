@@ -1,7 +1,7 @@
 package com.rrm.learnification.support;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Button;
 
 import com.rrm.learnification.R;

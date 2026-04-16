@@ -1,9 +1,9 @@
 package com.rrm.learnification.integration;
 
 import android.app.Notification;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.rrm.learnification.dailyreport.creation.DailyReportFactory;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;

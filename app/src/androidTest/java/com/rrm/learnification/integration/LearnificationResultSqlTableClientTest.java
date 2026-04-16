@@ -1,6 +1,6 @@
 package com.rrm.learnification.integration;
 
-import android.support.test.rule.ActivityTestRule;
+import androidx.test.rule.ActivityTestRule;
 
 import com.rrm.learnification.learnificationresultstorage.LearnificationPrompt;
 import com.rrm.learnification.learnificationresultstorage.LearnificationResult;

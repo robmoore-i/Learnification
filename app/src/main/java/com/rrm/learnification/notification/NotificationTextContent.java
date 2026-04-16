@@ -1,6 +1,6 @@
 package com.rrm.learnification.notification;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class NotificationTextContent {
     private final String title;

@@ -2,7 +2,7 @@ package com.rrm.learnification.learnification.publication;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.rrm.learnification.common.LearningItem;
 import com.rrm.learnification.files.AndroidInternalStorageAdaptor;

@@ -1,6 +1,6 @@
 package com.rrm.learnification.learningitemseteditor.learnificationtoolbar.viewparameters;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.rrm.learnification.button.ConfigurableButton;
 

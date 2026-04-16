@@ -2,7 +2,7 @@ package com.rrm.learnification.learnification.response;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.RemoteInput;
+import androidx.core.app.RemoteInput;
 
 import com.rrm.learnification.notification.NotificationResponseIntent;
 

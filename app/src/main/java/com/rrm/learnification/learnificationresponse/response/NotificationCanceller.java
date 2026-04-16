@@ -1,6 +1,6 @@
 package com.rrm.learnification.learnificationresponse.response;
 
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 class NotificationCanceller {
     private final NotificationManagerCompat notificationManagerCompat;

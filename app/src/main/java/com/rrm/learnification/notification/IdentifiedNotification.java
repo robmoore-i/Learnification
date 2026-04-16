@@ -2,7 +2,7 @@ package com.rrm.learnification.notification;
 
 import android.app.Notification;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 public class IdentifiedNotification {
     public static final String ID_EXTRA = "notificationId";

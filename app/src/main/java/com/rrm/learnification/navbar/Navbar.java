@@ -2,7 +2,7 @@ package com.rrm.learnification.navbar;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.design.widget.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.rrm.learnification.R;
 import com.rrm.learnification.learningitemseteditor.LearningItemSetEditorActivity;

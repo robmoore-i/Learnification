@@ -2,7 +2,7 @@ package com.rrm.learnification.learnificationresponse.response;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.rrm.learnification.dailyreport.publication.DailyReportScheduler;
 import com.rrm.learnification.dailyreport.publication.TestableDailyReportScheduler;

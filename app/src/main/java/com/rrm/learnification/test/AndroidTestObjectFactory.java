@@ -1,7 +1,7 @@
 package com.rrm.learnification.test;
 
 import android.app.NotificationManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.rrm.learnification.common.LearnificationText;
 import com.rrm.learnification.dailyreport.creation.DailyReportFactory;
